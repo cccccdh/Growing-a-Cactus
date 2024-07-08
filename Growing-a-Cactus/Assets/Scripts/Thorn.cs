@@ -1,0 +1,31 @@
+using UnityEngine;
+
+public class Thorn : MonoBehaviour
+{
+    float damage;
+
+    public void SetDamage(float damage)
+    {
+        this.damage = damage;
+    }
+
+    public void SetDirection(Vector2 direction)
+    {
+        Rigidbody2D rb = GetComponent<Rigidbody2D>();
+        rb.velocity = direction * 5;
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if(collision.gameObject.CompareTag("Enemy"))
+        {
+            EnemyScript enemy = collision.gameObject.GetComponent<EnemyScript>();
+
+            if (enemy != null)
+            {
+                enemy.TakeDamage(damage); // 적에게 데미지 입히기
+            }
+            Destroy(gameObject); // 가시 파괴
+        }
+    }
+}

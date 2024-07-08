@@ -12,9 +12,10 @@ GameObject:
   - component: {fileID: 6260073695682186969}
   - component: {fileID: 3442383429902748942}
   - component: {fileID: 8934160618751785841}
+  - component: {fileID: 1924492802791175634}
   m_Layer: 0
   m_Name: Enemy
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -144,9 +145,36 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97352bb57b3af1a4599b060baecfdcc2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  HP: 10
   HpBar: {fileID: 8356343050674000489}
+  HP: 31
   speed: 1
+--- !u!50 &1924492802791175634
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1945364847186756395}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 7
 --- !u!1 &5366602003400192323
 GameObject:
   m_ObjectHideFlags: 0

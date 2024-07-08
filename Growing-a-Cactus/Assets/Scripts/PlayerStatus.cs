@@ -2,12 +2,12 @@ using UnityEngine;
 
 public class PlayerStatus : MonoBehaviour
 {
-    [SerializeField] private float Attack;
-    [SerializeField] private float HP;
-    [SerializeField] private float HP_Recovery;
-    [SerializeField] private float Attack_Speed;
-    [SerializeField] private float Critical;
-    [SerializeField] private float Critical_Damage;
+    public float Attack;
+    public float HP;
+    public float HP_Recovery;
+    public float Attack_Speed;
+    public float Critical;
+    public float Critical_Damage;
 
     public void Init()
     {
