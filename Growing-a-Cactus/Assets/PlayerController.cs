@@ -2,16 +2,39 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    // 스탯
-    // 체력 바
-    // 일정 거리 내에 있을 때 적 타겟팅 해서 공격
+    private PlayerStatus status;
+
+    private void Awake()
+    {
+        status = GetComponent<PlayerStatus>();
+    }
 
     void Start()
     {
-        
+        status.Init();
     }
 
     void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.A))
+        {            
+            status.Increase("Attack");
+        }
+        if (Input.GetKeyDown(KeyCode.H))
+        {
+            status.Increase("HP");
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Enemy"))
+        {
+            
+        }
+    }
+
+    public void Attack()
     {
         
     }
