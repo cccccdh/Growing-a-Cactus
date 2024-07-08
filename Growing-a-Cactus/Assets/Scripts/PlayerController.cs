@@ -11,7 +11,7 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
-        status.Init();
+       // status.Init();
     }
 
     void Update()
