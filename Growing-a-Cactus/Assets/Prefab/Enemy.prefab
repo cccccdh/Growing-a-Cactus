@@ -146,7 +146,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   HpBar: {fileID: 8356343050674000489}
-  HP: 31
+  HP: 27
+  maxHP: 27
   speed: 1
 --- !u!50 &1924492802791175634
 Rigidbody2D:
