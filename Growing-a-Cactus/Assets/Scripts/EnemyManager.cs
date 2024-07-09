@@ -12,11 +12,13 @@ public class EnemyManager : MonoBehaviour
     private void Start()
     {
         SpawnEnemy(); // 贸澜俊 利阑 积己
-        stageincreaseManager();
+
     }
+
 
     public void SpawnEnemy()
     {
+      
         GameObject enemyObject = Instantiate(enemyPrefab, spawnPoint.position, Quaternion.identity);
         EnemyScript enemyScript = enemyObject.GetComponent<EnemyScript>();
 
@@ -32,16 +34,19 @@ public class EnemyManager : MonoBehaviour
 
     public void stageincreaseManager()
     {
-        enemyCount++;
+             enemyCount++;
+        
 
         if (enemyCount % 10 == 0 && enemyCount != 0)
         {
+           
             StageScript stageScript = FindObjectOfType<StageScript>();
             if (stageScript != null)
             {
                 stageScript.IncreaseStage();
             }
         }
+
     }
 
     public void SetStageInfo(int stage, int round)

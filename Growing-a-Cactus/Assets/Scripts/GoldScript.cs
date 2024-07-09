@@ -13,7 +13,15 @@ public class GoldScript : MonoBehaviour
 
     void UpdateGoldText()
     {
-        GoldText.text = gold.ToString();
+        if (gold >= 1000)
+        {
+            float goldInK = gold / 1000f;
+            GoldText.text = goldInK.ToString("0.0") + "k";
+        }
+        else
+        {
+            GoldText.text = gold.ToString();
+        }
     }
 
     public void IncreaseGold(int amount)
