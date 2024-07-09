@@ -5,14 +5,10 @@ public class EnemyScript : MonoBehaviour
 {
     private EnemyManager EnemyManager; // EnemyManager 참조
     private Transform playerTransform; // 플레이어의 Transform 참조
-
     public Image HpBar;
+
     public int HP; // 적의 초기 HP 설정
     public int maxHP = 31;
-
-    public int enemyCount = 0;
-    public int stageCount = 1;
-
     public float speed = 1f; // 적의 이동 속도
 
     private void Start()
@@ -62,18 +58,12 @@ public class EnemyScript : MonoBehaviour
             if (EnemyManager != null)
             {
                 EnemyManager.SpawnEnemy(); // 적이 파괴될 때 새로운 적 생성 요청
+                EnemyManager.stageincreaseManager();
             }
 
             Destroy(gameObject); // 나중에 오브젝트 풀링으로 수정
-            enemyCount++;
+
         }
-        if (enemyCount % 10 == 0 && enemyCount != 0)
-        {
-            StageScript stageScript = FindObjectOfType<StageScript>();
-            if (stageScript != null)
-            {
-                stageScript.IncreaseStage();
-            }
-        }
+        
     }
 }

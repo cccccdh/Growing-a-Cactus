@@ -16,12 +16,12 @@ public class StageScript : MonoBehaviour
 
     void UpdateStageText()
     {
-        StageText.text = roundNumber.ToString() + "-" + stageNumber.ToString();
+        StageText.text = stageNumber.ToString() + "-" + roundNumber.ToString() + "Stage"; 
     }
 
     public void IncreaseStage()
     {
-        stageNumber++;
+        roundNumber++;
         UpdateStageText();
     }
 }
