@@ -2,21 +2,45 @@ using UnityEngine;
 
 public class PlayerStatus : MonoBehaviour
 {
-    public float Attack;
-    public float HP;
-    public float HP_Recovery;
+    UIManager UImanager;
+
+    public int Attack;
+    public int Attack_Level;
+    public int Attack_Cost;
+
+    public int Hp;
+    public int Hp_Level;
+    public int Hp_Cost;
+
+    public float Hp_Recovery;
+    public int Hp_Recovery_Level;
+    public int Hp_Recovery_Cost;
+
     public float Attack_Speed;
+    public int Attack_Speed_Level;
+    public int Attack_Speed_Cost;
+
     public float Critical;
+    public int Critical_Level;
+    public int Critical_Cost;
+
     public float Critical_Damage;
+    public int Critical_Damage_Level;
+    public int Critical_Damage_Cost;
+
+    private void Awake()
+    {
+        UImanager = FindObjectOfType<UIManager>();
+    }
 
     public void Init()
     {
-        Attack = 10;
-        HP = 120;
-        HP_Recovery = 7;
-        Attack_Speed = 1;
-        Critical = 0;
-        Critical_Damage = 120;
+        Attack = 10; Attack_Level = 1; Attack_Cost = 10;
+        Hp = 120; Hp_Level = 1; Hp_Cost = 5;
+        Hp_Recovery = 7; Hp_Recovery_Level = 1; Hp_Recovery_Cost = 7;
+        Attack_Speed = 1f; Attack_Speed_Level = 1; Attack_Speed_Cost = 22;
+        Critical = 0; Critical_Level = 1; Critical_Cost = 15;
+        Critical_Damage = 120; Critical_Damage_Level = 1; Critical_Damage_Cost = 6;
     }
 
     public void Increase(string status)
@@ -24,28 +48,65 @@ public class PlayerStatus : MonoBehaviour
         switch (status)
         {
             case "Attack":
-                Attack += 10; 
+                if (GameManager.instance.Gold >= Attack_Cost)
+                {
+                    GameManager.instance.DecreaseGold(Attack_Cost);
+                    Attack += 10;
+                    Attack_Level++;
+                    Attack_Cost += 10;
+                    UImanager.Update_Text("Attack", Attack, Attack_Level, Attack_Cost);
+                }
                 break;
-            case "HP":
-                HP += 10; 
+            case "Hp":
+                if (GameManager.instance.Gold >= Hp_Cost)
+                {
+                    GameManager.instance.DecreaseGold(Hp_Cost);
+                    Hp += 10;
+                    Hp_Level++;
+                    Hp_Cost += 10;
+                    UImanager.Update_Text("Hp", Hp, Hp_Level, Hp_Cost);
+                }
                 break;
-            case "HP_Recovery":
-                HP_Recovery += 0.7f; 
+            case "Hp_Recovery":
+                if (GameManager.instance.Gold >= Hp_Recovery_Cost)
+                {
+                    GameManager.instance.DecreaseGold(Hp_Recovery_Cost);
+                    Hp_Recovery += 0.7f;
+                    Hp_Recovery_Level++;
+                    Hp_Recovery_Cost += 10;
+                    UImanager.Update_Text("Hp_Recovery", Hp_Recovery, Hp_Recovery_Level, Hp_Recovery_Level);
+                }
                 break;
             case "Attack_Speed":
-                Attack_Speed += 0.01f; 
+                if (GameManager.instance.Gold >= Attack_Speed_Cost)
+                {
+                    GameManager.instance.DecreaseGold(Attack_Speed_Cost);
+                    Attack_Speed += 0.01f;
+                    Attack_Speed_Level++;
+                    Attack_Speed_Cost += 8;
+                    UImanager.Update_Text("Attack_Speed", Attack_Speed, Attack_Speed_Level, Attack_Speed_Cost);
+                }
                 break;
             case "Critical":
-                Critical += 2; 
+                if (GameManager.instance.Gold >= Critical_Cost)
+                {
+                    GameManager.instance.DecreaseGold(Critical_Cost);
+                    Critical += 0.1f;
+                    Critical_Level++;
+                    Critical_Cost += 6;
+                    UImanager.Update_Text("Critical", Critical, Critical_Level, Critical_Cost);
+                }
                 break;
             case "Critical_Damage":
-                Critical_Damage += 10; 
+                if (GameManager.instance.Gold >= Critical_Damage_Cost)
+                {
+                    GameManager.instance.DecreaseGold(Critical_Damage_Cost);
+                    Critical_Damage += 1;
+                    Critical_Damage_Level++;
+                    Critical_Damage_Cost += 5;
+                    UImanager.Update_Text("Critical_Damage", Critical_Damage, Critical_Damage_Level, Critical_Damage_Cost);
+                }
                 break;
         }
-    }
-
-    public void Increase_Attack()
-    {
-
     }
 }

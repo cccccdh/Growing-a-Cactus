@@ -15,7 +15,6 @@ public class EnemyManager : MonoBehaviour
 
     }
 
-
     public void SpawnEnemy()
     {
       
@@ -34,19 +33,17 @@ public class EnemyManager : MonoBehaviour
 
     public void stageincreaseManager()
     {
-             enemyCount++;
-        
+        enemyCount++;        
 
         if (enemyCount % 10 == 0 && enemyCount != 0)
         {
            
-            StageScript stageScript = FindObjectOfType<StageScript>();
-            if (stageScript != null)
+            GameManager gm = FindObjectOfType<GameManager>();
+            if (gm != null)
             {
-                stageScript.IncreaseStage();
+                gm.IncreaseStage();
             }
         }
-
     }
 
     public void SetStageInfo(int stage, int round)

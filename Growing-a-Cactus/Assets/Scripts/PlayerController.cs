@@ -20,18 +20,6 @@ public class PlayerController : MonoBehaviour
         status.Init();
     }
 
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.A))
-        {            
-            status.Increase("Attack");
-        }
-        if (Input.GetKeyDown(KeyCode.H))
-        {
-            status.Increase("HP");
-        }
-    }
-
     private void OnTriggerStay2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Enemy"))
@@ -53,7 +41,7 @@ public class PlayerController : MonoBehaviour
         {
             Vector2 direction = (target.position - transform.position).normalized;
             ShootThorn(direction, status.Attack);
-            yield return new WaitForSeconds(status.Attack_Speed);
+            yield return new WaitForSecondsRealtime(1 / status.Attack_Speed);
 
             // 적이 죽었는지 확인
             if (target == null)

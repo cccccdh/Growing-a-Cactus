@@ -25,6 +25,9 @@ public class Thorn : MonoBehaviour
             {
                 enemy.TakeDamage(damage); // 적에게 데미지 입히기
             }
+
+            Vector3 pos = collision.transform.position;
+            DamageTextController.Instance.CreateDamageText(pos, damage);
             Destroy(gameObject); // 가시 파괴
         }
     }

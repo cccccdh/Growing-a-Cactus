@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -6,6 +7,7 @@ public class EnemyScript : MonoBehaviour
     private EnemyManager EnemyManager; // EnemyManager 참조
     private Transform playerTransform; // 플레이어의 Transform 참조
     public Image HpBar;
+    public TextMeshProUGUI damageTxTPrefab; // 데미지 텍스트 프리팹
 
     public int HP; // 적의 초기 HP 설정
     public int maxHP = 31;
@@ -30,9 +32,8 @@ public class EnemyScript : MonoBehaviour
     public void TakeDamage(float damage)
     {
         HP -= (int)damage;
+        
         UpdateHPBar();
-
-        Debug.Log("데미지 입힘");
 
         if (HP <= 0f)
         {
@@ -50,10 +51,10 @@ public class EnemyScript : MonoBehaviour
         // HP가 0 이하일 경우 오브젝트 파괴 및 골드 증가
         if (HP <= 0)
         {
-            GoldScript goldScript = FindObjectOfType<GoldScript>();
-            if (goldScript != null)
+            GameManager gm = FindObjectOfType<GameManager>();
+            if (gm != null)
             {
-                goldScript.IncreaseGold(goldDropAmount);
+                gm.IncreaseGold(goldDropAmount);
             }
 
             if (EnemyManager != null)
