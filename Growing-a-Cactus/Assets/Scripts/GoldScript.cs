@@ -16,9 +16,9 @@ public class GoldScript : MonoBehaviour
         GoldText.text = gold.ToString();
     }
 
-    public void IncreaseGold()
+    public void IncreaseGold(int amount)
     {
-        gold+=100;
+        gold += amount;
         UpdateGoldText();
     }
 }

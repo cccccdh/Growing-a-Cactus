@@ -16,12 +16,18 @@ public class StageScript : MonoBehaviour
 
     void UpdateStageText()
     {
-        StageText.text = stageNumber.ToString() + "-" + roundNumber.ToString() + "Stage"; 
+        StageText.text = stageNumber.ToString() + "-" + roundNumber.ToString() + "Stage";
     }
 
     public void IncreaseStage()
     {
         roundNumber++;
         UpdateStageText();
+
+        EnemyManager enemyManager = FindObjectOfType<EnemyManager>();
+        if (enemyManager != null)
+        {
+            enemyManager.SetStageInfo(stageNumber, roundNumber); // 현재 스테이지 정보 업데이트
+        }
     }
 }

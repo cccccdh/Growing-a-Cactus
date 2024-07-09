@@ -10,6 +10,7 @@ public class EnemyScript : MonoBehaviour
     public int HP; // 적의 초기 HP 설정
     public int maxHP = 31;
     public float speed = 1f; // 적의 이동 속도
+    private int goldDropAmount = 100;
 
     private void Start()
     {
@@ -39,7 +40,7 @@ public class EnemyScript : MonoBehaviour
         }
     }
 
-    private void UpdateHPBar()
+    public void UpdateHPBar()
     {
         HpBar.fillAmount = (float)HP / maxHP;
     }
@@ -52,7 +53,7 @@ public class EnemyScript : MonoBehaviour
             GoldScript goldScript = FindObjectOfType<GoldScript>();
             if (goldScript != null)
             {
-                goldScript.IncreaseGold();
+                goldScript.IncreaseGold(goldDropAmount);
             }
 
             if (EnemyManager != null)
@@ -62,8 +63,11 @@ public class EnemyScript : MonoBehaviour
             }
 
             Destroy(gameObject); // 나중에 오브젝트 풀링으로 수정
-
         }
-        
+    }
+
+    public void SetGoldDropAmount(int amount)
+    {
+        goldDropAmount = amount;
     }
 }
