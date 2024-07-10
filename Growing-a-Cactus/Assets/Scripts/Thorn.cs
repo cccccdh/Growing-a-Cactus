@@ -32,5 +32,20 @@ public class Thorn : MonoBehaviour
             // Enqueue
             Destroy(gameObject); // 가시 파괴
         }
+        if (collision.gameObject.CompareTag("Boss"))
+        {
+            BossScript enemy = collision.gameObject.GetComponent<BossScript>();
+
+            if (enemy != null)
+            {
+                enemy.TakeDamage(damage); // 적에게 데미지 입히기
+            }
+
+            Vector3 pos = collision.transform.position;
+            PoolManager.Instance.DequeueWithText(pos, damage);
+
+            // Enqueue
+            Destroy(gameObject); // 가시 파괴
+        }
     }
 }

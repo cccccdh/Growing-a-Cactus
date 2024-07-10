@@ -31,6 +31,15 @@ public class PlayerController : MonoBehaviour
                 StartCoroutine(AttackCoroutine());
             }
         }
+        if (collision.gameObject.CompareTag("Boss"))
+        {
+            Debug.Log("Àû ¹ß°ß");
+            if (!isAttacking)
+            {
+                target = collision.gameObject.transform;
+                StartCoroutine(AttackCoroutine());
+            }
+        }
     }
 
     private IEnumerator AttackCoroutine()

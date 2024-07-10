@@ -1,8 +1,9 @@
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class EnemyScript : MonoBehaviour
+public class BossScript : MonoBehaviour
 {
     private EnemyManager enemyManager; // EnemyManager 참조
     private Transform playerTransform; // 플레이어의 Transform 참조
@@ -10,9 +11,9 @@ public class EnemyScript : MonoBehaviour
     public TextMeshProUGUI damageTxTPrefab; // 데미지 텍스트 프리팹
 
     public int HP; // 적의 초기 HP 설정
-    public int maxHP = 30;
-    public float speed = 1f; // 적의 이동 속도
-    private int goldDropAmount = 500;
+    public int maxHP = 100;
+    public float speed = 0.6f; // 적의 이동 속도
+    private int goldDropAmount = 1500;
 
     private void Start()
     {
@@ -54,14 +55,13 @@ public class EnemyScript : MonoBehaviour
             if (gm != null)
             {
                 gm.IncreaseGold(goldDropAmount);
+                gm.IncreaseStage();
+                Debug.Log("라운드 증가");
             }
 
             Destroy(gameObject); // 나중에 오브젝트 풀링으로 수정
 
-            if (enemyManager != null)
-            {
-                enemyManager.OnEnemyKilled();
-            }
+            
         }
     }
 

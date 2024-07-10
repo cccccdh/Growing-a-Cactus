@@ -3,7 +3,10 @@ using UnityEngine;
 public class EnemyManager : MonoBehaviour
 {
     public GameObject enemyPrefab; // 적 프리팹
+    public GameObject bossPrefab; // 보스 프리팹
     public Transform[] spawnPoints; // 스폰 포인트 배열
+    public Transform bossSpawnPoint; 
+
     private int enemiesKilled = 0; // 죽인 적의 수를 추적
     private int enemyCount = 0; // 현재 존재하는 적의 수
 
@@ -29,7 +32,7 @@ public class EnemyManager : MonoBehaviour
             if (enemyScript != null)
             {
                 // 현재 라운드에 따라 적의 최대 HP 조정
-                enemyScript.maxHP = 31 + (roundNumber - 1) * 30;
+                enemyScript.maxHP = 30 + (roundNumber - 1) * 30;
                 enemyScript.HP = enemyScript.maxHP; // 초기 HP 설정
                 enemyScript.UpdateHPBar(); // HP 바 업데이트
 
@@ -42,21 +45,39 @@ public class EnemyManager : MonoBehaviour
         }
     }
 
+    public void SpawnBoss()
+    {
+        
+            
+            GameObject bossObject = Instantiate(bossPrefab, bossSpawnPoint.position, Quaternion.identity);
+            BossScript bossScript = bossObject.GetComponent<BossScript>();
+
+            if (bossScript != null)
+            {
+                // 현재 라운드에 따라 적의 최대 HP 조정
+                bossScript.maxHP = 100 + (roundNumber - 1) * 150;
+                bossScript.HP = bossScript.maxHP; // 초기 HP 설정
+                bossScript.UpdateHPBar(); // HP 바 업데이트
+
+                // 현재 라운드에 따라 골드 드랍 설정
+                bossScript.SetGoldDropAmount(roundNumber * 5000);
+                bossScript.SetEnemyManager(this); // EnemyManager 설정
+            }
+
+     
+    }
+
     public void OnEnemyKilled()
     {
         enemiesKilled++;
         enemyCount--;
 
-        // 적이 모두 죽었을 때 새로운 적을 소환
+        // 적이 모두 죽었을 때 새로운 적을 소환하거나 보스를 소환
         if (enemyCount <= 0)
         {
             if (enemiesKilled % 12 == 0)
             {
-                GameManager gm = FindObjectOfType<GameManager>();
-                if (gm != null)
-                {
-                    gm.IncreaseStage();
-                }
+                SpawnBoss();
             }
             else
             {
@@ -85,7 +106,7 @@ public class EnemyManager : MonoBehaviour
             if (enemyScript != null)
             {
                 // 현재 라운드에 따라 적의 최대 HP 조정
-                enemyScript.maxHP = 31 + (roundNumber - 1) * 30;
+                enemyScript.maxHP = 30 + (roundNumber - 1) * 30;
                 enemyScript.HP = enemyScript.maxHP; // 초기 HP 설정
                 enemyScript.UpdateHPBar(); // HP 바 업데이트
 
