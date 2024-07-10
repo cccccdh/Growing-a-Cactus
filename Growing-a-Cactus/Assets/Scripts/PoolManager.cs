@@ -2,16 +2,17 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class DamageTextController : MonoBehaviour
+public class PoolManager : MonoBehaviour
 {
-    private static DamageTextController instance;
+    public static PoolManager instance;
 
-    public static DamageTextController Instance
+    public static PoolManager Instance
     {
-        get {
-            if(instance == null)
-                instance = GameObject.FindObjectOfType<DamageTextController>();
-            return instance; 
+        get
+        {
+            if (instance == null)
+                instance = FindObjectOfType<PoolManager>();
+            return instance;
         }
     }
 
@@ -23,7 +24,7 @@ public class DamageTextController : MonoBehaviour
     {
         damageTextPool = new Queue<GameObject>();
 
-        for(int i = 0; i < DamageTextPoolSize; i++)
+        for (int i = 0; i < DamageTextPoolSize; i++)
         {
             GameObject obj = Instantiate(dmgText);
             obj.transform.SetParent(transform);
@@ -34,7 +35,7 @@ public class DamageTextController : MonoBehaviour
 
     public void CreateDamageText(Vector3 hitPoint, float damage)
     {
-        if(damageTextPool.Count > 0)
+        if (damageTextPool.Count > 0)
         {
             GameObject damageText = damageTextPool.Dequeue();
             damageText.transform.position = new Vector3(hitPoint.x, hitPoint.y + 0.5f, hitPoint.z);

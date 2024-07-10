@@ -1,19 +1,19 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class DamageText : MonoBehaviour
 {
-    void Start()
-    {
-        
-    }
+    public float displayTime = 0.7f;
+    private float time;
 
     void Update()
     {
+        time += Time.deltaTime;
+
         transform.position += Vector3.up * Time.deltaTime;
 
-        if(Time.deltaTime >= 0.7f)
-            Destroy(gameObject);
+        if(time > displayTime)
+        {
+            PoolManager.Instance.ReturnToPool(gameObject);
+        }
     }
 }

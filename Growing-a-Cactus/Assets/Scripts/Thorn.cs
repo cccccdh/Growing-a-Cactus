@@ -27,7 +27,9 @@ public class Thorn : MonoBehaviour
             }
 
             Vector3 pos = collision.transform.position;
-            DamageTextController.Instance.CreateDamageText(pos, damage);
+            PoolManager.Instance.CreateDamageText(pos, damage);
+
+            // Enqueue
             Destroy(gameObject); // °¡½Ã ÆÄ±«
         }
     }
