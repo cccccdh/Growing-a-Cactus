@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -16,24 +17,35 @@ public class PoolManager : MonoBehaviour
         }
     }
 
-    public GameObject dmgText;
+    public GameObject dmgTextPrefab;
     public int DamageTextPoolSize = 7;
     private Queue<GameObject> damageTextPool;
+
+    public GameObject thornPrefab;
+    public int thornPoolSize = 7;
+    private Queue<GameObject> thornPool;
 
     private void Awake()
     {
         damageTextPool = new Queue<GameObject>();
+        thornPool = new Queue<GameObject>();
 
+        Init_DamageText();
+        
+    }
+
+    private void Init_DamageText()
+    {
         for (int i = 0; i < DamageTextPoolSize; i++)
         {
-            GameObject obj = Instantiate(dmgText);
+            GameObject obj = Instantiate(dmgTextPrefab);
             obj.transform.SetParent(transform);
             obj.SetActive(false);
             damageTextPool.Enqueue(obj);
         }
     }
 
-    public void CreateDamageText(Vector3 hitPoint, float damage)
+    public void DequeueWithText(Vector3 hitPoint, float damage)
     {
         if (damageTextPool.Count > 0)
         {
@@ -44,7 +56,7 @@ public class PoolManager : MonoBehaviour
         }
     }
 
-    public void ReturnToPool(GameObject damageText)
+    public void EnqueueWithText(GameObject damageText)
     {
         damageText.SetActive(false);
         damageTextPool.Enqueue(damageText);

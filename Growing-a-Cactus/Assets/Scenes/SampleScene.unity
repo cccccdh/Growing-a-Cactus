@@ -2186,6 +2186,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 624926724}
+  - component: {fileID: 624926725}
   m_Layer: 0
   m_Name: ObjectPoolingManager
   m_TagString: Untagged
@@ -2210,6 +2211,22 @@ Transform:
   - {fileID: 1109525776}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &624926725
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 624926722}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2d982e8115ea124997b8607b7944d2f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dmgTextPrefab: {fileID: 4514375295568477841, guid: d59f9b75247914e4faf4280a648b3cac, type: 3}
+  DamageTextPoolSize: 7
+  thornPrefab: {fileID: 2913206841576202543, guid: b6245c39a17ee204b990eedf4bc3dce7, type: 3}
+  thornPoolSize: 7
 --- !u!1 &632485890
 GameObject:
   m_ObjectHideFlags: 0
