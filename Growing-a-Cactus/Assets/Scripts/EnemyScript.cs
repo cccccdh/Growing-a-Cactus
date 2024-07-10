@@ -32,7 +32,7 @@ public class EnemyScript : MonoBehaviour
     public void TakeDamage(float damage)
     {
         HP -= (int)damage;
-        
+
         UpdateHPBar();
 
         if (HP <= 0f)
@@ -55,11 +55,12 @@ public class EnemyScript : MonoBehaviour
             if (gm != null)
             {
                 gm.IncreaseGold(goldDropAmount);
+                gm.IncreaseStage(); // 스테이지 증가
             }
 
             if (EnemyManager != null)
             {
-                EnemyManager.SpawnEnemy(); // 적이 파괴될 때 새로운 적 생성 요청
+                EnemyManager.SpawnEnemies(); // 적이 파괴될 때 새로운 적 생성 요청
                 EnemyManager.stageincreaseManager();
             }
 
