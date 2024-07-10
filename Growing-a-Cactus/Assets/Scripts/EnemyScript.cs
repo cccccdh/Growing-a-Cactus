@@ -16,12 +16,9 @@ public class EnemyScript : MonoBehaviour
 
     private void Start()
     {
-        enemyManager = FindObjectOfType<EnemyManager>(); // EnemyManager 찾기
         playerTransform = GameObject.FindGameObjectWithTag("Player").transform; // 플레이어 찾기
         HP = maxHP; // 초기 HP 설정
         UpdateHPBar();
-       
-
     }
 
     private void Update()
@@ -57,29 +54,24 @@ public class EnemyScript : MonoBehaviour
             if (gm != null)
             {
                 gm.IncreaseGold(goldDropAmount);
-                gm.IncreaseStage(); // 스테이지 증가
             }
-
 
             Destroy(gameObject); // 나중에 오브젝트 풀링으로 수정
-            
 
-        }
-        if (enemyManager != null)
-        {
-            Debug.Log(enemyManager.enemyCount);
-            if (enemyManager.enemyCount == 2)
+            if (enemyManager != null)
             {
-                enemyManager.SpawnEnemies();
-                Debug.Log("소환됨");
-
+                enemyManager.OnEnemyKilled();
             }
-            enemyManager.stageincreaseManager();
         }
     }
 
     public void SetGoldDropAmount(int amount)
     {
         goldDropAmount = amount;
+    }
+
+    public void SetEnemyManager(EnemyManager manager)
+    {
+        enemyManager = manager;
     }
 }
