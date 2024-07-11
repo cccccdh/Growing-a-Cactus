@@ -1,5 +1,7 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
+
 
 public class PlayerController : MonoBehaviour
 {
@@ -9,6 +11,9 @@ public class PlayerController : MonoBehaviour
 
     public GameObject thornPrefab;
     public float attackRange = 5f;
+    public Image HpBar;
+    public int CurrentHp;
+  
 
     private void Awake()
     {
@@ -18,7 +23,26 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         status.Init();
+        CurrentHp = status.Hp;
     }
+    public void TakeDamage(float damage)
+    {
+        CurrentHp -= (int)damage;
+
+        UpdateHPBar();
+        /*
+        if (HP <= 0f)
+        {
+            Die();
+        }
+        */
+    }
+
+    public void UpdateHPBar()
+    {
+        HpBar.fillAmount = (float)CurrentHp / status.Hp;
+    }
+
 
     private void OnTriggerStay2D(Collider2D collision)
     {
@@ -88,4 +112,17 @@ public class PlayerController : MonoBehaviour
             thorn.SetDirection(direction);
         }
     }
+
+
+
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "Enemy")
+        {
+           
+        }
+    }
+
+
 }
