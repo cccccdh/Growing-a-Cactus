@@ -28,6 +28,10 @@ public class PlayerStatus : MonoBehaviour
     public int Critical_Damage_Level;
     public int Critical_Damage_Cost;
 
+    bool IsButtonDowning = false;
+    string currentStatus = null;
+    float holdTime = 0f;
+
     private void Awake()
     {
         UImanager = FindObjectOfType<UIManager>();
@@ -44,6 +48,49 @@ public class PlayerStatus : MonoBehaviour
     }
 
     public void Increase(string status)
+    {
+        currentStatus = status;
+        IsButtonDowning = true;
+        holdTime = 0f;
+        if (holdTime >= 0.5f)
+        {
+            PerformIncrease();
+        }
+    }
+
+    public void StopIncrease()
+    {
+        IsButtonDowning = false;
+        currentStatus = null;
+        holdTime = 0f;
+    }
+
+    public void OnClickIncrease(string status)
+    {
+        PerformIncrease(status);
+    }
+
+    private void Update()
+    {
+        if (IsButtonDowning && currentStatus != null)
+        {
+            holdTime += Time.deltaTime;
+            if (holdTime >= 0.5f)
+            {
+                PerformIncrease();
+            }
+        }
+    }
+
+    private void PerformIncrease()
+    {
+        if (currentStatus != null)
+        {
+            PerformIncrease(currentStatus);
+        }
+    }
+
+    private void PerformIncrease(string status)
     {
         switch (status)
         {

@@ -71,8 +71,17 @@ public class GameManager : MonoBehaviour
     {
         if (gold >= 1000)
         {
-            float goldInK = gold / 1000f;
-            GoldText.text = goldInK.ToString("0.0") + "k";
+            int unitIndex = -1;
+            float displayGold = gold;
+
+            while (displayGold >= 1000 && unitIndex < 25)
+            {
+                displayGold /= 1000f;
+                unitIndex++;
+            }
+
+            char unitChar = (char)('A' + unitIndex);
+            GoldText.text = displayGold.ToString("0.0") + unitChar;
         }
         else
         {

@@ -1,8 +1,15 @@
+using UnityEditor.EditorTools;
 using UnityEngine;
 
 public class Thorn : MonoBehaviour
 {
+    PoolManager poolManager;
     float damage;
+
+    private void Start()
+    {
+        poolManager = FindObjectOfType<PoolManager>();
+    }
 
     public void SetDamage(float damage)
     {
@@ -27,7 +34,7 @@ public class Thorn : MonoBehaviour
             }
 
             Vector3 pos = collision.transform.position;
-            PoolManager.Instance.DequeueWithText(pos, damage);
+            poolManager.CreateDamageText(pos, damage);
 
             // Enqueue
             Destroy(gameObject); // °¡½Ã ÆÄ±«
@@ -42,7 +49,8 @@ public class Thorn : MonoBehaviour
             }
 
             Vector3 pos = collision.transform.position;
-            PoolManager.Instance.DequeueWithText(pos, damage);
+            //PoolManager.Instance.DequeueWithText(pos, damage);
+            poolManager.CreateDamageText(pos, damage);
 
             // Enqueue
             Destroy(gameObject); // °¡½Ã ÆÄ±«

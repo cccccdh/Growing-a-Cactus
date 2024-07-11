@@ -13,7 +13,7 @@ public class DamageText : MonoBehaviour
 
         if(time > displayTime)
         {
-            PoolManager.Instance.EnqueueWithText(gameObject);
+            Destroy(gameObject);
         }
     }
 }
