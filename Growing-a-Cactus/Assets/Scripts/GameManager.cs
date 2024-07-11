@@ -14,9 +14,9 @@ public class GameManager : MonoBehaviour
     private int stageNumber = 1;  // "1-1"의 뒤의 숫자를 추적하기 위한 변수
     private int roundNumber = 1;
 
-    bool isOpenShop = false;
-    bool isOpenRandomPick = false;
-    bool isOpenArmor = false;
+    public bool isOpenShop = false;
+    public bool isOpenRandomPick = false;
+    public bool isOpenArmor = false;
 
 
     private void Awake()
