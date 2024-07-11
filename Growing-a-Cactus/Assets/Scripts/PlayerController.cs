@@ -2,7 +2,6 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
-
 public class PlayerController : MonoBehaviour
 {
     private PlayerStatus status;
@@ -13,7 +12,6 @@ public class PlayerController : MonoBehaviour
     public float attackRange = 5f;
     public Image HpBar;
     public int CurrentHp;
-  
 
     private void Awake()
     {
@@ -25,10 +23,10 @@ public class PlayerController : MonoBehaviour
         status.Init();
         CurrentHp = status.Hp;
     }
+
     public void TakeDamage(float damage)
     {
         CurrentHp -= (int)damage;
-
         UpdateHPBar();
         /*
         if (HP <= 0f)
@@ -42,7 +40,6 @@ public class PlayerController : MonoBehaviour
     {
         HpBar.fillAmount = (float)CurrentHp / status.Hp;
     }
-
 
     private void OnTriggerStay2D(Collider2D collision)
     {
@@ -113,16 +110,23 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-
-
-
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.tag == "Enemy")
+        if (collision.gameObject.CompareTag("Enemy"))
         {
-           
+            EnemyScript enemy = collision.gameObject.GetComponent<EnemyScript>();
+            if (enemy != null)
+            {
+                TakeDamage(enemy.attackPower);
+            }
+        }
+        if (collision.gameObject.CompareTag("Boss"))
+        {
+            BossScript Boss = collision.gameObject.GetComponent<BossScript>();
+            if (Boss != null)
+            {
+                TakeDamage(Boss.attackPower);
+            }
         }
     }
-
-
 }

@@ -14,6 +14,7 @@ public class BossScript : MonoBehaviour
     public int maxHP = 100;
     public float speed = 0.6f; // 적의 이동 속도
     private int goldDropAmount = 1500;
+    public int attackPower = 20; // 적의 공격력
 
     private void Start()
     {
