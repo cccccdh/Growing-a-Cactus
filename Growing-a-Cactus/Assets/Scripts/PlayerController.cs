@@ -12,6 +12,7 @@ public class PlayerController : MonoBehaviour
     public float attackRange = 5f;
     public Image HpBar;
     public int CurrentHp;
+    public float HpR;
 
     private void Awake()
     {
@@ -22,6 +23,8 @@ public class PlayerController : MonoBehaviour
     {
         status.Init();
         CurrentHp = status.Hp;
+        HpR = status.Hp_Recovery;
+        StartCoroutine(HealthRegenCoroutine()); // 체력 회복 코루틴 시작
     }
 
     public void TakeDamage(float damage)
@@ -127,6 +130,17 @@ public class PlayerController : MonoBehaviour
             {
                 TakeDamage(Boss.attackPower);
             }
+        }
+    }
+
+    // 체력 회복 코루틴
+    private IEnumerator HealthRegenCoroutine()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(1f); // 1초 간격으로 회복
+            CurrentHp = Mathf.Min(CurrentHp + (int)HpR, status.Hp); // 최대 체력을 넘지 않게 함
+            UpdateHPBar();
         }
     }
 }
