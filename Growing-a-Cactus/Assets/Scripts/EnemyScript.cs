@@ -12,6 +12,7 @@ public class EnemyScript : MonoBehaviour
     public int HP; // 적의 초기 HP 설정
     public int maxHP = 30;
     public float speed = 1f; // 적의 이동 속도
+    public int attackPower = 10; // 적의 공격력
     private int goldDropAmount = 500;
 
     private void Start()

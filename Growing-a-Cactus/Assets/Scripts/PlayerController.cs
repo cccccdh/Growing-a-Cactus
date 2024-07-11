@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
@@ -9,6 +10,9 @@ public class PlayerController : MonoBehaviour
 
     public GameObject thornPrefab;
     public float attackRange = 5f;
+    public Image HpBar;
+    public int CurrentHp;
+    public float HpR;
 
     private void Awake()
     {
@@ -18,6 +22,26 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         status.Init();
+        CurrentHp = status.Hp;
+        HpR = status.Hp_Recovery;
+        StartCoroutine(HealthRegenCoroutine()); // 체력 회복 코루틴 시작
+    }
+
+    public void TakeDamage(float damage)
+    {
+        CurrentHp -= (int)damage;
+        UpdateHPBar();
+        /*
+        if (HP <= 0f)
+        {
+            Die();
+        }
+        */
+    }
+
+    public void UpdateHPBar()
+    {
+        HpBar.fillAmount = (float)CurrentHp / status.Hp;
     }
 
     private void OnTriggerStay2D(Collider2D collision)
@@ -86,6 +110,37 @@ public class PlayerController : MonoBehaviour
         {
             thorn.SetDamage(damage);
             thorn.SetDirection(direction);
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Enemy"))
+        {
+            EnemyScript enemy = collision.gameObject.GetComponent<EnemyScript>();
+            if (enemy != null)
+            {
+                TakeDamage(enemy.attackPower);
+            }
+        }
+        if (collision.gameObject.CompareTag("Boss"))
+        {
+            BossScript Boss = collision.gameObject.GetComponent<BossScript>();
+            if (Boss != null)
+            {
+                TakeDamage(Boss.attackPower);
+            }
+        }
+    }
+
+    // 체력 회복 코루틴
+    private IEnumerator HealthRegenCoroutine()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(1f); // 1초 간격으로 회복
+            CurrentHp = Mathf.Min(CurrentHp + (int)HpR, status.Hp); // 최대 체력을 넘지 않게 함
+            UpdateHPBar();
         }
     }
 }
