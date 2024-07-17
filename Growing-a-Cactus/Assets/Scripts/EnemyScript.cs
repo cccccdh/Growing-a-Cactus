@@ -24,8 +24,9 @@ public class EnemyScript : MonoBehaviour
 
     private void Update()
     {
-        // 플레이어 방향으로 이동 처리 
+        // 플레이어의 x좌표 방향으로만 이동 처리
         Vector3 direction = (playerTransform.position - transform.position).normalized;
+        direction.y = 0; // y축 값을 0으로 고정하여 y축으로의 이동을 방지
         transform.Translate(direction * speed * Time.deltaTime);
     }
 
