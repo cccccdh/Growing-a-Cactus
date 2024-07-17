@@ -1,3 +1,4 @@
+using System;
 using UnityEditor.EditorTools;
 using UnityEngine;
 
@@ -5,6 +6,7 @@ public class Thorn : MonoBehaviour
 {
     PoolManager poolManager;
     float damage;
+    bool HitCrit;
 
     private void Start()
     {
@@ -14,6 +16,13 @@ public class Thorn : MonoBehaviour
     public void SetDamage(float damage)
     {
         this.damage = damage;
+        HitCrit = false;
+    }
+
+    public void SetCriticalDamage(float damage)
+    {
+        this.damage = damage;
+        HitCrit = true;
     }
 
     public void SetDirection(Vector2 direction)
@@ -34,11 +43,12 @@ public class Thorn : MonoBehaviour
             }
 
             Vector3 pos = collision.transform.position;
-            poolManager.CreateDamageText(pos, damage);
+            poolManager.CreateDamageText(pos, damage, HitCrit);
 
             // Enqueue
             Destroy(gameObject); // °¡½Ã ÆÄ±«
         }
+
         if (collision.gameObject.CompareTag("Boss"))
         {
             BossScript enemy = collision.gameObject.GetComponent<BossScript>();
@@ -49,8 +59,7 @@ public class Thorn : MonoBehaviour
             }
 
             Vector3 pos = collision.transform.position;
-            //PoolManager.Instance.DequeueWithText(pos, damage);
-            poolManager.CreateDamageText(pos, damage);
+            poolManager.CreateDamageText(pos, damage, HitCrit);
 
             // Enqueue
             Destroy(gameObject); // °¡½Ã ÆÄ±«

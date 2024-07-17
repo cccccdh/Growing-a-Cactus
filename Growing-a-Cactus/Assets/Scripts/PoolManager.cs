@@ -15,12 +15,25 @@ public class PoolManager : MonoBehaviour
             return instance;
         }
     }
+
     public GameObject dmgText;
 
-    public void CreateDamageText(Vector3 hitPoint, float damage)
+    public void CreateDamageText(Vector3 hitPoint, float damage, bool isCritical)
     {
-        GameObject damageText = Instantiate(dmgText, hitPoint, Quaternion.identity);
-        damageText.GetComponentInChildren<TextMeshPro>().text = damage.ToString();
+        GameObject damageTextObj = Instantiate(dmgText, hitPoint, Quaternion.identity);
+        TextMeshPro damageText = damageTextObj.GetComponentInChildren<TextMeshPro>();
+        damageText.text = damage.ToString();
+
+        if (isCritical)
+        {
+            damageText.color = Color.red;
+        }
+        else
+        {
+            damageText.color = Color.white;
+        }
+
+        Destroy(damageText, 1.0f);
     }
 }
 

@@ -48,7 +48,6 @@ public class PlayerController : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Enemy"))
         {
-            Debug.Log("적 발견");
             if (!isAttacking)
             {
                 target = collision.gameObject.transform;
@@ -57,7 +56,6 @@ public class PlayerController : MonoBehaviour
         }
         if (collision.gameObject.CompareTag("Boss"))
         {
-            Debug.Log("적 발견");
             if (!isAttacking)
             {
                 target = collision.gameObject.transform;
@@ -105,10 +103,19 @@ public class PlayerController : MonoBehaviour
     private void ShootThorn(Vector2 direction, float damage)
     {
         GameObject thornobj = Instantiate(thornPrefab, transform.position, Quaternion.identity);
-        Thorn thorn = thornobj.GetComponent<Thorn>();
+        Thorn thorn = thornobj.GetComponent<Thorn>();        
         if (thorn != null)
         {
-            thorn.SetDamage(damage);
+            float rand = Random.Range(0, 100f);
+            if (rand < status.Critical)
+            {
+                Debug.Log("치명타 발생");
+                thorn.SetCriticalDamage(damage * (status.Critical_Damage / 100f));
+            }
+            else
+            {
+                thorn.SetDamage(damage);
+            }
             thorn.SetDirection(direction);
         }
     }
