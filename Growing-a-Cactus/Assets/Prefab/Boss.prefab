@@ -151,6 +151,7 @@ MonoBehaviour:
   maxHP: 30
   speed: 0.6
   attackPower: 20
+  stopDistance: 1.5
 --- !u!50 &1924492802791175634
 Rigidbody2D:
   serializedVersion: 4
@@ -238,7 +239,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -1
   m_TargetDisplay: 0
 --- !u!114 &1223159092946805120
 MonoBehaviour:

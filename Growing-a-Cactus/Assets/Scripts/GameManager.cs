@@ -9,7 +9,8 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI StageText;
     public GameObject ShopPage;
     public GameObject RandomPickPage;
-    public GameObject ArmorPage;
+    public GameObject CharacterPage;
+    public GameObject WeaponsPage;
     public Image waveBar; // 웨이브 바 이미지 추가
 
     private int gold = 0;
@@ -21,7 +22,8 @@ public class GameManager : MonoBehaviour
 
     public bool isOpenShop = false;
     public bool isOpenRandomPick = false;
-    public bool isOpenArmor = false;
+    public bool isOpenCharacter = false;
+    public bool isOpenWeapon = false;
 
     private void Awake()
     {
@@ -45,10 +47,10 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        if (isOpenShop && !isOpenArmor)
+        if (isOpenShop && !isOpenCharacter)
         {
             ShopPage.SetActive(true);
-            ArmorPage.SetActive(false);
+            CharacterPage.SetActive(false);
 
             if (isOpenRandomPick)
             {
@@ -61,16 +63,26 @@ public class GameManager : MonoBehaviour
                 RandomPickPage.SetActive(false);
             }
         }
-        else if (isOpenArmor && !isOpenShop)
+        else if (isOpenCharacter && !isOpenShop)
         {
             ShopPage.SetActive(false);
-            ArmorPage.SetActive(true);
+            CharacterPage.SetActive(true);
+
+            if(isOpenWeapon)
+            {
+                WeaponsPage.SetActive(true);
+            }
+            else
+            {
+                WeaponsPage.SetActive(false);
+            }
         }
         else
         {
             ShopPage.SetActive(false);
             RandomPickPage.SetActive(false);
-            ArmorPage.SetActive(false);
+            CharacterPage.SetActive(false);
+            WeaponsPage.SetActive(false);
         }
     }
 
@@ -157,9 +169,9 @@ public class GameManager : MonoBehaviour
     public void OpenShop()
     {
         isOpenShop = !isOpenShop;
-        if (isOpenArmor)
+        if (isOpenCharacter)
         {
-            isOpenArmor = false;
+            isOpenCharacter = false;
         }
     }
 
@@ -170,10 +182,15 @@ public class GameManager : MonoBehaviour
 
     public void OpenArmor()
     {
-        isOpenArmor = !isOpenArmor;
+        isOpenCharacter = !isOpenCharacter;
         if (isOpenShop)
         {
             isOpenShop = false;
         }
+    }
+
+    public void OpenWeapon()
+    {
+        isOpenWeapon = !isOpenWeapon;
     }
 }
