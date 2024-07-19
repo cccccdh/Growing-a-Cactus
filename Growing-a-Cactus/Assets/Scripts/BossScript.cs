@@ -1,7 +1,7 @@
-using System;
 using TMPro;
-using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine;
+using System.Collections;
 
 public class BossScript : MonoBehaviour
 {
@@ -15,6 +15,9 @@ public class BossScript : MonoBehaviour
     public float speed = 0.6f; // 적의 이동 속도
     private int goldDropAmount = 1500;
     public int attackPower = 20; // 적의 공격력
+    public float stopDistance = 1.5f; // 플레이어와 접촉했을 때의 거리
+
+    private bool isAttacking = false;
 
     private void Start()
     {
@@ -25,10 +28,22 @@ public class BossScript : MonoBehaviour
 
     private void Update()
     {
-        // 플레이어의 x좌표 방향으로만 이동 처리
-        Vector3 direction = (playerTransform.position - transform.position).normalized;
-        direction.y = 0; // y축 값을 0으로 고정하여 y축으로의 이동을 방지
-        transform.Translate(direction * speed * Time.deltaTime);
+        float distanceToPlayer = Vector3.Distance(transform.position, playerTransform.position);
+
+        if (distanceToPlayer > stopDistance)
+        {
+            // 플레이어의 x좌표 방향으로만 이동 처리
+            Vector3 direction = (playerTransform.position - transform.position).normalized;
+            direction.y = 0; // y축 값을 0으로 고정하여 y축으로의 이동을 방지
+            transform.Translate(direction * speed * Time.deltaTime);
+        }
+        else
+        {
+            if (!isAttacking)
+            {
+                StartCoroutine(Attack());
+            }
+        }
     }
 
     public void TakeDamage(float damage)
@@ -53,15 +68,23 @@ public class BossScript : MonoBehaviour
         // HP가 0 이하일 경우 오브젝트 파괴 및 골드 증가
         if (HP <= 0)
         {
+            Destroy(gameObject); // 나중에 오브젝트 풀링으로 수정
+
+            PlayerController player = FindObjectOfType<PlayerController>();
+            if (player != null)
+            {
+                player.MovePlayerWithDelay(1f);
+            }
+
             GameManager gm = FindObjectOfType<GameManager>();
             if (gm != null)
             {
                 gm.IncreaseGold(goldDropAmount);
                 gm.IncreaseStage();
+                gm.ResetWave(); // 웨이브 값을 0으로 설정
                 Debug.Log("라운드 증가");
             }
 
-            Destroy(gameObject); // 나중에 오브젝트 풀링으로 수정
         }
     }
 
@@ -73,5 +96,22 @@ public class BossScript : MonoBehaviour
     public void SetEnemyManager(EnemyManager manager)
     {
         enemyManager = manager;
+    }
+
+    private IEnumerator Attack()
+    {
+        isAttacking = true;
+
+        while (Vector3.Distance(transform.position, playerTransform.position) <= stopDistance)
+        {
+            PlayerController player = playerTransform.GetComponent<PlayerController>();
+            if (player != null)
+            {
+                player.TakeDamage(attackPower);
+            }
+            yield return new WaitForSeconds(1f); // 2초마다 공격
+        }
+
+        isAttacking = false;
     }
 }

@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI; // Image 컴포넌트를 사용하기 위해 추가
 
 public class GameManager : MonoBehaviour
 {
@@ -9,22 +10,25 @@ public class GameManager : MonoBehaviour
     public GameObject ShopPage;
     public GameObject RandomPickPage;
     public GameObject ArmorPage;
+    public Image waveBar; // 웨이브 바 이미지 추가
 
     private int gold = 0;
-    private int stageNumber = 1;  // "1-1"의 뒤의 숫자를 추적하기 위한 변수
+    private int stageNumber = 1;
     private int roundNumber = 1;
+
+    private int wave = 0; // 현재 웨이브를 추적하는 변수 추가
+    private const int maxWave = 100; // 최대 웨이브 값
 
     public bool isOpenShop = false;
     public bool isOpenRandomPick = false;
     public bool isOpenArmor = false;
-
 
     private void Awake()
     {
         if (instance == null)
         {
             instance = this;
-            DontDestroyOnLoad(gameObject); // 게임 매니저가 씬 전환 시 파괴되지 않게 합니다
+            DontDestroyOnLoad(gameObject);
         }
         else
         {
@@ -36,11 +40,12 @@ public class GameManager : MonoBehaviour
     {
         UpdateGoldText();
         UpdateStageText();
+        UpdateWaveBar(); // 초기 웨이브 바 업데이트
     }
 
     private void Update()
     {
-        if(isOpenShop && !isOpenArmor)
+        if (isOpenShop && !isOpenArmor)
         {
             ShopPage.SetActive(true);
             ArmorPage.SetActive(false);
@@ -49,12 +54,14 @@ public class GameManager : MonoBehaviour
             {
                 ShopPage.SetActive(false);
                 RandomPickPage.SetActive(true);
-            }else
+            }
+            else
             {
                 ShopPage.SetActive(true);
                 RandomPickPage.SetActive(false);
             }
-        }else if(isOpenArmor && !isOpenShop)
+        }
+        else if (isOpenArmor && !isOpenShop)
         {
             ShopPage.SetActive(false);
             ArmorPage.SetActive(true);
@@ -94,6 +101,11 @@ public class GameManager : MonoBehaviour
         StageText.text = stageNumber.ToString() + "-" + roundNumber.ToString();
     }
 
+    void UpdateWaveBar() // 웨이브 바 업데이트 메서드 추가
+    {
+        waveBar.fillAmount = (float)wave / maxWave;
+    }
+
     public int Gold
     {
         get { return gold; }
@@ -104,6 +116,7 @@ public class GameManager : MonoBehaviour
         gold += amount;
         UpdateGoldText();
     }
+
     public void DecreaseGold(int amount)
     {
         if (gold >= amount)
@@ -121,8 +134,24 @@ public class GameManager : MonoBehaviour
         EnemyManager enemyManager = FindObjectOfType<EnemyManager>();
         if (enemyManager != null)
         {
-            enemyManager.SetStageInfo(stageNumber, roundNumber); // 현재 스테이지 정보 업데이트
+            enemyManager.SetStageInfo(stageNumber, roundNumber);
         }
+    }
+
+    public void IncreaseWave(int amount) // 웨이브를 증가시키는 메서드 추가
+    {
+        wave += amount;
+        if (wave > maxWave)
+        {
+            wave = maxWave;
+        }
+        UpdateWaveBar();
+    }
+
+    public void ResetWave() // 웨이브를 초기화하는 메서드 추가
+    {
+        wave = 0;
+        UpdateWaveBar();
     }
 
     public void OpenShop()

@@ -1,6 +1,7 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Collections;
 
 public class EnemyScript : MonoBehaviour
 {
@@ -14,6 +15,9 @@ public class EnemyScript : MonoBehaviour
     public float speed = 1f; // 적의 이동 속도
     public int attackPower = 10; // 적의 공격력
     private int goldDropAmount = 500;
+    public float stopDistance = 1f; // 플레이어와 접촉했을 때의 거리
+
+    private bool isAttacking = false;
 
     private void Start()
     {
@@ -24,10 +28,22 @@ public class EnemyScript : MonoBehaviour
 
     private void Update()
     {
-        // 플레이어의 x좌표 방향으로만 이동 처리
-        Vector3 direction = (playerTransform.position - transform.position).normalized;
-        direction.y = 0; // y축 값을 0으로 고정하여 y축으로의 이동을 방지
-        transform.Translate(direction * speed * Time.deltaTime);
+        float distanceToPlayer = Vector3.Distance(transform.position, playerTransform.position);
+
+        if (distanceToPlayer > stopDistance)
+        {
+            // 플레이어의 x좌표 방향으로만 이동 처리
+            Vector3 direction = (playerTransform.position - transform.position).normalized;
+            direction.y = 0; // y축 값을 0으로 고정하여 y축으로의 이동을 방지
+            transform.Translate(direction * speed * Time.deltaTime);
+        }
+        else
+        {
+            if (!isAttacking)
+            {
+                StartCoroutine(Attack());
+            }
+        }
     }
 
     public void TakeDamage(float damage)
@@ -75,5 +91,22 @@ public class EnemyScript : MonoBehaviour
     public void SetEnemyManager(EnemyManager manager)
     {
         enemyManager = manager;
+    }
+
+    private IEnumerator Attack()
+    {
+        isAttacking = true;
+
+        while (Vector3.Distance(transform.position, playerTransform.position) <= stopDistance)
+        {
+            PlayerController player = playerTransform.GetComponent<PlayerController>();
+            if (player != null)
+            {
+                player.TakeDamage(attackPower);
+            }
+            yield return new WaitForSeconds(1f); // 2초마다 공격
+        }
+
+        isAttacking = false;
     }
 }

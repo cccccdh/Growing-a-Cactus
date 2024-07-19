@@ -14,6 +14,8 @@ public class PlayerController : MonoBehaviour
     public int CurrentHp;
     public float HpR;
 
+    private Vector3 originalPosition;
+
     private void Awake()
     {
         status = GetComponent<PlayerStatus>();
@@ -24,6 +26,7 @@ public class PlayerController : MonoBehaviour
         status.Init();
         CurrentHp = status.Hp;
         HpR = status.Hp_Recovery;
+        originalPosition = transform.position;
         StartCoroutine(HealthRegenCoroutine()); // 체력 회복 코루틴 시작
     }
 
@@ -103,7 +106,7 @@ public class PlayerController : MonoBehaviour
     private void ShootThorn(Vector2 direction, float damage)
     {
         GameObject thornobj = Instantiate(thornPrefab, transform.position, Quaternion.identity);
-        Thorn thorn = thornobj.GetComponent<Thorn>();        
+        Thorn thorn = thornobj.GetComponent<Thorn>();
         if (thorn != null)
         {
             float rand = Random.Range(0, 100f);
@@ -120,25 +123,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.gameObject.CompareTag("Enemy"))
-        {
-            EnemyScript enemy = collision.gameObject.GetComponent<EnemyScript>();
-            if (enemy != null)
-            {
-                TakeDamage(enemy.attackPower);
-            }
-        }
-        if (collision.gameObject.CompareTag("Boss"))
-        {
-            BossScript Boss = collision.gameObject.GetComponent<BossScript>();
-            if (Boss != null)
-            {
-                TakeDamage(Boss.attackPower);
-            }
-        }
-    }
+   
 
     // 체력 회복 코루틴
     private IEnumerator HealthRegenCoroutine()
@@ -149,5 +134,36 @@ public class PlayerController : MonoBehaviour
             CurrentHp = Mathf.Min(CurrentHp + (int)HpR, status.Hp); // 최대 체력을 넘지 않게 함
             UpdateHPBar();
         }
+    }
+
+    public void MovePlayerWithDelay(float delay)
+    {
+        StartCoroutine(MovePlayerCoroutine(delay));
+    }
+
+    private IEnumerator MovePlayerCoroutine(float delay)
+    {
+        Vector3 targetPosition = originalPosition + Vector3.right * 2.0f; // 2.0f 만큼 오른쪽으로 이동
+
+        // 0.7초 동안 오른쪽으로 이동
+        float elapsedTime = 0f;
+        while (elapsedTime < 0.7f)
+        {
+            transform.position = Vector3.Lerp(originalPosition, targetPosition, elapsedTime / 0.7f);
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+        transform.position = targetPosition; // 정확히 오른쪽 끝으로 위치 고정
+
+        // 0.3초 동안 원래 위치로 돌아오기
+        yield return new WaitForSeconds(delay - 0.7f); // 전체 딜레이에서 0.7초를 뺀 시간만큼 대기
+        elapsedTime = 0f;
+        while (elapsedTime < 0.3f)
+        {
+            transform.position = Vector3.Lerp(targetPosition, originalPosition, elapsedTime / 0.3f);
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+        transform.position = originalPosition; // 원래 위치로 복귀
     }
 }
