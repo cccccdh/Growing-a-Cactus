@@ -7,6 +7,8 @@ public class ItemManager : MonoBehaviour
 {
     private Dictionary<string, int> itemCounts = new Dictionary<string, int>();
 
+    public TextMeshProUGUI EquipWeaponText;
+    public GameObject q;
     public Image[] weaponImages;
     public TextMeshProUGUI[] weaponCountTexts;
 
@@ -62,4 +64,8 @@ public class ItemManager : MonoBehaviour
         }
     }
 
+    public void UpdateEquip()
+    {
+
+    }
 }
