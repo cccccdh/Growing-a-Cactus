@@ -19,11 +19,14 @@ public class EnemyScript : MonoBehaviour
 
     private bool isAttacking = false;
 
+    private Animator animator; // Animator 컴포넌트 참조
+
     private void Start()
     {
         playerTransform = GameObject.FindGameObjectWithTag("Player").transform; // 플레이어 찾기
         HP = maxHP; // 초기 HP 설정
         UpdateHPBar();
+        animator = GetComponent<Animator>(); // Animator 컴포넌트 찾기
     }
 
     private void Update()
@@ -102,6 +105,7 @@ public class EnemyScript : MonoBehaviour
             PlayerController player = playerTransform.GetComponent<PlayerController>();
             if (player != null)
             {
+                animator.SetTrigger("attack"); // 공격 트리거 설정
                 player.TakeDamage(attackPower);
             }
             yield return new WaitForSeconds(1f); // 2초마다 공격
