@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class CSVReader : MonoBehaviour
 {
@@ -13,11 +12,10 @@ public class CSVReader : MonoBehaviour
         public float Probability;
     }
 
-    public List<Item> itemList = new List<Item>();
-    public Image[] images;
+    public Dictionary<string, Item> itemDictionary = new Dictionary<string, Item>();
     public TextAsset csvFile;
-
-    private List<Item> ResultItemList = new List<Item>();
+    public ItemManager itemManager; 
+    public GachaManager gachaManager; 
 
     void Start()
     {
@@ -26,63 +24,32 @@ public class CSVReader : MonoBehaviour
 
     void ReadCSV()
     {
-        StringReader reader = new StringReader(csvFile.text);
-        bool isHeader = true;
-
-        while (reader.Peek() != -1)
+        using (StringReader reader = new StringReader(csvFile.text))
         {
-            string line = reader.ReadLine();
-            if (isHeader)
-            {
-                isHeader = false;
-                continue;
-            }
+            bool isHeader = true;
 
-            string[] values = line.Split(',');
-            Item item = new Item
+            while (reader.Peek() != -1)
             {
-                Name = values[0],
-                Type = values[1],
-                Grade = values[2],
-                Probability = float.Parse(values[3]) / 100f
-            };
-            itemList.Add(item);
-        }
-    }
-
-    public void PerformGacha(int times)
-    {
-        for (int i = 0; i < times; i++)
-        {
-            float rand = Random.value;
-            float cumulative = 0f;
-            foreach (var item in itemList)
-            {
-                cumulative += item.Probability;
-                if (rand < cumulative)
+                string line = reader.ReadLine();
+                if (isHeader)
                 {
-                    ResultItemList.Add(item);
-                    Debug.Log($"뽑기 {i + 1}: {item.Name} (타입: {item.Type}, 등급: {item.Grade})");
-                    Results();
-                    break;
+                    isHeader = false;
+                    continue;
                 }
-            }
-        }
-    }
 
-    void Results()
-    {
-        foreach(var result in ResultItemList)
-        {
-            foreach(var image in images)
-            {
-                if(image.name == result.Name)
+                string[] values = line.Split(',');
+                Item item = new Item
                 {
-                    Color color = image.color;
-                    color.a= 1f;
-                    image.color = color;
-                }
+                    Name = values[0],
+                    Type = values[1],
+                    Grade = values[2],
+                    Probability = float.Parse(values[3])
+                };
+                itemDictionary[item.Name] = item; // 아이템을 딕셔너리에 추가
             }
         }
+
+        // CSV 파일 로딩 후, 가챠 매니저에 아이템 데이터 전달
+        gachaManager.InitializeItems(itemDictionary);
     }
 }

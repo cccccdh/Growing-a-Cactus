@@ -100,7 +100,25 @@ public class PlayerStatus : MonoBehaviour
                     GameManager.instance.DecreaseGold(Attack_Cost);
                     Attack += 10;
                     Attack_Level++;
-                    Attack_Cost += 10;
+                    if (Attack_Level % 50 == 0)
+                    {
+                        Attack_Cost += 15;
+                    }
+                    else if (Attack_Level % 100 == 0)
+                    {
+                        Attack_Cost += 30;
+                    }
+                    else
+                    {
+                        if (Attack_Level % 10 == 1 || Attack_Level % 10 == 4 || Attack_Level % 10 == 7)
+                        {
+                            Attack_Cost += 2;
+                        }
+                        else
+                        {
+                            Attack_Cost += 1;
+                        }
+                    }
                     UImanager.Update_Text("Attack", Attack, Attack_Level, Attack_Cost);
                 }
                 break;

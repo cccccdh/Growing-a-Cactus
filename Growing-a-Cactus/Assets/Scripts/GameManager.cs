@@ -51,6 +51,7 @@ public class GameManager : MonoBehaviour
         {
             ShopPage.SetActive(true);
             CharacterPage.SetActive(false);
+            WeaponsPage.SetActive(false);
 
             if (isOpenRandomPick)
             {
@@ -172,6 +173,7 @@ public class GameManager : MonoBehaviour
         if (isOpenCharacter)
         {
             isOpenCharacter = false;
+            isOpenWeapon = false;
         }
     }
 
