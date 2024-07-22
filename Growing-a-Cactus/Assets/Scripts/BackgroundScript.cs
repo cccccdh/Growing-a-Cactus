@@ -4,39 +4,35 @@ using UnityEngine;
 
 public class BackgroundScript : MonoBehaviour
 {
-    private MeshRenderer render;
-    public float speed;
-    private float offset;
+    [SerializeField][Range(1f, 100f)] float speed = 20f; // 최대 값을 100f로 증가, 기본값을 20f로 설정
+    [SerializeField] float posValue;
+
+    Vector2 startPos;
+    float newPos;
 
     void Start()
     {
-        render = GetComponent<MeshRenderer>();
-        speed = 1;
+        startPos = transform.position;
     }
 
-    void Update()
+    public void StartMoveBg()
     {
-        // 기존 로직 제거
+        StartCoroutine(MoveBgForOneSecond());
     }
 
-    public void MoveBackgroundForDuration(float duration)
-    {
-        StartCoroutine(MoveBackground(duration));
-    }
-
-    private IEnumerator MoveBackground(float duration)
+    private IEnumerator MoveBgForOneSecond()
     {
         float startTime = Time.time;
-        while (Time.time - startTime < duration)
+        while (Time.time - startTime < 1f)
         {
-            movebg();
-            yield return null;
+            MoveBg();
+            yield return null; // 다음 프레임까지 대기
         }
     }
 
-    public void movebg()
+    private void MoveBg()
     {
-        offset += Time.deltaTime * speed;
-        render.material.mainTextureOffset = new Vector2(offset, 0);
+        newPos = Mathf.Repeat(Time.time * speed, posValue);
+        transform.position = startPos + Vector2.left * newPos; // 오른쪽에서 왼쪽으로 움직이게 설정
     }
 }

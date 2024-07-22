@@ -20,12 +20,16 @@ public class BossScript : MonoBehaviour
     private bool isAttacking = false;
     private Animator animator; // Animator 컴포넌트 참조
 
+    private BackgroundScript backgroundScript; // BackgroundScript 참조
+
     private void Start()
     {
         playerTransform = GameObject.FindGameObjectWithTag("Player").transform; // 플레이어 찾기
         HP = maxHP; // 초기 HP 설정
         UpdateHPBar();
         animator = GetComponent<Animator>(); // Animator 컴포넌트 찾기
+
+        backgroundScript = GameObject.FindObjectOfType<BackgroundScript>(); // BackgroundScript 찾기
     }
 
     private void Update()
@@ -87,6 +91,10 @@ public class BossScript : MonoBehaviour
                 Debug.Log("라운드 증가");
             }
 
+            if (backgroundScript != null)
+            {
+                backgroundScript.StartMoveBg(); // 배경 이동 시작
+            }
         }
     }
 
@@ -112,7 +120,7 @@ public class BossScript : MonoBehaviour
                 animator.SetTrigger("attack"); // 공격 트리거 설정
                 player.TakeDamage(attackPower);
             }
-            yield return new WaitForSeconds(1f); // 2초마다 공격
+            yield return new WaitForSeconds(1f); // 1초마다 공격
         }
 
         isAttacking = false;

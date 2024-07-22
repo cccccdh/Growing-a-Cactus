@@ -15,12 +15,12 @@ public class EnemyManager : MonoBehaviour
     private int roundNumber = 1;
 
     private PlayerController playerController;
-    private BackgroundScript backgroundScript; // BackgroundScript 참조 추가
+    private BackgroundScript backgroundScript;
 
     private void Start()
     {
         playerController = GameObject.FindObjectOfType<PlayerController>();
-        backgroundScript = GameObject.FindObjectOfType<BackgroundScript>(); // BackgroundScript 찾기
+        backgroundScript = GameObject.FindObjectOfType<BackgroundScript>();
         SpawnEnemies(); // 처음에 적을 생성
     }
 
@@ -76,26 +76,23 @@ public class EnemyManager : MonoBehaviour
 
         if (enemyCount <= 0)
         {
+            GameManager.instance.IncreaseWave(25); // 웨이브 증가
+            if (playerController != null)
+            {
+                playerController.MovePlayerWithDelay(1f); // 플레이어 이동
+            }
+
+            if (backgroundScript != null)
+            {
+                backgroundScript.StartMoveBg(); // 배경 이동 시작
+            }
+
             if (enemiesKilled % 12 == 0)
             {
-                GameManager.instance.IncreaseWave(25); // 웨이브 증가
-                if (playerController != null)
-                    playerController.MovePlayerWithDelay(1f); // 플레이어 이동
-
-                if (backgroundScript != null)
-                    backgroundScript.MoveBackgroundForDuration(1f); // 배경 1초 이동
-
                 StartCoroutine(SpawnBossWithDelay(1f)); // 1초 딜레이 후 보스를 소환
             }
             else
             {
-                GameManager.instance.IncreaseWave(25); // 웨이브 증가
-                if (playerController != null)
-                    playerController.MovePlayerWithDelay(1f); // 플레이어 이동
-
-                if (backgroundScript != null)
-                    backgroundScript.MoveBackgroundForDuration(1f); // 배경 1초 이동
-
                 StartCoroutine(SpawnEnemiesWithDelay(1f)); // 1초 딜레이 후 적을 소환
             }
         }
