@@ -1,6 +1,6 @@
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI; // Image 컴포넌트를 사용하기 위해 추가
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -13,7 +13,7 @@ public class GameManager : MonoBehaviour
     public GameObject WeaponsPage;
     public Image waveBar; // 웨이브 바 이미지 추가
 
-    private int gold = 0;
+    private int gold = 0;    
     private int stageNumber = 1;
     private int roundNumber = 1;
 

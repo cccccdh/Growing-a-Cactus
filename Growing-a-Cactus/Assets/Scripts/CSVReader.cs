@@ -10,9 +10,12 @@ public class CSVReader : MonoBehaviour
         public string Type;
         public string Grade;
         public float Probability;
+        public float ReactionEffect;
+        public float EquipEffect;
+        public int Count;
     }
 
-    public Dictionary<string, Item> itemDictionary = new Dictionary<string, Item>();
+    public List <Item> itemList = new List <Item>();
     public TextAsset csvFile;
     public ItemManager itemManager; 
     public GachaManager gachaManager; 
@@ -20,6 +23,7 @@ public class CSVReader : MonoBehaviour
     void Start()
     {
         ReadCSV();
+        itemManager.SetItems(itemList);
     }
 
     void ReadCSV()
@@ -43,13 +47,15 @@ public class CSVReader : MonoBehaviour
                     Name = values[0],
                     Type = values[1],
                     Grade = values[2],
-                    Probability = float.Parse(values[3])
+                    Probability = float.Parse(values[3]),
+                    ReactionEffect = float.Parse(values[4]) / 100,
+                    EquipEffect = float.Parse(values[5]) / 100,
+                    Count = 0
                 };
-                itemDictionary[item.Name] = item; // 아이템을 딕셔너리에 추가
+                itemList.Add(item);
             }
         }
 
-        // CSV 파일 로딩 후, 가챠 매니저에 아이템 데이터 전달
-        gachaManager.InitializeItems(itemDictionary);
+        gachaManager.InitializeItems(itemList);
     }
 }
