@@ -24,7 +24,6 @@ public class EnemyScript : MonoBehaviour
     private void Start()
     {
         playerTransform = GameObject.FindGameObjectWithTag("Player").transform; // 플레이어 찾기
-        HP = maxHP; // 초기 HP 설정
         UpdateHPBar();
         animator = GetComponent<Animator>(); // Animator 컴포넌트 찾기
     }
@@ -124,7 +123,6 @@ public class EnemyScript : MonoBehaviour
             speed = this.speed,
             attackPower = this.attackPower,
             goldDropAmount = this.goldDropAmount,
-            position = this.transform.position
         };
     }
 
@@ -136,7 +134,7 @@ public class EnemyScript : MonoBehaviour
         this.speed = data.speed;
         this.attackPower = data.attackPower;
         this.goldDropAmount = data.goldDropAmount;
-        this.transform.position = data.position;
+
         UpdateHPBar();
     }
 }

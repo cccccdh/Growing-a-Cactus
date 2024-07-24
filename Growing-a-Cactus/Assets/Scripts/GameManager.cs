@@ -140,8 +140,9 @@ public class GameManager : MonoBehaviour
             GoldText.text = gold.ToString();
         }
     }
-    void UpdateGemText()
+    public void UpdateGemText()
     {
+
         GemText.text = gem.ToString();
     }
 

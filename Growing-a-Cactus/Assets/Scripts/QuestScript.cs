@@ -5,8 +5,8 @@ public class QuestScript : MonoBehaviour
 {
     public TextMeshProUGUI questText; // 버튼의 텍스트 컴포넌트
 
-    private int killedMonsters = 0; // 처치한 몬스터 수
-    private int totalMonsters = 100; // 총 몬스터 수
+    public int killedMonsters = 0; // 처치한 몬스터 수
+    private int totalMonsters = 10; // 총 몬스터 수
     private int reward = 500; // 보상 젬
 
     void Start()
@@ -15,7 +15,7 @@ public class QuestScript : MonoBehaviour
         UpdateQuestText();
     }
 
-    void UpdateQuestText()
+    public void UpdateQuestText()
     {
         // 퀘스트 텍스트 변경
         questText.text = $"반복 퀘스트\n몬스터 처치({killedMonsters}/{totalMonsters})\n보상: {reward} 젬";
@@ -26,5 +26,16 @@ public class QuestScript : MonoBehaviour
     {
         killedMonsters++;
         UpdateQuestText();
+    }
+
+    public void QuestClear()
+    {
+        if (killedMonsters >= 10)
+        {
+            GameManager.instance.gem += reward;
+            GameManager.instance.UpdateGemText();
+            killedMonsters -= 10;
+            UpdateQuestText();
+        }
     }
 }

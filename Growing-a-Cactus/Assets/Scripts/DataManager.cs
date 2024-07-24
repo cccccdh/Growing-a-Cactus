@@ -13,7 +13,6 @@ public class DataManager : MonoBehaviour
         public float speed;
         public int attackPower;
         public int goldDropAmount;
-        public Vector3 position; // 적의 위치를 저장
     }
 
     [System.Serializable]
@@ -43,30 +42,31 @@ public class DataManager : MonoBehaviour
         public int Critical_Damage_Level;
         public int Critical_Damage_Cost;
 
-        public List<EnemyData> enemies; // 적의 데이터를 저장할 리스트 추가
+        public List<EnemyData> enemies;
 
-        // GameManager 관련 데이터 추가
         public int gold;
+        public int gem;
         public int stageNumber;
         public int roundNumber;
+
+        public int killedMonsters;
     }
 
     private string saveFilePath;
     private PlayerStatus playerStatus;
     private UIManager uiManager;
-    private GameManager gameManager; // GameManager 참조 추가
-
-    public GameObject enemyPrefab; // 적의 프리팹을 참조하기 위한 변수 추가
+    private GameManager gameManager;
+    private QuestScript questScript;
 
     void Start()
     {
         saveFilePath = Path.Combine(Application.persistentDataPath, "savefile.json");
         playerStatus = FindObjectOfType<PlayerStatus>();
         uiManager = FindObjectOfType<UIManager>();
-        gameManager = FindObjectOfType<GameManager>(); // GameManager 찾기
+        gameManager = FindObjectOfType<GameManager>();
+        questScript = FindObjectOfType<QuestScript>();
     }
 
-    // 게임 데이터 저장
     public void SaveGame()
     {
         GameData data = new GameData
@@ -91,13 +91,14 @@ public class DataManager : MonoBehaviour
             Critical_Damage_Cost = playerStatus.Critical_Damage_Cost,
             enemies = new List<EnemyData>(),
 
-            // GameManager 관련 데이터 저장
             gold = gameManager.Gold,
+            gem = gameManager.gem,
             stageNumber = gameManager.stageNumber,
-            roundNumber = gameManager.roundNumber
+            roundNumber = gameManager.roundNumber,
+
+            killedMonsters = questScript.killedMonsters
         };
 
-        // 모든 적의 데이터를 저장
         foreach (var enemy in FindObjectsOfType<EnemyScript>())
         {
             data.enemies.Add(enemy.GetEnemyData());
@@ -108,7 +109,6 @@ public class DataManager : MonoBehaviour
         Debug.Log("Game Saved: " + saveFilePath);
     }
 
-    // 게임 데이터 불러오기
     public void LoadGame()
     {
         if (File.Exists(saveFilePath))
@@ -135,7 +135,6 @@ public class DataManager : MonoBehaviour
             playerStatus.Critical_Damage_Level = data.Critical_Damage_Level;
             playerStatus.Critical_Damage_Cost = data.Critical_Damage_Cost;
 
-            // UI 업데이트
             uiManager.Update_Text("Attack", playerStatus.Attack, playerStatus.Attack_Level, playerStatus.Attack_Cost);
             uiManager.Update_Text("Hp", playerStatus.Hp, playerStatus.Hp_Level, playerStatus.Hp_Cost);
             uiManager.Update_Text("Hp_Recovery", playerStatus.Hp_Recovery, playerStatus.Hp_Recovery_Level, playerStatus.Hp_Recovery_Cost);
@@ -143,22 +142,28 @@ public class DataManager : MonoBehaviour
             uiManager.Update_Text("Critical", playerStatus.Critical, playerStatus.Critical_Level, playerStatus.Critical_Cost);
             uiManager.Update_Text("Critical_Damage", playerStatus.Critical_Damage, playerStatus.Critical_Damage_Level, playerStatus.Critical_Damage_Cost);
 
-            // GameManager 데이터 복원
+
             if (gameManager != null)
             {
                 gameManager.IncreaseGold(data.gold - gameManager.Gold);
+                gameManager.gem = data.gem;
+                gameManager.UpdateGemText();
                 gameManager.stageNumber = data.stageNumber;
                 gameManager.roundNumber = data.roundNumber;
-                gameManager.UpdateStageText(); // stageText를 업데이트
+                gameManager.UpdateStageText();
             }
 
-            // 적의 데이터 불러오기
-            foreach (var enemyData in data.enemies)
+            if (questScript != null)
             {
-                // 적을 생성하고 데이터를 설정
-                GameObject enemyObject = Instantiate(enemyPrefab, enemyData.position, Quaternion.identity);
-                EnemyScript enemyScript = enemyObject.GetComponent<EnemyScript>();
-                enemyScript.SetEnemyData(enemyData);
+                questScript.killedMonsters = data.killedMonsters;
+                questScript.UpdateQuestText();
+            }
+
+            // 적 데이터 로드 및 적용
+            var enemies = FindObjectsOfType<EnemyScript>();
+            for (int i = 0; i < data.enemies.Count && i < enemies.Length; i++)
+            {
+                enemies[i].SetEnemyData(data.enemies[i]);
             }
 
             Debug.Log("Game Loaded: " + saveFilePath);
