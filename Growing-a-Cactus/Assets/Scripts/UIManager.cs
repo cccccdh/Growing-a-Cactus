@@ -27,6 +27,8 @@ public class UIManager : MonoBehaviour
     public TextMeshProUGUI Critical_Damage;
     public TextMeshProUGUI Critical_Damage_Cost;
 
+    public TextMeshProUGUI PowerLevel;
+
 
     public void Update_Text(string status, float stat, int level, int cost)
     {
@@ -63,5 +65,10 @@ public class UIManager : MonoBehaviour
                 Critical_Damage_Cost.text = cost.ToString();
                 break;
         }
-    }    
+    }
+
+    public void PowerLevelTEXT(float power)
+    {
+        PowerLevel.text = $"ÀüÅõ·Â : {(int)power}";
+    }
 }

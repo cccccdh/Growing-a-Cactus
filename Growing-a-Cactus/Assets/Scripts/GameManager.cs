@@ -8,7 +8,7 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI GoldText;
     public TextMeshProUGUI StageText;
     public GameObject ShopPage;
-    public GameObject RandomPickPage;
+    public GameObject GachaPage;
     public GameObject CharacterPage;
     public GameObject WeaponsPage;
     public Image waveBar; // 웨이브 바 이미지 추가
@@ -21,7 +21,7 @@ public class GameManager : MonoBehaviour
     private const int maxWave = 100; // 최대 웨이브 값
 
     public bool isOpenShop = false;
-    public bool isOpenRandomPick = false;
+    public bool isOpenGacha = false;
     public bool isOpenCharacter = false;
     public bool isOpenWeapon = false;
 
@@ -50,24 +50,25 @@ public class GameManager : MonoBehaviour
         if (isOpenShop && !isOpenCharacter)
         {
             ShopPage.SetActive(true);
+            GachaPage.SetActive(false);
             CharacterPage.SetActive(false);
             WeaponsPage.SetActive(false);
 
-            if (isOpenRandomPick)
+            if (isOpenGacha)
             {
-                ShopPage.SetActive(false);
-                RandomPickPage.SetActive(true);
+                GachaPage.SetActive(true);
             }
             else
             {
-                ShopPage.SetActive(true);
-                RandomPickPage.SetActive(false);
+                GachaPage.SetActive(false);
             }
         }
         else if (isOpenCharacter && !isOpenShop)
         {
             ShopPage.SetActive(false);
+            GachaPage.SetActive(false);
             CharacterPage.SetActive(true);
+            WeaponsPage.SetActive(false);
 
             if(isOpenWeapon)
             {
@@ -81,7 +82,7 @@ public class GameManager : MonoBehaviour
         else
         {
             ShopPage.SetActive(false);
-            RandomPickPage.SetActive(false);
+            GachaPage.SetActive(false);
             CharacterPage.SetActive(false);
             WeaponsPage.SetActive(false);
         }
@@ -172,14 +173,23 @@ public class GameManager : MonoBehaviour
         isOpenShop = !isOpenShop;
         if (isOpenCharacter)
         {
-            isOpenCharacter = false;
+            isOpenCharacter = false;            
+        }
+
+        if(isOpenWeapon)
+        {
             isOpenWeapon = false;
+        }
+
+        if (isOpenGacha)
+        {
+            isOpenGacha = false;
         }
     }
 
     public void OpenRandomPick()
     {
-        isOpenRandomPick = !isOpenRandomPick;
+        isOpenGacha = !isOpenGacha;
     }
 
     public void OpenArmor()
@@ -188,6 +198,16 @@ public class GameManager : MonoBehaviour
         if (isOpenShop)
         {
             isOpenShop = false;
+        }
+
+        if (isOpenGacha)
+        {
+            isOpenGacha = false;
+        }
+
+        if (isOpenWeapon)
+        {
+            isOpenWeapon = false;
         }
     }
 

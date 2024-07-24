@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerStatus : MonoBehaviour
@@ -28,6 +29,8 @@ public class PlayerStatus : MonoBehaviour
     public int Critical_Damage_Level;
     public int Critical_Damage_Cost;
 
+    public float PowerLevel;
+
     bool IsButtonDowning = false;
     string currentStatus = null;
     float holdTime = 0f;
@@ -45,6 +48,7 @@ public class PlayerStatus : MonoBehaviour
         Attack_Speed = 1f; Attack_Speed_Level = 1; Attack_Speed_Cost = 22;
         Critical = 0; Critical_Level = 1; Critical_Cost = 15;
         Critical_Damage = 120; Critical_Damage_Level = 1; Critical_Damage_Cost = 6;
+        PowerLevel = Attack;
     }
 
     public void Increase(string status)
@@ -68,6 +72,22 @@ public class PlayerStatus : MonoBehaviour
     public void OnClickIncrease(string status)
     {
         PerformIncrease(status);
+    }
+
+    public void UpdatePowerLevel(List<CSVReader.Item> items)
+    {
+        float totalAttackPower = Attack;
+
+        foreach (var item in items)
+        {          
+            if(item.Count > 0)
+            {
+                totalAttackPower += Attack * item.ReactionEffect;
+            }
+        }
+
+        PowerLevel = totalAttackPower;
+        UImanager.PowerLevelTEXT(PowerLevel);
     }
 
     private void Update()
