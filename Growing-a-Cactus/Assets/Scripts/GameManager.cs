@@ -60,6 +60,8 @@ public class GameManager : MonoBehaviour
             GachaPage.SetActive(false);
             CharacterPage.SetActive(false);
             WeaponsPage.SetActive(false);
+            OptionPage.SetActive(false);
+
 
             if (isOpenGacha)
             {
@@ -68,6 +70,8 @@ public class GameManager : MonoBehaviour
             else
             {
                 GachaPage.SetActive(false);
+                OptionPage.SetActive(false);
+
             }
         }
         else if (isOpenCharacter && !isOpenShop)
@@ -76,6 +80,8 @@ public class GameManager : MonoBehaviour
             GachaPage.SetActive(false);
             CharacterPage.SetActive(true);
             WeaponsPage.SetActive(false);
+            OptionPage.SetActive(false);
+
 
             if (isOpenWeapon)
             {
@@ -84,23 +90,29 @@ public class GameManager : MonoBehaviour
             else
             {
                 WeaponsPage.SetActive(false);
+                OptionPage.SetActive(false);
+
             }
         }
-        else
+        else if (isOpenOption)
+        {
+            OptionPage.SetActive(true);
+            ShopPage.SetActive(false);
+            GachaPage.SetActive(false);
+            CharacterPage.SetActive(false);
+            WeaponsPage.SetActive(false);
+
+        }
+        else 
         {
             ShopPage.SetActive(false);
             GachaPage.SetActive(false);
             CharacterPage.SetActive(false);
             WeaponsPage.SetActive(false);
-        }
-        if (isOpenOption)
-        {
-            OptionPage.SetActive(true);
-        }
-        else
-        {
             OptionPage.SetActive(false);
+
         }
+
     }
 
     void UpdateGoldText()
@@ -204,6 +216,11 @@ public class GameManager : MonoBehaviour
         {
             isOpenGacha = false;
         }
+
+        if (isOpenOption)
+        {
+            isOpenOption = false;
+        }
     }
 
     public void OpenRandomPick()
@@ -228,11 +245,35 @@ public class GameManager : MonoBehaviour
         {
             isOpenWeapon = false;
         }
+
+        if (isOpenOption)
+        {
+            isOpenOption = false;
+        }
     }
+
     public void OpenOption()
     {
         isOpenOption = !isOpenOption;
+        if (isOpenShop)
+        {
+            isOpenShop = false;
+        }
 
+        if (isOpenGacha)
+        {
+            isOpenGacha = false;
+        }
+
+        if (isOpenWeapon)
+        {
+            isOpenWeapon = false;
+        }
+
+        if (isOpenCharacter)
+        {
+            isOpenCharacter = false;
+        }
     }
 
     public void OpenWeapon()
