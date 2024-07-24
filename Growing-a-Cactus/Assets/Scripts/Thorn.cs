@@ -1,5 +1,3 @@
-using System;
-using UnityEditor.EditorTools;
 using UnityEngine;
 
 public class Thorn : MonoBehaviour

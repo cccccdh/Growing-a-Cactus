@@ -35,6 +35,8 @@ public class PlayerStatus : MonoBehaviour
     string currentStatus = null;
     float holdTime = 0f;
 
+    private List<CSVReader.Item> items = new List<CSVReader.Item>(); // 아이템 리스트
+
     private void Awake()
     {
         UImanager = FindObjectOfType<UIManager>();
@@ -74,7 +76,13 @@ public class PlayerStatus : MonoBehaviour
         PerformIncrease(status);
     }
 
-    public void UpdatePowerLevel(List<CSVReader.Item> items)
+    public void SetItems(List<CSVReader.Item> itemList)
+    {
+        items = itemList;
+        UpdatePowerLevel(); // 아이템 리스트가 설정되면 전투력 갱신
+    }
+
+    public void UpdatePowerLevel()
     {
         float totalAttackPower = Attack;
 
@@ -139,6 +147,7 @@ public class PlayerStatus : MonoBehaviour
                             Attack_Cost += 1;
                         }
                     }
+                    UpdatePowerLevel();
                     UImanager.Update_Text("Attack", Attack, Attack_Level, Attack_Cost);
                 }
                 break;

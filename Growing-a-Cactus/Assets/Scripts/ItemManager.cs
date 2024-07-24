@@ -33,7 +33,7 @@ public class ItemManager : MonoBehaviour
     public void SetItems(List<CSVReader.Item> itemList)
     {
         items = itemList;
-        Update_PowerLevel();
+        playerstatus.SetItems(items);
     }
 
     // 아이템 개수를 업데이트하는 메서드
@@ -45,7 +45,7 @@ public class ItemManager : MonoBehaviour
             {
                 item.Count++;
                 UpdateWeaponCountText(itemName);
-                Update_PowerLevel();
+                playerstatus.SetItems(items);
                 break;
             }
         }        
@@ -133,26 +133,6 @@ public class ItemManager : MonoBehaviour
 
             // 장착 아이템 이름 바꾸기
             EquipWeaponText.text = selectedItemName;
-
-            Update_PowerLevel();
         }
-    }
-
-    // 전투력 업데이트 메서드
-    private void Update_PowerLevel()
-    {
-        if (playerstatus == null)
-        {
-            Debug.LogError("PlayerStatus component is not assigned.");
-            return;
-        }
-
-        if (items == null)
-        {
-            Debug.LogError("Items list is not initialized.");
-            return;
-        }
-
-        playerstatus.UpdatePowerLevel(items);
     }
 }
