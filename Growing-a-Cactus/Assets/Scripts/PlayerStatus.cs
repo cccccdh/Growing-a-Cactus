@@ -1,4 +1,4 @@
-using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerStatus : MonoBehaviour
@@ -74,21 +74,21 @@ public class PlayerStatus : MonoBehaviour
         PerformIncrease(status);
     }
 
-    //public void UpdatePowerLevel(List<CSVReader.Item> items)
-    //{
-    //    float totalAttackPower = Attack;
+    public void UpdatePowerLevel(List<CSVReader.Item> items)
+    {
+        float totalAttackPower = Attack;
 
-    //    foreach (var item in items)
-    //    {          
-    //        if(item.Count > 0)
-    //        {
-    //            totalAttackPower += Attack * item.ReactionEffect;
-    //        }
-    //    }
+        foreach (var item in items)
+        {          
+            if(item.Count > 0)
+            {
+                totalAttackPower += Attack * item.ReactionEffect;
+            }
+        }
 
-    //    PowerLevel = totalAttackPower;
-    //    UImanager.PowerLevelTEXT(PowerLevel);
-    //}
+        PowerLevel = totalAttackPower;
+        UImanager.PowerLevelTEXT(PowerLevel);
+    }
 
     private void Update()
     {

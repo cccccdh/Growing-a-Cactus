@@ -16,13 +16,11 @@ public class EnemyManager : MonoBehaviour
 
     private PlayerController playerController;
     private BackgroundScript backgroundScript;
-    private QuestScript questScript; // 추가: QuestScript 참조
 
     private void Start()
     {
         playerController = GameObject.FindObjectOfType<PlayerController>();
         backgroundScript = GameObject.FindObjectOfType<BackgroundScript>();
-        questScript = GameObject.FindObjectOfType<QuestScript>(); // 추가: QuestScript 찾기
         SpawnEnemies(); // 처음에 적을 생성
     }
 
@@ -75,11 +73,6 @@ public class EnemyManager : MonoBehaviour
     {
         enemiesKilled++;
         enemyCount--;
-
-        if (questScript != null)
-        {
-            questScript.IncrementMonsterKillCount(); // 추가: 몬스터 처치 수 업데이트
-        }
 
         if (enemyCount <= 0)
         {
