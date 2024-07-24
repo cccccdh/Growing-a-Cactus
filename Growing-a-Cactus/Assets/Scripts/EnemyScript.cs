@@ -108,9 +108,35 @@ public class EnemyScript : MonoBehaviour
                 animator.SetTrigger("attack"); // 공격 트리거 설정
                 player.TakeDamage(attackPower);
             }
-            yield return new WaitForSeconds(1f); // 2초마다 공격
+            yield return new WaitForSeconds(1f); // 1초마다 공격
         }
 
         isAttacking = false;
+    }
+
+    // 적의 상태를 반환하는 메서드 추가
+    public DataManager.EnemyData GetEnemyData()
+    {
+        return new DataManager.EnemyData
+        {
+            HP = this.HP,
+            maxHP = this.maxHP,
+            speed = this.speed,
+            attackPower = this.attackPower,
+            goldDropAmount = this.goldDropAmount,
+            position = this.transform.position
+        };
+    }
+
+    // 적의 상태를 설정하는 메서드 추가
+    public void SetEnemyData(DataManager.EnemyData data)
+    {
+        this.HP = data.HP;
+        this.maxHP = data.maxHP;
+        this.speed = data.speed;
+        this.attackPower = data.attackPower;
+        this.goldDropAmount = data.goldDropAmount;
+        this.transform.position = data.position;
+        UpdateHPBar();
     }
 }

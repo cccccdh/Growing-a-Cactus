@@ -7,15 +7,18 @@ public class GameManager : MonoBehaviour
     public static GameManager instance { get; private set; }
     public TextMeshProUGUI GoldText;
     public TextMeshProUGUI StageText;
+    public TextMeshProUGUI GemText;
     public GameObject ShopPage;
     public GameObject GachaPage;
     public GameObject CharacterPage;
     public GameObject WeaponsPage;
+    public GameObject OptionPage;
     public Image waveBar; // 웨이브 바 이미지 추가
 
-    private int gold = 0;    
-    private int stageNumber = 1;
-    private int roundNumber = 1;
+    public int gold = 0;
+    public int gem = 0;
+    public int stageNumber = 1;
+    public int roundNumber = 1;
 
     private int wave = 0; // 현재 웨이브를 추적하는 변수 추가
     private const int maxWave = 100; // 최대 웨이브 값
@@ -24,6 +27,7 @@ public class GameManager : MonoBehaviour
     public bool isOpenGacha = false;
     public bool isOpenCharacter = false;
     public bool isOpenWeapon = false;
+    public bool isOpenOption = false;
 
     private void Awake()
     {
@@ -41,6 +45,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         UpdateGoldText();
+        UpdateGemText();
         UpdateStageText();
         UpdateWaveBar(); // 초기 웨이브 바 업데이트
     }
@@ -70,7 +75,7 @@ public class GameManager : MonoBehaviour
             CharacterPage.SetActive(true);
             WeaponsPage.SetActive(false);
 
-            if(isOpenWeapon)
+            if (isOpenWeapon)
             {
                 WeaponsPage.SetActive(true);
             }
@@ -85,6 +90,14 @@ public class GameManager : MonoBehaviour
             GachaPage.SetActive(false);
             CharacterPage.SetActive(false);
             WeaponsPage.SetActive(false);
+        }
+        if (isOpenOption)
+        {
+            OptionPage.SetActive(true);
+        }
+        else
+        {
+            OptionPage.SetActive(false);
         }
     }
 
@@ -109,13 +122,17 @@ public class GameManager : MonoBehaviour
             GoldText.text = gold.ToString();
         }
     }
+    void UpdateGemText()
+    {
+        GemText.text = gem.ToString();
+    }
 
-    void UpdateStageText()
+    public void UpdateStageText()
     {
         StageText.text = stageNumber.ToString() + "-" + roundNumber.ToString();
     }
 
-    void UpdateWaveBar() // 웨이브 바 업데이트 메서드 추가
+    void UpdateWaveBar()
     {
         waveBar.fillAmount = (float)wave / maxWave;
     }
@@ -152,7 +169,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void IncreaseWave(int amount) // 웨이브를 증가시키는 메서드 추가
+    public void IncreaseWave(int amount)
     {
         wave += amount;
         if (wave > maxWave)
@@ -162,7 +179,7 @@ public class GameManager : MonoBehaviour
         UpdateWaveBar();
     }
 
-    public void ResetWave() // 웨이브를 초기화하는 메서드 추가
+    public void ResetWave()
     {
         wave = 0;
         UpdateWaveBar();
@@ -209,6 +226,11 @@ public class GameManager : MonoBehaviour
         {
             isOpenWeapon = false;
         }
+    }
+    public void OpenOption()
+    {
+        isOpenOption = !isOpenOption;
+
     }
 
     public void OpenWeapon()
