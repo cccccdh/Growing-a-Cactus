@@ -113,6 +113,10 @@ public class GameManager : MonoBehaviour
 
         }
 
+        if (Input.GetKey("escape"))
+        {
+            Application.Quit();
+        }            
     }
 
     void UpdateGoldText()
