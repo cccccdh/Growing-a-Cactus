@@ -15,16 +15,12 @@ public class GameManager : MonoBehaviour
     public GameObject OptionPage;
     public Image waveBar; // 웨이브 바 이미지 추가
 
-<<<<<<< Updated upstream
-    private int gold = 0;    
-    private int stageNumber = 1;
-    private int roundNumber = 1;
-=======
+
     public int gold = 0;
     public int gem = 0;
     public int stageNumber = 1;
     public int roundNumber = 1;
->>>>>>> Stashed changes
+
 
     private int wave = 0; // 현재 웨이브를 추적하는 변수 추가
     private const int maxWave = 100; // 최대 웨이브 값
