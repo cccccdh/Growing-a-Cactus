@@ -18,7 +18,7 @@ public class QuestScript : MonoBehaviour
     public void UpdateQuestText()
     {
         // 퀘스트 텍스트 변경
-        questText.text = $"반복 퀘스트\n몬스터 처치({killedMonsters}/{totalMonsters})\n보상: {reward} 젬";
+        questText.text = $"반복 퀘스트\n몬스터 처치 ({killedMonsters}/{totalMonsters})\n보상: {reward} 젬";
     }
 
     // 몬스터 처치 수를 업데이트하는 메서드

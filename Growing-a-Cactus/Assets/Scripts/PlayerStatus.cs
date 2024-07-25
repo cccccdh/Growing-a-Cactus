@@ -118,19 +118,19 @@ public class PlayerStatus : MonoBehaviour
 
     public void UpdatePowerLevel()
     {
-        // 로그로 상태 확인
-        Debug.Log($"Attack: {Attack}");
-        Debug.Log($"totalReactionEffect: {totalReactionEffect}");
-        Debug.Log($"totalEquipEffect: {totalEquipEffect}");
+        //// 로그로 상태 확인
+        //Debug.Log($"Attack: {Attack}");
+        //Debug.Log($"totalReactionEffect: {totalReactionEffect}");
+        //Debug.Log($"totalEquipEffect: {totalEquipEffect}");
 
         float effectiveAttack = Attack * (1 + totalReactionEffect); // 보유 효과 적용
         effectiveAttack *= (1 + totalEquipEffect); // 장착 효과 적용
 
         PowerLevel = effectiveAttack;
 
-        // 로그로 계산 결과 확인
-        Debug.Log($"Effective Attack: {effectiveAttack}");
-        Debug.Log($"PowerLevel: {PowerLevel}");
+        //// 로그로 계산 결과 확인
+        //Debug.Log($"Effective Attack: {effectiveAttack}");
+        //Debug.Log($"PowerLevel: {PowerLevel}");
 
         UImanager.PowerLevelTEXT(PowerLevel);
     }
@@ -194,7 +194,25 @@ public class PlayerStatus : MonoBehaviour
                     GameManager.instance.DecreaseGold(Hp_Cost);
                     Hp += 10;
                     Hp_Level++;
-                    Hp_Cost += 10;
+                    if (Hp_Level % 50 == 0)
+                    {
+                        Hp_Cost += 15;
+                    }
+                    else if (Hp_Level % 100 == 0)
+                    {
+                        Hp_Cost += 30;
+                    }
+                    else
+                    {
+                        if (Hp_Level % 10 == 1 || Hp_Level % 10 == 4 || Hp_Level % 10 == 7)
+                        {
+                            Hp_Cost += 2;
+                        }
+                        else
+                        {
+                            Hp_Cost += 1;
+                        }
+                    }
                     UImanager.Update_Text("Hp", Hp, Hp_Level, Hp_Cost);
                 }
                 break;
@@ -204,7 +222,25 @@ public class PlayerStatus : MonoBehaviour
                     GameManager.instance.DecreaseGold(Hp_Recovery_Cost);
                     Hp_Recovery += 0.7f;
                     Hp_Recovery_Level++;
-                    Hp_Recovery_Cost += 10;
+                    if (Hp_Recovery_Level % 50 == 0)
+                    {
+                        Hp_Recovery_Cost += 15;
+                    }
+                    else if (Hp_Recovery_Level % 100 == 0)
+                    {
+                        Hp_Recovery_Cost += 30;
+                    }
+                    else
+                    {
+                        if (Hp_Recovery_Level % 10 == 1 || Hp_Recovery_Level % 10 == 4 || Hp_Recovery_Level % 10 == 7)
+                        {
+                            Hp_Recovery_Cost += 2;
+                        }
+                        else
+                        {
+                            Hp_Recovery_Cost += 1;
+                        }
+                    }
                     UImanager.Update_Text("Hp_Recovery", Hp_Recovery, Hp_Recovery_Level, Hp_Recovery_Level);
                 }
                 break;
@@ -214,7 +250,23 @@ public class PlayerStatus : MonoBehaviour
                     GameManager.instance.DecreaseGold(Attack_Speed_Cost);
                     Attack_Speed += 0.01f;
                     Attack_Speed_Level++;
-                    Attack_Speed_Cost += 8;
+
+                    if (Attack_Speed_Level % 25 == 0)
+                    {
+                        Attack_Speed_Cost += 15;
+                    }
+                    else
+                    {
+                        if (Attack_Speed_Level % 10 == 2 || Attack_Speed_Level % 10 == 4 || Attack_Speed_Level % 10 == 8)
+                        {
+                            Attack_Speed_Cost *= (int)1.06f;
+                        }
+                        else
+                        {
+                            Attack_Speed_Cost *= (int)1.05f;
+                        }
+                    }
+
                     UImanager.Update_Text("Attack_Speed", Attack_Speed, Attack_Speed_Level, Attack_Speed_Cost);
                 }
                 break;
@@ -224,7 +276,22 @@ public class PlayerStatus : MonoBehaviour
                     GameManager.instance.DecreaseGold(Critical_Cost);
                     Critical += 0.1f;
                     Critical_Level++;
-                    Critical_Cost += 6;
+
+                    if (Critical_Level % 25 == 0)
+                    {
+                        Critical_Cost += 15;
+                    }
+                    else
+                    {
+                        if (Critical_Level % 10 == 2 || Critical_Level % 10 == 4 || Critical_Level % 10 == 8)
+                        {
+                            Critical_Cost += (int)1.06f;
+                        }
+                        else
+                        {
+                            Critical_Cost += (int)1.05f;
+                        }
+                    }
                     UImanager.Update_Text("Critical", Critical, Critical_Level, Critical_Cost);
                 }
                 break;
@@ -234,7 +301,25 @@ public class PlayerStatus : MonoBehaviour
                     GameManager.instance.DecreaseGold(Critical_Damage_Cost);
                     Critical_Damage += 1;
                     Critical_Damage_Level++;
-                    Critical_Damage_Cost += 5;
+                    if (Critical_Damage_Level % 50 == 0)
+                    {
+                        Critical_Damage_Cost += 15;
+                    }
+                    else if (Critical_Damage_Level % 100 == 0)
+                    {
+                        Critical_Damage_Cost += 30;
+                    }
+                    else
+                    {
+                        if (Critical_Damage_Level % 10 == 1 || Critical_Damage_Level % 10 == 4 || Critical_Damage_Level % 10 == 7)
+                        {
+                            Critical_Damage_Cost += 2;
+                        }
+                        else
+                        {
+                            Critical_Damage_Cost += 1;
+                        }
+                    }
                     UImanager.Update_Text("Critical_Damage", Critical_Damage, Critical_Damage_Level, Critical_Damage_Cost);
                 }
                 break;

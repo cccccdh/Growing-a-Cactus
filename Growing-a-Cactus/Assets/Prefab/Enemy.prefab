@@ -148,8 +148,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   HpBar: {fileID: 8356343050674000489}
   damageTxTPrefab: {fileID: 0}
-  HP: 27
-  maxHP: 27
+  HP: 30
+  maxHP: 30
   speed: 1
   attackPower: 10
   stopDistance: 1
