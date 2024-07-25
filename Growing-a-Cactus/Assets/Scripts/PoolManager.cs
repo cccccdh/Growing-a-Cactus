@@ -22,7 +22,7 @@ public class PoolManager : MonoBehaviour
     {
         GameObject damageTextObj = Instantiate(dmgText, hitPoint, Quaternion.identity);
         TextMeshPro damageText = damageTextObj.GetComponentInChildren<TextMeshPro>();
-        damageText.text = damage.ToString();
+        damageText.text = ((int)damage).ToString();
 
         if (isCritical)
         {

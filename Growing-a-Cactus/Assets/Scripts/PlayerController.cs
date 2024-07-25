@@ -74,7 +74,7 @@ public class PlayerController : MonoBehaviour
         while (target != null)
         {
             Vector2 direction = (target.position - transform.position).normalized;
-            ShootThorn(direction, status.Attack);
+            ShootThorn(direction, status.PowerLevel);
             yield return new WaitForSecondsRealtime(1 / status.Attack_Speed);
 
             // 적이 죽었는지 확인

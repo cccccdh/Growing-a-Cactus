@@ -35,7 +35,9 @@ public class PlayerStatus : MonoBehaviour
     string currentStatus = null;
     float holdTime = 0f;
 
-    private List<CSVReader.Item> items = new List<CSVReader.Item>(); // 아이템 리스트
+    private float totalEquipEffect = 0f;
+    private float totalReactionEffect = 0f;
+    private CSVReader.Item equippedItem;
 
     private void Awake()
     {
@@ -76,25 +78,60 @@ public class PlayerStatus : MonoBehaviour
         PerformIncrease(status);
     }
 
-    public void SetItems(List<CSVReader.Item> itemList)
+    // 보유효과 
+    public void UpdateReactionEffects(List<CSVReader.Item> items)
     {
-        items = itemList;
-        UpdatePowerLevel(); // 아이템 리스트가 설정되면 전투력 갱신
+        totalReactionEffect = 0;
+        foreach (var item in items)
+        {
+            if (item.Count > 0)
+            {
+                Debug.Log($"Before Enhancement - Reaction Effect: {item.ReactionEffect}, Count: {item.Count}");
+                totalReactionEffect += item.ReactionEffect;
+                Debug.Log($"After Enhancement - Total Reaction Effect: {totalReactionEffect}");
+
+            }
+        }
+        UpdatePowerLevel(); 
+    }
+
+    // 장착효과
+    public void EquipItem(CSVReader.Item item)
+    {
+        // 기존 장착 아이템 효과 제거
+        if (equippedItem != null)
+        {
+            totalEquipEffect -= equippedItem.EquipEffect;
+        }
+
+        // 새로운 아이템 장착
+        equippedItem = item;
+
+        // 새로운 아이템 효과 추가
+        if (equippedItem != null)
+        {
+            totalEquipEffect += equippedItem.EquipEffect;
+        }
+
+        UpdatePowerLevel(); 
     }
 
     public void UpdatePowerLevel()
     {
-        float totalAttackPower = Attack;
+        // 로그로 상태 확인
+        Debug.Log($"Attack: {Attack}");
+        Debug.Log($"totalReactionEffect: {totalReactionEffect}");
+        Debug.Log($"totalEquipEffect: {totalEquipEffect}");
 
-        foreach (var item in items)
-        {          
-            if(item.Count > 0)
-            {
-                totalAttackPower += Attack * item.ReactionEffect;
-            }
-        }
+        float effectiveAttack = Attack * (1 + totalReactionEffect); // 보유 효과 적용
+        effectiveAttack *= (1 + totalEquipEffect); // 장착 효과 적용
 
-        PowerLevel = totalAttackPower;
+        PowerLevel = effectiveAttack;
+
+        // 로그로 계산 결과 확인
+        Debug.Log($"Effective Attack: {effectiveAttack}");
+        Debug.Log($"PowerLevel: {PowerLevel}");
+
         UImanager.PowerLevelTEXT(PowerLevel);
     }
 

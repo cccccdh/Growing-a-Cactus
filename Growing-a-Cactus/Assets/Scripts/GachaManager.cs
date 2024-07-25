@@ -27,7 +27,7 @@ public class GachaManager : MonoBehaviour
                 {
                     resultItemList.Add(item);
                     itemManager.UpdateItemCount(item.Name); // 아이템 개수 업데이트
-                    Debug.Log($"뽑기 {i + 1}: {item.Name} (타입: {item.Type}, 등급: {item.Grade}), 개수 : {item.Count}");
+                    //Debug.Log($"뽑기 {i + 1}: {item.Name} (타입: {item.Type}, 등급: {item.Grade}), 개수 : {item.Count}");
                     break;
                 }
             }

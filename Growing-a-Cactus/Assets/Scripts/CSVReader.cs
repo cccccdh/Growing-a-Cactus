@@ -12,7 +12,10 @@ public class CSVReader : MonoBehaviour
         public float Probability;
         public float ReactionEffect;
         public float EquipEffect;
+
+        public int Level;
         public int Count;
+        public int RequiredCount;
     }
 
     public List <Item> itemList = new List <Item>();
@@ -50,7 +53,9 @@ public class CSVReader : MonoBehaviour
                     Probability = float.Parse(values[3]),
                     ReactionEffect = float.Parse(values[4]) / 100,
                     EquipEffect = float.Parse(values[5]) / 100,
-                    Count = 0
+                    Level = 1,
+                    Count = 0,
+                    RequiredCount = 2
                 };
                 itemList.Add(item);
             }

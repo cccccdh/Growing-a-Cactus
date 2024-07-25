@@ -10,12 +10,15 @@ public class ItemManager : MonoBehaviour
     public TextMeshProUGUI EquipWeaponText;
     public TextMeshProUGUI WeaponNameText;
     public TextMeshProUGUI WeaponGradeText;
+    public TextMeshProUGUI WeaponLevelText;
+    public TextMeshProUGUI WeaponCountText;
     public TextMeshProUGUI ReactionEffectText;
     public TextMeshProUGUI EquipEffectText;
     public Image[] weaponImages;
     public TextMeshProUGUI[] weaponCountTexts;
 
     public PlayerStatus playerstatus;
+    public EnhancementManager enhancementManager;
 
     private List<CSVReader.Item> items = new List<CSVReader.Item>();
     private string selectedItemName;
@@ -24,16 +27,18 @@ public class ItemManager : MonoBehaviour
     private void Awake()
     {
         playerstatus = GameObject.Find("Player").GetComponent<PlayerStatus>();
-        if (playerstatus == null)
-        {
-            Debug.LogError("PlayerStatus component not found on the GameObject. Make sure the PlayerStatus component is attached.");
-        }
+        enhancementManager = FindObjectOfType<EnhancementManager>();
     }
 
     public void SetItems(List<CSVReader.Item> itemList)
     {
         items = itemList;
-        playerstatus.SetItems(items);
+        playerstatus.UpdateReactionEffects(items);
+    }
+
+    public List<CSVReader.Item> GetItems()
+    {
+        return items;
     }
 
     // 아이템 개수를 업데이트하는 메서드
@@ -45,7 +50,7 @@ public class ItemManager : MonoBehaviour
             {
                 item.Count++;
                 UpdateWeaponCountText(itemName);
-                playerstatus.SetItems(items);
+                playerstatus.UpdateReactionEffects(items);
                 break;
             }
         }        
@@ -64,6 +69,18 @@ public class ItemManager : MonoBehaviour
         return 0;
     }
 
+    // 아이템 강화개수를 가져오는 메서드
+    public int GetItemRequiredCount(string itemName)
+    {
+        foreach (var item in items)
+        {
+            if (item.Name == itemName)
+            {
+                return item.RequiredCount;
+            }
+        }
+        return 0;
+    }
 
     // 장비창 무기 업데이트
     public void UpdateEquipImages(List<CSVReader.Item> resultItemList)
@@ -84,14 +101,15 @@ public class ItemManager : MonoBehaviour
     }
 
     // 아이템 개수에 따라 텍스트 업데이트
-    private void UpdateWeaponCountText(string itemName)
+    public void UpdateWeaponCountText(string itemName)
     {
         for (int i = 0; i < weaponImages.Length; i++)
         {
             if (weaponImages[i].name == itemName)
             {
                 int count = GetItemCount(itemName);
-                weaponCountTexts[i].text = "(" + count.ToString() + "/" + "0)";
+                int requredcount = GetItemRequiredCount(itemName);
+                weaponCountTexts[i].text = $"({count}/{requredcount})";
                 break;
             }
         }
@@ -108,6 +126,11 @@ public class ItemManager : MonoBehaviour
 
         WeaponNameText.text = selectedItemName;
 
+        UpdateText();
+    }
+
+    public void UpdateText()
+    {
         foreach (var item in items)
         {
             if (item.Name == selectedItemName)
@@ -115,24 +138,44 @@ public class ItemManager : MonoBehaviour
                 WeaponGradeText.text = item.Grade;
                 ReactionEffectText.text = $"공격력 + {item.ReactionEffect * 100}%";
                 EquipEffectText.text = $"공격력 + {item.EquipEffect * 100}%";
+                WeaponLevelText.text = $"Lv.{item.Level}";
+                WeaponCountText.text = $"( {item.Count} / {item.RequiredCount} )";
                 break;
             }
         }
     }
 
-    // 아이템 장착
-    public void UpdateEquip()
+    // 장착 아이템 확인
+    public void UpdateSelected()
     {
+        Debug.Log("장착");
         // 장착 아이템 개수 가져오기
         int count = GetItemCount(selectedItemName);
 
-        if(count > 0)
+        if (count > 0)
         {
             // 장착 아이템 색 바꾸기
             EquipWeaponImg.color = selectedItemColor;
 
             // 장착 아이템 이름 바꾸기
             EquipWeaponText.text = selectedItemName;
+
+            // 아이템 장착 효과 부여
+            foreach (var item in items)
+            {
+                if (item.Name == selectedItemName)
+                {
+                    playerstatus.EquipItem(item);
+                    break;
+                }
+            }
         }
+    }
+
+    // 장비 강화
+    public void EnhanceItem()
+    {
+        Debug.Log("강화 버튼 눌림");
+        enhancementManager.EnhanceItemByName(selectedItemName);
     }
 }
