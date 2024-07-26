@@ -12,10 +12,12 @@ public class EnemyManager : MonoBehaviour
     private int enemyCount = 0; // 현재 존재하는 적의 수
 
     private int stageNumber = 1;
-    private int roundNumber = 1;
+    public int roundNumber = 1;
 
-    private int hpCalcA;
-    private int hpCalcB;
+    public int hpCalcA;
+    public int hpCalcB;
+    public int HpMax;
+    private int befHP = 0;
 
     private PlayerController playerController;
     private BackgroundScript backgroundScript;
@@ -25,6 +27,8 @@ public class EnemyManager : MonoBehaviour
 
     private void Start()
     {
+        befHP = 30;
+        HpMax = 30;
         playerController = GameObject.FindObjectOfType<PlayerController>();
         backgroundScript = GameObject.FindObjectOfType<BackgroundScript>();
         questScript = GameObject.FindObjectOfType<QuestScript>(); // 추가: QuestScript 찾기
@@ -113,9 +117,11 @@ public class EnemyManager : MonoBehaviour
         StartCoroutine(DelayedUpdateEnemyLevels(1f)); // 1초 후에 UpdateEnemyLevels 함수 호출
     }
 
-    private IEnumerator DelayedUpdateEnemyLevels(float delay)
+    private IEnumerator DelayedUpdateEnemyLevels(float delay) 
     {
         yield return new WaitForSeconds(delay);
+
+        HpMax = SetEnemyHP(befHP);
         UpdateEnemyLevels();
     }
 
@@ -130,8 +136,7 @@ public class EnemyManager : MonoBehaviour
             if (enemyScript != null)
             {
                 // 현재 라운드에 따라 적의 최대 HP 조정
-                enemyScript.maxHP = SetEnemyHP(enemyScript.maxHP);
-                enemyScript.HP = enemyScript.maxHP; // 초기 HP 설정
+                
                 enemyScript.UpdateHPBar(); // HP 바 업데이트
 
                 // 현재 라운드에 따라 골드 드랍 설정
@@ -145,7 +150,7 @@ public class EnemyManager : MonoBehaviour
 
     public int SetEnemyHP(int hp)
     {
-        int A;
+        
         if((roundNumber - 1) % 3 == 1)
         {
             hpCalcA = hp;
@@ -160,16 +165,16 @@ public class EnemyManager : MonoBehaviour
             if ((roundNumber - 1) % 3 == 0)
             {
                 hpCalcB = 3;
-            }
+            } 
             else
             {
                 hpCalcB = (roundNumber - 1) % 3;
             }
         }
 
-        Debug.Log($"{hp} / {hpCalcA} / {hpCalcB}");
-        A = hp + hpCalcA * hpCalcB;
+        Debug.Log($"{hp} / {hpCalcA} / {hpCalcB} / {roundNumber}");
+        befHP = hp + hpCalcA * hpCalcB;
 
-        return A;
+        return befHP;
     }    
 }

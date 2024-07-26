@@ -11,7 +11,7 @@ public class EnemyScript : MonoBehaviour
     public TextMeshProUGUI damageTxTPrefab; // 데미지 텍스트 프리팹
 
     public int HP; // 적의 초기 HP 설정
-    public int maxHP = 30;
+    public int maxHP;
     public float speed = 1f; // 적의 이동 속도
     public int attackPower = 10; // 적의 공격력
     private int goldDropAmount = 10;
@@ -23,6 +23,8 @@ public class EnemyScript : MonoBehaviour
 
     private void Start()
     {
+        HP = enemyManager.HpMax;
+        maxHP = enemyManager.HpMax;
         playerTransform = GameObject.FindGameObjectWithTag("Player").transform; // 플레이어 찾기
         UpdateHPBar();
         animator = GetComponent<Animator>(); // Animator 컴포넌트 찾기
@@ -125,6 +127,8 @@ public class EnemyScript : MonoBehaviour
             goldDropAmount = this.goldDropAmount,
         };
     }
+
+
 
     // 적의 상태를 설정하는 메서드 추가
     public void SetEnemyData(DataManager.EnemyData data)
