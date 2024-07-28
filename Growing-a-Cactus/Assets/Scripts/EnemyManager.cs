@@ -6,7 +6,7 @@ public class EnemyManager : MonoBehaviour
     public GameObject enemyPrefab; // 적 프리팹
     public GameObject bossPrefab; // 보스 프리팹
     public Transform[] spawnPoints; // 스폰 포인트 배열
-    public Transform bossSpawnPoint;
+    public Transform bossSpawnPoint; // 보스 스폰 포인트
 
     private int enemiesKilled = 0; // 죽인 적의 수를 추적
     private int enemyCount = 0; // 현재 존재하는 적의 수
@@ -21,7 +21,7 @@ public class EnemyManager : MonoBehaviour
 
     private PlayerController playerController;
     private BackgroundScript backgroundScript;
-    private QuestScript questScript; // 추가: QuestScript 참조
+    private QuestScript questScript; // QuestScript 참조
     private BossScript bossScript;
     private EnemyScript enemyScript;
 
@@ -31,18 +31,18 @@ public class EnemyManager : MonoBehaviour
         HpMax = 30;
         playerController = GameObject.FindObjectOfType<PlayerController>();
         backgroundScript = GameObject.FindObjectOfType<BackgroundScript>();
-        questScript = GameObject.FindObjectOfType<QuestScript>(); // 추가: QuestScript 찾기
+        questScript = GameObject.FindObjectOfType<QuestScript>(); // QuestScript 찾기
         SpawnEnemies(); // 처음에 적을 생성
     }
 
+    // 적을 스폰하는 함수
     public void SpawnEnemies()
     {
-        // 현재 존재하는 적의 수 초기화
-        enemyCount = 0;
-
-        UpdateEnemyLevels();
+        enemyCount = 0; // 현재 존재하는 적의 수 초기화
+        UpdateEnemyLevels(); // 적 레벨 업데이트
     }
 
+    // 보스를 스폰하는 함수
     public void SpawnBoss()
     {
         GameObject bossObject = Instantiate(bossPrefab, bossSpawnPoint.position, Quaternion.identity);
@@ -50,18 +50,17 @@ public class EnemyManager : MonoBehaviour
 
         if (bossScript != null)
         {
-            // 현재 라운드에 따라 보스의 최대 HP 조정
-            bossScript.maxHP = 100 + (roundNumber - 1) * 150;
-            bossScript.HP = bossScript.maxHP; // 초기 HP 설정
+            bossScript.maxHP = 100 + (roundNumber - 1) * 150; // 보스의 최대 HP 설정
+            bossScript.HP = bossScript.maxHP; // 보스의 HP 설정
             bossScript.UpdateHPBar(); // HP 바 업데이트
 
-            // 현재 라운드에 따라 골드 드랍 설정
-            int goldDropAmount = 100 + ((roundNumber - 1) / 3) * 100;
+            int goldDropAmount = 100 + ((roundNumber - 1) / 3) * 100; // 골드 드랍 설정
             bossScript.SetGoldDropAmount(goldDropAmount);
             bossScript.SetEnemyManager(this); // EnemyManager 설정
         }
     }
 
+    // 적이 죽었을 때 호출되는 함수
     public void OnEnemyKilled()
     {
         enemiesKilled++;
@@ -69,7 +68,7 @@ public class EnemyManager : MonoBehaviour
 
         if (questScript != null)
         {
-            questScript.IncrementMonsterKillCount(); // 추가: 몬스터 처치 수 업데이트
+            questScript.IncrementMonsterKillCount(); // 몬스터 처치 수 업데이트
         }
 
         if (enemyCount <= 0)
@@ -96,28 +95,30 @@ public class EnemyManager : MonoBehaviour
         }
     }
 
+    // 적을 딜레이 후 스폰하는 코루틴
     private IEnumerator SpawnEnemiesWithDelay(float delay)
     {
         yield return new WaitForSeconds(delay);
         SpawnEnemies();
     }
 
+    // 보스를 딜레이 후 스폰하는 코루틴
     private IEnumerator SpawnBossWithDelay(float delay)
     {
         yield return new WaitForSeconds(delay);
         SpawnBoss();
     }
 
+    // 스테이지 정보를 설정하는 함수
     public void SetStageInfo(int stage, int round)
     {
         stageNumber = stage;
         roundNumber = round;
-
-        // 라운드 변경 시 적 레벨 업데이트
         StartCoroutine(DelayedUpdateEnemyLevels(1f)); // 1초 후에 UpdateEnemyLevels 함수 호출
     }
 
-    private IEnumerator DelayedUpdateEnemyLevels(float delay) 
+    // 적 레벨을 딜레이 후 업데이트하는 코루틴
+    private IEnumerator DelayedUpdateEnemyLevels(float delay)
     {
         yield return new WaitForSeconds(delay);
 
@@ -125,9 +126,9 @@ public class EnemyManager : MonoBehaviour
         UpdateEnemyLevels();
     }
 
+    // 적의 레벨을 업데이트하는 함수
     private void UpdateEnemyLevels()
     {
-        // 현재 라운드에 따라 적의 레벨 업데이트
         foreach (Transform spawnPoint in spawnPoints)
         {
             GameObject enemyObject = Instantiate(enemyPrefab, spawnPoint.position, Quaternion.identity);
@@ -135,12 +136,9 @@ public class EnemyManager : MonoBehaviour
 
             if (enemyScript != null)
             {
-                // 현재 라운드에 따라 적의 최대 HP 조정
-                
                 enemyScript.UpdateHPBar(); // HP 바 업데이트
 
-                // 현재 라운드에 따라 골드 드랍 설정
-                int goldDropAmount = 10 + ((roundNumber - 1) / 3) * 10;
+                int goldDropAmount = 10 + ((roundNumber - 1) / 3) * 10; // 골드 드랍 설정
                 enemyScript.SetGoldDropAmount(goldDropAmount);
                 enemyScript.SetEnemyManager(this); // EnemyManager 설정
             }
@@ -148,10 +146,10 @@ public class EnemyManager : MonoBehaviour
         }
     }
 
+    // 적의 HP를 설정하는 함수
     public int SetEnemyHP(int hp)
     {
-        
-        if((roundNumber - 1) % 3 == 1)
+        if ((roundNumber - 1) % 3 == 1)
         {
             hpCalcA = hp;
         }
@@ -165,16 +163,14 @@ public class EnemyManager : MonoBehaviour
             if ((roundNumber - 1) % 3 == 0)
             {
                 hpCalcB = 3;
-            } 
+            }
             else
             {
                 hpCalcB = (roundNumber - 1) % 3;
             }
         }
 
-        Debug.Log($"{hp} / {hpCalcA} / {hpCalcB} / {roundNumber}");
         befHP = hp + hpCalcA * hpCalcB;
-
         return befHP;
-    }    
+    }
 }

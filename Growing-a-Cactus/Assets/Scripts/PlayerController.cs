@@ -27,19 +27,13 @@ public class PlayerController : MonoBehaviour
         CurrentHp = status.Hp;
         HpR = status.Hp_Recovery;
         originalPosition = transform.position;
-        StartCoroutine(HealthRegenCoroutine()); // 체력 회복 코루틴 시작
+        StartCoroutine(HealthRegenCoroutine());
     }
 
     public void TakeDamage(float damage)
     {
         CurrentHp -= (int)damage;
         UpdateHPBar();
-        /*
-        if (HP <= 0f)
-        {
-            Die();
-        }
-        */
     }
 
     public void UpdateHPBar()
@@ -49,22 +43,16 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Enemy"))
+        if ((collision.gameObject.CompareTag("Enemy") || collision.gameObject.CompareTag("Boss")) && !isAttacking)
         {
-            if (!isAttacking)
-            {
-                target = collision.gameObject.transform;
-                StartCoroutine(AttackCoroutine());
-            }
+            target = collision.gameObject.transform;
+            StartCoroutine(AttackCoroutine());
         }
-        if (collision.gameObject.CompareTag("Boss"))
-        {
-            if (!isAttacking)
-            {
-                target = collision.gameObject.transform;
-                StartCoroutine(AttackCoroutine());
-            }
-        }
+    }
+
+    public void SetHpR(float newHpR)
+    {
+        HpR = newHpR;
     }
 
     private IEnumerator AttackCoroutine()
@@ -77,7 +65,6 @@ public class PlayerController : MonoBehaviour
             ShootThorn(direction, status.PowerLevel);
             yield return new WaitForSecondsRealtime(1 / status.Attack_Speed);
 
-            // 적이 죽었는지 확인
             if (target == null)
             {
                 target = null;
@@ -86,33 +73,37 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        // 범위 내에 있는 다른 적을 찾아 타겟팅
         if (!isAttacking)
         {
-            Collider2D[] enemies = Physics2D.OverlapCircleAll(transform.position, attackRange);
-            foreach (var enemy in enemies)
+            FindAndAttackNextEnemy();
+        }
+    }
+
+    private void FindAndAttackNextEnemy()
+    {
+        Collider2D[] enemies = Physics2D.OverlapCircleAll(transform.position, attackRange);
+        foreach (var enemy in enemies)
+        {
+            if (enemy.CompareTag("Enemy"))
             {
-                if (enemy.CompareTag("Enemy"))
-                {
-                    target = enemy.transform;
-                    isAttacking = true;
-                    StartCoroutine(AttackCoroutine());
-                    break;
-                }
+                target = enemy.transform;
+                isAttacking = true;
+                StartCoroutine(AttackCoroutine());
+                break;
             }
         }
     }
 
     private void ShootThorn(Vector2 direction, float damage)
     {
-        GameObject thornobj = Instantiate(thornPrefab, transform.position, Quaternion.identity);
-        Thorn thorn = thornobj.GetComponent<Thorn>();
+        GameObject thornObj = Instantiate(thornPrefab, transform.position, Quaternion.identity);
+        Thorn thorn = thornObj.GetComponent<Thorn>();
         if (thorn != null)
         {
             float rand = Random.Range(0, 100f);
             if (rand < status.Critical)
             {
-                Debug.Log("치명타 발생");
+                Debug.Log("Critical hit!");
                 thorn.SetCriticalDamage(damage * (status.Critical_Damage / 100f));
             }
             else
@@ -120,18 +111,48 @@ public class PlayerController : MonoBehaviour
                 thorn.SetDamage(damage);
             }
             thorn.SetDirection(direction);
+
+            HandleDoubleAndTripleAttack(direction, damage);
         }
     }
 
-   
+    private void HandleDoubleAndTripleAttack(Vector2 direction, float damage)
+    {
+        if (Random.Range(0, 100f) < status.DoubleAttackChance)
+        {
+            Debug.Log("Double attack!");
+            StartCoroutine(ShootThornWithDelay(direction, damage, 0.1f));
+        }
 
-    // 체력 회복 코루틴
+        if (Random.Range(0, 100f) < status.TripleAttackChance)
+        {
+            Debug.Log("Triple attack!");
+            StartCoroutine(ShootThornWithDelay(direction, damage, 0.1f, 2));
+        }
+    }
+
+    private IEnumerator ShootThornWithDelay(Vector2 direction, float damage, float delay, int repeat = 1)
+    {
+        for (int i = 0; i < repeat; i++)
+        {
+            yield return new WaitForSeconds(delay);
+
+            GameObject thornObj = Instantiate(thornPrefab, transform.position, Quaternion.identity);
+            Thorn thorn = thornObj.GetComponent<Thorn>();
+            if (thorn != null)
+            {
+                thorn.SetDamage(damage);
+                thorn.SetDirection(direction);
+            }
+        }
+    }
+
     private IEnumerator HealthRegenCoroutine()
     {
         while (true)
         {
-            yield return new WaitForSeconds(1f); // 1초 간격으로 회복
-            CurrentHp = Mathf.Min(CurrentHp + (int)HpR, status.Hp); // 최대 체력을 넘지 않게 함
+            yield return new WaitForSeconds(1f);
+            CurrentHp = Mathf.Min(CurrentHp + (int)HpR, status.Hp);
             UpdateHPBar();
         }
     }
@@ -143,27 +164,26 @@ public class PlayerController : MonoBehaviour
 
     private IEnumerator MovePlayerCoroutine(float delay)
     {
-        Vector3 targetPosition = originalPosition + Vector3.right * 2.0f; // 2.0f 만큼 오른쪽으로 이동
+        Vector3 targetPosition = originalPosition + Vector3.right * 1f;
 
-        // 0.7초 동안 오른쪽으로 이동
         float elapsedTime = 0f;
-        while (elapsedTime < 0.7f)
+        while (elapsedTime < 0.4f)
         {
-            transform.position = Vector3.Lerp(originalPosition, targetPosition, elapsedTime / 0.7f);
+            transform.position = Vector3.Lerp(originalPosition, targetPosition, elapsedTime / 0.4f);
             elapsedTime += Time.deltaTime;
             yield return null;
         }
-        transform.position = targetPosition; // 정확히 오른쪽 끝으로 위치 고정
+        transform.position = targetPosition;
 
-        // 0.3초 동안 원래 위치로 돌아오기
-        yield return new WaitForSeconds(delay - 0.7f); // 전체 딜레이에서 0.7초를 뺀 시간만큼 대기
+        yield return new WaitForSeconds(delay - 0.4f);
+
         elapsedTime = 0f;
-        while (elapsedTime < 0.3f)
+        while (elapsedTime < 0.2f)
         {
-            transform.position = Vector3.Lerp(targetPosition, originalPosition, elapsedTime / 0.3f);
+            transform.position = Vector3.Lerp(targetPosition, originalPosition, elapsedTime / 0.2f);
             elapsedTime += Time.deltaTime;
             yield return null;
         }
-        transform.position = originalPosition; // 원래 위치로 복귀
+        transform.position = originalPosition;
     }
 }

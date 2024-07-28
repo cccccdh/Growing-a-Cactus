@@ -6,6 +6,7 @@ using System.Collections;
 public class BossScript : MonoBehaviour
 {
     private EnemyManager enemyManager; // EnemyManager 참조
+    private QuestScript questScript;
     private Transform playerTransform; // 플레이어의 Transform 참조
     public Image HpBar;
     public TextMeshProUGUI damageTxTPrefab; // 데미지 텍스트 프리팹
@@ -30,6 +31,8 @@ public class BossScript : MonoBehaviour
         animator = GetComponent<Animator>(); // Animator 컴포넌트 찾기
 
         backgroundScript = GameObject.FindObjectOfType<BackgroundScript>(); // BackgroundScript 찾기
+        questScript = GameObject.FindObjectOfType<QuestScript>(); // 추가: QuestScript 찾기
+
     }
 
     private void Update()
@@ -96,6 +99,11 @@ public class BossScript : MonoBehaviour
                 backgroundScript.StartMoveBg(); // 배경 이동 시작
             }
         }
+        if (questScript != null)
+        {
+            questScript.IncrementMonsterKillCount(); // 추가: 몬스터 처치 수 업데이트
+        }
+
     }
 
     public void SetGoldDropAmount(int amount)

@@ -9,6 +9,9 @@ public class Thorn : MonoBehaviour
     private void Start()
     {
         poolManager = FindObjectOfType<PoolManager>();
+
+        // 3초 후에 가시를 파괴
+        Destroy(gameObject, 3f);
     }
 
     public void SetDamage(float damage)
@@ -31,7 +34,7 @@ public class Thorn : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if(collision.gameObject.CompareTag("Enemy"))
+        if (collision.gameObject.CompareTag("Enemy"))
         {
             EnemyScript enemy = collision.gameObject.GetComponent<EnemyScript>();
 

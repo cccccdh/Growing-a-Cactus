@@ -27,6 +27,14 @@ public class UIManager : MonoBehaviour
     public TextMeshProUGUI Critical_Damage;
     public TextMeshProUGUI Critical_Damage_Cost;
 
+    public TextMeshProUGUI DoubleAttack_Level;
+    public TextMeshProUGUI DoubleAttack;
+    public TextMeshProUGUI DoubleAttack_Cost;
+
+    public TextMeshProUGUI TripleAttack_Level;
+    public TextMeshProUGUI TripleAttack;
+    public TextMeshProUGUI TripleAttack_Cost;
+
     public TextMeshProUGUI PowerLevel;
 
 
@@ -63,6 +71,16 @@ public class UIManager : MonoBehaviour
                 Critical_Damage_Level.text = "Lv." + level.ToString();
                 Critical_Damage.text = stat.ToString() + "%";
                 Critical_Damage_Cost.text = cost.ToString();
+                break;
+            case "DoubleAttack":
+                DoubleAttack_Level.text = "Lv." + level.ToString();
+                DoubleAttack.text = stat.ToString("N1") + "%";
+                DoubleAttack_Cost.text = cost.ToString();
+                break;
+            case "TripleAttack":
+                TripleAttack_Level.text = "Lv." + level.ToString();
+                TripleAttack.text = stat.ToString("N1") + "%";
+                TripleAttack_Cost.text = cost.ToString();
                 break;
         }
     }

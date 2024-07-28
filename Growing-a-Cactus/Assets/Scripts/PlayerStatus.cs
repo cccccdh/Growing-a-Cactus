@@ -3,8 +3,11 @@ using UnityEngine;
 
 public class PlayerStatus : MonoBehaviour
 {
-    UIManager UImanager;
+    // UIManager와 PlayerController 참조
+    private UIManager uiManager;
+    private PlayerController playerController;
 
+    // 플레이어 스탯 변수
     public int Attack;
     public int Attack_Level;
     public int Attack_Cost;
@@ -29,46 +32,79 @@ public class PlayerStatus : MonoBehaviour
     public int Critical_Damage_Level;
     public int Critical_Damage_Cost;
 
+    public float DoubleAttackChance;
+    public int DoubleAttack_Level;
+    public int DoubleAttack_Cost;
+
+    public float TripleAttackChance;
+    public int TripleAttack_Level;
+    public int TripleAttack_Cost;
+
     public float PowerLevel;
 
-    bool IsButtonDowning = false;
-    string currentStatus = null;
-    float holdTime = 0f;
+    // 버튼 상태 변수
+    private bool isButtonDowning = false;
+    private string currentStatus = null;
+    private float holdTime = 0f;
 
+    // 아이템 효과 변수
     private float totalEquipEffect = 0f;
     private float totalReactionEffect = 0f;
     private CSVReader.Item equippedItem;
 
     private void Awake()
     {
-        UImanager = FindObjectOfType<UIManager>();
+        uiManager = FindObjectOfType<UIManager>();
+        playerController = FindObjectOfType<PlayerController>();
     }
 
     public void Init()
     {
-        Attack = 10; Attack_Level = 1; Attack_Cost = 10;
-        Hp = 120; Hp_Level = 1; Hp_Cost = 5;
-        Hp_Recovery = 7; Hp_Recovery_Level = 1; Hp_Recovery_Cost = 7;
-        Attack_Speed = 1f; Attack_Speed_Level = 1; Attack_Speed_Cost = 22;
-        Critical = 0; Critical_Level = 1; Critical_Cost = 15;
-        Critical_Damage = 120; Critical_Damage_Level = 1; Critical_Damage_Cost = 6;
+        Attack = 10;
+        Attack_Level = 1;
+        Attack_Cost = 10;
+
+        Hp = 120;
+        Hp_Level = 1;
+        Hp_Cost = 5;
+
+        Hp_Recovery = 7;
+        Hp_Recovery_Level = 1;
+        Hp_Recovery_Cost = 7;
+
+        Attack_Speed = 1f;
+        Attack_Speed_Level = 1;
+        Attack_Speed_Cost = 22;
+
+        Critical = 0;
+        Critical_Level = 1;
+        Critical_Cost = 15;
+
+        Critical_Damage = 120;
+        Critical_Damage_Level = 1;
+        Critical_Damage_Cost = 6;
+
+        DoubleAttackChance = 0f;
+        DoubleAttack_Level = 1;
+        DoubleAttack_Cost = 50;
+
+        TripleAttackChance = 0f;
+        TripleAttack_Level = 1;
+        TripleAttack_Cost = 100;
+
         PowerLevel = Attack;
     }
 
     public void Increase(string status)
     {
         currentStatus = status;
-        IsButtonDowning = true;
+        isButtonDowning = true;
         holdTime = 0f;
-        if (holdTime >= 0.5f)
-        {
-            PerformIncrease();
-        }
     }
 
     public void StopIncrease()
     {
-        IsButtonDowning = false;
+        isButtonDowning = false;
         currentStatus = null;
         holdTime = 0f;
     }
@@ -78,7 +114,6 @@ public class PlayerStatus : MonoBehaviour
         PerformIncrease(status);
     }
 
-    // 보유효과 
     public void UpdateReactionEffects(List<CSVReader.Item> items)
     {
         totalReactionEffect = 0;
@@ -87,30 +122,30 @@ public class PlayerStatus : MonoBehaviour
             if (item.Count > 0 || (item.Count == 0 && item.Level > 1))
             {
                 totalReactionEffect += item.ReactionEffect;
+<<<<<<< Updated upstream
+=======
+                Debug.Log($"After Enhancement - Total Reaction Effect: {totalReactionEffect}");
+>>>>>>> Stashed changes
             }
         }
-        UpdatePowerLevel(); 
+        UpdatePowerLevel();
     }
 
-    // 장착효과
     public void EquipItem(CSVReader.Item item)
     {
-        // 기존 장착 아이템 효과 제거
         if (equippedItem != null)
         {
             totalEquipEffect = 0;
         }
 
-        // 새로운 아이템 장착
         equippedItem = item;
 
-        // 새로운 아이템 효과 추가
         if (equippedItem != null)
         {
             totalEquipEffect += equippedItem.EquipEffect;
         }
 
-        UpdatePowerLevel(); 
+        UpdatePowerLevel();
     }
 
     public CSVReader.Item GetEquippedItem()
@@ -120,6 +155,7 @@ public class PlayerStatus : MonoBehaviour
 
     public void UpdatePowerLevel()
     {
+<<<<<<< Updated upstream
         // 로그로 상태 확인
         Debug.Log($"Attack: {Attack}");
         Debug.Log($"totalReactionEffect: {totalReactionEffect}");
@@ -135,11 +171,17 @@ public class PlayerStatus : MonoBehaviour
         Debug.Log($"PowerLevel: {PowerLevel}");
 
         UImanager.PowerLevelTEXT(PowerLevel);
+=======
+        float effectiveAttack = Attack * (1 + totalReactionEffect);
+        effectiveAttack *= (1 + totalEquipEffect);
+        PowerLevel = effectiveAttack;
+        uiManager.PowerLevelTEXT(PowerLevel);
+>>>>>>> Stashed changes
     }
 
     private void Update()
     {
-        if (IsButtonDowning && currentStatus != null)
+        if (isButtonDowning && currentStatus != null)
         {
             holdTime += Time.deltaTime;
             if (holdTime >= 0.5f)
@@ -187,7 +229,7 @@ public class PlayerStatus : MonoBehaviour
                         }
                     }
                     UpdatePowerLevel();
-                    UImanager.Update_Text("Attack", Attack, Attack_Level, Attack_Cost);
+                    uiManager.Update_Text("Attack", Attack, Attack_Level, Attack_Cost);
                 }
                 break;
             case "Hp":
@@ -215,7 +257,7 @@ public class PlayerStatus : MonoBehaviour
                             Hp_Cost += 1;
                         }
                     }
-                    UImanager.Update_Text("Hp", Hp, Hp_Level, Hp_Cost);
+                    uiManager.Update_Text("Hp", Hp, Hp_Level, Hp_Cost);
                 }
                 break;
             case "Hp_Recovery":
@@ -243,16 +285,21 @@ public class PlayerStatus : MonoBehaviour
                             Hp_Recovery_Cost += 1;
                         }
                     }
-                    UImanager.Update_Text("Hp_Recovery", Hp_Recovery, Hp_Recovery_Level, Hp_Recovery_Level);
+                    playerController.SetHpR(Hp_Recovery);
+                    uiManager.Update_Text("Hp_Recovery", Hp_Recovery, Hp_Recovery_Level, Hp_Recovery_Cost);
                 }
                 break;
             case "Attack_Speed":
+                if (Attack_Speed_Level >= 200)
+                {
+                    return; // 강화 불가능
+                }
+
                 if (GameManager.instance.Gold >= Attack_Speed_Cost)
                 {
                     GameManager.instance.DecreaseGold(Attack_Speed_Cost);
                     Attack_Speed += 0.01f;
                     Attack_Speed_Level++;
-
                     if (Attack_Speed_Level % 25 == 0)
                     {
                         Attack_Speed_Cost += 15;
@@ -268,8 +315,7 @@ public class PlayerStatus : MonoBehaviour
                             Attack_Speed_Cost *= (int)1.05f;
                         }
                     }
-
-                    UImanager.Update_Text("Attack_Speed", Attack_Speed, Attack_Speed_Level, Attack_Speed_Cost);
+                    uiManager.Update_Text("Attack_Speed", Attack_Speed, Attack_Speed_Level, Attack_Speed_Cost);
                 }
                 break;
             case "Critical":
@@ -278,7 +324,6 @@ public class PlayerStatus : MonoBehaviour
                     GameManager.instance.DecreaseGold(Critical_Cost);
                     Critical += 0.1f;
                     Critical_Level++;
-
                     if (Critical_Level % 25 == 0)
                     {
                         Critical_Cost += 15;
@@ -294,7 +339,7 @@ public class PlayerStatus : MonoBehaviour
                             Critical_Cost += (int)1.05f;
                         }
                     }
-                    UImanager.Update_Text("Critical", Critical, Critical_Level, Critical_Cost);
+                    uiManager.Update_Text("Critical", Critical, Critical_Level, Critical_Cost);
                 }
                 break;
             case "Critical_Damage":
@@ -322,7 +367,37 @@ public class PlayerStatus : MonoBehaviour
                             Critical_Damage_Cost += 1;
                         }
                     }
-                    UImanager.Update_Text("Critical_Damage", Critical_Damage, Critical_Damage_Level, Critical_Damage_Cost);
+                    uiManager.Update_Text("Critical_Damage", Critical_Damage, Critical_Damage_Level, Critical_Damage_Cost);
+                }
+                break;
+            case "DoubleAttack":
+                if (Attack_Speed_Level < 200)
+                {
+                    return;
+                }
+
+                if (GameManager.instance.Gold >= DoubleAttack_Cost)
+                {
+                    GameManager.instance.DecreaseGold(DoubleAttack_Cost);
+                    DoubleAttackChance += 0.1f;
+                    DoubleAttack_Level++;
+                    DoubleAttack_Cost += 10;
+                    uiManager.Update_Text("DoubleAttack", DoubleAttackChance, DoubleAttack_Level, DoubleAttack_Cost);
+                }
+                break;
+            case "TripleAttack":
+                if (DoubleAttack_Level < 1000)
+                {
+                    return;
+                }
+
+                if (GameManager.instance.Gold >= TripleAttack_Cost)
+                {
+                    GameManager.instance.DecreaseGold(TripleAttack_Cost);
+                    TripleAttackChance += 0.1f;
+                    TripleAttack_Level++;
+                    TripleAttack_Cost += 20;
+                    uiManager.Update_Text("TripleAttack", TripleAttackChance, TripleAttack_Level, TripleAttack_Cost);
                 }
                 break;
         }

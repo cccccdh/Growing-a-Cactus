@@ -7156,6 +7156,12 @@ MonoBehaviour:
   Critical_Damage_Level: {fileID: 1750818726}
   Critical_Damage: {fileID: 298098045}
   Critical_Damage_Cost: {fileID: 1999086401}
+  DoubleAttack_Level: {fileID: 725553259}
+  DoubleAttack: {fileID: 897909977}
+  DoubleAttack_Cost: {fileID: 228789207}
+  TripleAttack_Level: {fileID: 1906019741}
+  TripleAttack: {fileID: 7806591}
+  TripleAttack_Cost: {fileID: 1386550087}
   PowerLevel: {fileID: 670024669}
 --- !u!4 &384226809
 Transform:
@@ -13608,11 +13614,35 @@ MonoBehaviour:
   - eventID: 2
     callback:
       m_PersistentCalls:
-        m_Calls: []
+        m_Calls:
+        - m_Target: {fileID: 860682331}
+          m_TargetAssemblyTypeName: PlayerStatus, Assembly-CSharp
+          m_MethodName: Increase
+          m_Mode: 5
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: TripleAttack
+            m_BoolArgument: 0
+          m_CallState: 2
   - eventID: 3
     callback:
       m_PersistentCalls:
-        m_Calls: []
+        m_Calls:
+        - m_Target: {fileID: 860682331}
+          m_TargetAssemblyTypeName: PlayerStatus, Assembly-CSharp
+          m_MethodName: StopIncrease
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!114 &720116371
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13656,7 +13686,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 720116372}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 860682331}
+        m_TargetAssemblyTypeName: PlayerStatus, Assembly-CSharp
+        m_MethodName: OnClickIncrease
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: TripleAttack
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &720116372
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16861,6 +16903,12 @@ MonoBehaviour:
   Critical_Damage: 0
   Critical_Damage_Level: 0
   Critical_Damage_Cost: 0
+  DoubleAttackChance: 0
+  DoubleAttack_Level: 0
+  DoubleAttack_Cost: 0
+  TripleAttack_Level: 0
+  TripleAttackChance: 0
+  TripleAttack_Cost: 0
   PowerLevel: 0
 --- !u!61 &860682332
 BoxCollider2D:
@@ -19497,7 +19545,7 @@ MonoBehaviour:
   WeaponsPage: {fileID: 1201094330}
   OptionPage: {fileID: 549920967}
   waveBar: {fileID: 863316901}
-  gold: 0
+  gold: 5000000
   gem: 0
   stageNumber: 1
   roundNumber: 1
@@ -28429,7 +28477,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 275941350}
   m_Direction: 2
   m_Value: 1.0000005
-  m_Size: 0.5045871
+  m_Size: 0.5045872
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -29989,7 +30037,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: -4
+  m_SortingOrder: -2
   m_Sprite: {fileID: 21300000, guid: 24cca811adb6706478bd62486dbb1bd8, type: 3}
   m_Color: {r: 0.71943164, g: 0.79622644, b: 0.6775436, a: 1}
   m_FlipX: 0
@@ -33386,7 +33434,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: -4
+  m_SortingOrder: -2
   m_Sprite: {fileID: 21300000, guid: 24cca811adb6706478bd62486dbb1bd8, type: 3}
   m_Color: {r: 0.7176471, g: 0.79607844, b: 0.6784314, a: 1}
   m_FlipX: 0
@@ -34731,11 +34779,35 @@ MonoBehaviour:
   - eventID: 2
     callback:
       m_PersistentCalls:
-        m_Calls: []
+        m_Calls:
+        - m_Target: {fileID: 860682331}
+          m_TargetAssemblyTypeName: PlayerStatus, Assembly-CSharp
+          m_MethodName: Increase
+          m_Mode: 5
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: DoubleAttack
+            m_BoolArgument: 0
+          m_CallState: 2
   - eventID: 3
     callback:
       m_PersistentCalls:
-        m_Calls: []
+        m_Calls:
+        - m_Target: {fileID: 860682331}
+          m_TargetAssemblyTypeName: PlayerStatus, Assembly-CSharp
+          m_MethodName: StopIncrease
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!114 &1869384311
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -34779,7 +34851,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1869384312}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 860682331}
+        m_TargetAssemblyTypeName: PlayerStatus, Assembly-CSharp
+        m_MethodName: OnClickIncrease
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: DoubleAttack
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1869384312
 MonoBehaviour:
   m_ObjectHideFlags: 0

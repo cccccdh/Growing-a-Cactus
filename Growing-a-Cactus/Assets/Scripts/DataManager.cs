@@ -42,13 +42,20 @@ public class DataManager : MonoBehaviour
         public int Critical_Damage_Level;
         public int Critical_Damage_Cost;
 
+        public float DoubleAttackChance;
+        public int DoubleAttack_Level;
+        public int DoubleAttack_Cost;
+
+        public float TripleAttackChance;
+        public int TripleAttack_Level;
+        public int TripleAttack_Cost;
+
         public List<EnemyData> enemies;
 
         public int gold;
         public int gem;
         public int stageNumber;
         public int roundNumber;
-
         public int killedMonsters;
     }
 
@@ -67,6 +74,7 @@ public class DataManager : MonoBehaviour
         questScript = FindObjectOfType<QuestScript>();
     }
 
+    // 게임 데이터를 저장하는 함수
     public void SaveGame()
     {
         GameData data = new GameData
@@ -89,13 +97,17 @@ public class DataManager : MonoBehaviour
             Critical_Damage = playerStatus.Critical_Damage,
             Critical_Damage_Level = playerStatus.Critical_Damage_Level,
             Critical_Damage_Cost = playerStatus.Critical_Damage_Cost,
+            DoubleAttackChance = playerStatus.DoubleAttackChance,
+            DoubleAttack_Level = playerStatus.DoubleAttack_Level,
+            DoubleAttack_Cost = playerStatus.DoubleAttack_Cost,
+            TripleAttackChance = playerStatus.TripleAttackChance,
+            TripleAttack_Level = playerStatus.TripleAttack_Level,
+            TripleAttack_Cost = playerStatus.TripleAttack_Cost,
             enemies = new List<EnemyData>(),
-
             gold = gameManager.Gold,
             gem = gameManager.gem,
             stageNumber = gameManager.stageNumber,
             roundNumber = gameManager.roundNumber,
-
             killedMonsters = questScript.killedMonsters
         };
 
@@ -106,9 +118,10 @@ public class DataManager : MonoBehaviour
 
         string jsonData = JsonUtility.ToJson(data, true);
         File.WriteAllText(saveFilePath, jsonData);
-        Debug.Log("Game Saved: " + saveFilePath);
+        Debug.Log("게임 저장됨: " + saveFilePath);
     }
 
+    // 게임 데이터를 불러오는 함수
     public void LoadGame()
     {
         if (File.Exists(saveFilePath))
@@ -134,6 +147,12 @@ public class DataManager : MonoBehaviour
             playerStatus.Critical_Damage = data.Critical_Damage;
             playerStatus.Critical_Damage_Level = data.Critical_Damage_Level;
             playerStatus.Critical_Damage_Cost = data.Critical_Damage_Cost;
+            playerStatus.DoubleAttackChance = data.DoubleAttackChance;
+            playerStatus.DoubleAttack_Level = data.DoubleAttack_Level;
+            playerStatus.DoubleAttack_Cost = data.DoubleAttack_Cost;
+            playerStatus.TripleAttackChance = data.TripleAttackChance;
+            playerStatus.TripleAttack_Level = data.TripleAttack_Level;
+            playerStatus.TripleAttack_Cost = data.TripleAttack_Cost;
 
             uiManager.Update_Text("Attack", playerStatus.Attack, playerStatus.Attack_Level, playerStatus.Attack_Cost);
             uiManager.Update_Text("Hp", playerStatus.Hp, playerStatus.Hp_Level, playerStatus.Hp_Cost);
@@ -141,7 +160,8 @@ public class DataManager : MonoBehaviour
             uiManager.Update_Text("Attack_Speed", playerStatus.Attack_Speed, playerStatus.Attack_Speed_Level, playerStatus.Attack_Speed_Cost);
             uiManager.Update_Text("Critical", playerStatus.Critical, playerStatus.Critical_Level, playerStatus.Critical_Cost);
             uiManager.Update_Text("Critical_Damage", playerStatus.Critical_Damage, playerStatus.Critical_Damage_Level, playerStatus.Critical_Damage_Cost);
-
+            uiManager.Update_Text("DoubleAttack", playerStatus.DoubleAttackChance, playerStatus.DoubleAttack_Level, playerStatus.DoubleAttack_Cost);
+            uiManager.Update_Text("TripleAttack", playerStatus.TripleAttackChance, playerStatus.TripleAttack_Level, playerStatus.TripleAttack_Cost);
 
             if (gameManager != null)
             {
@@ -166,11 +186,11 @@ public class DataManager : MonoBehaviour
                 enemies[i].SetEnemyData(data.enemies[i]);
             }
 
-            Debug.Log("Game Loaded: " + saveFilePath);
+            Debug.Log("게임 로드됨: " + saveFilePath);
         }
         else
         {
-            Debug.LogWarning("Save file not found");
+            Debug.LogWarning("저장 파일을 찾을 수 없음");
         }
     }
 }
