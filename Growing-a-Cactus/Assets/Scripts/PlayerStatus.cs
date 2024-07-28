@@ -122,10 +122,7 @@ public class PlayerStatus : MonoBehaviour
             if (item.Count > 0 || (item.Count == 0 && item.Level > 1))
             {
                 totalReactionEffect += item.ReactionEffect;
-<<<<<<< Updated upstream
-=======
                 Debug.Log($"After Enhancement - Total Reaction Effect: {totalReactionEffect}");
->>>>>>> Stashed changes
             }
         }
         UpdatePowerLevel();
@@ -155,7 +152,6 @@ public class PlayerStatus : MonoBehaviour
 
     public void UpdatePowerLevel()
     {
-<<<<<<< Updated upstream
         // 로그로 상태 확인
         Debug.Log($"Attack: {Attack}");
         Debug.Log($"totalReactionEffect: {totalReactionEffect}");
@@ -170,13 +166,7 @@ public class PlayerStatus : MonoBehaviour
         Debug.Log($"Effective Attack: {effectiveAttack}");
         Debug.Log($"PowerLevel: {PowerLevel}");
 
-        UImanager.PowerLevelTEXT(PowerLevel);
-=======
-        float effectiveAttack = Attack * (1 + totalReactionEffect);
-        effectiveAttack *= (1 + totalEquipEffect);
-        PowerLevel = effectiveAttack;
         uiManager.PowerLevelTEXT(PowerLevel);
->>>>>>> Stashed changes
     }
 
     private void Update()
