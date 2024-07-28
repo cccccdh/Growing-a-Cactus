@@ -84,12 +84,9 @@ public class PlayerStatus : MonoBehaviour
         totalReactionEffect = 0;
         foreach (var item in items)
         {
-            if (item.Count > 0)
+            if (item.Count > 0 || (item.Count == 0 && item.Level > 1))
             {
-                Debug.Log($"Before Enhancement - Reaction Effect: {item.ReactionEffect}, Count: {item.Count}");
                 totalReactionEffect += item.ReactionEffect;
-                Debug.Log($"After Enhancement - Total Reaction Effect: {totalReactionEffect}");
-
             }
         }
         UpdatePowerLevel(); 
@@ -101,7 +98,7 @@ public class PlayerStatus : MonoBehaviour
         // 기존 장착 아이템 효과 제거
         if (equippedItem != null)
         {
-            totalEquipEffect -= equippedItem.EquipEffect;
+            totalEquipEffect = 0;
         }
 
         // 새로운 아이템 장착
@@ -116,21 +113,26 @@ public class PlayerStatus : MonoBehaviour
         UpdatePowerLevel(); 
     }
 
+    public CSVReader.Item GetEquippedItem()
+    {
+        return equippedItem;
+    }
+
     public void UpdatePowerLevel()
     {
-        //// 로그로 상태 확인
-        //Debug.Log($"Attack: {Attack}");
-        //Debug.Log($"totalReactionEffect: {totalReactionEffect}");
-        //Debug.Log($"totalEquipEffect: {totalEquipEffect}");
+        // 로그로 상태 확인
+        Debug.Log($"Attack: {Attack}");
+        Debug.Log($"totalReactionEffect: {totalReactionEffect}");
+        Debug.Log($"totalEquipEffect: {totalEquipEffect}");
 
         float effectiveAttack = Attack * (1 + totalReactionEffect); // 보유 효과 적용
         effectiveAttack *= (1 + totalEquipEffect); // 장착 효과 적용
 
         PowerLevel = effectiveAttack;
 
-        //// 로그로 계산 결과 확인
-        //Debug.Log($"Effective Attack: {effectiveAttack}");
-        //Debug.Log($"PowerLevel: {PowerLevel}");
+        // 로그로 계산 결과 확인
+        Debug.Log($"Effective Attack: {effectiveAttack}");
+        Debug.Log($"PowerLevel: {PowerLevel}");
 
         UImanager.PowerLevelTEXT(PowerLevel);
     }

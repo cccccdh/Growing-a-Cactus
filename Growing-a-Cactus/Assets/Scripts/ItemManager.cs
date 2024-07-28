@@ -8,6 +8,7 @@ public class ItemManager : MonoBehaviour
     public Image WeaponImg;
     public Image EquipWeaponImg;
     public TextMeshProUGUI EquipWeaponText;
+    public TextMeshProUGUI EquipWeaponLevelText;
     public TextMeshProUGUI WeaponNameText;
     public TextMeshProUGUI WeaponGradeText;
     public TextMeshProUGUI WeaponLevelText;
@@ -16,9 +17,9 @@ public class ItemManager : MonoBehaviour
     public TextMeshProUGUI EquipEffectText;
     public Image[] weaponImages;
     public TextMeshProUGUI[] weaponCountTexts;
+    public TextMeshProUGUI[] weaponLevelTexts;
 
     public PlayerStatus playerstatus;
-    public EnhancementManager enhancementManager;
 
     private List<CSVReader.Item> items = new List<CSVReader.Item>();
     private string selectedItemName;
@@ -27,18 +28,12 @@ public class ItemManager : MonoBehaviour
     private void Awake()
     {
         playerstatus = GameObject.Find("Player").GetComponent<PlayerStatus>();
-        enhancementManager = FindObjectOfType<EnhancementManager>();
     }
 
     public void SetItems(List<CSVReader.Item> itemList)
     {
         items = itemList;
         playerstatus.UpdateReactionEffects(items);
-    }
-
-    public List<CSVReader.Item> GetItems()
-    {
-        return items;
     }
 
     // 아이템 개수를 업데이트하는 메서드
@@ -49,7 +44,7 @@ public class ItemManager : MonoBehaviour
             if(item.Name == itemName)
             {
                 item.Count++;
-                UpdateWeaponCountText(itemName);
+                UpdateWeaponText(itemName);
                 playerstatus.UpdateReactionEffects(items);
                 break;
             }
@@ -82,6 +77,20 @@ public class ItemManager : MonoBehaviour
         return 0;
     }
 
+
+    // 아이템 레벨을 가져오는 메서드
+    public int GetItemLevel(string itemName)
+    {
+        foreach (var item in items)
+        {
+            if (item.Name == itemName)
+            {
+                return item.Level;
+            }
+        }
+        return 0;
+    }
+
     // 장비창 무기 업데이트
     public void UpdateEquipImages(List<CSVReader.Item> resultItemList)
     {
@@ -100,8 +109,8 @@ public class ItemManager : MonoBehaviour
         }
     }
 
-    // 아이템 개수에 따라 텍스트 업데이트
-    public void UpdateWeaponCountText(string itemName)
+    // 아이템에 따라 텍스트 업데이트
+    public void UpdateWeaponText(string itemName)
     {
         for (int i = 0; i < weaponImages.Length; i++)
         {
@@ -109,7 +118,9 @@ public class ItemManager : MonoBehaviour
             {
                 int count = GetItemCount(itemName);
                 int requredcount = GetItemRequiredCount(itemName);
-                weaponCountTexts[i].text = $"({count}/{requredcount})";
+                int level = GetItemLevel(itemName);
+                weaponCountTexts[i].text = $"{count}/{requredcount}";
+                weaponLevelTexts[i].text = $"Lv.{level}";
                 break;
             }
         }
@@ -129,6 +140,7 @@ public class ItemManager : MonoBehaviour
         UpdateText();
     }
 
+    // 선택 장비 업데이트
     public void UpdateText()
     {
         foreach (var item in items)
@@ -136,8 +148,8 @@ public class ItemManager : MonoBehaviour
             if (item.Name == selectedItemName)
             {
                 WeaponGradeText.text = item.Grade;
-                ReactionEffectText.text = $"공격력 + {item.ReactionEffect * 100}%";
-                EquipEffectText.text = $"공격력 + {item.EquipEffect * 100}%";
+                ReactionEffectText.text = $"공격력 + {TextFormatter.FormatText_F(item.ReactionEffect * 100)}%";
+                EquipEffectText.text = $"공격력 + {TextFormatter.FormatText_F(item.EquipEffect * 100)}%";
                 WeaponLevelText.text = $"Lv.{item.Level}";
                 WeaponCountText.text = $"( {item.Count} / {item.RequiredCount} )";
                 break;
@@ -145,20 +157,25 @@ public class ItemManager : MonoBehaviour
         }
     }
 
-    // 장착 아이템 확인
+    // 장비 장착
     public void UpdateSelected()
     {
-        Debug.Log("장착");
         // 장착 아이템 개수 가져오기
         int count = GetItemCount(selectedItemName);
+        
+        // 장착 아이템 찾기
+        CSVReader.Item selectedItem = items.Find(item => item.Name == selectedItemName);
 
-        if (count > 0)
+        if (count > 0 || selectedItem.Level > 1)
         {
             // 장착 아이템 색 바꾸기
             EquipWeaponImg.color = selectedItemColor;
 
             // 장착 아이템 이름 바꾸기
             EquipWeaponText.text = selectedItemName;
+
+            // 장착 아이템 레벨 바꾸기
+            EquipWeaponLevelText.text = $"Lv.{selectedItem.Level}";
 
             // 아이템 장착 효과 부여
             foreach (var item in items)
@@ -175,7 +192,37 @@ public class ItemManager : MonoBehaviour
     // 장비 강화
     public void EnhanceItem()
     {
-        Debug.Log("강화 버튼 눌림");
-        enhancementManager.EnhanceItemByName(selectedItemName);
+        foreach (var item in items)
+        {
+            if (item.Name == selectedItemName)
+            {
+                if (item.Count >= item.RequiredCount)
+                {
+                    item.Count -= item.RequiredCount;
+                    item.Level++;
+                    item.ReactionEffect += 0.0146f;
+                    item.EquipEffect += item.EquipEffect / 5;
+                    item.RequiredCount += 2;
+
+                    // 보유효과 업데이트
+                    playerstatus.UpdateReactionEffects(items);
+
+                    // 장착효과 업데이트
+                    if (playerstatus.GetEquippedItem() != null && playerstatus.GetEquippedItem().Name == item.Name)
+                    {
+                        playerstatus.EquipItem(item);
+                    }
+
+                    UpdateWeaponText(item.Name);
+                    UpdateText();
+
+                    if (EquipWeaponText.text == selectedItemName)
+                    {
+                        UpdateSelected();
+                    }
+                }
+                break;
+            }
+        }
     }
 }

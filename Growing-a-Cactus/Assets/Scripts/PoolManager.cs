@@ -22,7 +22,25 @@ public class PoolManager : MonoBehaviour
     {
         GameObject damageTextObj = Instantiate(dmgText, hitPoint, Quaternion.identity);
         TextMeshPro damageText = damageTextObj.GetComponentInChildren<TextMeshPro>();
-        damageText.text = ((int)damage).ToString();
+        
+        if (damage >= 1000)
+        {
+            int unitIndex = -1;
+            float displaydamage = damage;
+
+            while (displaydamage >= 1000 && unitIndex < 25)
+            {
+                displaydamage /= 1000f;
+                unitIndex++;
+            }
+
+            char unitChar = (char)('A' + unitIndex);
+            damageText.text = $"{displaydamage:F1}{unitChar}";
+        }
+        else
+        {
+            damageText.text = $"{(int)damage}";
+        }
 
         if (isCritical)
         {
@@ -33,7 +51,7 @@ public class PoolManager : MonoBehaviour
             damageText.color = Color.white;
         }
 
-        Destroy(damageText, 1.0f);
+        Destroy(damageTextObj, 1.0f);
     }
 }
 

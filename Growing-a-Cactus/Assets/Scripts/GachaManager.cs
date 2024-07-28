@@ -3,13 +3,13 @@ using UnityEngine;
 
 public class GachaManager : MonoBehaviour
 {
-    private List<CSVReader.Item> itemDictionary;
+    private List<CSVReader.Item> itemList;
     public ItemManager itemManager;
     public GachaUIManager gachaUIManager;
 
     public void InitializeItems(List<CSVReader.Item> items)
     {
-        itemDictionary = items;
+        itemList = items;
     }
 
     // 가챠를 수행하는 메서드
@@ -20,7 +20,7 @@ public class GachaManager : MonoBehaviour
         {
             float rand = Random.Range(0, 100f);
             float cumulative = 0f;
-            foreach (var item in itemDictionary)
+            foreach (var item in itemList)
             {
                 cumulative += item.Probability;
                 if (rand < cumulative)

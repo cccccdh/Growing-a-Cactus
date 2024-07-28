@@ -116,7 +116,19 @@ public class GameManager : MonoBehaviour
         if (Input.GetKey("escape"))
         {
             Application.Quit();
-        }            
+        }
+
+        if (Input.GetKeyDown(KeyCode.X))
+        {
+            if (isOpenGacha)
+            {
+                isOpenGacha = false;
+            }
+            if (isOpenWeapon)
+            {
+                isOpenWeapon = false;
+            }            
+        }
     }
 
     void UpdateGoldText()

@@ -69,6 +69,6 @@ public class UIManager : MonoBehaviour
 
     public void PowerLevelTEXT(float power)
     {
-        PowerLevel.text = $"전투력 : {(int)power}";
+        PowerLevel.text = $"전투력 : {TextFormatter.FormatText_F(power)}";
     }
 }
