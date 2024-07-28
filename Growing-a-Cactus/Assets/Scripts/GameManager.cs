@@ -133,25 +133,9 @@ public class GameManager : MonoBehaviour
 
     void UpdateGoldText()
     {
-        if (gold >= 1000)
-        {
-            int unitIndex = -1;
-            float displayGold = gold;
-
-            while (displayGold >= 1000 && unitIndex < 25)
-            {
-                displayGold /= 1000f;
-                unitIndex++;
-            }
-
-            char unitChar = (char)('A' + unitIndex);
-            GoldText.text = displayGold.ToString("0.0") + unitChar;
-        }
-        else
-        {
-            GoldText.text = gold.ToString();
-        }
+        GoldText.text = TextFormatter.FormatText_F(gold);
     }
+
     public void UpdateGemText()
     {
 

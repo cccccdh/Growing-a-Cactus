@@ -119,7 +119,7 @@ public class ItemManager : MonoBehaviour
                 int count = GetItemCount(itemName);
                 int requredcount = GetItemRequiredCount(itemName);
                 int level = GetItemLevel(itemName);
-                weaponCountTexts[i].text = $"{count}/{requredcount}";
+                weaponCountTexts[i].text = $"({count}/{requredcount})";
                 weaponLevelTexts[i].text = $"Lv.{level}";
                 break;
             }
