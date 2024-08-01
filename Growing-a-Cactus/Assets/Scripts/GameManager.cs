@@ -1,3 +1,4 @@
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -12,6 +13,7 @@ public class GameManager : MonoBehaviour
     public GameObject GachaPage;
     public GameObject CharacterPage;
     public GameObject WeaponsPage;
+    public GameObject PetPage;
     public GameObject OptionPage;
     public Image waveBar; // 웨이브 바 이미지 추가
 
@@ -29,6 +31,7 @@ public class GameManager : MonoBehaviour
     public bool isOpenGacha = false;
     public bool isOpenCharacter = false;
     public bool isOpenWeapon = false;
+    public bool isOpenPet = false;
     public bool isOpenOption = false;
 
     private void Awake()
@@ -54,64 +57,7 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        if (isOpenShop && !isOpenCharacter)
-        {
-            ShopPage.SetActive(true);
-            GachaPage.SetActive(false);
-            CharacterPage.SetActive(false);
-            WeaponsPage.SetActive(false);
-            OptionPage.SetActive(false);
-
-
-            if (isOpenGacha)
-            {
-                GachaPage.SetActive(true);
-            }
-            else
-            {
-                GachaPage.SetActive(false);
-                OptionPage.SetActive(false);
-
-            }
-        }
-        else if (isOpenCharacter && !isOpenShop)
-        {
-            ShopPage.SetActive(false);
-            GachaPage.SetActive(false);
-            CharacterPage.SetActive(true);
-            WeaponsPage.SetActive(false);
-            OptionPage.SetActive(false);
-
-
-            if (isOpenWeapon)
-            {
-                WeaponsPage.SetActive(true);
-            }
-            else
-            {
-                WeaponsPage.SetActive(false);
-                OptionPage.SetActive(false);
-
-            }
-        }
-        else if (isOpenOption)
-        {
-            OptionPage.SetActive(true);
-            ShopPage.SetActive(false);
-            GachaPage.SetActive(false);
-            CharacterPage.SetActive(false);
-            WeaponsPage.SetActive(false);
-
-        }
-        else 
-        {
-            ShopPage.SetActive(false);
-            GachaPage.SetActive(false);
-            CharacterPage.SetActive(false);
-            WeaponsPage.SetActive(false);
-            OptionPage.SetActive(false);
-
-        }
+        PageControl();        
 
         if (Input.GetKey("escape"))
         {
@@ -128,6 +74,75 @@ public class GameManager : MonoBehaviour
             {
                 isOpenWeapon = false;
             }            
+        }
+    }
+
+    private void PageControl()
+    {
+        if (isOpenShop && !isOpenCharacter && !isOpenPet)
+        {
+            ShopPage.SetActive(true);
+            GachaPage.SetActive(false);
+            CharacterPage.SetActive(false);
+            WeaponsPage.SetActive(false);
+            PetPage.SetActive(false);
+            OptionPage.SetActive(false);
+
+            if (isOpenGacha)
+            {
+                GachaPage.SetActive(true);
+            }
+            else
+            {
+                GachaPage.SetActive(false);
+                OptionPage.SetActive(false);
+            }
+        }
+        else if (isOpenCharacter && !isOpenShop && !isOpenPet)
+        {
+            ShopPage.SetActive(false);
+            GachaPage.SetActive(false);
+            CharacterPage.SetActive(true);
+            WeaponsPage.SetActive(false);
+            PetPage.SetActive(false);
+            OptionPage.SetActive(false);
+
+            if (isOpenWeapon)
+            {
+                WeaponsPage.SetActive(true);
+            }
+            else
+            {
+                WeaponsPage.SetActive(false);
+                OptionPage.SetActive(false);
+            }
+        }
+        else if (isOpenPet && !isOpenCharacter && !isOpenShop)
+        {
+            ShopPage.SetActive(false);
+            GachaPage.SetActive(false);
+            CharacterPage.SetActive(false);
+            WeaponsPage.SetActive(false);
+            PetPage.SetActive(true);
+            OptionPage.SetActive(false);
+        }
+        else if (isOpenOption)
+        {
+            OptionPage.SetActive(true);
+            ShopPage.SetActive(false);
+            GachaPage.SetActive(false);
+            CharacterPage.SetActive(false);
+            PetPage.SetActive(false);
+            WeaponsPage.SetActive(false);
+        }
+        else
+        {
+            ShopPage.SetActive(false);
+            GachaPage.SetActive(false);
+            CharacterPage.SetActive(false);
+            WeaponsPage.SetActive(false);
+            PetPage.SetActive(false);
+            OptionPage.SetActive(false);
         }
     }
 
@@ -199,23 +214,28 @@ public class GameManager : MonoBehaviour
         wave = 0;
         UpdateWaveBar();
     }
-
+    
     public void OpenShop()
     {
         isOpenShop = !isOpenShop;
-        if (isOpenCharacter)
+        if (isOpenGacha)
         {
-            isOpenCharacter = false;            
+            isOpenGacha = false;
         }
 
-        if(isOpenWeapon)
+        if (isOpenCharacter)
+        {
+            isOpenCharacter = false;
+        }
+
+        if (isOpenWeapon)
         {
             isOpenWeapon = false;
         }
 
-        if (isOpenGacha)
+        if (isOpenPet)
         {
-            isOpenGacha = false;
+            isOpenPet = false;
         }
 
         if (isOpenOption)
@@ -247,6 +267,39 @@ public class GameManager : MonoBehaviour
             isOpenWeapon = false;
         }
 
+        if (isOpenPet)
+        {
+            isOpenPet = false;
+        }
+
+        if (isOpenOption)
+        {
+            isOpenOption = false;
+        }
+    }
+
+    public void OpenPet()
+    {
+        isOpenPet = !isOpenPet;
+        if (isOpenShop)
+        {
+            isOpenShop = false;
+        }
+
+        if (isOpenGacha)
+        {
+            isOpenGacha = false;
+        }
+
+        if (isOpenCharacter)
+        {
+            isOpenCharacter = false;
+        }
+
+        if (isOpenWeapon)
+        {
+            isOpenWeapon = false;
+        }
         if (isOpenOption)
         {
             isOpenOption = false;
@@ -266,14 +319,19 @@ public class GameManager : MonoBehaviour
             isOpenGacha = false;
         }
 
+        if (isOpenCharacter)
+        {
+            isOpenCharacter = false;
+        }
+
         if (isOpenWeapon)
         {
             isOpenWeapon = false;
         }
 
-        if (isOpenCharacter)
+        if (isOpenPet)
         {
-            isOpenCharacter = false;
+            isOpenPet = false;
         }
     }
 

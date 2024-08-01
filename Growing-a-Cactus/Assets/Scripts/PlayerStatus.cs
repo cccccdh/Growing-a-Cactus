@@ -49,8 +49,8 @@ public class PlayerStatus : MonoBehaviour
 
     // 아이템 효과 변수
     private float totalEquipEffect = 0f;
-    private float totalReactionEffect = 0f;
-    private CSVReader.Item equippedItem;
+    private float totalRetentionEffect = 0f;
+    private Item equippedItem;
 
     private void Awake()
     {
@@ -114,21 +114,21 @@ public class PlayerStatus : MonoBehaviour
         PerformIncrease(status);
     }
 
-    public void UpdateReactionEffects(List<CSVReader.Item> items)
+    public void UpdateRetentionEffects(List<Item> items)
     {
-        totalReactionEffect = 0;
+        totalRetentionEffect = 0;
         foreach (var item in items)
         {
             if (item.Count > 0 || (item.Count == 0 && item.Level > 1))
             {
-                totalReactionEffect += item.ReactionEffect;
-                Debug.Log($"After Enhancement - Total Reaction Effect: {totalReactionEffect}");
+                totalRetentionEffect += item.RetentionEffect;
+                Debug.Log($"After Enhancement - Total Reaction Effect: {totalRetentionEffect}");
             }
         }
         UpdatePowerLevel();
     }
 
-    public void EquipItem(CSVReader.Item item)
+    public void EquipItem(Item item)
     {
         if (equippedItem != null)
         {
@@ -145,7 +145,7 @@ public class PlayerStatus : MonoBehaviour
         UpdatePowerLevel();
     }
 
-    public CSVReader.Item GetEquippedItem()
+    public Item GetEquippedItem()
     {
         return equippedItem;
     }
@@ -154,10 +154,10 @@ public class PlayerStatus : MonoBehaviour
     {
         // 로그로 상태 확인
         Debug.Log($"Attack: {Attack}");
-        Debug.Log($"totalReactionEffect: {totalReactionEffect}");
+        Debug.Log($"totalRetentionEffect: {totalRetentionEffect}");
         Debug.Log($"totalEquipEffect: {totalEquipEffect}");
 
-        float effectiveAttack = Attack * (1 + totalReactionEffect); // 보유 효과 적용
+        float effectiveAttack = Attack * (1 + totalRetentionEffect); // 보유 효과 적용
         effectiveAttack *= (1 + totalEquipEffect); // 장착 효과 적용
 
         PowerLevel = effectiveAttack;
