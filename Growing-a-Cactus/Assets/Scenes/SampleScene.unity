@@ -30809,6 +30809,8 @@ MonoBehaviour:
   hpCalcA: 0
   hpCalcB: 0
   HpMax: 0
+  AttackDamage: 0
+  DropGold: 0
 --- !u!4 &753089185
 Transform:
   m_ObjectHideFlags: 0
@@ -36040,9 +36042,11 @@ MonoBehaviour:
   Attack: 0
   Attack_Level: 0
   Attack_Cost: 0
+  Increase_Attack: 0
   Hp: 0
   Hp_Level: 0
   Hp_Cost: 0
+  Increase_HP: 0
   Hp_Recovery: 0
   Hp_Recovery_Level: 0
   Hp_Recovery_Cost: 0
