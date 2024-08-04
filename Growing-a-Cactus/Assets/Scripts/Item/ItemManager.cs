@@ -225,9 +225,6 @@ public class ItemManager : MonoBehaviour
 
         selectedItemColor = image.color;
         selectedItemColor.a = 1f;
-        WeaponImg.color = selectedItemColor;
-
-        WeaponNameText.text = selectedItemName;
 
         // 선택 아이템 가져오기
         Item selectedItem = weaponItems.Find(item => item.Name == selectedItemName)
@@ -237,10 +234,14 @@ public class ItemManager : MonoBehaviour
 
         if (selectedItem.Type == "무기")
         {
+            WeaponImg.color = selectedItemColor;
+            WeaponNameText.text = selectedItemName;
             UpdateWeaponInfo(selectedItem);
         }
         else if (selectedItem.Type == "방어구")
         {
+            ArmorImg.color = selectedItemColor;
+            ArmorNameText.text = selectedItemName;
             UpdateArmorInfo(selectedItem);
         }
     }
