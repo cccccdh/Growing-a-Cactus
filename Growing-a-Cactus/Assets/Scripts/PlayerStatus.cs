@@ -70,10 +70,12 @@ public class PlayerStatus : MonoBehaviour
         Attack = 10;
         Attack_Level = 1;
         Attack_Cost = 10;
+        Increase_Attack = 10;
 
         Hp = 120;
         Hp_Level = 1;
         Hp_Cost = 5;
+        Increase_HP = 10;
 
         Hp_Recovery = 7;
         Hp_Recovery_Level = 1;
