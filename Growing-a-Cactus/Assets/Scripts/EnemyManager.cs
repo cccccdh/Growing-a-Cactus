@@ -19,6 +19,12 @@ public class EnemyManager : MonoBehaviour
     public int HpMax;
     private int befHP = 0;
 
+    public int AttackDamage;
+    private int befAtt;
+
+    public int DropGold;
+    private int befGold;
+
     private PlayerController playerController;
     private BackgroundScript backgroundScript;
     private QuestScript questScript; // QuestScript 참조
@@ -28,7 +34,11 @@ public class EnemyManager : MonoBehaviour
     private void Start()
     {
         befHP = 30;
-        HpMax = 30;
+        befAtt = 0;
+        befGold = 20;
+        HpMax = SetEnemyHP(befHP);
+        AttackDamage = setEnemyAtt(befAtt);
+        DropGold = setGoldDrop(befGold);
         playerController = GameObject.FindObjectOfType<PlayerController>();
         backgroundScript = GameObject.FindObjectOfType<BackgroundScript>();
         questScript = GameObject.FindObjectOfType<QuestScript>(); // QuestScript 찾기
@@ -123,6 +133,8 @@ public class EnemyManager : MonoBehaviour
         yield return new WaitForSeconds(delay);
 
         HpMax = SetEnemyHP(befHP);
+        AttackDamage = setEnemyAtt(befAtt);
+        DropGold = setGoldDrop(befGold);
         UpdateEnemyLevels();
     }
 
@@ -144,6 +156,28 @@ public class EnemyManager : MonoBehaviour
             }
             enemyCount++;
         }
+    }
+
+    public int setGoldDrop(int gold)
+    {
+        if (roundNumber % 3 == 0)
+            befGold+=10;
+        return befGold;
+    }
+
+    //적의 공격력을 설정하는 함수
+    public int setEnemyAtt(int att)
+    {
+        int attcal;
+        if(roundNumber % 10 == 0)
+        {
+            attcal = 0;
+        }
+        else attcal = roundNumber % 10;
+
+        befAtt = att + 10 * attcal;
+
+        return befAtt;
     }
 
     // 적의 HP를 설정하는 함수

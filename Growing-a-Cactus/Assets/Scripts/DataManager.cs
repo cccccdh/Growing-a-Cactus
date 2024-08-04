@@ -90,7 +90,7 @@ public class DataManager : MonoBehaviour
             Hp_Recovery_Cost = playerStatus.Hp_Recovery_Cost,
             Attack_Speed = playerStatus.Attack_Speed,
             Attack_Speed_Level = playerStatus.Attack_Speed_Level,
-            Attack_Speed_Cost = playerStatus.Attack_Speed_Cost,
+            Attack_Speed_Cost = (int)playerStatus.Attack_Speed_Cost,
             Critical = playerStatus.Critical,
             Critical_Level = playerStatus.Critical_Level,
             Critical_Cost = playerStatus.Critical_Cost,
@@ -157,7 +157,7 @@ public class DataManager : MonoBehaviour
             uiManager.Update_Text("Attack", playerStatus.Attack, playerStatus.Attack_Level, playerStatus.Attack_Cost);
             uiManager.Update_Text("Hp", playerStatus.Hp, playerStatus.Hp_Level, playerStatus.Hp_Cost);
             uiManager.Update_Text("Hp_Recovery", playerStatus.Hp_Recovery, playerStatus.Hp_Recovery_Level, playerStatus.Hp_Recovery_Cost);
-            uiManager.Update_Text("Attack_Speed", playerStatus.Attack_Speed, playerStatus.Attack_Speed_Level, playerStatus.Attack_Speed_Cost);
+            uiManager.Update_Text("Attack_Speed", playerStatus.Attack_Speed, playerStatus.Attack_Speed_Level, (int)playerStatus.Attack_Speed_Cost);
             uiManager.Update_Text("Critical", playerStatus.Critical, playerStatus.Critical_Level, playerStatus.Critical_Cost);
             uiManager.Update_Text("Critical_Damage", playerStatus.Critical_Damage, playerStatus.Critical_Damage_Level, playerStatus.Critical_Damage_Cost);
             uiManager.Update_Text("DoubleAttack", playerStatus.DoubleAttackChance, playerStatus.DoubleAttack_Level, playerStatus.DoubleAttack_Cost);

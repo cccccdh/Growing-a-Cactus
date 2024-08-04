@@ -13,8 +13,8 @@ public class EnemyScript : MonoBehaviour
     public int HP; // 적의 초기 HP 설정
     public int maxHP;
     public float speed = 1f; // 적의 이동 속도
-    public int attackPower = 10; // 적의 공격력
-    private int goldDropAmount = 10;
+    public int attackPower; // 적의 공격력
+    public int goldDropAmount;
     public float stopDistance = 1f; // 플레이어와 접촉했을 때의 거리
 
     private bool isAttacking = false;
@@ -25,6 +25,8 @@ public class EnemyScript : MonoBehaviour
     {
         HP = enemyManager.HpMax;
         maxHP = enemyManager.HpMax;
+        attackPower = enemyManager.AttackDamage;
+        goldDropAmount = enemyManager.DropGold;
         playerTransform = GameObject.FindGameObjectWithTag("Player").transform; // 플레이어 찾기
         UpdateHPBar();
         animator = GetComponent<Animator>(); // Animator 컴포넌트 찾기

@@ -11,10 +11,12 @@ public class PlayerStatus : MonoBehaviour
     public int Attack;
     public int Attack_Level;
     public int Attack_Cost;
+    public int Increase_Attack;
 
     public int Hp;
     public int Hp_Level;
     public int Hp_Cost;
+    public int Increase_HP;
 
     public float Hp_Recovery;
     public int Hp_Recovery_Level;
@@ -22,7 +24,7 @@ public class PlayerStatus : MonoBehaviour
 
     public float Attack_Speed;
     public int Attack_Speed_Level;
-    public int Attack_Speed_Cost;
+    public float Attack_Speed_Cost;
 
     public float Critical;
     public int Critical_Level;
@@ -63,10 +65,12 @@ public class PlayerStatus : MonoBehaviour
         Attack = 10;
         Attack_Level = 1;
         Attack_Cost = 10;
+        Increase_Attack = 10;
 
         Hp = 120;
         Hp_Level = 1;
         Hp_Cost = 5;
+        Increase_HP = 10;
 
         Hp_Recovery = 7;
         Hp_Recovery_Level = 1;
@@ -74,7 +78,7 @@ public class PlayerStatus : MonoBehaviour
 
         Attack_Speed = 1f;
         Attack_Speed_Level = 1;
-        Attack_Speed_Cost = 22;
+        Attack_Speed_Cost = 22f;
 
         Critical = 0;
         Critical_Level = 1;
@@ -197,8 +201,9 @@ public class PlayerStatus : MonoBehaviour
                 if (GameManager.instance.Gold >= Attack_Cost)
                 {
                     GameManager.instance.DecreaseGold(Attack_Cost);
-                    Attack += 10;
+                    Attack += Increase_Attack;
                     Attack_Level++;
+                    if (Attack_Level % 5 == 0) Increase_Attack++;
                     if (Attack_Level % 50 == 0)
                     {
                         Attack_Cost += 15;
@@ -226,8 +231,9 @@ public class PlayerStatus : MonoBehaviour
                 if (GameManager.instance.Gold >= Hp_Cost)
                 {
                     GameManager.instance.DecreaseGold(Hp_Cost);
-                    Hp += 10;
+                    Hp += Increase_HP;
                     Hp_Level++;
+                    if (Hp_Level % 5 == 0) Increase_HP++;
                     if (Hp_Level % 50 == 0)
                     {
                         Hp_Cost += 15;
@@ -287,25 +293,76 @@ public class PlayerStatus : MonoBehaviour
 
                 if (GameManager.instance.Gold >= Attack_Speed_Cost)
                 {
-                    GameManager.instance.DecreaseGold(Attack_Speed_Cost);
+                    GameManager.instance.DecreaseGold((int)Attack_Speed_Cost);
                     Attack_Speed += 0.01f;
                     Attack_Speed_Level++;
-                    if (Attack_Speed_Level % 25 == 0)
+                    if (Attack_Speed_Level >= 15)
                     {
-                        Attack_Speed_Cost += 15;
-                    }
-                    else
-                    {
-                        if (Attack_Speed_Level % 10 == 2 || Attack_Speed_Level % 10 == 4 || Attack_Speed_Level % 10 == 8)
+                        if (Attack_Speed_Level % 25 == 0)
                         {
-                            Attack_Speed_Cost *= (int)1.06f;
+                            Attack_Speed_Cost += 15;
                         }
                         else
                         {
-                            Attack_Speed_Cost *= (int)1.05f;
+                            if (Attack_Speed_Level % 10 == 2 || Attack_Speed_Level % 10 == 4 || Attack_Speed_Level % 10 == 8)
+                            {
+                                Attack_Speed_Cost *= 1.06f;
+                            }
+                            else
+                            {
+                                Attack_Speed_Cost *= 1.05f;
+                            }
                         }
                     }
-                    uiManager.Update_Text("Attack_Speed", Attack_Speed, Attack_Speed_Level, Attack_Speed_Cost);
+                    else
+                    {
+                        switch(Attack_Speed_Level)
+                        {
+                            case 1:
+                                Attack_Speed_Cost *= 1.3f;
+                                break;
+                            case 2:
+                                Attack_Speed_Cost *= 1.3f;
+                                break;
+                            case 3:
+                                Attack_Speed_Cost *= 1.3f;
+                                break;
+                            case 4:
+                                Attack_Speed_Cost *= 1.2f;
+                                break;
+                            case 5:
+                                Attack_Speed_Cost *= 1.15f;
+                                break;
+                            case 6:
+                                Attack_Speed_Cost *= 1.15f;
+                                break;
+                            case 7:
+                                Attack_Speed_Cost *= 1.1f;
+                                break;
+                            case 8:
+                                Attack_Speed_Cost *= 1.1f;
+                                break;
+                            case 9:
+                                Attack_Speed_Cost *= 1.08f;
+                                break;
+                            case 10:
+                                Attack_Speed_Cost *= 1.08f;
+                                break;
+                            case 11:
+                                Attack_Speed_Cost *= 1.06f;
+                                break;
+                            case 12:
+                                Attack_Speed_Cost *= 1.06f;
+                                break;
+                            case 13:
+                                Attack_Speed_Cost *= 1.06f;
+                                break;
+                            case 14:
+                                Attack_Speed_Cost *= 1.06f;
+                                break;
+                        }
+                    }
+                    uiManager.Update_Text("Attack_Speed", Attack_Speed, Attack_Speed_Level, (int)Attack_Speed_Cost);
                 }
                 break;
             case "Critical":
