@@ -19,11 +19,9 @@ public class EnemyManager : MonoBehaviour
     public int HpMax;
     private int befHP = 0;
 
+    // 추가된 필드
     public int AttackDamage;
-    private int befAtt;
-
     public int DropGold;
-    private int befGold;
 
     private PlayerController playerController;
     private BackgroundScript backgroundScript;
@@ -34,11 +32,10 @@ public class EnemyManager : MonoBehaviour
     private void Start()
     {
         befHP = 30;
-        befAtt = 0;
-        befGold = 20;
-        HpMax = SetEnemyHP(befHP);
-        AttackDamage = setEnemyAtt(befAtt);
-        DropGold = setGoldDrop(befGold);
+        HpMax = 30;
+        AttackDamage = 10; // 적의 기본 공격력 초기화
+        DropGold = 10; // 적이 드랍하는 골드 초기화
+
         playerController = GameObject.FindObjectOfType<PlayerController>();
         backgroundScript = GameObject.FindObjectOfType<BackgroundScript>();
         questScript = GameObject.FindObjectOfType<QuestScript>(); // QuestScript 찾기
@@ -133,8 +130,6 @@ public class EnemyManager : MonoBehaviour
         yield return new WaitForSeconds(delay);
 
         HpMax = SetEnemyHP(befHP);
-        AttackDamage = setEnemyAtt(befAtt);
-        DropGold = setGoldDrop(befGold);
         UpdateEnemyLevels();
     }
 
@@ -156,28 +151,6 @@ public class EnemyManager : MonoBehaviour
             }
             enemyCount++;
         }
-    }
-
-    public int setGoldDrop(int gold)
-    {
-        if (roundNumber % 3 == 0)
-            befGold+=10;
-        return befGold;
-    }
-
-    //적의 공격력을 설정하는 함수
-    public int setEnemyAtt(int att)
-    {
-        int attcal;
-        if(roundNumber % 10 == 0)
-        {
-            attcal = 0;
-        }
-        else attcal = roundNumber % 10;
-
-        befAtt = att + 10 * attcal;
-
-        return befAtt;
     }
 
     // 적의 HP를 설정하는 함수
@@ -206,5 +179,37 @@ public class EnemyManager : MonoBehaviour
 
         befHP = hp + hpCalcA * hpCalcB;
         return befHP;
+    }
+
+    // 라운드를 초기화하는 함수
+    public void ResetRound()
+    {
+        StopAllCoroutines(); // 모든 코루틴 중지
+
+        // 태그가 Enemy인 모든 오브젝트 제거
+        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        foreach (GameObject enemy in enemies)
+        {
+            Destroy(enemy);
+        }
+
+        // 태그가 Boss인 모든 오브젝트 제거
+        GameObject[] bosses = GameObject.FindGameObjectsWithTag("Boss");
+        foreach (GameObject boss in bosses)
+        {
+            Destroy(boss);
+        }
+
+        enemyCount = 0; // 적 수 초기화
+        enemiesKilled = 0;
+        roundNumber = 1; // 첫 웨이브로 설정
+
+        // GameManager 인스턴스의 ResetWave 호출
+        if (GameManager.instance != null)
+        {
+            GameManager.instance.ResetWave();
+        }
+
+        SpawnEnemies(); // 적 다시 스폰
     }
 }

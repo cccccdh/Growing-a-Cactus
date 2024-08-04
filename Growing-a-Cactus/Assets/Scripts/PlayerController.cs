@@ -15,6 +15,7 @@ public class PlayerController : MonoBehaviour
     public float HpR;
 
     private Vector3 originalPosition;
+    private EnemyManager enemyManager;
 
     private void Awake()
     {
@@ -27,6 +28,7 @@ public class PlayerController : MonoBehaviour
         CurrentHp = status.Hp;
         HpR = status.Hp_Recovery;
         originalPosition = transform.position;
+        enemyManager = GameObject.FindObjectOfType<EnemyManager>();
         StartCoroutine(HealthRegenCoroutine());
     }
 
@@ -34,6 +36,18 @@ public class PlayerController : MonoBehaviour
     {
         CurrentHp -= (int)damage;
         UpdateHPBar();
+        if (CurrentHp <= 0)
+        {
+            Die();
+        }
+    }
+
+    public void Die()
+    {
+        CurrentHp = status.Hp; // HP 초기화
+        UpdateHPBar();
+        transform.position = originalPosition; // 원래 위치로 되돌리기
+        enemyManager.ResetRound(); // EnemyManager에 라운드 리셋 요청
     }
 
     public void UpdateHPBar()

@@ -23,11 +23,15 @@ public class EnemyScript : MonoBehaviour
 
     private void Start()
     {
-        HP = enemyManager.HpMax;
-        maxHP = enemyManager.HpMax;
-        attackPower = enemyManager.AttackDamage;
-        goldDropAmount = enemyManager.DropGold;
         playerTransform = GameObject.FindGameObjectWithTag("Player").transform; // 플레이어 찾기
+
+        if (enemyManager != null)
+        {
+            HP = enemyManager.HpMax;
+            maxHP = enemyManager.HpMax;
+            attackPower = enemyManager.AttackDamage;
+            goldDropAmount = enemyManager.DropGold;
+        }
         UpdateHPBar();
         animator = GetComponent<Animator>(); // Animator 컴포넌트 찾기
     }
@@ -129,8 +133,6 @@ public class EnemyScript : MonoBehaviour
             goldDropAmount = this.goldDropAmount,
         };
     }
-
-
 
     // 적의 상태를 설정하는 메서드 추가
     public void SetEnemyData(DataManager.EnemyData data)
