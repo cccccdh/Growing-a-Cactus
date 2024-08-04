@@ -1,6 +1,6 @@
 public class TextFormatter
 {
-    public static string FormatText_F(float text)
+    public static string FormatText(float text)
     {
         if (text >= 1000)
         {

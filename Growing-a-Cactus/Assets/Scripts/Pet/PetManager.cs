@@ -148,8 +148,8 @@ public class PetManager : MonoBehaviour
             if(pet.Name == selectedPetName)
             {
                 GradeText.text = pet.Grade;
-                //RetentionEffect.text = $"공격력 + {TextFormatter.FormatText_F(pet.RetentionEffect * 100)}%";
-                //EquipEffectText.text = $"공격력 + {TextFormatter.FormatText_F(pet.EquipEffect * 100)}%";
+                //RetentionEffect.text = $"공격력 + {TextFormatter.FormatText(pet.RetentionEffect * 100)}%";
+                //EquipEffectText.text = $"공격력 + {TextFormatter.FormatText(pet.EquipEffect * 100)}%";
                 LevelText.text = $"Lv.{pet.Level}";
                 CountText.text = $"( {pet.Count} / {pet.RequiredCount} )";
                 break;

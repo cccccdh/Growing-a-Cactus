@@ -12,7 +12,8 @@ public class GameManager : MonoBehaviour
     public GameObject ShopPage;
     public GameObject GachaPage;
     public GameObject CharacterPage;
-    public GameObject WeaponsPage;
+    public GameObject WeaponPage;
+    public GameObject ArmorPage;
     public GameObject PetPage;
     public GameObject OptionPage;
     public Image waveBar; // 웨이브 바 이미지 추가
@@ -31,6 +32,7 @@ public class GameManager : MonoBehaviour
     public bool isOpenGacha = false;
     public bool isOpenCharacter = false;
     public bool isOpenWeapon = false;
+    public bool isOpenArmor = false;
     public bool isOpenPet = false;
     public bool isOpenOption = false;
 
@@ -77,78 +79,46 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    // 모든 페이지 초기화 함수
+    private void DeactivateAllPages()
+    {
+        ShopPage.SetActive(false);
+        GachaPage.SetActive(false);
+        CharacterPage.SetActive(false);
+        WeaponPage.SetActive(false);
+        ArmorPage.SetActive(false);
+        PetPage.SetActive(false);
+        OptionPage.SetActive(false);
+    }
+
     private void PageControl()
     {
+        DeactivateAllPages();
+
         if (isOpenShop && !isOpenCharacter && !isOpenPet)
         {
             ShopPage.SetActive(true);
-            GachaPage.SetActive(false);
-            CharacterPage.SetActive(false);
-            WeaponsPage.SetActive(false);
-            PetPage.SetActive(false);
-            OptionPage.SetActive(false);
-
-            if (isOpenGacha)
-            {
-                GachaPage.SetActive(true);
-            }
-            else
-            {
-                GachaPage.SetActive(false);
-                OptionPage.SetActive(false);
-            }
+            GachaPage.SetActive(isOpenGacha);
         }
         else if (isOpenCharacter && !isOpenShop && !isOpenPet)
         {
-            ShopPage.SetActive(false);
-            GachaPage.SetActive(false);
             CharacterPage.SetActive(true);
-            WeaponsPage.SetActive(false);
-            PetPage.SetActive(false);
-            OptionPage.SetActive(false);
-
-            if (isOpenWeapon)
-            {
-                WeaponsPage.SetActive(true);
-            }
-            else
-            {
-                WeaponsPage.SetActive(false);
-                OptionPage.SetActive(false);
-            }
+            WeaponPage.SetActive(isOpenWeapon);
+            ArmorPage.SetActive(isOpenArmor);
         }
         else if (isOpenPet && !isOpenCharacter && !isOpenShop)
         {
-            ShopPage.SetActive(false);
-            GachaPage.SetActive(false);
-            CharacterPage.SetActive(false);
-            WeaponsPage.SetActive(false);
             PetPage.SetActive(true);
-            OptionPage.SetActive(false);
         }
         else if (isOpenOption)
         {
             OptionPage.SetActive(true);
-            ShopPage.SetActive(false);
-            GachaPage.SetActive(false);
-            CharacterPage.SetActive(false);
-            PetPage.SetActive(false);
-            WeaponsPage.SetActive(false);
         }
-        else
-        {
-            ShopPage.SetActive(false);
-            GachaPage.SetActive(false);
-            CharacterPage.SetActive(false);
-            WeaponsPage.SetActive(false);
-            PetPage.SetActive(false);
-            OptionPage.SetActive(false);
-        }
-    }
+    }    
 
     void UpdateGoldText()
     {
-        GoldText.text = TextFormatter.FormatText_F(gold);
+        GoldText.text = TextFormatter.FormatText(gold);
     }
 
     public void UpdateGemText()
@@ -214,34 +184,24 @@ public class GameManager : MonoBehaviour
         wave = 0;
         UpdateWaveBar();
     }
-    
+
+    // 모든 페이지 상태 초기화 함수
+    private void ResetAllFlags()
+    {
+        isOpenShop = false;
+        isOpenGacha = false;
+        isOpenCharacter = false;
+        isOpenWeapon = false;
+        isOpenArmor = false;
+        isOpenPet = false;
+        isOpenOption = false;
+    }
+
     public void OpenShop()
     {
-        isOpenShop = !isOpenShop;
-        if (isOpenGacha)
-        {
-            isOpenGacha = false;
-        }
-
-        if (isOpenCharacter)
-        {
-            isOpenCharacter = false;
-        }
-
-        if (isOpenWeapon)
-        {
-            isOpenWeapon = false;
-        }
-
-        if (isOpenPet)
-        {
-            isOpenPet = false;
-        }
-
-        if (isOpenOption)
-        {
-            isOpenOption = false;
-        }
+        bool newState = !isOpenShop;
+        ResetAllFlags();
+        isOpenShop = newState;
     }
 
     public void OpenRandomPick()
@@ -249,94 +209,35 @@ public class GameManager : MonoBehaviour
         isOpenGacha = !isOpenGacha;
     }
 
-    public void OpenArmor()
+    public void OpenCharacter()
     {
-        isOpenCharacter = !isOpenCharacter;
-        if (isOpenShop)
-        {
-            isOpenShop = false;
-        }
-
-        if (isOpenGacha)
-        {
-            isOpenGacha = false;
-        }
-
-        if (isOpenWeapon)
-        {
-            isOpenWeapon = false;
-        }
-
-        if (isOpenPet)
-        {
-            isOpenPet = false;
-        }
-
-        if (isOpenOption)
-        {
-            isOpenOption = false;
-        }
+        bool newState = !isOpenCharacter;
+        ResetAllFlags();
+        isOpenCharacter = newState;
     }
 
     public void OpenPet()
     {
-        isOpenPet = !isOpenPet;
-        if (isOpenShop)
-        {
-            isOpenShop = false;
-        }
-
-        if (isOpenGacha)
-        {
-            isOpenGacha = false;
-        }
-
-        if (isOpenCharacter)
-        {
-            isOpenCharacter = false;
-        }
-
-        if (isOpenWeapon)
-        {
-            isOpenWeapon = false;
-        }
-        if (isOpenOption)
-        {
-            isOpenOption = false;
-        }
+        bool newState = !isOpenPet;
+        ResetAllFlags();
+        isOpenPet = newState;
     }
 
     public void OpenOption()
     {
-        isOpenOption = !isOpenOption;
-        if (isOpenShop)
-        {
-            isOpenShop = false;
-        }
-
-        if (isOpenGacha)
-        {
-            isOpenGacha = false;
-        }
-
-        if (isOpenCharacter)
-        {
-            isOpenCharacter = false;
-        }
-
-        if (isOpenWeapon)
-        {
-            isOpenWeapon = false;
-        }
-
-        if (isOpenPet)
-        {
-            isOpenPet = false;
-        }
+        bool newState = !isOpenOption;
+        ResetAllFlags();
+        isOpenOption = newState;
     }
 
     public void OpenWeapon()
     {
         isOpenWeapon = !isOpenWeapon;
     }
+
+    public void OpenArmor()
+    {
+        isOpenArmor = !isOpenArmor;
+    }
+
 }

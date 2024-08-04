@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class ItemManager : MonoBehaviour
 {
+    // 무기
     public Image WeaponImg;
     public Image EquipWeaponImg;
     public TextMeshProUGUI EquipWeaponText;
@@ -19,9 +20,26 @@ public class ItemManager : MonoBehaviour
     public TextMeshProUGUI[] weaponCountTexts;
     public TextMeshProUGUI[] weaponLevelTexts;
 
+    // 방어구
+    public Image ArmorImg;
+    public Image EquipArmorImg;
+    public TextMeshProUGUI EquipArmorText;
+    public TextMeshProUGUI EquipArmorLevelText;
+    public TextMeshProUGUI ArmorNameText;
+    public TextMeshProUGUI ArmorGradeText;
+    public TextMeshProUGUI ArmorLevelText;
+    public TextMeshProUGUI ArmorCountText;
+    public TextMeshProUGUI ArmorRetentionEffect;
+    public TextMeshProUGUI ArmorEquipEffectText;
+    public Image[] armorImages;
+    public TextMeshProUGUI[] armorCountTexts;
+    public TextMeshProUGUI[] armorLevelTexts;
+
+    private List<Item> weaponItems = new List<Item>();
+    private List<Item> armorItems = new List<Item>();
+
     public PlayerStatus playerstatus;
 
-    private List<Item> items = new List<Item>();
     private string selectedItemName;
     private Color selectedItemColor;
 
@@ -32,27 +50,64 @@ public class ItemManager : MonoBehaviour
 
     public void SetItems(List<Item> itemList)
     {
-        items = itemList;
-        playerstatus.UpdateRetentionEffects(items);
+        weaponItems.Clear();
+        armorItems.Clear();
+
+        foreach (var item in itemList)
+        {
+            if (item.Type == "무기")
+            {
+                weaponItems.Add(item);
+            }
+            else if (item.Type == "방어구")
+            {
+                armorItems.Add(item);
+            }
+        }
+        playerstatus.UpdateWeaponRetentionEffects(weaponItems);
+        //playerstatus.UpdateArmorRetentionEffects(armorItems);
     }
 
     // 아이템 개수를 업데이트하는 메서드
     public void UpdateItemCount(string itemName)
     {
-        foreach(var item in items)
+        if (weaponItems.Exists(item => item.Name == itemName))
         {
-            if(item.Name == itemName)
+            UpdateItemCountInList(weaponItems, itemName);
+        }
+        else if (armorItems.Exists(item => item.Name == itemName))
+        {
+            UpdateItemCountInList(armorItems, itemName);
+        }
+    }
+
+    private void UpdateItemCountInList(List<Item> items, string itemName)
+    {
+        foreach (var item in items)
+        {
+            if (item.Name == itemName)
             {
                 item.Count++;
-                UpdateItemText(itemName);
-                playerstatus.UpdateRetentionEffects(items);
+                UpdateItemText(itemName, items);
+                playerstatus.UpdateWeaponRetentionEffects(weaponItems);
+                //playerstatus.UpdateArmorRetentionEffects(armorItems);
                 break;
             }
-        }        
+        }
     }
 
     // 아이템 개수를 가져오는 메서드
     public int GetItemCount(string itemName)
+    {
+        int count = GetItemCountInList(weaponItems, itemName);
+        if (count == 0)
+        {
+            count = GetItemCountInList(armorItems, itemName);
+        }
+        return count;
+    }
+
+    private int GetItemCountInList(List<Item> items, string itemName)
     {
         foreach (var item in items)
         {
@@ -66,6 +121,16 @@ public class ItemManager : MonoBehaviour
 
     // 아이템 강화개수를 가져오는 메서드
     public int GetItemRequiredCount(string itemName)
+    {
+        int requiredCount = GetItemRequiredCountInList(weaponItems, itemName);
+        if (requiredCount == 0)
+        {
+            requiredCount = GetItemRequiredCountInList(armorItems, itemName);
+        }
+        return requiredCount;
+    }
+
+    private int GetItemRequiredCountInList(List<Item> items, string itemName)
     {
         foreach (var item in items)
         {
@@ -81,6 +146,16 @@ public class ItemManager : MonoBehaviour
     // 아이템 레벨을 가져오는 메서드
     public int GetItemLevel(string itemName)
     {
+        int level = GetItemLevelInList(weaponItems, itemName);
+        if (level == 0)
+        {
+            level = GetItemLevelInList(armorItems, itemName);
+        }
+        return level;
+    }
+
+    private int GetItemLevelInList(List<Item> items, string itemName)
+    {
         foreach (var item in items)
         {
             if (item.Name == itemName)
@@ -91,18 +166,23 @@ public class ItemManager : MonoBehaviour
         return 0;
     }
 
-    // 장비창 무기 업데이트
+    // 장비창 업데이트
     public void UpdateItemImages(List<Item> resultItemList)
     {
-        // 가챠 결과를 바탕으로 장비창 이미지를 업데이트
+        UpdateItemImagesInList(resultItemList, weaponImages);
+        UpdateItemImagesInList(resultItemList, armorImages);
+    }
+
+    private void UpdateItemImagesInList(List<Item> resultItemList, Image[] images)
+    {
         foreach (var result in resultItemList)
         {
-            foreach (var image in weaponImages)
+            foreach (var image in images)
             {
                 if (image.name == result.Name)
                 {
                     Color color = image.color;
-                    color.a = 1f; 
+                    color.a = 1f;
                     image.color = color;
                 }
             }
@@ -110,7 +190,7 @@ public class ItemManager : MonoBehaviour
     }
 
     // 아이템에 따라 텍스트 업데이트
-    public void UpdateItemText(string itemName)
+    public void UpdateItemText(string itemName, List<Item> items)
     {
         for (int i = 0; i < weaponImages.Length; i++)
         {
@@ -121,6 +201,18 @@ public class ItemManager : MonoBehaviour
                 int level = GetItemLevel(itemName);
                 weaponCountTexts[i].text = $"({count}/{requiredcount})";
                 weaponLevelTexts[i].text = $"Lv.{level}";
+                break;
+            }
+        }
+        for (int i = 0; i < armorImages.Length; i++)
+        {
+            if (armorImages[i].name == itemName)
+            {
+                int count = GetItemCount(itemName);
+                int requiredcount = GetItemRequiredCount(itemName);
+                int level = GetItemLevel(itemName);
+                armorCountTexts[i].text = $"({count}/{requiredcount})";
+                armorLevelTexts[i].text = $"Lv.{level}";
                 break;
             }
         }
@@ -137,24 +229,40 @@ public class ItemManager : MonoBehaviour
 
         WeaponNameText.text = selectedItemName;
 
-        InfomationText();
+        // 선택 아이템 가져오기
+        Item selectedItem = weaponItems.Find(item => item.Name == selectedItemName)
+                        ?? armorItems.Find(item => item.Name == selectedItemName);
+
+        if (selectedItem == null) return; 
+
+        if (selectedItem.Type == "무기")
+        {
+            UpdateWeaponInfo(selectedItem);
+        }
+        else if (selectedItem.Type == "방어구")
+        {
+            UpdateArmorInfo(selectedItem);
+        }
     }
 
-    // 선택 장비 업데이트
-    public void InfomationText()
+    // 무기 정보 업데이트
+    private void UpdateWeaponInfo(Item item)
     {
-        foreach (var item in items)
-        {
-            if (item.Name == selectedItemName)
-            {
-                WeaponGradeText.text = item.Grade;
-                WeaponRetentionEffect.text = $"공격력 + {TextFormatter.FormatText_F(item.RetentionEffect * 100)}%";
-                WeaponEquipEffectText.text = $"공격력 + {TextFormatter.FormatText_F(item.EquipEffect * 100)}%";
-                WeaponLevelText.text = $"Lv.{item.Level}";
-                WeaponCountText.text = $"( {item.Count} / {item.RequiredCount} )";
-                break;
-            }
-        }
+        WeaponGradeText.text = item.Grade;
+        WeaponRetentionEffect.text = $"공격력 + {TextFormatter.FormatText(item.RetentionEffect * 100)}%";
+        WeaponEquipEffectText.text = $"공격력 + {TextFormatter.FormatText(item.EquipEffect * 100)}%";
+        WeaponLevelText.text = $"Lv.{item.Level}";
+        WeaponCountText.text = $"( {item.Count} / {item.RequiredCount} )";
+    }
+
+    // 방어구 정보 업데이트
+    private void UpdateArmorInfo(Item item)
+    {
+        ArmorGradeText.text = item.Grade;
+        ArmorRetentionEffect.text = $"체력 + {TextFormatter.FormatText(item.RetentionEffect * 100)}%";
+        ArmorEquipEffectText.text = $"체력 + {TextFormatter.FormatText(item.EquipEffect * 100)}%";
+        ArmorLevelText.text = $"Lv.{item.Level}";
+        ArmorCountText.text = $"( {item.Count} / {item.RequiredCount} )";
     }
 
     // 장비 장착
@@ -162,35 +270,48 @@ public class ItemManager : MonoBehaviour
     {
         // 장착 아이템 개수 가져오기
         int count = GetItemCount(selectedItemName);
-        
+
         // 장착 아이템 찾기
-        Item selectedItem = items.Find(item => item.Name == selectedItemName);
+        Item selectedItem = weaponItems.Find(item => item.Name == selectedItemName) 
+            ?? armorItems.Find(item => item.Name == selectedItemName);
 
-        if (count > 0 || selectedItem.Level > 1)
+        if (selectedItem != null && count > 0 || selectedItem.Level > 1)
         {
-            // 장착 아이템 색 바꾸기
-            EquipWeaponImg.color = selectedItemColor;
-
-            // 장착 아이템 이름 바꾸기
-            EquipWeaponText.text = selectedItemName;
-
-            // 장착 아이템 레벨 바꾸기
-            EquipWeaponLevelText.text = $"Lv.{selectedItem.Level}";
-
-            // 아이템 장착 효과 부여
-            foreach (var item in items)
+            if (selectedItem.Type == "무기")
             {
-                if (item.Name == selectedItemName)
-                {
-                    playerstatus.EquipItem(item);
-                    break;
-                }
+                EquipWeaponImg.color = selectedItemColor;
+                EquipWeaponText.text = selectedItemName;
+                EquipWeaponLevelText.text = $"Lv.{selectedItem.Level}";
+
+                // 아이템 장착 효과 부여
+                playerstatus.EquipWeapon(selectedItem);
             }
+            else if (selectedItem.Type == "방어구")
+            {
+                EquipArmorImg.color = selectedItemColor;
+                EquipArmorText.text = selectedItemName;
+                EquipArmorLevelText.text = $"Lv.{selectedItem.Level}";
+
+                // 아이템 장착 효과 부여
+                playerstatus.EquipArmor(selectedItem);
+            }            
         }
     }
 
     // 장비 강화
     public void EnhanceItem()
+    {
+        if (weaponItems.Exists(item => item.Name == selectedItemName))
+        {
+            EnhanceItemInList(weaponItems);
+        }
+        else if (armorItems.Exists(item => item.Name == selectedItemName))
+        {
+            EnhanceItemInList(armorItems);
+        }
+    }
+
+    private void EnhanceItemInList(List<Item> items)
     {
         foreach (var item in items)
         {
@@ -204,19 +325,35 @@ public class ItemManager : MonoBehaviour
                     item.EquipEffect += item.EquipEffect / 5;
                     item.RequiredCount += 2;
 
-                    // 보유효과 업데이트
-                    playerstatus.UpdateRetentionEffects(items);
-
-                    // 장착효과 업데이트
-                    if (playerstatus.GetEquippedItem() != null && playerstatus.GetEquippedItem().Name == item.Name)
+                    if (item.Type == "무기")
                     {
-                        playerstatus.EquipItem(item);
-                    }
+                        // 보유효과 업데이트
+                        playerstatus.UpdateWeaponRetentionEffects(items);
 
-                    UpdateItemText(item.Name);
-                    InfomationText();
+                        // 장착효과 업데이트
+                        if (playerstatus.GetEquippedWeapon() != null && playerstatus.GetEquippedWeapon().Name == item.Name)
+                        {
+                            playerstatus.EquipWeapon(item);
+                        }
 
-                    if (EquipWeaponText.text == selectedItemName)
+                        UpdateWeaponInfo(item);
+                    }else
+                    {
+                        // 보유효과 업데이트
+                        playerstatus.UpdateArmorRetentionEffects(items);
+
+                        // 장착효과 업데이트
+                        if (playerstatus.GetEquippedArmor() != null && playerstatus.GetEquippedArmor().Name == item.Name)
+                        {
+                            playerstatus.EquipArmor(item);
+                        }
+
+                        UpdateArmorInfo(item);
+                    }                    
+
+                    UpdateItemText(item.Name, items);
+
+                    if (EquipWeaponText.text == selectedItemName || EquipArmorText.text == selectedItemName)
                     {
                         EquipItem();
                     }

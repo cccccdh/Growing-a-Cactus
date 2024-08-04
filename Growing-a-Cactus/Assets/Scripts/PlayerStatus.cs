@@ -43,6 +43,7 @@ public class PlayerStatus : MonoBehaviour
     public int TripleAttack_Cost;
 
     public float PowerLevel;
+    public float effectiveHP;
 
     // 버튼 상태 변수
     private bool isButtonDowning = false;
@@ -50,9 +51,13 @@ public class PlayerStatus : MonoBehaviour
     private float holdTime = 0f;
 
     // 아이템 효과 변수
-    private float totalEquipEffect = 0f;
-    private float totalRetentionEffect = 0f;
-    private Item equippedItem;
+    private float weaponTotalEquipEffect = 0f;
+    private float weaponTotalRetentionEffect = 0f;
+    private float armorTotalEquipEffect = 0f;
+    private float armorTotalRetentionEffect = 0f;
+
+    private Item equippedWeapon;
+    private Item equippedArmor;
 
     private void Awake()
     {
@@ -65,12 +70,10 @@ public class PlayerStatus : MonoBehaviour
         Attack = 10;
         Attack_Level = 1;
         Attack_Cost = 10;
-        Increase_Attack = 10;
 
         Hp = 120;
         Hp_Level = 1;
         Hp_Cost = 5;
-        Increase_HP = 10;
 
         Hp_Recovery = 7;
         Hp_Recovery_Level = 1;
@@ -78,7 +81,7 @@ public class PlayerStatus : MonoBehaviour
 
         Attack_Speed = 1f;
         Attack_Speed_Level = 1;
-        Attack_Speed_Cost = 22f;
+        Attack_Speed_Cost = 22;
 
         Critical = 0;
         Critical_Level = 1;
@@ -97,6 +100,7 @@ public class PlayerStatus : MonoBehaviour
         TripleAttack_Cost = 100;
 
         PowerLevel = Attack;
+        effectiveHP = Hp;
     }
 
     public void Increase(string status)
@@ -118,59 +122,102 @@ public class PlayerStatus : MonoBehaviour
         PerformIncrease(status);
     }
 
-    public void UpdateRetentionEffects(List<Item> items)
+    // 무기 보유효과 -> 공격력 증가
+    public void UpdateWeaponRetentionEffects(List<Item> items)
     {
-        totalRetentionEffect = 0;
+        weaponTotalRetentionEffect = 0;
         foreach (var item in items)
         {
             if (item.Count > 0 || (item.Count == 0 && item.Level > 1))
             {
-                totalRetentionEffect += item.RetentionEffect;
-                Debug.Log($"After Enhancement - Total Reaction Effect: {totalRetentionEffect}");
+                weaponTotalRetentionEffect += item.RetentionEffect;
+                //Debug.Log($"전체 보유효과 : {weaponTotalRetentionEffect}");
             }
         }
         UpdatePowerLevel();
     }
 
-    public void EquipItem(Item item)
+    // 방어구 보유효과 -> 체력 증가
+    public void UpdateArmorRetentionEffects(List<Item> items)
     {
-        if (equippedItem != null)
+        armorTotalRetentionEffect = 0;
+        foreach (var item in items)
         {
-            totalEquipEffect = 0;
+            if (item.Count > 0 || (item.Count == 0 && item.Level > 1))
+            {
+                armorTotalRetentionEffect += item.RetentionEffect;
+                //Debug.Log($"전체 보유효과 : {armorTotalRetentionEffect}");
+            }
+        }
+        UpdateHP();
+    }
+
+    // 무기 장착 효과 -> 공격력 증가
+    public void EquipWeapon(Item item)
+    {
+        if (equippedWeapon != null)
+        {
+            weaponTotalEquipEffect = 0;
         }
 
-        equippedItem = item;
+        equippedWeapon = item;
 
-        if (equippedItem != null)
-        {
-            totalEquipEffect += equippedItem.EquipEffect;
-        }
+        weaponTotalEquipEffect += equippedWeapon.EquipEffect;
 
         UpdatePowerLevel();
     }
 
-    public Item GetEquippedItem()
+    // 방어구 장착효과 -> 체력 증가
+    public void EquipArmor(Item item)
     {
-        return equippedItem;
+        if (equippedArmor != null)
+        {
+            armorTotalEquipEffect = 0;
+        }
+
+        equippedArmor = item;
+
+        armorTotalEquipEffect += equippedArmor.EquipEffect;
+
+        UpdateHP();
     }
+
+    public Item GetEquippedWeapon() => equippedWeapon;
+
+    public Item GetEquippedArmor() => equippedArmor;
 
     public void UpdatePowerLevel()
     {
         // 로그로 상태 확인
-        Debug.Log($"Attack: {Attack}");
-        Debug.Log($"totalRetentionEffect: {totalRetentionEffect}");
-        Debug.Log($"totalEquipEffect: {totalEquipEffect}");
+        Debug.Log($"공격력 : {Attack}");
+        Debug.Log($"총 보유효과 : {weaponTotalRetentionEffect}");
+        Debug.Log($"총 장착효과 : {weaponTotalEquipEffect}");
 
-        float effectiveAttack = Attack * (1 + totalRetentionEffect); // 보유 효과 적용
-        effectiveAttack *= (1 + totalEquipEffect); // 장착 효과 적용
+        float effect = Attack * (1 + weaponTotalRetentionEffect); // 보유 효과 적용
+        effect *= (1 + weaponTotalEquipEffect); // 장착 효과 적용
 
-        PowerLevel = effectiveAttack;
+        PowerLevel = effect;
 
         // 로그로 계산 결과 확인
-        Debug.Log($"Effective Attack: {effectiveAttack}");
-        Debug.Log($"PowerLevel: {PowerLevel}");
+        Debug.Log($"전투력 : {PowerLevel}");
 
         uiManager.PowerLevelTEXT(PowerLevel);
+    }
+
+    public void UpdateHP()
+    {
+        // 로그로 상태 확인
+        Debug.Log($"체력 : {Hp}");
+        Debug.Log($"총 보유효과 : {armorTotalRetentionEffect}");
+        Debug.Log($"총 장착효과 : {armorTotalEquipEffect}");
+
+        float effect = Hp * (1 + armorTotalRetentionEffect); // 보유 효과 적용
+        effect *= (1 + armorTotalEquipEffect); // 장착 효과 적용
+
+        effectiveHP = effect;
+
+        // 로그로 계산 결과 확인
+        Debug.Log($"체력 : {effectiveHP}");
     }
 
     private void Update()

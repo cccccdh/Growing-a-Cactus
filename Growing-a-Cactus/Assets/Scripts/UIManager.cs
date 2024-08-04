@@ -40,53 +40,51 @@ public class UIManager : MonoBehaviour
 
     public void Update_Text(string status, float stat, int level, int cost)
     {
+        void UpdateTextFields(TextMeshProUGUI levelText, TextMeshProUGUI costText)
+        {
+            levelText.text = "Lv." + level.ToString();
+            costText.text = TextFormatter.FormatText(cost);
+        }
+
         switch (status)
         {
             case "Attack":
-                Attack_Level.text = "Lv." + level.ToString();
-                Attack.text = stat.ToString();
-                Attack_Cost.text = cost.ToString();
+                UpdateTextFields(Attack_Level, Attack_Cost);
+                Attack.text = TextFormatter.FormatText(stat);
                 break;
             case "Hp":
-                Hp_Level.text = "Lv." + level.ToString();
-                Hp.text = stat.ToString();
-                Hp_Cost.text = cost.ToString();
+                UpdateTextFields(Hp_Level, Hp_Cost);
+                Hp.text = TextFormatter.FormatText(stat);
                 break;
             case "Hp_Recovery":
-                Hp_Recovery_Level.text = "Lv." + level.ToString();
+                UpdateTextFields(Hp_Recovery_Level, Hp_Recovery_Cost);
                 Hp_Recovery.text = stat.ToString("N1");
-                Hp_Recovery_Cost.text = cost.ToString();
                 break;
             case "Attack_Speed":
-                Attack_Speed_Level.text = "Lv." + level.ToString();
+                UpdateTextFields(Attack_Speed_Level, Attack_Speed_Cost);
                 Attack_Speed.text = stat.ToString("N2");
-                Attack_Speed_Cost.text = cost.ToString();
                 break;
             case "Critical":
-                Critical_Level.text = "Lv." + level.ToString();
+                UpdateTextFields(Critical_Level, Critical_Cost);
                 Critical.text = stat.ToString("N2") + "%";
-                Critical_Cost.text = cost.ToString();
                 break;
             case "Critical_Damage":
-                Critical_Damage_Level.text = "Lv." + level.ToString();
+                UpdateTextFields(Critical_Damage_Level, Critical_Damage_Cost);
                 Critical_Damage.text = stat.ToString() + "%";
-                Critical_Damage_Cost.text = cost.ToString();
                 break;
             case "DoubleAttack":
-                DoubleAttack_Level.text = "Lv." + level.ToString();
+                UpdateTextFields(DoubleAttack_Level, DoubleAttack_Cost);
                 DoubleAttack.text = stat.ToString("N1") + "%";
-                DoubleAttack_Cost.text = cost.ToString();
                 break;
             case "TripleAttack":
-                TripleAttack_Level.text = "Lv." + level.ToString();
+                UpdateTextFields(TripleAttack_Level, TripleAttack_Cost);
                 TripleAttack.text = stat.ToString("N1") + "%";
-                TripleAttack_Cost.text = cost.ToString();
                 break;
         }
     }
 
     public void PowerLevelTEXT(float power)
     {
-        PowerLevel.text = $"전투력 : {TextFormatter.FormatText_F(power)}";
+        PowerLevel.text = $"전투력 : {TextFormatter.FormatText(power)}";
     }
 }
