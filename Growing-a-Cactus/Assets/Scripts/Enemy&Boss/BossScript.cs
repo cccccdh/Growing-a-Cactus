@@ -33,6 +33,7 @@ public class BossScript : MonoBehaviour
         backgroundScript = GameObject.FindObjectOfType<BackgroundScript>(); // BackgroundScript 찾기
         questScript = GameObject.FindObjectOfType<QuestScript>(); // 추가: QuestScript 찾기
 
+        StartCoroutine(BossTimer(10f)); // 보스 타이머 시작 (10초)
     }
 
     private void Update()
@@ -103,7 +104,6 @@ public class BossScript : MonoBehaviour
         {
             questScript.IncrementMonsterKillCount(); // 추가: 몬스터 처치 수 업데이트
         }
-
     }
 
     public void SetGoldDropAmount(int amount)
@@ -132,5 +132,19 @@ public class BossScript : MonoBehaviour
         }
 
         isAttacking = false;
+    }
+
+    private IEnumerator BossTimer(float timeLimit)
+    {
+        yield return new WaitForSeconds(timeLimit);
+
+        if (HP > 0) // 보스가 아직 살아있다면
+        {
+            PlayerController player = playerTransform.GetComponent<PlayerController>();
+            if (player != null)
+            {
+                player.Die(); // 플레이어 죽이기
+            }
+        }
     }
 }
