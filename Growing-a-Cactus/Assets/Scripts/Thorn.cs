@@ -2,28 +2,25 @@ using UnityEngine;
 
 public class Thorn : MonoBehaviour
 {
-    PoolManager poolManager;
-    float damage;
-    bool HitCrit;
+    private PoolManager poolManager;
+    private float damage;
+    private bool isCritical;
 
     private void Start()
     {
-        poolManager = FindObjectOfType<PoolManager>();
-
-        // 3초 후에 가시를 파괴
-        Destroy(gameObject, 3f);
+        poolManager = PoolManager.Instance;
     }
 
     public void SetDamage(float damage)
     {
         this.damage = damage;
-        HitCrit = false;
+        isCritical = false;
     }
 
     public void SetCriticalDamage(float damage)
     {
         this.damage = damage;
-        HitCrit = true;
+        isCritical = true;
     }
 
     public void SetDirection(Vector2 direction)
@@ -34,36 +31,38 @@ public class Thorn : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Enemy"))
+        if (collision.gameObject.CompareTag("Enemy") || collision.gameObject.CompareTag("Boss"))
         {
-            EnemyScript enemy = collision.gameObject.GetComponent<EnemyScript>();
+            HandleDamage(collision.gameObject, damage, isCritical);
+        }        
+    }
 
-            if (enemy != null)
-            {
-                enemy.TakeDamage(damage); // 적에게 데미지 입히기
-            }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Wall"))
+        {
+            poolManager.ReturnToThornPool(gameObject);
+        }
+    }
 
-            Vector3 pos = collision.transform.position;
-            poolManager.CreateDamageText(pos, damage, HitCrit);
-
-            // Enqueue
-            Destroy(gameObject); // 가시 파괴
+    private void HandleDamage(GameObject target, float damage, bool isCritical)
+    {
+        if (target.CompareTag("Enemy"))
+        {
+            EnemyScript enemy = target.GetComponent<EnemyScript>();
+            enemy?.TakeDamage(damage);
+        }
+        else if (target.CompareTag("Boss"))
+        {
+            BossScript boss = target.GetComponent<BossScript>();
+            boss?.TakeDamage(damage);
         }
 
-        if (collision.gameObject.CompareTag("Boss"))
-        {
-            BossScript enemy = collision.gameObject.GetComponent<BossScript>();
+        // 데미지 텍스트를 생성
+        Vector3 pos = target.transform.position;
+        poolManager.CreateDamageText(pos, damage, isCritical);
 
-            if (enemy != null)
-            {
-                enemy.TakeDamage(damage); // 적에게 데미지 입히기
-            }
-
-            Vector3 pos = collision.transform.position;
-            poolManager.CreateDamageText(pos, damage, HitCrit);
-
-            // Enqueue
-            Destroy(gameObject); // 가시 파괴
-        }
+        // 가시 비활성화
+        poolManager.ReturnToThornPool(gameObject);
     }
 }

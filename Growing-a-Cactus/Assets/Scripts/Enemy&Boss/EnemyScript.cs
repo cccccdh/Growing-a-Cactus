@@ -2,13 +2,11 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using UnityEditor.EditorTools;
 
 public class EnemyScript : MonoBehaviour
 {
-    private EnemyManager enemyManager; // EnemyManager 참조
-    private Transform playerTransform; // 플레이어의 Transform 참조
     public Image HpBar;
-    public TextMeshProUGUI damageTxTPrefab; // 데미지 텍스트 프리팹
 
     public int HP; // 적의 초기 HP 설정
     public int maxHP;
@@ -19,11 +17,15 @@ public class EnemyScript : MonoBehaviour
 
     private bool isAttacking = false;
 
+    private EnemyManager enemyManager; // EnemyManager 참조
+    private Transform playerTransform; // 플레이어의 Transform 참조
     private Animator animator; // Animator 컴포넌트 참조
+    private PoolManager poolManager;
 
     private void Start()
     {
         playerTransform = GameObject.FindGameObjectWithTag("Player").transform; // 플레이어 찾기
+        poolManager = PoolManager.Instance;
 
         if (enemyManager != null)
         {
@@ -83,7 +85,6 @@ public class EnemyScript : MonoBehaviour
             {
                 gm.IncreaseGold(goldDropAmount);
             }
-
             Destroy(gameObject); // 나중에 오브젝트 풀링으로 수정
 
             if (enemyManager != null)

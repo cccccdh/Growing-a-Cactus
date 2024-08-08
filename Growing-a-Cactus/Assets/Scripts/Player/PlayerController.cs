@@ -4,18 +4,19 @@ using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
-    private PlayerStatus status;
-    private Transform target;
-    private bool isAttacking = false;
-
     public GameObject thornPrefab;
-    public float attackRange = 5f;
     public Image HpBar;
     public int CurrentHp;
     public float HpR;
+    public float attackRange = 5f;
 
-    private Vector3 originalPosition;
+    private PlayerStatus status;
     private EnemyManager enemyManager;
+    private PoolManager poolManager;
+
+    private Transform target;
+    private bool isAttacking = false;
+    private Vector3 originalPosition;
 
     private void Awake()
     {
@@ -28,7 +29,8 @@ public class PlayerController : MonoBehaviour
         CurrentHp = status.Hp;
         HpR = status.Hp_Recovery;
         originalPosition = transform.position;
-        enemyManager = GameObject.FindObjectOfType<EnemyManager>();
+        enemyManager = FindObjectOfType<EnemyManager>();
+        poolManager = PoolManager.Instance;
         StartCoroutine(HealthRegenCoroutine());
     }
 
@@ -110,24 +112,10 @@ public class PlayerController : MonoBehaviour
 
     private void ShootThorn(Vector2 direction, float damage)
     {
-        GameObject thornObj = Instantiate(thornPrefab, transform.position, Quaternion.identity);
-        Thorn thorn = thornObj.GetComponent<Thorn>();
-        if (thorn != null)
-        {
-            float rand = Random.Range(0, 100f);
-            if (rand < status.Critical)
-            {
-                Debug.Log("Critical hit!");
-                thorn.SetCriticalDamage(damage * (status.Critical_Damage / 100f));
-            }
-            else
-            {
-                thorn.SetDamage(damage);
-            }
-            thorn.SetDirection(direction);
+        bool isCritical = Random.Range(0, 100f) < status.Critical;
+        poolManager.GetThorn(transform.position, direction, damage, isCritical);
 
-            HandleDoubleAndTripleAttack(direction, damage);
-        }
+        HandleDoubleAndTripleAttack(direction, damage);
     }
 
     private void HandleDoubleAndTripleAttack(Vector2 direction, float damage)
@@ -151,13 +139,8 @@ public class PlayerController : MonoBehaviour
         {
             yield return new WaitForSeconds(delay);
 
-            GameObject thornObj = Instantiate(thornPrefab, transform.position, Quaternion.identity);
-            Thorn thorn = thornObj.GetComponent<Thorn>();
-            if (thorn != null)
-            {
-                thorn.SetDamage(damage);
-                thorn.SetDirection(direction);
-            }
+            bool isCritical = Random.Range(0, 100f) < status.Critical;
+            poolManager.GetThorn(transform.position, direction, damage, isCritical);
         }
     }
 
