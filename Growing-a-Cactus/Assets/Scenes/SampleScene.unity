@@ -36537,19 +36537,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   thornPrefab: {fileID: 2913206841576202543, guid: b6245c39a17ee204b990eedf4bc3dce7, type: 3}
-<<<<<<< Updated upstream
-  HpBar: {fileID: 255942737}
-  CurrentHp: 0
-  HpR: 0
-  attackRange: 5
-=======
   DiePage: {fileID: 617155915}
   attackRange: 5
   HpBar: {fileID: 255942737}
   CurrentHp: 0
   HpR: 0
   isOpenDie: 0
->>>>>>> Stashed changes
+
 --- !u!61 &860682328
 BoxCollider2D:
   m_ObjectHideFlags: 0
