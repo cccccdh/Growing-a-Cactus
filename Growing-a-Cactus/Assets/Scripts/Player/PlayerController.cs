@@ -4,27 +4,20 @@ using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
-    public GameObject thornPrefab;
-
-    public GameObject DiePage;
-    public float attackRange = 5f;
-
     public Image HpBar;
+    public GameObject DiePage;
     public int CurrentHp;
+    public float attackRange = 5f;
     public float HpR;
-
+    public bool isOpenDie = false;
 
     private PlayerStatus status;
     private EnemyManager enemyManager;
-
     private PoolManager poolManager;
-
     private Transform target;
+
     private bool isAttacking = false;
     private Vector3 originalPosition;
-
-    public bool isOpenDie = false;
-
 
     private void Awake()
     {
@@ -60,6 +53,7 @@ public class PlayerController : MonoBehaviour
         OpenDie();
         enemyManager.ResetRound(); // EnemyManager에 라운드 리셋 요청
     }
+
     public void OpenDie()
     {
         isOpenDie = !isOpenDie;
@@ -72,12 +66,12 @@ public class PlayerController : MonoBehaviour
             DiePage.SetActive(false);
         }
     }
+
     public void CloseDie()
     {
         DiePage.SetActive(false);
         isOpenDie = false;
     }
-
 
     public void UpdateHPBar()
     {
