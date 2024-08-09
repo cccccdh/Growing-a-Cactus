@@ -24,6 +24,9 @@ public class PoolManager : MonoBehaviour
     public void CreateDamageText(Vector3 hitPoint, float damage, bool isCritical)
     {
         GameObject damageTextObj = damageTextPool.GetObject();
+
+        // Z값을 150으로 설정
+        hitPoint.z = 150f;
         damageTextObj.transform.position = hitPoint;
         damageTextObj.transform.rotation = Quaternion.identity;
 

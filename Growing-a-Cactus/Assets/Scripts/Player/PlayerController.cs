@@ -6,6 +6,7 @@ public class PlayerController : MonoBehaviour
 {
     public Image HpBar;
     public GameObject DiePage;
+    public Transform thronPivot;
     public int CurrentHp;
     public float attackRange = 5f;
     public float HpR;
@@ -15,9 +16,11 @@ public class PlayerController : MonoBehaviour
     private EnemyManager enemyManager;
     private PoolManager poolManager;
     private Transform target;
+    private Animator animator;
 
     private bool isAttacking = false;
     private Vector3 originalPosition;
+    private Vector3 shootpivot;
 
     private void Awake()
     {
@@ -32,7 +35,9 @@ public class PlayerController : MonoBehaviour
         originalPosition = transform.position;
         enemyManager = FindObjectOfType<EnemyManager>();
         poolManager = PoolManager.Instance;
+        animator = GetComponent<Animator>();
         StartCoroutine(HealthRegenCoroutine());
+        shootpivot = thronPivot.position;
     }
 
     public void TakeDamage(float damage)
@@ -47,13 +52,20 @@ public class PlayerController : MonoBehaviour
 
     public void Die()
     {
+        animator.SetTrigger("Dead"); // 죽음 애니메이션 트리거
+
         CurrentHp = status.Hp; // HP 초기화
         UpdateHPBar();
         transform.position = originalPosition; // 원래 위치로 되돌리기
-        OpenDie();
+        StartCoroutine(OpenDieWithDelay(0.5f)); // 0.5초 지연 후 OpenDie 호출
         enemyManager.ResetRound(); // EnemyManager에 라운드 리셋 요청
     }
 
+    private IEnumerator OpenDieWithDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        OpenDie();
+    }
     public void OpenDie()
     {
         isOpenDie = !isOpenDie;
@@ -100,6 +112,7 @@ public class PlayerController : MonoBehaviour
         {
             Vector2 direction = (target.position - transform.position).normalized;
             ShootThorn(direction, status.PowerLevel);
+            animator.SetTrigger("Attack");
             yield return new WaitForSecondsRealtime(1 / status.Attack_Speed);
 
             if (target == null)
@@ -134,7 +147,7 @@ public class PlayerController : MonoBehaviour
     private void ShootThorn(Vector2 direction, float damage)
     {
         bool isCritical = Random.Range(0, 100f) < status.Critical;
-        poolManager.GetThorn(transform.position, direction, damage, isCritical);
+        poolManager.GetThorn(shootpivot, direction, damage, isCritical);
 
         HandleDoubleAndTripleAttack(direction, damage);
     }
@@ -182,6 +195,8 @@ public class PlayerController : MonoBehaviour
 
     private IEnumerator MovePlayerCoroutine(float delay)
     {
+        animator.SetBool("Walk", true); // 걷기 애니메이션 시작
+
         Vector3 targetPosition = originalPosition + Vector3.right * 1f;
 
         float elapsedTime = 0f;
@@ -203,5 +218,7 @@ public class PlayerController : MonoBehaviour
             yield return null;
         }
         transform.position = originalPosition;
+
+        animator.SetBool("Walk", false); // 걷기 애니메이션 종료
     }
 }
