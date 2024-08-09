@@ -15,6 +15,7 @@ public class PlayerController : MonoBehaviour
     private PlayerStatus status;
     private EnemyManager enemyManager;
     private PoolManager poolManager;
+    private BackgroundScript backgroundScript;
     private Transform target;
     private Animator animator;
 
@@ -35,6 +36,7 @@ public class PlayerController : MonoBehaviour
         originalPosition = transform.position;
         enemyManager = FindObjectOfType<EnemyManager>();
         poolManager = PoolManager.Instance;
+        backgroundScript = FindObjectOfType<BackgroundScript>();
         animator = GetComponent<Animator>();
         StartCoroutine(HealthRegenCoroutine());
         shootpivot = thronPivot.position;
@@ -220,5 +222,6 @@ public class PlayerController : MonoBehaviour
         transform.position = originalPosition;
 
         animator.SetBool("Walk", false); // 걷기 애니메이션 종료
+
     }
 }

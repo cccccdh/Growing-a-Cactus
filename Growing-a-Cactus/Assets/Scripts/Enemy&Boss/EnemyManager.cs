@@ -25,7 +25,8 @@ public class EnemyManager : MonoBehaviour
 
     private PlayerController playerController;
     private BackgroundScript backgroundScript;
-    private QuestScript questScript; // QuestScript 참조
+    private ParallaxBackground parallaxBackground;
+    private QuestScript questScript; 
     private BossScript bossScript;
     private EnemyScript enemyScript;
 
@@ -36,9 +37,10 @@ public class EnemyManager : MonoBehaviour
         AttackDamage = 10; // 적의 기본 공격력 초기화
         DropGold = 10; // 적이 드랍하는 골드 초기화
 
-        playerController = GameObject.FindObjectOfType<PlayerController>();
-        backgroundScript = GameObject.FindObjectOfType<BackgroundScript>();
-        questScript = GameObject.FindObjectOfType<QuestScript>(); // QuestScript 찾기
+        playerController = FindObjectOfType<PlayerController>();
+        backgroundScript = FindObjectOfType<BackgroundScript>();
+        parallaxBackground = FindObjectOfType<ParallaxBackground>();
+        questScript = FindObjectOfType<QuestScript>(); 
         SpawnEnemies(); // 처음에 적을 생성
     }
 
