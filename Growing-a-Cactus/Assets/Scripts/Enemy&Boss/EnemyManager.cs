@@ -25,8 +25,8 @@ public class EnemyManager : MonoBehaviour
 
     private PlayerController playerController;
     private BackgroundScript backgroundScript;
-    private ParallaxBackground parallaxBackground;
-    private QuestScript questScript; 
+
+    private QuestScript questScript;
     private BossScript bossScript;
     private EnemyScript enemyScript;
 
@@ -39,8 +39,7 @@ public class EnemyManager : MonoBehaviour
 
         playerController = FindObjectOfType<PlayerController>();
         backgroundScript = FindObjectOfType<BackgroundScript>();
-        parallaxBackground = FindObjectOfType<ParallaxBackground>();
-        questScript = FindObjectOfType<QuestScript>(); 
+        questScript = FindObjectOfType<QuestScript>();
         SpawnEnemies(); // 처음에 적을 생성
     }
 
@@ -88,9 +87,10 @@ public class EnemyManager : MonoBehaviour
                 playerController.MovePlayerWithDelay(1f); // 플레이어 이동
             }
 
+            // BackgroundScript에서 모든 적이 죽었을 때 처리
             if (backgroundScript != null)
             {
-                backgroundScript.StartMoveBg(); // 배경 이동 시작
+                backgroundScript.OnKilled(); // 모든 적이 죽었을 때 처리
             }
 
             if (enemiesKilled % 12 == 0)
