@@ -32,7 +32,7 @@ public class PoolManager : MonoBehaviour
 
         TextMeshPro damageText = damageTextObj.GetComponentInChildren<TextMeshPro>();
         damageText.text = TextFormatter.FormatText(damage);
-        damageText.color = isCritical ? Color.red : Color.white;
+        damageText.color = isCritical ? Color.red : Color.black;
 
         StartCoroutine(DeactivateObject(damageTextObj, 1.0f));
     }

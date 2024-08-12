@@ -5,20 +5,21 @@ using System.Collections;
 
 public class BossScript : MonoBehaviour
 {
-    private EnemyManager enemyManager; // EnemyManager 참조
-    private QuestScript questScript;
-    private Transform playerTransform; // 플레이어의 Transform 참조
     public Image HpBar;
-    public TextMeshProUGUI damageTxTPrefab; // 데미지 텍스트 프리팹
+    public ParticleSystem deathEffect; // 사망 이펙트
 
     public int HP; // 적의 초기 HP 설정
     public int maxHP = 100;
     public float speed = 0.6f; // 적의 이동 속도
-    private int goldDropAmount = 1500;
     public int attackPower = 20; // 적의 공격력
     public float stopDistance = 1.5f; // 플레이어와 접촉했을 때의 거리
 
+    private int goldDropAmount = 1500;
+
     private bool isAttacking = false;
+    private EnemyManager enemyManager; // EnemyManager 참조
+    private QuestScript questScript;
+    private Transform playerTransform; // 플레이어의 Transform 참조
     private Animator animator; // Animator 컴포넌트 참조
     private BackgroundScript backgroundScript; // BackgroundScript 참조
 
@@ -75,8 +76,6 @@ public class BossScript : MonoBehaviour
 
     public void Die()
     {
-        Destroy(gameObject); // 나중에 오브젝트 풀링으로 수정
-
         // HP가 0 이하일 경우 오브젝트 파괴 및 골드 증가
         if (HP <= 0)
         {
@@ -94,6 +93,10 @@ public class BossScript : MonoBehaviour
                 gm.ResetWave(); // 웨이브 값을 0으로 설정
                 Debug.Log("라운드 증가");
             }
+
+            Instantiate(deathEffect, transform.position, Quaternion.identity);
+
+            Destroy(gameObject); // 나중에 오브젝트 풀링으로 수정
 
             // 배경 스크립트에 보스가 죽었다고 알리기
             if (backgroundScript != null)

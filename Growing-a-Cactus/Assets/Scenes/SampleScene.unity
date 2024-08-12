@@ -9229,67 +9229,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 229617554}
   m_CullTransparentMesh: 1
---- !u!1001 &231072863
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 468644890304462930, guid: 74ccf31d718fbea49a5c201d4b7c5af2, type: 3}
-      propertyPath: m_Materials.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1209169473702292027, guid: 74ccf31d718fbea49a5c201d4b7c5af2, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1209169473702292027, guid: 74ccf31d718fbea49a5c201d4b7c5af2, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1209169473702292027, guid: 74ccf31d718fbea49a5c201d4b7c5af2, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1209169473702292027, guid: 74ccf31d718fbea49a5c201d4b7c5af2, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: 1209169473702292027, guid: 74ccf31d718fbea49a5c201d4b7c5af2, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: 1209169473702292027, guid: 74ccf31d718fbea49a5c201d4b7c5af2, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1209169473702292027, guid: 74ccf31d718fbea49a5c201d4b7c5af2, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1209169473702292027, guid: 74ccf31d718fbea49a5c201d4b7c5af2, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1209169473702292027, guid: 74ccf31d718fbea49a5c201d4b7c5af2, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1209169473702292027, guid: 74ccf31d718fbea49a5c201d4b7c5af2, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4301057783707249758, guid: 74ccf31d718fbea49a5c201d4b7c5af2, type: 3}
-      propertyPath: m_Name
-      value: CFXR Smoke Poof Circle Screen
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 74ccf31d718fbea49a5c201d4b7c5af2, type: 3}
 --- !u!1 &232680385
 GameObject:
   m_ObjectHideFlags: 0
@@ -15566,7 +15505,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 0}
+        - m_Target: {fileID: 1945133264}
           m_TargetAssemblyTypeName: PlayerStatus, Assembly-CSharp
           m_MethodName: Increase
           m_Mode: 5
@@ -15582,7 +15521,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 0}
+        - m_Target: {fileID: 1945133264}
           m_TargetAssemblyTypeName: PlayerStatus, Assembly-CSharp
           m_MethodName: StopIncrease
           m_Mode: 1
@@ -17103,7 +17042,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 0}
+        - m_Target: {fileID: 1945133264}
           m_TargetAssemblyTypeName: PlayerStatus, Assembly-CSharp
           m_MethodName: Increase
           m_Mode: 5
@@ -17119,7 +17058,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 0}
+        - m_Target: {fileID: 1945133264}
           m_TargetAssemblyTypeName: PlayerStatus, Assembly-CSharp
           m_MethodName: StopIncrease
           m_Mode: 1
@@ -27624,7 +27563,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 0}
+        - m_Target: {fileID: 1945133264}
           m_TargetAssemblyTypeName: PlayerStatus, Assembly-CSharp
           m_MethodName: Increase
           m_Mode: 5
@@ -27640,7 +27579,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 0}
+        - m_Target: {fileID: 1945133264}
           m_TargetAssemblyTypeName: PlayerStatus, Assembly-CSharp
           m_MethodName: StopIncrease
           m_Mode: 1
@@ -29976,7 +29915,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 0}
+        - m_Target: {fileID: 1945133264}
           m_TargetAssemblyTypeName: PlayerStatus, Assembly-CSharp
           m_MethodName: Increase
           m_Mode: 5
@@ -29992,7 +29931,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 0}
+        - m_Target: {fileID: 1945133264}
           m_TargetAssemblyTypeName: PlayerStatus, Assembly-CSharp
           m_MethodName: StopIncrease
           m_Mode: 1
@@ -37914,7 +37853,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 0}
+        - m_Target: {fileID: 1945133264}
           m_TargetAssemblyTypeName: PlayerStatus, Assembly-CSharp
           m_MethodName: Increase
           m_Mode: 5
@@ -37930,7 +37869,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 0}
+        - m_Target: {fileID: 1945133264}
           m_TargetAssemblyTypeName: PlayerStatus, Assembly-CSharp
           m_MethodName: StopIncrease
           m_Mode: 1
@@ -44977,7 +44916,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 0}
+        - m_Target: {fileID: 1945133264}
           m_TargetAssemblyTypeName: PlayerStatus, Assembly-CSharp
           m_MethodName: Increase
           m_Mode: 5
@@ -44993,7 +44932,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 0}
+        - m_Target: {fileID: 1945133264}
           m_TargetAssemblyTypeName: PlayerStatus, Assembly-CSharp
           m_MethodName: StopIncrease
           m_Mode: 1
@@ -58869,7 +58808,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 275941350}
   m_Direction: 2
   m_Value: 1.0000005
-  m_Size: 0.5045871
+  m_Size: 0.5045872
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -73274,7 +73213,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 0}
+        - m_Target: {fileID: 1945133264}
           m_TargetAssemblyTypeName: PlayerStatus, Assembly-CSharp
           m_MethodName: Increase
           m_Mode: 5
@@ -73290,7 +73229,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 0}
+        - m_Target: {fileID: 1945133264}
           m_TargetAssemblyTypeName: PlayerStatus, Assembly-CSharp
           m_MethodName: StopIncrease
           m_Mode: 1
@@ -81241,7 +81180,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 0}
+        - m_Target: {fileID: 1945133264}
           m_TargetAssemblyTypeName: PlayerStatus, Assembly-CSharp
           m_MethodName: Increase
           m_Mode: 5
@@ -81257,7 +81196,7 @@ MonoBehaviour:
     callback:
       m_PersistentCalls:
         m_Calls:
-        - m_Target: {fileID: 0}
+        - m_Target: {fileID: 1945133264}
           m_TargetAssemblyTypeName: PlayerStatus, Assembly-CSharp
           m_MethodName: StopIncrease
           m_Mode: 1
@@ -82499,4 +82438,3 @@ SceneRoots:
   - {fileID: 1418385922}
   - {fileID: 1549191129}
   - {fileID: 1514258411}
-  - {fileID: 231072863}

@@ -1,8 +1,6 @@
-using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
-using UnityEditor.EditorTools;
 
 public class EnemyScript : MonoBehaviour
 {
@@ -14,6 +12,8 @@ public class EnemyScript : MonoBehaviour
     public int attackPower; // 적의 공격력
     public int goldDropAmount;
     public float stopDistance = 1f; // 플레이어와 접촉했을 때의 거리
+
+    public ParticleSystem deathEffect; // 사망 이펙트
 
     private bool isAttacking = false;
 
@@ -85,7 +85,8 @@ public class EnemyScript : MonoBehaviour
             {
                 gm.IncreaseGold(goldDropAmount);
             }
-            Destroy(gameObject); // 나중에 오브젝트 풀링으로 수정
+            Instantiate(deathEffect, transform.position, Quaternion.identity);
+            Destroy(gameObject);
 
             if (enemyManager != null)
             {

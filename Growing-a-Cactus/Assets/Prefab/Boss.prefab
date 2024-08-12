@@ -148,6 +148,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   HpBar: {fileID: 8356343050674000489}
   damageTxTPrefab: {fileID: 0}
+  deathEffect: {fileID: 7000817145789585468, guid: 74ccf31d718fbea49a5c201d4b7c5af2, type: 3}
   HP: 0
   maxHP: 30
   speed: 0.6

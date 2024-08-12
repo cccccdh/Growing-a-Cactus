@@ -195,13 +195,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   HpBar: {fileID: 8356343050674000489}
-  damageTxTPrefab: {fileID: 0}
   HP: 30
   maxHP: 30
   speed: 1
   attackPower: 10
   goldDropAmount: 0
   stopDistance: 1
+  deathEffect: {fileID: 7000817145789585468, guid: 74ccf31d718fbea49a5c201d4b7c5af2, type: 3}
 --- !u!1 &5366602003400192323
 GameObject:
   m_ObjectHideFlags: 0
