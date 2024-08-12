@@ -14,14 +14,17 @@ public class EnemyManager : MonoBehaviour
     private int stageNumber = 1;
     public int roundNumber = 1;
 
+    private int roundCount = 1;
     public int hpCalcA;
     public int hpCalcB;
     public int HpMax;
     private int befHP = 0;
 
-    // 추가된 필드
     public int AttackDamage;
+    private int befAtt;
+
     public int DropGold;
+    private int befGold;
 
     private PlayerController playerController;
     private BackgroundScript backgroundScript;
@@ -33,7 +36,11 @@ public class EnemyManager : MonoBehaviour
     private void Start()
     {
         befHP = 30;
-        HpMax = 30;
+        befAtt = 0;
+        befGold = 20;
+        HpMax = SetEnemyHP(befHP);
+        AttackDamage = setEnemyAtt(befAtt);
+        DropGold = setGoldDrop(befGold);
         AttackDamage = 10; // 적의 기본 공격력 초기화
         DropGold = 10; // 적이 드랍하는 골드 초기화
 
@@ -131,7 +138,10 @@ public class EnemyManager : MonoBehaviour
     {
         yield return new WaitForSeconds(delay);
 
-        HpMax = SetEnemyHP(befHP);
+        roundCount++;
+        HpMax = SetEnemyHP(befHP); 
+        AttackDamage = setEnemyAtt(befAtt);
+        DropGold = setGoldDrop(befGold);
         UpdateEnemyLevels();
     }
 
@@ -154,28 +164,49 @@ public class EnemyManager : MonoBehaviour
             enemyCount++;
         }
     }
+    public int setGoldDrop(int gold)
+    {
+        if (roundCount % 3 == 0)
+            befGold += 10;
+        return befGold;
+    }
+
+    //공격력 설정 함수
+    public int setEnemyAtt(int att)
+    {
+        int attcal;
+        if (roundCount % 10 == 0)
+        {
+            attcal = 0;
+        }
+        else attcal = roundCount % 10;
+
+        befAtt = att + 10 * attcal;
+
+        return befAtt;
+    }
 
     // 적의 HP를 설정하는 함수
     public int SetEnemyHP(int hp)
     {
-        if ((roundNumber - 1) % 3 == 1)
+        if ((roundCount - 1) % 3 == 1)
         {
             hpCalcA = hp;
         }
 
-        if (roundNumber % 10 == 1)
+        if (roundCount % 10 == 1)
         {
             hpCalcB = 0;
         }
         else
         {
-            if ((roundNumber - 1) % 3 == 0)
+            if ((roundCount - 1) % 3 == 0)
             {
                 hpCalcB = 3;
             }
             else
             {
-                hpCalcB = (roundNumber - 1) % 3;
+                hpCalcB = (roundCount - 1) % 3;
             }
         }
 
