@@ -58808,7 +58808,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 275941350}
   m_Direction: 2
   m_Value: 1.0000005
-  m_Size: 0.5045872
+  m_Size: 0.5045871
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -73369,7 +73369,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.000015258789, y: 0}
+  m_AnchoredPosition: {x: 24, y: 0}
   m_SizeDelta: {x: 350, y: 350}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1880241335
@@ -73392,7 +73392,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 0fb3274a7ebe3af419fa36a57ba1e185, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 5ba86fb79e5047942867eaf9e94dcb99, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -75406,6 +75406,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   HpBar: {fileID: 255942737}
   DiePage: {fileID: 617155915}
+  attackEffect: {fileID: 0}
   thronPivot: {fileID: 852910307}
   CurrentHp: 0
   attackRange: 5

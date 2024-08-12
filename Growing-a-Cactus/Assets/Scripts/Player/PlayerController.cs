@@ -6,8 +6,9 @@ public class PlayerController : MonoBehaviour
 {
     public Image HpBar;
     public GameObject DiePage;
+    public ParticleSystem attackEffect;
     public Transform thronPivot;
-    public int CurrentHp;
+    public float CurrentHp;
     public float attackRange = 5f;
     public float HpR;
     public bool isOpenDie = false;
@@ -15,7 +16,6 @@ public class PlayerController : MonoBehaviour
     private PlayerStatus status;
     private EnemyManager enemyManager;
     private PoolManager poolManager;
-    private BackgroundScript backgroundScript;
     private Transform target;
     private Animator animator;
 
@@ -31,12 +31,11 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         status.Init();
-        CurrentHp = status.Hp;
+        CurrentHp = status.effectiveHP;
         HpR = status.Hp_Recovery;
         originalPosition = transform.position;
         enemyManager = FindObjectOfType<EnemyManager>();
         poolManager = PoolManager.Instance;
-        backgroundScript = FindObjectOfType<BackgroundScript>();
         animator = GetComponent<Animator>();
         StartCoroutine(HealthRegenCoroutine());
         shootpivot = thronPivot.position;
@@ -56,7 +55,7 @@ public class PlayerController : MonoBehaviour
     {
         animator.SetTrigger("Dead"); // 죽음 애니메이션 트리거
 
-        CurrentHp = status.Hp; // HP 초기화
+        CurrentHp = status.effectiveHP; // HP 초기화
         UpdateHPBar();
         transform.position = originalPosition; // 원래 위치로 되돌리기
         StartCoroutine(OpenDieWithDelay(0.5f)); // 0.5초 지연 후 OpenDie 호출
@@ -68,6 +67,7 @@ public class PlayerController : MonoBehaviour
         yield return new WaitForSeconds(delay);
         OpenDie();
     }
+
     public void OpenDie()
     {
         isOpenDie = !isOpenDie;
@@ -89,7 +89,7 @@ public class PlayerController : MonoBehaviour
 
     public void UpdateHPBar()
     {
-        HpBar.fillAmount = (float)CurrentHp / status.Hp;
+        HpBar.fillAmount = (float)CurrentHp / status.effectiveHP;
     }
 
     private void OnTriggerStay2D(Collider2D collision)
@@ -185,7 +185,7 @@ public class PlayerController : MonoBehaviour
         while (true)
         {
             yield return new WaitForSeconds(1f);
-            CurrentHp = Mathf.Min(CurrentHp + (int)HpR, status.Hp);
+            CurrentHp = Mathf.Min(CurrentHp + (int)HpR, status.effectiveHP);
             UpdateHPBar();
         }
     }
@@ -222,6 +222,5 @@ public class PlayerController : MonoBehaviour
         transform.position = originalPosition;
 
         animator.SetBool("Walk", false); // 걷기 애니메이션 종료
-
     }
 }

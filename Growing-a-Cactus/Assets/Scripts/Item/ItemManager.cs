@@ -65,7 +65,7 @@ public class ItemManager : MonoBehaviour
             }
         }
         playerstatus.UpdateWeaponRetentionEffects(weaponItems);
-        //playerstatus.UpdateArmorRetentionEffects(armorItems);
+        playerstatus.UpdateArmorRetentionEffects(armorItems);
     }
 
     // 아이템 개수를 업데이트하는 메서드
@@ -90,7 +90,7 @@ public class ItemManager : MonoBehaviour
                 item.Count++;
                 UpdateItemText(itemName, items);
                 playerstatus.UpdateWeaponRetentionEffects(weaponItems);
-                //playerstatus.UpdateArmorRetentionEffects(armorItems);
+                playerstatus.UpdateArmorRetentionEffects(armorItems);
                 break;
             }
         }

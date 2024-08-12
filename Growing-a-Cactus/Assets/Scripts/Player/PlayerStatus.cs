@@ -302,7 +302,8 @@ public class PlayerStatus : MonoBehaviour
                             Hp_Cost += 1;
                         }
                     }
-                    uiManager.Update_Text("Hp", Hp, Hp_Level, Hp_Cost);
+                    UpdateHP();
+                    uiManager.Update_Text("Hp", effectiveHP, Hp_Level, Hp_Cost);
                 }
                 break;
             case "Hp_Recovery":

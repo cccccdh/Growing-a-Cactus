@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class Thorn : MonoBehaviour
 {
+    public ParticleSystem attackEffect;
     private PoolManager poolManager;
     private float damage;
     private bool isCritical;
@@ -57,6 +58,8 @@ public class Thorn : MonoBehaviour
             BossScript boss = target.GetComponent<BossScript>();
             boss?.TakeDamage(damage);
         }
+
+        Instantiate(attackEffect, target.transform.position, Quaternion.identity);
 
         // 데미지 텍스트를 생성
         Vector3 pos = target.transform.position;
