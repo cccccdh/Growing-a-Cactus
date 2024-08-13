@@ -21,6 +21,7 @@ public class PlayerStatus : MonoBehaviour
     public float Hp_Recovery;
     public int Hp_Recovery_Level;
     public int Hp_Recovery_Cost;
+    public int Increase_Hp_Recovery;
 
     public float Attack_Speed;
     public int Attack_Speed_Level;
@@ -77,9 +78,10 @@ public class PlayerStatus : MonoBehaviour
         Hp_Cost = 5;
         Increase_HP = 10;
 
-        Hp_Recovery = 7;
+        Hp_Recovery = 10;
         Hp_Recovery_Level = 1;
         Hp_Recovery_Cost = 7;
+        Increase_Hp_Recovery = 3;
 
         Attack_Speed = 1f;
         Attack_Speed_Level = 1;
@@ -310,7 +312,8 @@ public class PlayerStatus : MonoBehaviour
                 if (GameManager.instance.Gold >= Hp_Recovery_Cost)
                 {
                     GameManager.instance.DecreaseGold(Hp_Recovery_Cost);
-                    Hp_Recovery += 0.7f;
+                    Hp_Recovery += Increase_Hp_Recovery;
+                    if(Hp_Recovery_Level % 10 == 0) Increase_Hp_Recovery += 5;
                     Hp_Recovery_Level++;
                     if (Hp_Recovery_Level % 50 == 0)
                     {

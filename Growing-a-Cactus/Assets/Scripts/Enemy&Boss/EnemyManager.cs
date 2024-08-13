@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using System;
 
 public class EnemyManager : MonoBehaviour
 {
@@ -35,14 +36,14 @@ public class EnemyManager : MonoBehaviour
 
     private void Start()
     {
+        
         befHP = 30;
         befAtt = 0;
-        befGold = 20;
+        befGold = 10;
         HpMax = SetEnemyHP(befHP);
         AttackDamage = setEnemyAtt(befAtt);
         DropGold = setGoldDrop(befGold);
         AttackDamage = 10; // 적의 기본 공격력 초기화
-        DropGold = 10; // 적이 드랍하는 골드 초기화
 
         playerController = FindObjectOfType<PlayerController>();
         backgroundScript = FindObjectOfType<BackgroundScript>();
@@ -166,8 +167,13 @@ public class EnemyManager : MonoBehaviour
     }
     public int setGoldDrop(int gold)
     {
-        if (roundCount % 3 == 0)
-            befGold += 10;
+        if (gold < 100) befGold = gold + 10;
+        else if (gold < 1000)
+            befGold = (int)((float)gold + ((float)gold * 0.3));
+        else if (gold < 5000)
+            befGold = (int)((float)gold + ((float)gold * 0.2));
+        else
+            befGold = (int)((float)gold + ((float)gold * 0.1));
         return befGold;
     }
 

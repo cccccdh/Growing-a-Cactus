@@ -30,11 +30,13 @@ public class QuestScript : MonoBehaviour
 
     public void QuestClear()
     {
-        if (killedMonsters >= 10)
+        if (killedMonsters >= totalMonsters)
         {
+            killedMonsters -= totalMonsters;
+            if (totalMonsters == 10 || totalMonsters == 15) totalMonsters += 5; // 10 15 20 30후 30으로 고정
+            else if(totalMonsters < 30) totalMonsters += 10;
             GameManager.instance.gem += reward;
             GameManager.instance.UpdateGemText();
-            killedMonsters -= 10;
             UpdateQuestText();
         }
     }
