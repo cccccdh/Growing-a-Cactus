@@ -123,28 +123,4 @@ public class EnemyScript : MonoBehaviour
         isAttacking = false;
     }
 
-    // 적의 상태를 반환하는 메서드 추가
-    public DataManager.EnemyData GetEnemyData()
-    {
-        return new DataManager.EnemyData
-        {
-            HP = this.HP,
-            maxHP = this.maxHP,
-            speed = this.speed,
-            attackPower = this.attackPower,
-            goldDropAmount = this.goldDropAmount,
-        };
-    }
-
-    // 적의 상태를 설정하는 메서드 추가
-    public void SetEnemyData(DataManager.EnemyData data)
-    {
-        this.HP = data.HP;
-        this.maxHP = data.maxHP;
-        this.speed = data.speed;
-        this.attackPower = data.attackPower;
-        this.goldDropAmount = data.goldDropAmount;
-
-        UpdateHPBar();
-    }
 }

@@ -51,8 +51,9 @@ public class DataManager : MonoBehaviour
         public int TripleAttack_Cost;
 
         public float PowerLevel;
+        public float effectiveHP;
 
-        public List<EnemyData> enemies;
+
 
         public int gold;
         public int gem;
@@ -69,6 +70,8 @@ public class DataManager : MonoBehaviour
     private GameManager gameManager;
     private QuestScript questScript;
     private PlayerController playerController; // PlayerController 참조 추가
+    private EnemyManager enemyManager;
+    private EnemyScript enemyScript;
 
     void Start()
     {
@@ -77,7 +80,9 @@ public class DataManager : MonoBehaviour
         uiManager = FindObjectOfType<UIManager>();
         gameManager = FindObjectOfType<GameManager>();
         questScript = FindObjectOfType<QuestScript>();
-        playerController = FindObjectOfType<PlayerController>(); // PlayerController 초기화
+        playerController = FindObjectOfType<PlayerController>();
+        enemyManager = FindObjectOfType<EnemyManager>();
+        enemyScript = FindObjectOfType<EnemyScript>();
     }
 
     // 게임 데이터를 저장하는 함수
@@ -110,8 +115,9 @@ public class DataManager : MonoBehaviour
             TripleAttack_Level = playerStatus.TripleAttack_Level,
             TripleAttack_Cost = playerStatus.TripleAttack_Cost,
             PowerLevel = playerStatus.PowerLevel,
+            effectiveHP=playerStatus.effectiveHP,
 
-            gold = gameManager.Gold,
+        gold = gameManager.Gold,
             gem = gameManager.gem,
             stageNumber = gameManager.stageNumber,
             roundNumber = gameManager.roundNumber,
@@ -158,7 +164,9 @@ public class DataManager : MonoBehaviour
             playerStatus.TripleAttack_Level = data.TripleAttack_Level;
             playerStatus.TripleAttack_Cost = data.TripleAttack_Cost;
             playerStatus.PowerLevel = data.PowerLevel;
-            
+            playerStatus.effectiveHP = data.effectiveHP;
+
+
 
 
             uiManager.Update_Text("Attack", playerStatus.Attack, playerStatus.Attack_Level, playerStatus.Attack_Cost);
