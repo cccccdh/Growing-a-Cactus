@@ -31549,12 +31549,16 @@ MonoBehaviour:
   - {fileID: 617534077}
   - {fileID: 497614701}
   bossSpawnPoint: {fileID: 1693862974}
+  stageNumber: 1
   roundNumber: 1
   hpCalcA: 0
   hpCalcB: 0
   HpMax: 0
+  befHP: 0
   AttackDamage: 0
+  befAtt: 0
   DropGold: 0
+  befGold: 0
 --- !u!4 &753089185
 Transform:
   m_ObjectHideFlags: 0
@@ -75375,6 +75379,7 @@ MonoBehaviour:
   Hp_Recovery: 0
   Hp_Recovery_Level: 0
   Hp_Recovery_Cost: 0
+  Increase_Hp_Recovery: 0
   Attack_Speed: 0
   Attack_Speed_Level: 0
   Attack_Speed_Cost: 0
@@ -75412,6 +75417,7 @@ MonoBehaviour:
   attackRange: 5
   HpR: 0
   isOpenDie: 0
+  status: {fileID: 0}
 --- !u!61 &1945133266
 BoxCollider2D:
   m_ObjectHideFlags: 0

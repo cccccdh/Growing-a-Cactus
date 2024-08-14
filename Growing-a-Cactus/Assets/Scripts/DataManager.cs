@@ -6,15 +6,6 @@ using System.Security.Cryptography;
 
 public class DataManager : MonoBehaviour
 {
-    [System.Serializable]
-    public class EnemyData
-    {
-        public int HP;
-        public int maxHP;
-        public float speed;
-        public int attackPower;
-        public int goldDropAmount;
-    }
 
     [System.Serializable]
     public class GameData
@@ -202,6 +193,8 @@ public class DataManager : MonoBehaviour
             enemyScript.maxHP = data.befHP;
             enemyScript.attackPower = data.AttackDamage;
             enemyScript.goldDropAmount = data.DropGold;
+
+            playerController.HpR = data.Hp_Recovery;
 
 
 
