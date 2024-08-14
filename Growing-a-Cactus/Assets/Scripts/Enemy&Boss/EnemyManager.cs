@@ -12,20 +12,20 @@ public class EnemyManager : MonoBehaviour
     private int enemiesKilled = 0; // 죽인 적의 수를 추적
     private int enemyCount = 0; // 현재 존재하는 적의 수
 
-    private int stageNumber = 1;
+    public int stageNumber = 1;
     public int roundNumber = 1;
 
     private int roundCount = 1;
     public int hpCalcA;
     public int hpCalcB;
     public int HpMax;
-    private int befHP = 0;
+    public int befHP = 0;
 
     public int AttackDamage;
-    private int befAtt;
+    public int befAtt;
 
     public int DropGold;
-    private int befGold;
+    public int befGold;
 
     private PlayerController playerController;
     private BackgroundScript backgroundScript;

@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using TMPro;
+using System.Security.Cryptography;
 
 public class DataManager : MonoBehaviour
 {
@@ -53,15 +54,22 @@ public class DataManager : MonoBehaviour
         public float PowerLevel;
         public float effectiveHP;
 
-
-
         public int gold;
         public int gem;
         public int stageNumber;
         public int roundNumber;
         public int killedMonsters;
 
-        public int Damage;
+        // EnemyMnager 쪽임 여기
+        public int hpCalcA;
+        public int hpCalcB;
+        public int hpMax;
+        public int befHP;
+        public int AttackDamage;
+        public int befAtt;
+        public int DropGold;
+        public int befGold;
+
     }
 
     private string saveFilePath;
@@ -116,8 +124,23 @@ public class DataManager : MonoBehaviour
             TripleAttack_Cost = playerStatus.TripleAttack_Cost,
             PowerLevel = playerStatus.PowerLevel,
             effectiveHP=playerStatus.effectiveHP,
+            //EnemyManager
+            hpCalcA = enemyManager.hpCalcA,
+            hpCalcB = enemyManager.hpCalcB,
+            hpMax = enemyManager.HpMax,
+            befHP = enemyManager.befHP,
+            AttackDamage = enemyManager.AttackDamage,
+            befAtt = enemyManager.befAtt,
+            DropGold = enemyManager.DropGold,
+            befGold = enemyManager.befGold,
 
-        gold = gameManager.Gold,
+
+
+
+
+
+
+            gold = gameManager.Gold,
             gem = gameManager.gem,
             stageNumber = gameManager.stageNumber,
             roundNumber = gameManager.roundNumber,
@@ -165,6 +188,21 @@ public class DataManager : MonoBehaviour
             playerStatus.TripleAttack_Cost = data.TripleAttack_Cost;
             playerStatus.PowerLevel = data.PowerLevel;
             playerStatus.effectiveHP = data.effectiveHP;
+
+            enemyManager.hpCalcA = data.hpCalcA;
+            enemyManager.hpCalcB = data.hpCalcB;
+            enemyManager.HpMax = data.hpMax;
+            enemyManager.befHP = data.befHP;
+            enemyManager.AttackDamage = data.AttackDamage;
+            enemyManager.befAtt = data.befAtt;
+            enemyManager.DropGold = data.DropGold;
+            enemyManager.befGold = data.befGold;
+
+            enemyScript.HP = data.befHP;
+            enemyScript.maxHP = data.befHP;
+            enemyScript.attackPower = data.AttackDamage;
+            enemyScript.goldDropAmount = data.DropGold;
+
 
 
 
