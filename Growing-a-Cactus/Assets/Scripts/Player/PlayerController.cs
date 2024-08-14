@@ -13,7 +13,7 @@ public class PlayerController : MonoBehaviour
     public float HpR;
     public bool isOpenDie = false;
 
-    private PlayerStatus status;
+    public PlayerStatus status;
     private EnemyManager enemyManager;
     private PoolManager poolManager;
     private Transform target;

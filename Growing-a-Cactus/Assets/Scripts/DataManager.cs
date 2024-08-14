@@ -50,6 +50,8 @@ public class DataManager : MonoBehaviour
         public int TripleAttack_Level;
         public int TripleAttack_Cost;
 
+        public float PowerLevel;
+
         public List<EnemyData> enemies;
 
         public int gold;
@@ -57,6 +59,8 @@ public class DataManager : MonoBehaviour
         public int stageNumber;
         public int roundNumber;
         public int killedMonsters;
+
+        public int Damage;
     }
 
     private string saveFilePath;
@@ -64,6 +68,7 @@ public class DataManager : MonoBehaviour
     private UIManager uiManager;
     private GameManager gameManager;
     private QuestScript questScript;
+    private PlayerController playerController; // PlayerController 참조 추가
 
     void Start()
     {
@@ -72,6 +77,7 @@ public class DataManager : MonoBehaviour
         uiManager = FindObjectOfType<UIManager>();
         gameManager = FindObjectOfType<GameManager>();
         questScript = FindObjectOfType<QuestScript>();
+        playerController = FindObjectOfType<PlayerController>(); // PlayerController 초기화
     }
 
     // 게임 데이터를 저장하는 함수
@@ -103,7 +109,8 @@ public class DataManager : MonoBehaviour
             TripleAttackChance = playerStatus.TripleAttackChance,
             TripleAttack_Level = playerStatus.TripleAttack_Level,
             TripleAttack_Cost = playerStatus.TripleAttack_Cost,
-            enemies = new List<EnemyData>(),
+            PowerLevel = playerStatus.PowerLevel,
+
             gold = gameManager.Gold,
             gem = gameManager.gem,
             stageNumber = gameManager.stageNumber,
@@ -111,10 +118,7 @@ public class DataManager : MonoBehaviour
             killedMonsters = questScript.killedMonsters
         };
 
-        foreach (var enemy in FindObjectsOfType<EnemyScript>())
-        {
-            data.enemies.Add(enemy.GetEnemyData());
-        }
+
 
         string jsonData = JsonUtility.ToJson(data, true);
         File.WriteAllText(saveFilePath, jsonData);
@@ -153,6 +157,9 @@ public class DataManager : MonoBehaviour
             playerStatus.TripleAttackChance = data.TripleAttackChance;
             playerStatus.TripleAttack_Level = data.TripleAttack_Level;
             playerStatus.TripleAttack_Cost = data.TripleAttack_Cost;
+            playerStatus.PowerLevel = data.PowerLevel;
+            
+
 
             uiManager.Update_Text("Attack", playerStatus.Attack, playerStatus.Attack_Level, playerStatus.Attack_Cost);
             uiManager.Update_Text("Hp", playerStatus.Hp, playerStatus.Hp_Level, playerStatus.Hp_Cost);
@@ -162,6 +169,8 @@ public class DataManager : MonoBehaviour
             uiManager.Update_Text("Critical_Damage", playerStatus.Critical_Damage, playerStatus.Critical_Damage_Level, playerStatus.Critical_Damage_Cost);
             uiManager.Update_Text("DoubleAttack", playerStatus.DoubleAttackChance, playerStatus.DoubleAttack_Level, playerStatus.DoubleAttack_Cost);
             uiManager.Update_Text("TripleAttack", playerStatus.TripleAttackChance, playerStatus.TripleAttack_Level, playerStatus.TripleAttack_Cost);
+
+            
 
             if (gameManager != null)
             {
@@ -177,13 +186,6 @@ public class DataManager : MonoBehaviour
             {
                 questScript.killedMonsters = data.killedMonsters;
                 questScript.UpdateQuestText();
-            }
-
-            // 적 데이터 로드 및 적용
-            var enemies = FindObjectsOfType<EnemyScript>();
-            for (int i = 0; i < data.enemies.Count && i < enemies.Length; i++)
-            {
-                enemies[i].SetEnemyData(data.enemies[i]);
             }
 
             Debug.Log("게임 로드됨: " + saveFilePath);
