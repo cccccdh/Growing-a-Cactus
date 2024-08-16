@@ -5,65 +5,63 @@ using System.Collections;
 
 public class BossScript : MonoBehaviour
 {
+    // UI 및 이펙트 관련 변수
     public Image HpBar;
-    public ParticleSystem deathEffect; // 사망 이펙트
+    public ParticleSystem deathEffect;
 
-    public int HP; // 적의 초기 HP 설정
-    public int maxHP = 100;
-    public float speed = 0.6f; // 적의 이동 속도
-    public int attackPower = 20; // 적의 공격력
-    public float stopDistance = 1.5f; // 플레이어와 접촉했을 때의 거리
+    // 보스의 상태 변수
+    private int HP; // 현재 HP
+    private int maxHP; // 최대 HP
+    private int attackPower; // 공격력
+    private int goldDropAmount; // 드랍하는 골드 양
 
-    private int goldDropAmount = 1500;
+    public float speed = 0.6f; // 이동 속도
+    public float stopDistance = 1.5f; // 플레이어와의 접촉 거리
 
-    private bool isAttacking = false;
+    private bool isAttacking = false; // 공격 중 여부
     private EnemyManager enemyManager; // EnemyManager 참조
-    private QuestScript questScript;
-    private Transform playerTransform; // 플레이어의 Transform 참조
-    private Animator animator; // Animator 컴포넌트 참조
+    private QuestScript questScript; // QuestScript 참조
+    private Transform playerTransform; // 플레이어의 Transform
+    private Animator animator; // Animator 컴포넌트
     private BackgroundScript backgroundScript; // BackgroundScript 참조
-
 
     private void Start()
     {
-        playerTransform = GameObject.FindGameObjectWithTag("Player").transform; // 플레이어 찾기
-        HP = maxHP; // 초기 HP 설정
-        UpdateHPBar();
-        animator = GetComponent<Animator>(); // Animator 컴포넌트 찾기
-
-        questScript = GameObject.FindObjectOfType<QuestScript>(); // 추가: QuestScript 찾기
-
+        // 플레이어, Animator, QuestScript, BackgroundScript 초기화
+        playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
+        animator = GetComponent<Animator>();
+        questScript = GameObject.FindObjectOfType<QuestScript>();
         backgroundScript = FindObjectOfType<BackgroundScript>();
-        StartCoroutine(BossTimer(10f)); // 보스 타이머 시작 (10초)
+        StartCoroutine(BossTimer(10f)); // 보스 타이머 시작
     }
 
     private void Update()
     {
+        // 플레이어와의 거리 계산
         float distanceToPlayer = Vector3.Distance(transform.position, playerTransform.position);
 
+        // 플레이어가 일정 거리 이상 떨어져 있으면 이동
         if (distanceToPlayer > stopDistance)
         {
-            // 플레이어의 x좌표 방향으로만 이동 처리
             Vector3 direction = (playerTransform.position - transform.position).normalized;
-            direction.y = 0; // y축 값을 0으로 고정하여 y축으로의 이동을 방지
+            direction.y = 0; // y축 이동 방지
             transform.Translate(direction * speed * Time.deltaTime);
         }
-        else
+        // 플레이어와 가까워지면 공격 시작
+        else if (!isAttacking)
         {
-            if (!isAttacking)
-            {
-                StartCoroutine(Attack());
-            }
+            StartCoroutine(Attack());
         }
     }
 
     public void TakeDamage(float damage)
     {
+        // 피해 처리 및 HP 바 업데이트
         HP -= (int)damage;
-
         UpdateHPBar();
 
-        if (HP <= 0f)
+        // HP가 0 이하일 때 사망 처리
+        if (HP <= 0)
         {
             Die();
         }
@@ -71,55 +69,54 @@ public class BossScript : MonoBehaviour
 
     public void UpdateHPBar()
     {
+        // HP 바 업데이트
         HpBar.fillAmount = (float)HP / maxHP;
     }
 
     public void Die()
     {
-        // HP가 0 이하일 경우 오브젝트 파괴 및 골드 증가
+        // 보스 사망 처리
         if (HP <= 0)
         {
             PlayerController player = FindObjectOfType<PlayerController>();
             if (player != null)
             {
-                player.MovePlayerWithDelay(1f);
+                player.MovePlayerWithDelay(1f); // 플레이어 이동 지연
             }
 
             GameManager gm = FindObjectOfType<GameManager>();
             if (gm != null)
             {
-                gm.IncreaseGold(goldDropAmount);
-                gm.IncreaseStage();
-                gm.ResetWave(); // 웨이브 값을 0으로 설정
+                gm.IncreaseGold(goldDropAmount); // 골드 증가
+                gm.IncreaseStage(); // 스테이지 증가
+                gm.ResetWave(); // 웨이브 초기화
                 Debug.Log("라운드 증가");
             }
 
-            Instantiate(deathEffect, transform.position, Quaternion.identity);
+            Instantiate(deathEffect, transform.position, Quaternion.identity); // 사망 이펙트
 
-            Destroy(gameObject); // 나중에 오브젝트 풀링으로 수정
+            Destroy(gameObject); // 보스 오브젝트 삭제
 
-            // 배경 스크립트에 보스가 죽었다고 알리기
             if (backgroundScript != null)
             {
-                backgroundScript.OnKilled();
+                backgroundScript.OnKilled(); // 배경 스크립트에 보스 사망 알림
             }
         }
 
         if (questScript != null)
         {
-            questScript.IncrementMonsterKillCount(); // 추가: 몬스터 처치 수 업데이트
+            questScript.IncrementMonsterKillCount(); // 몬스터 처치 수 업데이트
         }
     }
 
-
     public void SetGoldDropAmount(int amount)
     {
-        goldDropAmount = amount;
+        goldDropAmount = amount; // 골드 드랍 양 설정
     }
 
     public void SetEnemyManager(EnemyManager manager)
     {
-        enemyManager = manager;
+        enemyManager = manager; // EnemyManager 참조 설정
     }
 
     private IEnumerator Attack()
@@ -131,8 +128,8 @@ public class BossScript : MonoBehaviour
             PlayerController player = playerTransform.GetComponent<PlayerController>();
             if (player != null)
             {
-                animator.SetTrigger("attack"); // 공격 트리거 설정
-                player.TakeDamage(attackPower);
+                animator.SetTrigger("attack"); // 공격 애니메이션 트리거 설정
+                player.TakeDamage(attackPower); // 플레이어에게 피해
             }
             yield return new WaitForSeconds(1f); // 1초마다 공격
         }
@@ -149,10 +146,18 @@ public class BossScript : MonoBehaviour
             PlayerController player = playerTransform.GetComponent<PlayerController>();
             if (player != null)
             {
-                player.Die(); // 플레이어 죽이기
+                player.Die(); // 플레이어 사망
             }
         }
     }
 
-
+    // EnemyManager로부터 초기화 값을 설정받는 메서드
+    public void Initialize(int maxHP, int attackPower, int goldDropAmount)
+    {
+        this.maxHP = maxHP;
+        this.attackPower = attackPower;
+        this.goldDropAmount = goldDropAmount;
+        this.HP = maxHP; // 초기 HP 설정
+        UpdateHPBar(); // HP 바 초기화
+    }
 }

@@ -60,6 +60,10 @@ public class DataManager : MonoBehaviour
         public int befAtt;
         public int DropGold;
         public int befGold;
+        public int bossMaxHP;
+        public int bossAttackPower;
+        public int bossGoldDropAmount;
+        public int emroundnumber;
 
     }
 
@@ -124,6 +128,11 @@ public class DataManager : MonoBehaviour
             befAtt = enemyManager.befAtt,
             DropGold = enemyManager.DropGold,
             befGold = enemyManager.befGold,
+            bossGoldDropAmount = enemyManager.bossGoldDropAmount,
+            bossAttackPower = enemyManager.bossAttackPower,
+            bossMaxHP = enemyManager.bossMaxHP,
+            emroundnumber = enemyManager.roundNumber,
+
 
 
 
@@ -188,6 +197,10 @@ public class DataManager : MonoBehaviour
             enemyManager.befAtt = data.befAtt;
             enemyManager.DropGold = data.DropGold;
             enemyManager.befGold = data.befGold;
+            enemyManager.bossAttackPower = data.bossAttackPower;
+            enemyManager.bossGoldDropAmount = data.bossGoldDropAmount;
+            enemyManager.bossMaxHP = data.bossMaxHP;
+            enemyManager.roundNumber = data.emroundnumber;
 
             enemyScript.HP = data.befHP;
             enemyScript.maxHP = data.befHP;
