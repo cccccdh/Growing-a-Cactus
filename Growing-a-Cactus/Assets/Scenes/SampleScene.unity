@@ -31559,6 +31559,9 @@ MonoBehaviour:
   befAtt: 0
   DropGold: 0
   befGold: 0
+  bossMaxHP: 0
+  bossAttackPower: 0
+  bossGoldDropAmount: 0
 --- !u!4 &753089185
 Transform:
   m_ObjectHideFlags: 0
@@ -42646,7 +42649,31 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1025043629}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 963673988}
+        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_MethodName: OpenRandomPick
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 328319259}
+        m_TargetAssemblyTypeName: GachaManager, Assembly-CSharp
+        m_MethodName: PerformGachaWithEquip
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 1
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1025043629
 MonoBehaviour:
   m_ObjectHideFlags: 0
