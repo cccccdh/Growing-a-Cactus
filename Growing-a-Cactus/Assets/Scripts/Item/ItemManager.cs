@@ -322,7 +322,7 @@ public class ItemManager : MonoBehaviour
                 {
                     item.Count -= item.RequiredCount;
                     item.Level++;
-                    item.RetentionEffect += 0.0146f;
+                    item.RetentionEffect += 0.0416f;
                     item.EquipEffect += item.EquipEffect / 5;
                     item.RequiredCount += 2;
 

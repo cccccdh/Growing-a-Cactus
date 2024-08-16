@@ -175,7 +175,10 @@ public class EnemyManager : MonoBehaviour
     {
         if ((roundCount - 1) % 3 == 1) hpCalcA = hp;
         hpCalcB = roundCount % 10 == 1 ? 0 : (roundCount - 1) % 3 == 0 ? 3 : (roundCount - 1) % 3;
-        befHP = hp + hpCalcA * hpCalcB;
+        if(hp < 1000000) // hp가 1b 미만일때와 이상일때 계산 방식에 차이를 둠
+            befHP = hp + hpCalcA * hpCalcB;
+        else
+            befHP = hp + hpCalcA / 2 * hpCalcB;
         return befHP;
     }
 
