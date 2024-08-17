@@ -160,13 +160,14 @@ public class EnemyManager : MonoBehaviour
     {
         if (gold < 100) return gold + 10;
         if (gold < 1000) return (int)(gold + gold * 0.3f);
-        if (gold < 5000) return (int)(gold + gold * 0.2f);
-        return (int)(gold + gold * 0.1f);
+        return (int)(gold + gold * 0.2f);
     }
 
     public int setEnemyAtt(int att)
     {
-        int attcal = roundCount % 10 == 0 ? 0 : roundCount % 10;
+        int attcal = 1;
+        if(roundCount > 10) // 10라운드가 지나기 전까지는 적의 공격력이 10씩 오르도록 설정
+            attcal = roundCount % 10 == 0 ? 0 : roundCount % 10;
         befAtt = att + 10 * attcal;
         return befAtt;
     }
@@ -175,10 +176,12 @@ public class EnemyManager : MonoBehaviour
     {
         if ((roundCount - 1) % 3 == 1) hpCalcA = hp;
         hpCalcB = roundCount % 10 == 1 ? 0 : (roundCount - 1) % 3 == 0 ? 3 : (roundCount - 1) % 3;
-        if(hp < 1000000) // hp가 1b 미만일때와 이상일때 계산 방식에 차이를 둠
+        if(hp < 1000000) 
             befHP = hp + hpCalcA * hpCalcB;
-        else
+        else if(hp < 1000000000) // hp가 1b에서 1c 사이일때부터 hp의 증가폭을 낮춤
             befHP = hp + hpCalcA / 2 * hpCalcB;
+        else
+            befHP = hp + hpCalcA / 3 * hpCalcB; // hp가 1c 이상일때부터 hp의 증가폭을 더 낮추고 이후 고정
         return befHP;
     }
 
