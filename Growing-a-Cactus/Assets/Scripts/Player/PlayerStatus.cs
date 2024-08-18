@@ -56,9 +56,12 @@ public class PlayerStatus : MonoBehaviour
     private float weaponTotalRetentionEffect = 0f;
     private float armorTotalEquipEffect = 0f;
     private float armorTotalRetentionEffect = 0f;
+    private float petTotalEquipEffect = 0f;
+    private float petTotalRetentionEffect = 0f;
 
     private Item equippedWeapon;
     private Item equippedArmor;
+    private Pet equippedPet;
 
     private void Awake()
     {
@@ -155,6 +158,21 @@ public class PlayerStatus : MonoBehaviour
         }
         UpdateHP();
     }
+    
+    // 펫 보유효과 -> 공격력 증가
+    public void UpdatePetRetentionEffects(List<Pet> pets)
+    {
+        petTotalRetentionEffect = 0;
+        foreach (var pet in pets)
+        {
+            if (pet.Count > 0 || (pet.Count == 0 && pet.Level > 1))
+            {
+                petTotalRetentionEffect += pet.RetentionEffect;
+                //Debug.Log($"전체 펫 보유효과 : {petTotalRetentionEffect}");
+            }
+        }
+        UpdatePowerLevel();
+    }
 
     // 무기 장착 효과 -> 공격력 증가
     public void EquipWeapon(Item item)
@@ -186,24 +204,44 @@ public class PlayerStatus : MonoBehaviour
         UpdateHP();
     }
 
+    // 펫 장착효과 -> 공격력 증가
+    public void EquipPet(Pet pet)
+    {
+        if (equippedPet != null)
+        {
+            petTotalEquipEffect = 0;
+        }
+
+        equippedPet = pet;
+
+        petTotalEquipEffect += equippedPet.EquipEffect;
+
+        UpdatePowerLevel();
+    }
+
     public Item GetEquippedWeapon() => equippedWeapon;
 
     public Item GetEquippedArmor() => equippedArmor;
+
+    public Pet GetEquippedPet() => equippedPet;
 
     public void UpdatePowerLevel()
     {
         // 로그로 상태 확인
         Debug.Log($"공격력 : {Attack}");
-        Debug.Log($"총 보유효과 : {weaponTotalRetentionEffect}");
-        Debug.Log($"총 장착효과 : {weaponTotalEquipEffect}");
+        Debug.Log($"총 무기 보유효과 : {weaponTotalRetentionEffect}");
+        Debug.Log($"총 무기 장착효과 : {weaponTotalEquipEffect}");
+        Debug.Log($"총 펫 보유효과 : {petTotalRetentionEffect}");
+        Debug.Log($"총 펫 장착효과 : {petTotalEquipEffect}");
 
-        float effect = Attack * (1 + weaponTotalRetentionEffect); // 보유 효과 적용
-        effect *= (1 + weaponTotalEquipEffect); // 장착 효과 적용
+        float effect = Attack * (1 + weaponTotalRetentionEffect + petTotalRetentionEffect); // 보유 효과 적용
+        effect *= (1 + weaponTotalEquipEffect + petTotalEquipEffect); // 장착 효과 적용
 
         PowerLevel = effect;
 
         // 로그로 계산 결과 확인
         Debug.Log($"전투력 : {PowerLevel}");
+        Debug.Log($"==================================================");
 
         uiManager.PowerLevelTEXT(PowerLevel);
     }

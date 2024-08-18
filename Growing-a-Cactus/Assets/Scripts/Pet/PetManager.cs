@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEditor.Progress;
 
 public class PetManager : MonoBehaviour
 {
@@ -14,6 +15,7 @@ public class PetManager : MonoBehaviour
     public TextMeshProUGUI LevelText;
     public TextMeshProUGUI CountText;
     public TextMeshProUGUI RetentionEffect;
+    public TextMeshProUGUI EquipEffectText;
 
     public Image[] petImages;
     public TextMeshProUGUI[] petCountTexts;
@@ -35,7 +37,7 @@ public class PetManager : MonoBehaviour
     public void SetItems(List<Pet> petList)
     {
         pets = petList;
-        //playerstatus.UpdateReactionEffects(items);
+        playerstatus.UpdatePetRetentionEffects(pets);
     }
     
     // 펫 개수를 업데이트하는 함수
@@ -47,6 +49,7 @@ public class PetManager : MonoBehaviour
             {
                 pet.Count++;
                 UpdatePetText(petName);
+                playerstatus.UpdatePetRetentionEffects(pets);
                 break;
             }
         }
@@ -148,8 +151,8 @@ public class PetManager : MonoBehaviour
             if(pet.Name == selectedPetName)
             {
                 GradeText.text = pet.Grade;
-                //RetentionEffect.text = $"공격력 + {TextFormatter.FormatText(pet.RetentionEffect * 100)}%";
-                //EquipEffectText.text = $"공격력 + {TextFormatter.FormatText(pet.EquipEffect * 100)}%";
+                RetentionEffect.text = $"공격력 + {TextFormatter.FormatText(pet.RetentionEffect * 100)}%";
+                EquipEffectText.text = $"공격력 + {TextFormatter.FormatText(pet.EquipEffect * 100)}%";
                 LevelText.text = $"Lv.{pet.Level}";
                 CountText.text = $"( {pet.Count} / {pet.RequiredCount} )";
                 break;
@@ -171,6 +174,7 @@ public class PetManager : MonoBehaviour
                 if(pet.Name == selectedPetName)
                 {
                     // 플레이어 전투력에 장착효과 부여
+                    playerstatus.EquipPet(pet);
 
                     Pet.SetActive(true);
                     PetName.text = pet.Name;
@@ -191,13 +195,18 @@ public class PetManager : MonoBehaviour
                 {
                     pet.Count -= pet.RequiredCount;
                     pet.Level++;
-                    // 펫 보유효과 증가
-                    // 펫 장착효과 증가
+                    pet.RetentionEffect += 0.0416f;
+                    pet.EquipEffect += pet.EquipEffect / 5;
                     pet.RequiredCount += 2;
 
                     // 보유효과 업데이트
-                    // 장착효과 업데이트
+                    playerstatus.UpdatePetRetentionEffects(pets);
 
+                    // 장착효과 업데이트
+                    if (playerstatus.GetEquippedPet() != null && playerstatus.GetEquippedPet().Name == pet.Name)
+                    {
+                        playerstatus.EquipPet(pet);
+                    }
                     UpdatePetText(pet.Name);
                     InfomationText();
 

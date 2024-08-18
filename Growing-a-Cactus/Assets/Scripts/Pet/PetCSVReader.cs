@@ -37,8 +37,8 @@ public class PetCSVReader : MonoBehaviour
                     Name = values[0],
                     Grade = values[1],
                     Probability = float.Parse(values[2]),
-                    //ReactionEffect = float.Parse(values[3]) / 100,
-                    //EquipEffect = float.Parse(values[4]) / 100,
+                    RetentionEffect = float.Parse(values[3]) / 100,
+                    EquipEffect = float.Parse(values[4]) / 100,
                     Level = 1,
                     Count = 0,
                     RequiredCount = 2
