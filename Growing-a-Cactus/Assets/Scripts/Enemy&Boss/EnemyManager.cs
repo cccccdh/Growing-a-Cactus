@@ -34,14 +34,13 @@ public class EnemyManager : MonoBehaviour
     public int bossGoldDropAmount;
 
     // ÂüÁ¶
-    private PlayerController playerController;
-    private BackgroundScript backgroundScript;
-    private QuestScript questScript;
+    public PlayerController playerController;
+    public BackgroundScript backgroundScript;
+    public QuestScript questScript;
 
     private void Start()
     {
         InitializeStats();
-        FindReferences();
         SpawnEnemies();
     }
 
@@ -53,13 +52,6 @@ public class EnemyManager : MonoBehaviour
         HpMax = SetEnemyHP(befHP);
         AttackDamage = setEnemyAtt(befAtt);
         DropGold = setGoldDrop(befGold);
-    }
-
-    private void FindReferences()
-    {
-        playerController = FindObjectOfType<PlayerController>();
-        backgroundScript = FindObjectOfType<BackgroundScript>();
-        questScript = FindObjectOfType<QuestScript>();
     }
 
     public void SpawnEnemies()
@@ -147,8 +139,7 @@ public class EnemyManager : MonoBehaviour
 
             if (enemyScript != null)
             {
-                int goldDropAmount = 10 + ((roundNumber - 1) / 3) * 10;
-                enemyScript.SetGoldDropAmount(goldDropAmount);
+                enemyScript.SetGoldDropAmount(DropGold);
                 enemyScript.SetEnemyManager(this);
                 enemyScript.UpdateHPBar();
             }
@@ -159,9 +150,12 @@ public class EnemyManager : MonoBehaviour
 
     public int setGoldDrop(int gold)
     {
-        if (gold < 100) return gold + 10;
-        if (gold < 1000) return (int)(gold + gold * 0.3f);
-        return (int)(gold + gold * 0.2f);
+        if (gold < 100) 
+            return befGold = gold + 10;
+        else if (gold < 1000) 
+            return befGold = (int)(gold + gold * 0.3f);
+        else
+            return befGold = (int)(gold + gold * 0.2f);
     }
 
     public int setEnemyAtt(int att)

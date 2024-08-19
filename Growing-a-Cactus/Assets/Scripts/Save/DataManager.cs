@@ -25,7 +25,7 @@ public class DataManager : MonoBehaviour
 
         public float Attack_Speed;
         public int Attack_Speed_Level;
-        public int Attack_Speed_Cost;
+        public float Attack_Speed_Cost;
 
         public float Critical;
         public int Critical_Level;
@@ -151,7 +151,7 @@ public class DataManager : MonoBehaviour
             Hp_Recovery_Cost = playerStatus.Hp_Recovery_Cost,
             Attack_Speed = playerStatus.Attack_Speed,
             Attack_Speed_Level = playerStatus.Attack_Speed_Level,
-            Attack_Speed_Cost = (int)playerStatus.Attack_Speed_Cost,
+            Attack_Speed_Cost = playerStatus.Attack_Speed_Cost,
             Critical = playerStatus.Critical,
             Critical_Level = playerStatus.Critical_Level,
             Critical_Cost = playerStatus.Critical_Cost,

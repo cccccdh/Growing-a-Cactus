@@ -23,21 +23,12 @@ public class EnemyScript : MonoBehaviour
 
     private void OnEnable()
     {
-        HP = maxHP;        
+        Init();
     }
 
     private void Start()
     {
         playerTransform = GameObject.FindGameObjectWithTag("Player").transform; // 플레이어 찾기
-
-        if (enemyManager != null)
-        {
-            HP = enemyManager.HpMax;
-            maxHP = enemyManager.HpMax;
-            attackPower = enemyManager.AttackDamage;
-            goldDropAmount = enemyManager.DropGold;
-        }
-        UpdateHPBar();
         animator = GetComponent<Animator>(); // Animator 컴포넌트 찾기
     }
 
@@ -59,6 +50,18 @@ public class EnemyScript : MonoBehaviour
                 StartCoroutine(Attack());
             }
         }
+    }
+
+    public void Init()
+    {
+        if (enemyManager != null)
+        {
+            HP = enemyManager.HpMax;
+            maxHP = enemyManager.HpMax;
+            attackPower = enemyManager.AttackDamage;
+            goldDropAmount = enemyManager.DropGold;
+        }
+        UpdateHPBar();
     }
 
     public void TakeDamage(double damage)

@@ -83,6 +83,7 @@ public class PoolManager : MonoBehaviour
         if (enemy != null)
         {
             enemy.SetEnemyManager(FindObjectOfType<EnemyManager>());
+            enemy.Init();
         }
         return enemyObj;
     }

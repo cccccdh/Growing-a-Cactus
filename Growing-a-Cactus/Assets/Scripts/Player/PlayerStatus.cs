@@ -262,6 +262,7 @@ public class PlayerStatus : MonoBehaviour
         // 로그로 계산 결과 확인
         //Debug.Log($"체력 : {effectiveHP}");
     }
+
     private void UpdateButtonState(string status, bool isInteractable)
     {
         uiManager.UpdateButtonInteractivity(status, isInteractable);
