@@ -120,28 +120,19 @@ public class DataManager : MonoBehaviour
     }
 
     private string saveFilePath;
-    private PlayerStatus playerStatus;
-    private UIManager uiManager;
-    private GameManager gameManager;
-    private QuestScript questScript;
-    private PlayerController playerController; // PlayerController 참조 추가
-    private EnemyManager enemyManager;
-    private EnemyScript enemyScript;
-    private Item item;
-    private ItemManager itemManager;
+    public PlayerStatus playerStatus;
+    public UIManager uiManager;
+    public GameManager gameManager;
+    public QuestScript questScript;
+    public PlayerController playerController; // PlayerController 참조 추가
+    public EnemyManager enemyManager;
+    public EnemyScript enemyScript;
+    public Item item;
+    public ItemManager itemManager;
 
     void Start()
     {
         saveFilePath = Path.Combine(Application.persistentDataPath, "savefile.json");
-        playerStatus = FindObjectOfType<PlayerStatus>();
-        uiManager = FindObjectOfType<UIManager>();
-        gameManager = FindObjectOfType<GameManager>();
-        questScript = FindObjectOfType<QuestScript>();
-        playerController = FindObjectOfType<PlayerController>();
-        enemyManager = FindObjectOfType<EnemyManager>();
-        enemyScript = FindObjectOfType<EnemyScript>();
-        //item = FindObjectOfType<Item>();
-        itemManager = FindObjectOfType<ItemManager>();
     }
 
     // 게임 데이터를 저장하는 함수

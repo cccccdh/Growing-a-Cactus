@@ -42,12 +42,14 @@ public class UIManager : MonoBehaviour
     public Button[] buttons;
     public TextMeshProUGUI[] costs;
 
+    private StringBuilder sb = new StringBuilder();
+
+
     public void Update_Text(string status, double stat, int level, int cost)
     {
-        static void UpdateTextFields(TextMeshProUGUI levelText, TextMeshProUGUI costText, int level, int cost)
+        void UpdateTextFields(TextMeshProUGUI levelText, TextMeshProUGUI costText, int level, int cost)
         {
-            // StringBuilder를 이용한 문자열 연결 최적화
-            var sb = new StringBuilder();
+            sb.Clear(); // StringBuilder 재사용
             sb.Append("Lv.").Append(level);
             levelText.text = sb.ToString();
 
@@ -75,19 +77,19 @@ public class UIManager : MonoBehaviour
                 break;
             case "Critical":
                 UpdateTextFields(Critical_Level, Critical_Cost, level, cost);
-                Critical.text = $"{stat:N2}%";  // 문자열 보간 사용 (GC 최소화)
+                Critical.text = string.Format("{0:N2}%", stat);  // String.Format 사용
                 break;
             case "Critical_Damage":
                 UpdateTextFields(Critical_Damage_Level, Critical_Damage_Cost, level, cost);
-                Critical_Damage.text = $"{stat}%";
+                Critical_Damage.text = string.Format("{0}%", stat);
                 break;
             case "DoubleAttack":
                 UpdateTextFields(DoubleAttack_Level, DoubleAttack_Cost, level, cost);
-                DoubleAttack.text = $"{stat:N1}%";
+                DoubleAttack.text = string.Format("{0:N1}%", stat);
                 break;
             case "TripleAttack":
                 UpdateTextFields(TripleAttack_Level, TripleAttack_Cost, level, cost);
-                TripleAttack.text = $"{stat:N1}%";
+                TripleAttack.text = string.Format("{0:N1}%", stat);
                 break;
         }
     }

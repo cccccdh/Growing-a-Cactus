@@ -52,7 +52,8 @@ public class GameManager : MonoBehaviour
         UpdateGoldText();
         UpdateGemText();
         UpdateStageText();
-        UpdateWaveBar(); // 초기 웨이브 바 업데이트
+        UpdateWaveBar();
+        Application.targetFrameRate = 120;
     }
 
     private void Update()

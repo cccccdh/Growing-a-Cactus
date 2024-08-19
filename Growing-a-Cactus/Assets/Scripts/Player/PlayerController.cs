@@ -124,11 +124,6 @@ public class PlayerController : MonoBehaviour
                 break;
             }
         }
-
-        //if (!isAttacking)
-        //{
-        //    FindAndAttackNextEnemy();
-        //}
     }
 
     private void FindAndAttackNextEnemy()
