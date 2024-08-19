@@ -35,13 +35,13 @@ public class ItemManager : MonoBehaviour
     public TextMeshProUGUI[] armorCountTexts;
     public TextMeshProUGUI[] armorLevelTexts;
 
-    private List<Item> weaponItems = new List<Item>();
-    private List<Item> armorItems = new List<Item>();
+    public List<Item> weaponItems = new List<Item>();
+    public List<Item> armorItems = new List<Item>();
 
     public PlayerStatus playerstatus;
 
-    private string selectedItemName;
-    private Color selectedItemColor;
+    public string selectedItemName;
+    public Color selectedItemColor;
 
     private void Awake()
     {

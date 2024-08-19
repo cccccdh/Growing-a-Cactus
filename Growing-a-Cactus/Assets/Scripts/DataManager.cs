@@ -3,6 +3,9 @@ using System.IO;
 using UnityEngine;
 using TMPro;
 using System.Security.Cryptography;
+using Unity.Collections;
+using UnityEngine.UI;
+
 
 public class DataManager : MonoBehaviour
 {
@@ -65,6 +68,57 @@ public class DataManager : MonoBehaviour
         public int bossGoldDropAmount;
         public int emroundnumber;
 
+        //item쪽
+        public string name;
+        public string Type;
+        public string Grade;
+        public float Probability;
+        public float RetentionEffect;
+        public float EquipEffect;
+
+        public int Level;
+        public int Count;
+        public int RequiredCount;
+
+        // itemManager쪽
+        // 무기
+        public Image WeaponImg;
+        public Image EquipWeaponImg;
+        public TextMeshProUGUI EquipWeaponText;
+        public TextMeshProUGUI EquipWeaponLevelText;
+        public TextMeshProUGUI WeaponNameText;
+        public TextMeshProUGUI WeaponGradeText;
+        public TextMeshProUGUI WeaponLevelText;
+        public TextMeshProUGUI WeaponCountText;
+        public TextMeshProUGUI WeaponRetentionEffect;
+        public TextMeshProUGUI WeaponEquipEffectText;
+        public Image[] weaponImages;
+        public TextMeshProUGUI[] weaponCountTexts;
+        public TextMeshProUGUI[] weaponLevelTexts;
+        // 방어구
+        public Image ArmorImg;
+        public Image EquipArmorImg;
+        public TextMeshProUGUI EquipArmorText;
+        public TextMeshProUGUI EquipArmorLevelText;
+        public TextMeshProUGUI ArmorNameText;
+        public TextMeshProUGUI ArmorGradeText;
+        public TextMeshProUGUI ArmorLevelText;
+        public TextMeshProUGUI ArmorCountText;
+        public TextMeshProUGUI ArmorRetentionEffect;
+        public TextMeshProUGUI ArmorEquipEffectText;
+        public Image[] armorImages;
+        public TextMeshProUGUI[] armorCountTexts;
+        public TextMeshProUGUI[] armorLevelTexts;
+
+        public List<Item> weaponItems = new List<Item>();
+        public List<Item> armorItems = new List<Item>();
+
+        public PlayerStatus playerstatus;
+
+        public string selectedItemName;
+        public Color selectedItemColor;
+
+
     }
 
     private string saveFilePath;
@@ -75,6 +129,8 @@ public class DataManager : MonoBehaviour
     private PlayerController playerController; // PlayerController 참조 추가
     private EnemyManager enemyManager;
     private EnemyScript enemyScript;
+    private Item item;
+    private ItemManager itemManager;
 
     void Start()
     {
@@ -86,6 +142,8 @@ public class DataManager : MonoBehaviour
         playerController = FindObjectOfType<PlayerController>();
         enemyManager = FindObjectOfType<EnemyManager>();
         enemyScript = FindObjectOfType<EnemyScript>();
+        item = FindObjectOfType<Item>();
+        itemManager = FindObjectOfType<ItemManager>();
     }
 
     // 게임 데이터를 저장하는 함수
@@ -118,7 +176,7 @@ public class DataManager : MonoBehaviour
             TripleAttack_Level = playerStatus.TripleAttack_Level,
             TripleAttack_Cost = playerStatus.TripleAttack_Cost,
             PowerLevel = playerStatus.PowerLevel,
-            effectiveHP=playerStatus.effectiveHP,
+            effectiveHP = playerStatus.effectiveHP,
             //EnemyManager
             hpCalcA = enemyManager.hpCalcA,
             hpCalcB = enemyManager.hpCalcB,
@@ -132,12 +190,53 @@ public class DataManager : MonoBehaviour
             bossAttackPower = enemyManager.bossAttackPower,
             bossMaxHP = enemyManager.bossMaxHP,
             emroundnumber = enemyManager.roundNumber,
+            //Item
+            name = item.name,
+            Type = item.Type,
+            Grade = item.Grade,
+            Probability = item.Probability,
+            RetentionEffect = item.RetentionEffect,
+            EquipEffect = item.EquipEffect,
+            Level = item.Level,
+            Count = item.Count,
+            RequiredCount = item.RequiredCount,
 
 
+            //ItemManager
+            WeaponImg = itemManager.WeaponImg,
+            EquipWeaponImg = itemManager.EquipWeaponImg,
+            EquipWeaponText = itemManager.EquipWeaponText,
+            EquipWeaponLevelText = itemManager.EquipWeaponLevelText,
+            WeaponNameText = itemManager.WeaponNameText,
+            WeaponGradeText = itemManager.WeaponGradeText,
+            WeaponLevelText = itemManager.WeaponLevelText,
+            WeaponCountText = itemManager.WeaponCountText,
+            WeaponRetentionEffect = itemManager.WeaponRetentionEffect,
+            WeaponEquipEffectText = itemManager.WeaponEquipEffectText,
+            weaponImages = itemManager.weaponImages,
+            weaponCountTexts = itemManager.weaponCountTexts,
+            weaponLevelTexts = itemManager.weaponLevelTexts,
 
+            ArmorImg = itemManager.ArmorImg,
+            EquipArmorImg = itemManager.EquipArmorImg,
+            EquipArmorText = itemManager.EquipArmorText,
+            EquipArmorLevelText = itemManager.EquipArmorLevelText,
+            ArmorNameText = itemManager.ArmorNameText,
+            ArmorGradeText = itemManager.ArmorGradeText,
+            ArmorLevelText = itemManager.ArmorLevelText,
+            ArmorCountText = itemManager.ArmorCountText,
+            ArmorRetentionEffect = itemManager.ArmorRetentionEffect,
+            ArmorEquipEffectText = itemManager.ArmorEquipEffectText,
+            armorImages = itemManager.armorImages,
+            armorCountTexts = itemManager.armorCountTexts,
+            armorLevelTexts = itemManager.armorLevelTexts,
 
+            weaponItems = itemManager.weaponItems,
+            armorItems = itemManager.armorItems,
 
-
+            playerstatus = itemManager.playerstatus,
+            selectedItemName = itemManager.selectedItemName,
+            selectedItemColor = itemManager.selectedItemColor,
 
 
             gold = gameManager.Gold,
@@ -145,6 +244,7 @@ public class DataManager : MonoBehaviour
             stageNumber = gameManager.stageNumber,
             roundNumber = gameManager.roundNumber,
             killedMonsters = questScript.killedMonsters
+
         };
 
 
@@ -209,8 +309,51 @@ public class DataManager : MonoBehaviour
 
             playerController.HpR = data.Hp_Recovery;
 
+         
+            item.name = data.name;
+            item.Type = data.Type;
+            item.Grade = data.Grade;
+            item.Probability = data.Probability;
+            item.RetentionEffect = data.RetentionEffect;
+            item.EquipEffect = data.EquipEffect;
+            item.Level = data.Level;
+            item.Count = data.Count;
+            item.RequiredCount = data.RequiredCount;
 
+            itemManager.WeaponImg = data.WeaponImg;
+            itemManager.EquipWeaponImg = data.EquipWeaponImg;
+            itemManager.EquipWeaponText = data.EquipWeaponText;
+            itemManager.EquipWeaponLevelText = data.EquipWeaponLevelText;
+            itemManager.WeaponNameText = data.WeaponNameText;
+            itemManager.WeaponGradeText = data.WeaponGradeText;
+            itemManager.WeaponLevelText = data.WeaponLevelText;
+            itemManager.WeaponCountText = data.WeaponCountText;
+            itemManager.WeaponRetentionEffect = data.WeaponRetentionEffect;
+            itemManager.WeaponEquipEffectText = data.WeaponEquipEffectText;
+            itemManager.weaponImages = data.weaponImages;
+            itemManager.weaponCountTexts = data.weaponCountTexts;
+            itemManager.weaponLevelTexts = data.weaponLevelTexts;
 
+            itemManager.ArmorImg = data.ArmorImg;
+            itemManager.EquipArmorImg = data.EquipArmorImg;
+            itemManager.EquipArmorText = data.EquipArmorText;
+            itemManager.EquipArmorLevelText = data.EquipArmorLevelText;
+            itemManager.ArmorNameText = data.ArmorNameText;
+            itemManager.ArmorGradeText = data.ArmorGradeText;
+            itemManager.ArmorLevelText = data.ArmorLevelText;
+            itemManager.ArmorCountText = data.ArmorCountText;
+            itemManager.ArmorRetentionEffect = data.ArmorRetentionEffect;
+            itemManager.armorImages = data.armorImages;
+            itemManager.armorCountTexts = data.armorCountTexts;
+            itemManager.armorLevelTexts = data.armorLevelTexts;
+
+            itemManager.weaponItems = data.weaponItems;
+            itemManager.armorItems = data.armorItems;
+
+            itemManager.playerstatus = data.playerstatus;
+
+            itemManager.selectedItemName = data.selectedItemName;
+            itemManager.selectedItemColor = data.selectedItemColor;
 
 
             uiManager.Update_Text("Attack", playerStatus.Attack, playerStatus.Attack_Level, playerStatus.Attack_Cost);
