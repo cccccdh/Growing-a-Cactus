@@ -26,19 +26,18 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         status = GetComponent<PlayerStatus>();
+        animator = GetComponent<Animator>();
+        enemyManager = FindObjectOfType<EnemyManager>();
+        poolManager = PoolManager.Instance;
     }
 
     void Start()
-    {
-        status.Init();
+    {        
         CurrentHp = status.effectiveHP;
         HpR = status.Hp_Recovery;
-        originalPosition = transform.position;
-        enemyManager = FindObjectOfType<EnemyManager>();
-        poolManager = PoolManager.Instance;
-        animator = GetComponent<Animator>();
-        StartCoroutine(HealthRegenCoroutine());
+        originalPosition = transform.position;        
         shootpivot = thronPivot.position;
+        StartCoroutine(HealthRegenCoroutine());
     }
 
     public void TakeDamage(float damage)

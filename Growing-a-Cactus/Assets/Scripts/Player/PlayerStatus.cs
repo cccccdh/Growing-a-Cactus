@@ -67,6 +67,7 @@ public class PlayerStatus : MonoBehaviour
     {
         uiManager = FindObjectOfType<UIManager>();
         playerController = FindObjectOfType<PlayerController>();
+        Init();
     }
 
     public void Init()
@@ -228,11 +229,11 @@ public class PlayerStatus : MonoBehaviour
     public void UpdatePowerLevel()
     {
         // 로그로 상태 확인
-        Debug.Log($"공격력 : {Attack}");
-        Debug.Log($"총 무기 보유효과 : {weaponTotalRetentionEffect}");
-        Debug.Log($"총 무기 장착효과 : {weaponTotalEquipEffect}");
-        Debug.Log($"총 펫 보유효과 : {petTotalRetentionEffect}");
-        Debug.Log($"총 펫 장착효과 : {petTotalEquipEffect}");
+        //Debug.Log($"공격력 : {Attack}");
+        //Debug.Log($"총 무기 보유효과 : {weaponTotalRetentionEffect}");
+        //Debug.Log($"총 무기 장착효과 : {weaponTotalEquipEffect}");
+        //Debug.Log($"총 펫 보유효과 : {petTotalRetentionEffect}");
+        //Debug.Log($"총 펫 장착효과 : {petTotalEquipEffect}");
 
         float effect = Attack * (1 + weaponTotalRetentionEffect + petTotalRetentionEffect); // 보유 효과 적용
         effect *= (1 + weaponTotalEquipEffect + petTotalEquipEffect); // 장착 효과 적용
@@ -240,8 +241,8 @@ public class PlayerStatus : MonoBehaviour
         PowerLevel = effect;
 
         // 로그로 계산 결과 확인
-        Debug.Log($"전투력 : {PowerLevel}");
-        Debug.Log($"==================================================");
+        //Debug.Log($"전투력 : {PowerLevel}");
+        //Debug.Log($"==================================================");
 
         uiManager.PowerLevelTEXT(PowerLevel);
     }
@@ -249,9 +250,9 @@ public class PlayerStatus : MonoBehaviour
     public void UpdateHP()
     {
         // 로그로 상태 확인
-        Debug.Log($"체력 : {Hp}");
-        Debug.Log($"총 보유효과 : {armorTotalRetentionEffect}");
-        Debug.Log($"총 장착효과 : {armorTotalEquipEffect}");
+        //Debug.Log($"체력 : {Hp}");
+        //Debug.Log($"총 보유효과 : {armorTotalRetentionEffect}");
+        //Debug.Log($"총 장착효과 : {armorTotalEquipEffect}");
 
         float effect = Hp * (1 + armorTotalRetentionEffect); // 보유 효과 적용
         effect *= (1 + armorTotalEquipEffect); // 장착 효과 적용
@@ -259,7 +260,7 @@ public class PlayerStatus : MonoBehaviour
         effectiveHP = effect;
 
         // 로그로 계산 결과 확인
-        Debug.Log($"체력 : {effectiveHP}");
+        //Debug.Log($"체력 : {effectiveHP}");
     }
 
     private void Update()
