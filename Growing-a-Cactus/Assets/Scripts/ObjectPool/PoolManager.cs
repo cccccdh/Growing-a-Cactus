@@ -19,9 +19,10 @@ public class PoolManager : MonoBehaviour
     public ObjectPool damageTextPool; // 데미지 텍스트 풀
     public ObjectPool thornPool; // 가시 오브젝트 풀
     public ObjectPool enemyPool; // 적 오브젝트 풀
+    public ObjectPool bossPool; // 적 오브젝트 풀
 
     // 데미지 텍스트 활성화
-    public void CreateDamageText(Vector3 hitPoint, float damage, bool isCritical)
+    public void CreateDamageText(Vector3 hitPoint, double damage, bool isCritical)
     {
         GameObject damageTextObj = damageTextPool.GetObject();
 
@@ -45,7 +46,7 @@ public class PoolManager : MonoBehaviour
     }
 
     // 가시 활성화
-    public void GetThorn(Vector3 position, Vector2 direction, float damage, bool isCritical)
+    public void GetThorn(Vector3 position, Vector2 direction, double damage, bool isCritical)
     {
         GameObject thornObj = thornPool.GetObject();
         thornObj.transform.position = position;
@@ -90,5 +91,24 @@ public class PoolManager : MonoBehaviour
     public void ReturnToEnemyPool(GameObject obj)
     {
         enemyPool.ReturnObject(obj);
+    }
+
+    // 보스 활성화
+    public GameObject GetBoss(Vector3 position)
+    {
+        GameObject bossObj = bossPool.GetObject();
+        bossObj.transform.position = position;
+        bossObj.transform.rotation = Quaternion.identity;
+
+        BossScript boss = bossObj.GetComponent<BossScript>();
+
+        boss?.SetEnemyManager(FindObjectOfType<EnemyManager>());
+        return bossObj;
+    }
+
+    // 보스 비활성화
+    public void ReturnToBossPool(GameObject obj)
+    {
+        bossPool.ReturnObject(obj);
     }
 }

@@ -25,12 +25,18 @@ public class BossScript : MonoBehaviour
     private Animator animator; // Animator 컴포넌트
     private BackgroundScript backgroundScript; // BackgroundScript 참조
 
+    private void OnEnable()
+    {
+        HP = maxHP;
+        UpdateHPBar();
+    }
+
     private void Start()
     {
         // 플레이어, Animator, QuestScript, BackgroundScript 초기화
         playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
         animator = GetComponent<Animator>();
-        questScript = GameObject.FindObjectOfType<QuestScript>();
+        questScript = FindObjectOfType<QuestScript>();
         backgroundScript = FindObjectOfType<BackgroundScript>();
         StartCoroutine(BossTimer(10f)); // 보스 타이머 시작
     }
@@ -54,7 +60,7 @@ public class BossScript : MonoBehaviour
         }
     }
 
-    public void TakeDamage(float damage)
+    public void TakeDamage(double damage)
     {
         // 피해 처리 및 HP 바 업데이트
         HP -= (int)damage;
@@ -79,23 +85,20 @@ public class BossScript : MonoBehaviour
         if (HP <= 0)
         {
             PlayerController player = FindObjectOfType<PlayerController>();
-            if (player != null)
+
+            player?.MovePlayerWithDelay(1f); // 플레이어 이동 지연
+
+            if (GameManager.instance != null)
             {
-                player.MovePlayerWithDelay(1f); // 플레이어 이동 지연
+                GameManager.instance.IncreaseGold(goldDropAmount);
+                GameManager.instance.IncreaseStage();
+                GameManager.instance.ResetWave();
             }
 
-            GameManager gm = FindObjectOfType<GameManager>();
-            if (gm != null)
-            {
-                gm.IncreaseGold(goldDropAmount); // 골드 증가
-                gm.IncreaseStage(); // 스테이지 증가
-                gm.ResetWave(); // 웨이브 초기화
-                Debug.Log("라운드 증가");
-            }
 
             Instantiate(deathEffect, transform.position, Quaternion.identity); // 사망 이펙트
 
-            Destroy(gameObject); // 보스 오브젝트 삭제
+            PoolManager.Instance.ReturnToBossPool(gameObject);
 
             if (backgroundScript != null)
             {

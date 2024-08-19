@@ -20,12 +20,15 @@ public class EnemyScript : MonoBehaviour
     private EnemyManager enemyManager; // EnemyManager 참조
     private Transform playerTransform; // 플레이어의 Transform 참조
     private Animator animator; // Animator 컴포넌트 참조
-    private PoolManager poolManager;
+
+    private void OnEnable()
+    {
+        HP = maxHP;        
+    }
 
     private void Start()
     {
         playerTransform = GameObject.FindGameObjectWithTag("Player").transform; // 플레이어 찾기
-        poolManager = PoolManager.Instance;
 
         if (enemyManager != null)
         {
@@ -58,7 +61,7 @@ public class EnemyScript : MonoBehaviour
         }
     }
 
-    public void TakeDamage(float damage)
+    public void TakeDamage(double damage)
     {
         HP -= (int)damage;
 
@@ -80,13 +83,13 @@ public class EnemyScript : MonoBehaviour
         // HP가 0 이하일 경우 오브젝트 파괴 및 골드 증가
         if (HP <= 0)
         {
-            GameManager gm = FindObjectOfType<GameManager>();
-            if (gm != null)
+            if(GameManager.instance != null)
             {
-                gm.IncreaseGold(goldDropAmount);
+                GameManager.instance.IncreaseGold(goldDropAmount);
             }
+
             Instantiate(deathEffect, transform.position, Quaternion.identity);
-            Destroy(gameObject);
+            PoolManager.instance.ReturnToEnemyPool(gameObject);
 
             if (enemyManager != null)
             {

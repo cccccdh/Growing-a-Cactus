@@ -4,7 +4,7 @@ public class Thorn : MonoBehaviour
 {
     public ParticleSystem attackEffect;
     private PoolManager poolManager;
-    private float damage;
+    private double damage;
     private bool isCritical;
 
     private void Start()
@@ -12,13 +12,13 @@ public class Thorn : MonoBehaviour
         poolManager = PoolManager.Instance;
     }
 
-    public void SetDamage(float damage)
+    public void SetDamage(double damage)
     {
         this.damage = damage;
         isCritical = false;
     }
 
-    public void SetCriticalDamage(float damage)
+    public void SetCriticalDamage(double damage)
     {
         this.damage = damage;
         isCritical = true;
@@ -26,9 +26,21 @@ public class Thorn : MonoBehaviour
 
     public void SetDirection(Vector2 direction)
     {
+        // 가시의 속도 설정
         Rigidbody2D rb = GetComponent<Rigidbody2D>();
-        rb.velocity = direction * 5;
+        rb.velocity = direction.normalized * 5; // 방향 벡터를 정규화하고 속도를 곱함
+
+        // 가시의 회전 설정
+        UpdateRotation(direction);
     }
+
+    private void UpdateRotation(Vector2 direction)
+    {
+        // 방향 벡터를 기준으로 회전 계산
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle));
+    }
+
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -46,7 +58,7 @@ public class Thorn : MonoBehaviour
         }
     }
 
-    private void HandleDamage(GameObject target, float damage, bool isCritical)
+    private void HandleDamage(GameObject target, double damage, bool isCritical)
     {
         if (target.CompareTag("Enemy"))
         {

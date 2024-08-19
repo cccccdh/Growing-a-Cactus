@@ -18,7 +18,7 @@ public class GameManager : MonoBehaviour
     public GameObject OptionPage;
     public Image waveBar; // 웨이브 바 이미지 추가
 
-    public int gold = 0;
+    public double gold = 0;
     public int gem = 0;
     public int stageNumber = 1;
     public int roundNumber = 1;
@@ -134,12 +134,12 @@ public class GameManager : MonoBehaviour
         waveBar.fillAmount = (float)wave / maxWave;
     }
 
-    public int Gold
+    public double Gold
     {
         get { return gold; }
     }
 
-    public void IncreaseGold(int amount)
+    public void IncreaseGold(double amount)
     {
         gold += amount;
         UpdateGoldText();

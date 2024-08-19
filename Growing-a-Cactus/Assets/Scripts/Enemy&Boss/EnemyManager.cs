@@ -70,7 +70,8 @@ public class EnemyManager : MonoBehaviour
 
     public void SpawnBoss()
     {
-        GameObject bossObject = Instantiate(bossPrefab, bossSpawnPoint.position, Quaternion.identity);
+        //GameObject bossObject = Instantiate(bossPrefab, bossSpawnPoint.position, Quaternion.identity);
+        GameObject bossObject = PoolManager.Instance.GetBoss(bossSpawnPoint.position);
         BossScript bossScript = bossObject.GetComponent<BossScript>();
 
         if (bossScript != null)
@@ -141,7 +142,7 @@ public class EnemyManager : MonoBehaviour
     {
         foreach (Transform spawnPoint in spawnPoints)
         {
-            GameObject enemyObject = Instantiate(enemyPrefab, spawnPoint.position, Quaternion.identity);
+            GameObject enemyObject = PoolManager.instance.GetEnemy(spawnPoint.position);
             EnemyScript enemyScript = enemyObject.GetComponent<EnemyScript>();
 
             if (enemyScript != null)

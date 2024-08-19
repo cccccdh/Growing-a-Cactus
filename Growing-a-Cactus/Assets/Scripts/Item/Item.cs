@@ -1,6 +1,4 @@
-using UnityEngine;
-
-public class Item : MonoBehaviour
+public class Item
 {
     public string Name;
     public string Type;

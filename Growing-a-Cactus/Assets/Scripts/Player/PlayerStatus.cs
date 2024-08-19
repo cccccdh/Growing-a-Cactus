@@ -8,12 +8,12 @@ public class PlayerStatus : MonoBehaviour
     private PlayerController playerController;
 
     // 플레이어 스탯 변수
-    public int Attack;
+    public double Attack;
     public int Attack_Level;
     public int Attack_Cost;
     public int Increase_Attack;
 
-    public int Hp;
+    public double Hp;
     public int Hp_Level;
     public int Hp_Cost;
     public int Increase_HP;
@@ -43,8 +43,8 @@ public class PlayerStatus : MonoBehaviour
     public int TripleAttack_Level;
     public int TripleAttack_Cost;
 
-    public float PowerLevel;
-    public float effectiveHP;
+    public double PowerLevel;
+    public double effectiveHP;
 
     // 버튼 상태 변수
     private bool isButtonDowning = false;
@@ -235,7 +235,7 @@ public class PlayerStatus : MonoBehaviour
         //Debug.Log($"총 펫 보유효과 : {petTotalRetentionEffect}");
         //Debug.Log($"총 펫 장착효과 : {petTotalEquipEffect}");
 
-        float effect = Attack * (1 + weaponTotalRetentionEffect + petTotalRetentionEffect); // 보유 효과 적용
+        double effect = Attack * (1 + weaponTotalRetentionEffect + petTotalRetentionEffect); // 보유 효과 적용
         effect *= (1 + weaponTotalEquipEffect + petTotalEquipEffect); // 장착 효과 적용
 
         PowerLevel = effect;
@@ -254,13 +254,17 @@ public class PlayerStatus : MonoBehaviour
         //Debug.Log($"총 보유효과 : {armorTotalRetentionEffect}");
         //Debug.Log($"총 장착효과 : {armorTotalEquipEffect}");
 
-        float effect = Hp * (1 + armorTotalRetentionEffect); // 보유 효과 적용
+        double effect = Hp * (1 + armorTotalRetentionEffect); // 보유 효과 적용
         effect *= (1 + armorTotalEquipEffect); // 장착 효과 적용
 
         effectiveHP = effect;
 
         // 로그로 계산 결과 확인
         //Debug.Log($"체력 : {effectiveHP}");
+    }
+    private void UpdateButtonState(string status, bool isInteractable)
+    {
+        uiManager.UpdateButtonInteractivity(status, isInteractable);
     }
 
     private void Update()
@@ -273,6 +277,20 @@ public class PlayerStatus : MonoBehaviour
                 PerformIncrease();
             }
         }
+
+        UpdateButtonInteractivity();
+    }
+
+    private void UpdateButtonInteractivity()
+    {
+        UpdateButtonState("Attack", GameManager.instance.Gold >= Attack_Cost);
+        UpdateButtonState("Hp", GameManager.instance.Gold >= Hp_Cost);
+        UpdateButtonState("Hp_Recovery", GameManager.instance.Gold >= Hp_Recovery_Cost);
+        UpdateButtonState("Attack_Speed", GameManager.instance.Gold >= Attack_Speed_Cost);
+        UpdateButtonState("Critical", GameManager.instance.Gold >= Critical_Cost);
+        UpdateButtonState("Critical_Damage", GameManager.instance.Gold >= Critical_Damage_Cost);
+        UpdateButtonState("DoubleAttack", GameManager.instance.Gold >= DoubleAttack_Cost);
+        UpdateButtonState("TripleAttack", GameManager.instance.Gold >= TripleAttack_Cost);
     }
 
     private void PerformIncrease()

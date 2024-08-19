@@ -8,7 +8,7 @@ public class PlayerController : MonoBehaviour
     public GameObject DiePage;
     public ParticleSystem attackEffect;
     public Transform thronPivot;
-    public float CurrentHp;
+    public double CurrentHp;
     public float attackRange = 5f;
     public float HpR;
     public bool isOpenDie = false;
@@ -88,14 +88,14 @@ public class PlayerController : MonoBehaviour
 
     public void UpdateHPBar()
     {
-        HpBar.fillAmount = (float)CurrentHp / status.effectiveHP;
+        HpBar.fillAmount = (float)(CurrentHp / status.effectiveHP);
     }
 
     private void OnTriggerStay2D(Collider2D collision)
     {
         if ((collision.gameObject.CompareTag("Enemy") || collision.gameObject.CompareTag("Boss")) && !isAttacking)
         {
-            target = collision.gameObject.transform;
+            target = collision.transform;
             StartCoroutine(AttackCoroutine());
         }
     }
@@ -116,18 +116,19 @@ public class PlayerController : MonoBehaviour
             animator.SetTrigger("Attack");
             yield return new WaitForSecondsRealtime(1 / status.Attack_Speed);
 
-            if (target == null)
+            if (target == null || !target.gameObject.activeInHierarchy)
             {
                 target = null;
                 isAttacking = false;
+                FindAndAttackNextEnemy();
                 break;
             }
         }
 
-        if (!isAttacking)
-        {
-            FindAndAttackNextEnemy();
-        }
+        //if (!isAttacking)
+        //{
+        //    FindAndAttackNextEnemy();
+        //}
     }
 
     private void FindAndAttackNextEnemy()
@@ -135,7 +136,7 @@ public class PlayerController : MonoBehaviour
         Collider2D[] enemies = Physics2D.OverlapCircleAll(transform.position, attackRange);
         foreach (var enemy in enemies)
         {
-            if (enemy.CompareTag("Enemy"))
+            if (enemy.CompareTag("Enemy") && enemy.gameObject.activeInHierarchy)
             {
                 target = enemy.transform;
                 isAttacking = true;
@@ -145,7 +146,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void ShootThorn(Vector2 direction, float damage)
+    private void ShootThorn(Vector2 direction, double damage)
     {
         bool isCritical = Random.Range(0, 100f) < status.Critical;
         poolManager.GetThorn(shootpivot, direction, damage, isCritical);
@@ -153,7 +154,7 @@ public class PlayerController : MonoBehaviour
         HandleDoubleAndTripleAttack(direction, damage);
     }
 
-    private void HandleDoubleAndTripleAttack(Vector2 direction, float damage)
+    private void HandleDoubleAndTripleAttack(Vector2 direction, double damage)
     {
         if (Random.Range(0, 100f) < status.DoubleAttackChance)
         {
@@ -168,7 +169,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private IEnumerator ShootThornWithDelay(Vector2 direction, float damage, float delay, int repeat = 1)
+    private IEnumerator ShootThornWithDelay(Vector2 direction, double damage, float delay, int repeat = 1)
     {
         for (int i = 0; i < repeat; i++)
         {
@@ -184,7 +185,7 @@ public class PlayerController : MonoBehaviour
         while (true)
         {
             yield return new WaitForSeconds(1f);
-            CurrentHp = Mathf.Min(CurrentHp + (int)HpR, status.effectiveHP);
+            CurrentHp = Mathf.Min((float)CurrentHp + (int)HpR, (float)status.effectiveHP);
             UpdateHPBar();
         }
     }

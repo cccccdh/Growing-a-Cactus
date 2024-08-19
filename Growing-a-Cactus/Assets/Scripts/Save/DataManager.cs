@@ -2,8 +2,6 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using TMPro;
-using System.Security.Cryptography;
-using Unity.Collections;
 using UnityEngine.UI;
 
 
@@ -13,11 +11,11 @@ public class DataManager : MonoBehaviour
     [System.Serializable]
     public class GameData
     {
-        public int Attack;
+        public double Attack;
         public int Attack_Level;
         public int Attack_Cost;
 
-        public int Hp;
+        public double Hp;
         public int Hp_Level;
         public int Hp_Cost;
 
@@ -45,10 +43,10 @@ public class DataManager : MonoBehaviour
         public int TripleAttack_Level;
         public int TripleAttack_Cost;
 
-        public float PowerLevel;
-        public float effectiveHP;
+        public double PowerLevel;
+        public double effectiveHP;
 
-        public int gold;
+        public double gold;
         public int gem;
         public int stageNumber;
         public int roundNumber;
@@ -69,16 +67,16 @@ public class DataManager : MonoBehaviour
         public int emroundnumber;
 
         //item쪽
-        public string name;
-        public string Type;
-        public string Grade;
-        public float Probability;
-        public float RetentionEffect;
-        public float EquipEffect;
+        //public string name;
+        //public string Type;
+        //public string Grade;
+        //public float Probability;
+        //public float RetentionEffect;
+        //public float EquipEffect;
 
-        public int Level;
-        public int Count;
-        public int RequiredCount;
+        //public int Level;
+        //public int Count;
+        //public int RequiredCount;
 
         // itemManager쪽
         // 무기
@@ -142,7 +140,7 @@ public class DataManager : MonoBehaviour
         playerController = FindObjectOfType<PlayerController>();
         enemyManager = FindObjectOfType<EnemyManager>();
         enemyScript = FindObjectOfType<EnemyScript>();
-        item = FindObjectOfType<Item>();
+        //item = FindObjectOfType<Item>();
         itemManager = FindObjectOfType<ItemManager>();
     }
 
@@ -190,16 +188,17 @@ public class DataManager : MonoBehaviour
             bossAttackPower = enemyManager.bossAttackPower,
             bossMaxHP = enemyManager.bossMaxHP,
             emroundnumber = enemyManager.roundNumber,
+
             //Item
-            name = item.name,
-            Type = item.Type,
-            Grade = item.Grade,
-            Probability = item.Probability,
-            RetentionEffect = item.RetentionEffect,
-            EquipEffect = item.EquipEffect,
-            Level = item.Level,
-            Count = item.Count,
-            RequiredCount = item.RequiredCount,
+            //name = item.name,
+            //Type = item.Type,
+            //Grade = item.Grade,
+            //Probability = item.Probability,
+            //RetentionEffect = item.RetentionEffect,
+            //EquipEffect = item.EquipEffect,
+            //Level = item.Level,
+            //Count = item.Count,
+            //RequiredCount = item.RequiredCount,
 
 
             //ItemManager
@@ -310,15 +309,15 @@ public class DataManager : MonoBehaviour
             playerController.HpR = data.Hp_Recovery;
 
          
-            item.name = data.name;
-            item.Type = data.Type;
-            item.Grade = data.Grade;
-            item.Probability = data.Probability;
-            item.RetentionEffect = data.RetentionEffect;
-            item.EquipEffect = data.EquipEffect;
-            item.Level = data.Level;
-            item.Count = data.Count;
-            item.RequiredCount = data.RequiredCount;
+            //item.name = data.name;
+            //item.Type = data.Type;
+            //item.Grade = data.Grade;
+            //item.Probability = data.Probability;
+            //item.RetentionEffect = data.RetentionEffect;
+            //item.EquipEffect = data.EquipEffect;
+            //item.Level = data.Level;
+            //item.Count = data.Count;
+            //item.RequiredCount = data.RequiredCount;
 
             itemManager.WeaponImg = data.WeaponImg;
             itemManager.EquipWeaponImg = data.EquipWeaponImg;
