@@ -154,6 +154,16 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void DecreaseGem(int amount)
+    {
+        if(gem >= amount)
+        {
+            gem -= amount;
+            OpenRandomPick();
+            UpdateGemText();
+        }
+    }
+
     public void IncreaseStage()
     {
         roundNumber++;
