@@ -68,9 +68,9 @@ public class EnemyManager : MonoBehaviour
 
         if (bossScript != null)
         {
-            bossMaxHP = 100 + (roundNumber - 1) * 150;
-            bossAttackPower = 20 + (roundNumber - 1) * 5;
-            bossGoldDropAmount = 100 + ((roundNumber - 1) / 3) * 100;
+            bossMaxHP = befHP * 15;
+            bossAttackPower = befAtt * 5;
+            bossGoldDropAmount = befGold * 5;
 
             bossScript.Initialize(bossMaxHP, bossAttackPower, bossGoldDropAmount);
         }
