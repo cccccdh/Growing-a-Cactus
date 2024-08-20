@@ -13,7 +13,7 @@ public class PetCSVReader : MonoBehaviour
     void Start()
     {
         ReadCSV();
-        petManager.SetItems(petList);
+        petManager.SetPets(petList);
     }
 
     void ReadCSV()

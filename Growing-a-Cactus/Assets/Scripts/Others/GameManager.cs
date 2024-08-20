@@ -154,6 +154,11 @@ public class GameManager : MonoBehaviour
             UpdateGoldText();
         }
     }
+    public void IncreaseGem(int amount)
+    {
+        gem += amount;
+        UpdateGemText();
+    }
 
     public void DecreaseGem(int amount)
     {

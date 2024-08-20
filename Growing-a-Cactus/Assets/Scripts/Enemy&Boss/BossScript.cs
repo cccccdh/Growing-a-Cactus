@@ -20,7 +20,7 @@ public class BossScript : MonoBehaviour
 
     private bool isAttacking = false; // 공격 중 여부
     private EnemyManager enemyManager; // EnemyManager 참조
-    private QuestScript questScript; // QuestScript 참조
+    private QuestManager questManager; // QuestScript 참조
     private Transform playerTransform; // 플레이어의 Transform
     private Animator animator; // Animator 컴포넌트
     private BackgroundScript backgroundScript; // BackgroundScript 참조
@@ -36,7 +36,7 @@ public class BossScript : MonoBehaviour
         // 플레이어, Animator, QuestScript, BackgroundScript 초기화
         playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
         animator = GetComponent<Animator>();
-        questScript = FindObjectOfType<QuestScript>();
+        questManager = QuestManager.instance;
         backgroundScript = FindObjectOfType<BackgroundScript>();
         StartCoroutine(BossTimer(10f)); // 보스 타이머 시작
     }
@@ -106,9 +106,9 @@ public class BossScript : MonoBehaviour
             }
         }
 
-        if (questScript != null)
+        if (questManager != null)
         {
-            questScript.IncrementMonsterKillCount(); // 몬스터 처치 수 업데이트
+            questManager.UpdateQuestProgress(1, "적 처치"); // 몬스터 처치 수 업데이트
         }
     }
 

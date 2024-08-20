@@ -36,7 +36,7 @@ public class EnemyManager : MonoBehaviour
     // 참조
     public PlayerController playerController;
     public BackgroundScript backgroundScript;
-    public QuestScript questScript;
+    public QuestManager questmanager;
 
     private void Start()
     {
@@ -81,7 +81,7 @@ public class EnemyManager : MonoBehaviour
         enemiesKilled++;
         enemyCount--;
 
-        questScript?.IncrementMonsterKillCount();
+        QuestManager.instance.UpdateQuestProgress(1, "적 처치");
 
         if (enemyCount <= 0)
         {

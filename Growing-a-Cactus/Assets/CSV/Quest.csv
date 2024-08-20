@@ -1,0 +1,13 @@
+﻿QuestID,Title,Description,Goal,Reward,Requirement,UnlockFeature,GoalCount,IsActive
+1,10마리 잡기,적 처치,10,500,None,None,0,FALSE
+2,공격력을 10레벨 이상으로 올리기,공격력 강화,10,500,Complete Quest 1,None,0,FALSE
+3,10마리 잡기 반복 1회,적 처치,10,500,Complete Quest 2,None,0,FALSE
+4,10마리 잡기 반복 2회,적 처치,10,500,Complete Quest 3,None,0,FALSE
+5,장비 20회 뽑기,장비 뽑기,20,0,Complete Quest 4,장비 뽑기 해금,0,FALSE
+6,10마리 잡기 반복 1회,적 처치,10,500,Complete Quest 5,None,0,FALSE
+7,10마리 잡기 반복 2회,적 처치,10,500,Complete Quest 6,None,0,FALSE
+8,공격력을 50레벨 이상으로 올리기,공격력 강화,50,500,Complete Quest 7,None,0,FALSE
+9,20마리 잡기,적 처치,20,500,Complete Quest 8,None,0,FALSE
+10,체력을 50레벨 이상으로 올리기,체력 강화,50,500,Complete Quest 9,None,0,FALSE
+11,펫 20회 뽑기,펫 뽑기,20,0,Complete Quest 10,펫 뽑기 해금,0,FALSE
+12,1-10 스테이지 클리어하기,1-10 스테이지 클리어,10,1000,Complete Quest 11,None,0,FALSE

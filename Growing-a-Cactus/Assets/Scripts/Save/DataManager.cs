@@ -46,11 +46,15 @@ public class DataManager : MonoBehaviour
         public double PowerLevel;
         public double effectiveHP;
 
+        // GamaManager
         public double gold;
         public int gem;
         public int stageNumber;
         public int roundNumber;
-        public int killedMonsters;
+
+        // QuestManager
+        //public int questId;
+        //public int GoalCount;
 
         // EnemyMnager 쪽임 여기
         public int hpCalcA;
@@ -123,7 +127,7 @@ public class DataManager : MonoBehaviour
     public PlayerStatus playerStatus;
     public UIManager uiManager;
     public GameManager gameManager;
-    public QuestScript questScript;
+    public QuestManager questManager;
     public PlayerController playerController; // PlayerController 참조 추가
     public EnemyManager enemyManager;
     public EnemyScript enemyScript;
@@ -233,7 +237,8 @@ public class DataManager : MonoBehaviour
             gem = gameManager.gem,
             stageNumber = gameManager.stageNumber,
             roundNumber = gameManager.roundNumber,
-            killedMonsters = questScript.killedMonsters
+
+            // QuestManager
 
         };
 
@@ -367,11 +372,11 @@ public class DataManager : MonoBehaviour
                 gameManager.UpdateStageText();
             }
 
-            if (questScript != null)
-            {
-                questScript.killedMonsters = data.killedMonsters;
-                questScript.UpdateQuestText();
-            }
+            //if (questManager != null)
+            //{
+            //    questManager.killedMonsters = data.killedMonsters;
+            //    QuestUI.instance.UpdateQuestProgress(0);
+            //}
 
             Debug.Log("게임 로드됨: " + saveFilePath);
         }

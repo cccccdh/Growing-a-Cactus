@@ -34,7 +34,7 @@ public class PetManager : MonoBehaviour
     }
 
     // 펫 리스트 설정
-    public void SetItems(List<Pet> petList)
+    public void SetPets(List<Pet> petList)
     {
         pets = petList;
         playerstatus.UpdatePetRetentionEffects(pets);

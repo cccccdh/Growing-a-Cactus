@@ -4,8 +4,8 @@ using UnityEngine;
 public class PlayerStatus : MonoBehaviour
 {
     // UIManager와 PlayerController 참조
-    private UIManager uiManager;
-    private PlayerController playerController;
+    public UIManager uiManager;
+    public PlayerController playerController;
 
     // 플레이어 스탯 변수
     public double Attack;
@@ -65,8 +65,6 @@ public class PlayerStatus : MonoBehaviour
 
     private void Awake()
     {
-        uiManager = FindObjectOfType<UIManager>();
-        playerController = FindObjectOfType<PlayerController>();
         Init();
     }
 
@@ -333,6 +331,7 @@ public class PlayerStatus : MonoBehaviour
                         }
                     }
                     UpdatePowerLevel();
+                    QuestManager.instance.UpdateQuestProgress(0, "공격력 강화");
                     uiManager.Update_Text("Attack", Attack, Attack_Level, Attack_Cost);
                 }
                 break;
@@ -363,6 +362,7 @@ public class PlayerStatus : MonoBehaviour
                         }
                     }
                     UpdateHP();
+                    QuestManager.instance.UpdateQuestProgress(0, "체력 강화");
                     uiManager.Update_Text("Hp", effectiveHP, Hp_Level, Hp_Cost);
                 }
                 break;
