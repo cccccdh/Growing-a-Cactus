@@ -12,7 +12,7 @@ public class BossScript : MonoBehaviour
     // 보스의 상태 변수
     private int HP; // 현재 HP
     private int maxHP; // 최대 HP
-    private int attackPower; // 공격력
+    public int BossattackPower; // 공격력
     private int goldDropAmount; // 드랍하는 골드 양
 
     public float speed = 0.6f; // 이동 속도
@@ -132,7 +132,7 @@ public class BossScript : MonoBehaviour
             if (player != null)
             {
                 animator.SetTrigger("attack"); // 공격 애니메이션 트리거 설정
-                player.TakeDamage(attackPower); // 플레이어에게 피해
+                player.TakeDamage(BossattackPower); // 플레이어에게 피해
             }
             yield return new WaitForSeconds(1f); // 1초마다 공격
         }
@@ -158,7 +158,7 @@ public class BossScript : MonoBehaviour
     public void Initialize(int maxHP, int attackPower, int goldDropAmount)
     {
         this.maxHP = maxHP;
-        this.attackPower = attackPower;
+        this.BossattackPower = attackPower;
         this.goldDropAmount = goldDropAmount;
         this.HP = maxHP; // 초기 HP 설정
         UpdateHPBar(); // HP 바 초기화
