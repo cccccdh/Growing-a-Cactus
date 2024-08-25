@@ -4,9 +4,19 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 
-
 public class DataManager : MonoBehaviour
 {
+    private string saveFilePath;
+    public PlayerStatus playerStatus;
+    public UIManager uiManager;
+    public GameManager gameManager;
+    public PlayerController playerController;
+    public EnemyManager enemyManager;
+    public EnemyScript enemyScript;
+    public Item item;
+    public ItemManager itemManager;
+    public GachaManager gachaManager;
+    public GachaUIManager gachaUIManager;
 
     [System.Serializable]
     public class GameData
@@ -52,11 +62,7 @@ public class DataManager : MonoBehaviour
         public int stageNumber;
         public int roundNumber;
 
-        // QuestManager
-        //public int questId;
-        //public int GoalCount;
-
-        // EnemyMnager 쪽임 여기
+        // EnemyManager
         public int hpCalcA;
         public int hpCalcB;
         public int hpMax;
@@ -70,69 +76,11 @@ public class DataManager : MonoBehaviour
         public int bossGoldDropAmount;
         public int emroundnumber;
 
-        //item쪽
-        //public string name;
-        //public string Type;
-        //public string Grade;
-        //public float Probability;
-        //public float RetentionEffect;
-        //public float EquipEffect;
-
-        //public int Level;
-        //public int Count;
-        //public int RequiredCount;
-
-        // itemManager쪽
-        // 무기
-        public Image WeaponImg;
-        public Image EquipWeaponImg;
-        public TextMeshProUGUI EquipWeaponText;
-        public TextMeshProUGUI EquipWeaponLevelText;
-        public TextMeshProUGUI WeaponNameText;
-        public TextMeshProUGUI WeaponGradeText;
-        public TextMeshProUGUI WeaponLevelText;
-        public TextMeshProUGUI WeaponCountText;
-        public TextMeshProUGUI WeaponRetentionEffect;
-        public TextMeshProUGUI WeaponEquipEffectText;
-        public Image[] weaponImages;
-        public TextMeshProUGUI[] weaponCountTexts;
-        public TextMeshProUGUI[] weaponLevelTexts;
-        // 방어구
-        public Image ArmorImg;
-        public Image EquipArmorImg;
-        public TextMeshProUGUI EquipArmorText;
-        public TextMeshProUGUI EquipArmorLevelText;
-        public TextMeshProUGUI ArmorNameText;
-        public TextMeshProUGUI ArmorGradeText;
-        public TextMeshProUGUI ArmorLevelText;
-        public TextMeshProUGUI ArmorCountText;
-        public TextMeshProUGUI ArmorRetentionEffect;
-        public TextMeshProUGUI ArmorEquipEffectText;
-        public Image[] armorImages;
-        public TextMeshProUGUI[] armorCountTexts;
-        public TextMeshProUGUI[] armorLevelTexts;
-
         public List<Item> weaponItems = new List<Item>();
         public List<Item> armorItems = new List<Item>();
 
         public PlayerStatus playerstatus;
-
-        public string selectedItemName;
-        public Color selectedItemColor;
-
-
     }
-
-    private string saveFilePath;
-    public PlayerStatus playerStatus;
-    public UIManager uiManager;
-    public GameManager gameManager;
-    public QuestManager questManager;
-    public PlayerController playerController; // PlayerController 참조 추가
-    public EnemyManager enemyManager;
-    public EnemyScript enemyScript;
-    public Item item;
-    public ItemManager itemManager;
 
     void Start()
     {
@@ -170,7 +118,8 @@ public class DataManager : MonoBehaviour
             TripleAttack_Cost = playerStatus.TripleAttack_Cost,
             PowerLevel = playerStatus.PowerLevel,
             effectiveHP = playerStatus.effectiveHP,
-            //EnemyManager
+
+            // EnemyManager
             hpCalcA = enemyManager.hpCalcA,
             hpCalcB = enemyManager.hpCalcB,
             hpMax = enemyManager.HpMax,
@@ -184,69 +133,37 @@ public class DataManager : MonoBehaviour
             bossMaxHP = enemyManager.bossMaxHP,
             emroundnumber = enemyManager.roundNumber,
 
-            //Item
-            //name = item.name,
-            //Type = item.Type,
-            //Grade = item.Grade,
-            //Probability = item.Probability,
-            //RetentionEffect = item.RetentionEffect,
-            //EquipEffect = item.EquipEffect,
-            //Level = item.Level,
-            //Count = item.Count,
-            //RequiredCount = item.RequiredCount,
-
-
-            //ItemManager
-            WeaponImg = itemManager.WeaponImg,
-            EquipWeaponImg = itemManager.EquipWeaponImg,
-            EquipWeaponText = itemManager.EquipWeaponText,
-            EquipWeaponLevelText = itemManager.EquipWeaponLevelText,
-            WeaponNameText = itemManager.WeaponNameText,
-            WeaponGradeText = itemManager.WeaponGradeText,
-            WeaponLevelText = itemManager.WeaponLevelText,
-            WeaponCountText = itemManager.WeaponCountText,
-            WeaponRetentionEffect = itemManager.WeaponRetentionEffect,
-            WeaponEquipEffectText = itemManager.WeaponEquipEffectText,
-            weaponImages = itemManager.weaponImages,
-            weaponCountTexts = itemManager.weaponCountTexts,
-            weaponLevelTexts = itemManager.weaponLevelTexts,
-
-            ArmorImg = itemManager.ArmorImg,
-            EquipArmorImg = itemManager.EquipArmorImg,
-            EquipArmorText = itemManager.EquipArmorText,
-            EquipArmorLevelText = itemManager.EquipArmorLevelText,
-            ArmorNameText = itemManager.ArmorNameText,
-            ArmorGradeText = itemManager.ArmorGradeText,
-            ArmorLevelText = itemManager.ArmorLevelText,
-            ArmorCountText = itemManager.ArmorCountText,
-            ArmorRetentionEffect = itemManager.ArmorRetentionEffect,
-            ArmorEquipEffectText = itemManager.ArmorEquipEffectText,
-            armorImages = itemManager.armorImages,
-            armorCountTexts = itemManager.armorCountTexts,
-            armorLevelTexts = itemManager.armorLevelTexts,
-
+            // ItemManager
             weaponItems = itemManager.weaponItems,
             armorItems = itemManager.armorItems,
 
-            playerstatus = itemManager.playerstatus,
-            selectedItemName = itemManager.selectedItemName,
-            selectedItemColor = itemManager.selectedItemColor,
-
-
+            playerstatus = playerStatus,  // playerStatus는 현재 playerStatus 인스턴스를 참조
+            // GameManager
             gold = gameManager.Gold,
             gem = gameManager.gem,
             stageNumber = gameManager.stageNumber,
             roundNumber = gameManager.roundNumber,
-
-            // QuestManager
-
         };
-
-
 
         string jsonData = JsonUtility.ToJson(data, true);
         File.WriteAllText(saveFilePath, jsonData);
         Debug.Log("게임 저장됨: " + saveFilePath);
+        PrintItemData();
+    }
+
+    public void PrintItemData()
+    {
+        // 무기 데이터 출력
+        foreach (var item in itemManager.weaponItems)
+        {
+            Debug.Log($"무기 데이터: 이름={item.Name}, 레벨={item.Level}, 개수={item.Count}, 등급={item.Grade}");
+        }
+
+        // 방어구 데이터 출력
+        foreach (var item in itemManager.armorItems)
+        {
+            Debug.Log($"방어구 데이터: 이름={item.Name}, 레벨={item.Level}, 개수={item.Count}, 등급={item.Grade}");
+        }
     }
 
     // 게임 데이터를 불러오는 함수
@@ -304,53 +221,7 @@ public class DataManager : MonoBehaviour
 
             playerController.HpR = data.Hp_Recovery;
 
-         
-            //item.name = data.name;
-            //item.Type = data.Type;
-            //item.Grade = data.Grade;
-            //item.Probability = data.Probability;
-            //item.RetentionEffect = data.RetentionEffect;
-            //item.EquipEffect = data.EquipEffect;
-            //item.Level = data.Level;
-            //item.Count = data.Count;
-            //item.RequiredCount = data.RequiredCount;
-
-            itemManager.WeaponImg = data.WeaponImg;
-            itemManager.EquipWeaponImg = data.EquipWeaponImg;
-            itemManager.EquipWeaponText = data.EquipWeaponText;
-            itemManager.EquipWeaponLevelText = data.EquipWeaponLevelText;
-            itemManager.WeaponNameText = data.WeaponNameText;
-            itemManager.WeaponGradeText = data.WeaponGradeText;
-            itemManager.WeaponLevelText = data.WeaponLevelText;
-            itemManager.WeaponCountText = data.WeaponCountText;
-            itemManager.WeaponRetentionEffect = data.WeaponRetentionEffect;
-            itemManager.WeaponEquipEffectText = data.WeaponEquipEffectText;
-            itemManager.weaponImages = data.weaponImages;
-            itemManager.weaponCountTexts = data.weaponCountTexts;
-            itemManager.weaponLevelTexts = data.weaponLevelTexts;
-
-            itemManager.ArmorImg = data.ArmorImg;
-            itemManager.EquipArmorImg = data.EquipArmorImg;
-            itemManager.EquipArmorText = data.EquipArmorText;
-            itemManager.EquipArmorLevelText = data.EquipArmorLevelText;
-            itemManager.ArmorNameText = data.ArmorNameText;
-            itemManager.ArmorGradeText = data.ArmorGradeText;
-            itemManager.ArmorLevelText = data.ArmorLevelText;
-            itemManager.ArmorCountText = data.ArmorCountText;
-            itemManager.ArmorRetentionEffect = data.ArmorRetentionEffect;
-            itemManager.armorImages = data.armorImages;
-            itemManager.armorCountTexts = data.armorCountTexts;
-            itemManager.armorLevelTexts = data.armorLevelTexts;
-
-            itemManager.weaponItems = data.weaponItems;
-            itemManager.armorItems = data.armorItems;
-
-            itemManager.playerstatus = data.playerstatus;
-
-            itemManager.selectedItemName = data.selectedItemName;
-            itemManager.selectedItemColor = data.selectedItemColor;
-
-
+            // uiManager
             uiManager.Update_Text("Attack", playerStatus.Attack, playerStatus.Attack_Level, playerStatus.Attack_Cost);
             uiManager.Update_Text("Hp", playerStatus.Hp, playerStatus.Hp_Level, playerStatus.Hp_Cost);
             uiManager.Update_Text("Hp_Recovery", playerStatus.Hp_Recovery, playerStatus.Hp_Recovery_Level, playerStatus.Hp_Recovery_Cost);
@@ -360,8 +231,14 @@ public class DataManager : MonoBehaviour
             uiManager.Update_Text("DoubleAttack", playerStatus.DoubleAttackChance, playerStatus.DoubleAttack_Level, playerStatus.DoubleAttack_Cost);
             uiManager.Update_Text("TripleAttack", playerStatus.TripleAttackChance, playerStatus.TripleAttack_Level, playerStatus.TripleAttack_Cost);
 
-            
+            // ItemManager
+            itemManager.weaponItems = data.weaponItems;
+            itemManager.armorItems = data.armorItems;
+            itemManager.UpdateUI();
+            itemManager.playerstatus = data.playerstatus;
+            PrintItemData();
 
+            // GameManager
             if (gameManager != null)
             {
                 gameManager.IncreaseGold(data.gold - gameManager.Gold);
@@ -372,17 +249,13 @@ public class DataManager : MonoBehaviour
                 gameManager.UpdateStageText();
             }
 
-            //if (questManager != null)
-            //{
-            //    questManager.killedMonsters = data.killedMonsters;
-            //    QuestUI.instance.UpdateQuestProgress(0);
-            //}
-
-            Debug.Log("게임 로드됨: " + saveFilePath);
+            Debug.Log("게임 불러오기 완료");
+            
         }
         else
         {
-            Debug.LogWarning("저장 파일을 찾을 수 없음");
+            Debug.LogWarning("저장된 게임 파일이 없습니다.");
         }
+        
     }
 }

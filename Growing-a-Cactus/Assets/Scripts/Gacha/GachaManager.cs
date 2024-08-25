@@ -11,11 +11,11 @@ public class GachaManager : MonoBehaviour
     public GameObject[] equipmentLockBtn;
     public GameObject[] petLockBtn;
 
-    public bool UnLockEquipment = false;
-    public bool UnLockPet = false;
+    public bool UnLockEquipment = true;
+    public bool UnLockPet = true;
 
-    private List<Item> itemList;
-    private List<Pet> petList;
+    public List<Item> itemList;
+    public List<Pet> petList;
 
     // 장비 리스트 초기화
     public void InitializeItems(List<Item> items)

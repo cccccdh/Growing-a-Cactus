@@ -14771,8 +14771,8 @@ MonoBehaviour:
   - {fileID: 486290538}
   - {fileID: 308217330}
   - {fileID: 272057601}
-  UnLockEquipment: 0
-  UnLockPet: 0
+  UnLockEquipment: 1
+  UnLockPet: 1
 --- !u!114 &328319260
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -47261,7 +47261,7 @@ MonoBehaviour:
   OptionPage: {fileID: 549920967}
   waveBar: {fileID: 863316901}
   gold: 5000000
-  gem: 0
+  gem: 500000
   stageNumber: 1
   roundNumber: 1
   isOpenShop: 0
@@ -47694,11 +47694,12 @@ MonoBehaviour:
   playerStatus: {fileID: 1945133264}
   uiManager: {fileID: 384226808}
   gameManager: {fileID: 963673988}
-  questManager: {fileID: 0}
   playerController: {fileID: 1945133265}
   enemyManager: {fileID: 753089184}
   enemyScript: {fileID: 8934160618751785841, guid: d4612edf9a5aca04b8e308ad3ce605f1, type: 3}
   itemManager: {fileID: 1228576298}
+  gachaManager: {fileID: 0}
+  gachaUIManager: {fileID: 0}
 --- !u!4 &986739119
 Transform:
   m_ObjectHideFlags: 0
@@ -67229,7 +67230,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 275941350}
   m_Direction: 2
   m_Value: 0.9999998
-  m_Size: 0.48734176
+  m_Size: 0.48734173
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -77083,7 +77084,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1653316784
 RectTransform:
   m_ObjectHideFlags: 0
