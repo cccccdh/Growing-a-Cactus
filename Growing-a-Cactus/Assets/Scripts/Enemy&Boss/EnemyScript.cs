@@ -6,10 +6,10 @@ public class EnemyScript : MonoBehaviour
 {
     public Image HpBar;
 
-    public int HP; // 적의 초기 HP 설정 befHP
-    public int maxHP; // befHP
+    public double HP; // 적의 초기 HP 설정 befHP
+    public double maxHP; // befHP
     public float speed = 1f; // 적의 이동 속도
-    public int attackPower; // 적의 공격력 AttackDamage
+    public double attackPower; // 적의 공격력 AttackDamage
     public int goldDropAmount; //DropGold
     public float stopDistance = 1f; // 플레이어와 접촉했을 때의 거리
 
@@ -78,7 +78,7 @@ public class EnemyScript : MonoBehaviour
 
     public void UpdateHPBar()
     {
-        HpBar.fillAmount = (float)HP / maxHP;
+        HpBar.fillAmount = (float)(HP / maxHP);
     }
 
     public void Die()

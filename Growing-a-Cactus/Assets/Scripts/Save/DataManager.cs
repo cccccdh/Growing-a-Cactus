@@ -63,16 +63,16 @@ public class DataManager : MonoBehaviour
         public int roundNumber;
 
         // EnemyManager
-        public int hpCalcA;
-        public int hpCalcB;
-        public int hpMax;
-        public int befHP;
-        public int AttackDamage;
-        public int befAtt;
+        public double hpCalcA;
+        public double hpCalcB;
+        public double hpMax;
+        public double befHP;
+        public double AttackDamage;
+        public double befAtt;
         public int DropGold;
         public int befGold;
-        public int bossMaxHP;
-        public int bossAttackPower;
+        public double bossMaxHP;
+        public double bossAttackPower;
         public int bossGoldDropAmount;
         public int emroundnumber;
 

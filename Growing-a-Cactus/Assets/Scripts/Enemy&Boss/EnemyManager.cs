@@ -19,18 +19,18 @@ public class EnemyManager : MonoBehaviour
     public int roundNumber = 1;
 
     private int roundCount = 1;
-    public int hpCalcA;
-    public int hpCalcB;
-    public int HpMax;
-    public int befHP = 0;
-    public int AttackDamage;
-    public int befAtt;
+    public double hpCalcA;
+    public double hpCalcB;
+    public double HpMax;
+    public double befHP = 0;
+    public double AttackDamage;
+    public double befAtt;
     public int DropGold;
     public int befGold;
 
     // Boss 스탯
-    public int bossMaxHP;
-    public int bossAttackPower;
+    public double bossMaxHP;
+    public double bossAttackPower;
     public int bossGoldDropAmount;
 
     // 참조
@@ -163,7 +163,7 @@ public class EnemyManager : MonoBehaviour
             return befGold = (int)(gold + gold * 0.2f);
     }
 
-    public int setEnemyAtt(int att)
+    public double setEnemyAtt(double att)
     {
         int attcal = 1;
         if(roundCount > 10) // 10라운드가 지나기 전까지는 적의 공격력이 10씩 오르도록 설정
@@ -172,7 +172,7 @@ public class EnemyManager : MonoBehaviour
         return befAtt;
     }
 
-    public int SetEnemyHP(int hp)
+    public double SetEnemyHP(double hp)
     {
         if ((roundCount - 1) % 3 == 1) hpCalcA = hp;
         hpCalcB = roundCount % 10 == 1 ? 0 : (roundCount - 1) % 3 == 0 ? 3 : (roundCount - 1) % 3;

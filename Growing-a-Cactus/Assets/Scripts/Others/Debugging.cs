@@ -5,6 +5,8 @@ public class Debugging : MonoBehaviour
     public GameObject[] equipmentLockBtns;
     public GameObject[] petLockBtns;
 
+    public GameManager gm;
+
     // µð¹ö±ë¿ë Å° ¸ðÀ½
     void Update()
     {
@@ -24,6 +26,18 @@ public class Debugging : MonoBehaviour
             {
                 btn.SetActive(false);
             }
+        }
+
+        // °ñµå Áõ°¡
+        if (Input.GetKeyDown(KeyCode.F3))
+        {
+            gm.gold += 5000000;
+        }
+
+        // Áª Áõ°¡
+        if (Input.GetKeyDown(KeyCode.F4))
+        {
+            gm.gem += 5000000;
         }
     }
 }

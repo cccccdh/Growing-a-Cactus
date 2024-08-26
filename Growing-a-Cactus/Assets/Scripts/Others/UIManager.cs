@@ -69,7 +69,7 @@ public class UIManager : MonoBehaviour
                 break;
             case "Hp_Recovery":
                 UpdateTextFields(Hp_Recovery_Level, Hp_Recovery_Cost, level, cost);
-                Hp_Recovery.text = stat.ToString("N1");
+                Hp_Recovery.text = TextFormatter.FormatText(stat);
                 break;
             case "Attack_Speed":
                 UpdateTextFields(Attack_Speed_Level, Attack_Speed_Cost, level, cost);
@@ -77,7 +77,7 @@ public class UIManager : MonoBehaviour
                 break;
             case "Critical":
                 UpdateTextFields(Critical_Level, Critical_Cost, level, cost);
-                Critical.text = string.Format("{0:N2}%", stat);  // String.Format 사용
+                Critical.text = string.Format("{0:N1}%", stat);  // String.Format 사용
                 break;
             case "Critical_Damage":
                 UpdateTextFields(Critical_Damage_Level, Critical_Damage_Cost, level, cost);

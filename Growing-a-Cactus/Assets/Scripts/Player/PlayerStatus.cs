@@ -89,7 +89,7 @@ public class PlayerStatus : MonoBehaviour
         Attack_Speed_Level = 1;
         Attack_Speed_Cost = 22;
 
-        Critical = 0;
+        Critical = 0.1f;
         Critical_Level = 1;
         Critical_Cost = 15;
 
@@ -479,6 +479,8 @@ public class PlayerStatus : MonoBehaviour
             case "Critical":
                 if (GameManager.instance.Gold >= Critical_Cost)
                 {
+                    if (Critical_Level >= 1000)
+                        return;
                     GameManager.instance.DecreaseGold(Critical_Cost);
                     Critical += 0.1f;
                     Critical_Level++;

@@ -6621,31 +6621,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 159184347}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 963673988}
-        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: 
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: RandomPick, Assembly-CSharp
-        m_MethodName: RandomBtn
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &159184347
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14773,6 +14749,7 @@ MonoBehaviour:
   - {fileID: 272057601}
   UnLockEquipment: 1
   UnLockPet: 1
+  itemList: []
 --- !u!114 &328319260
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -27452,31 +27429,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 565098405}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 963673988}
-        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: OpenRandomPick
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 328319259}
-        m_TargetAssemblyTypeName: GachaManager, Assembly-CSharp
-        m_MethodName: PerformGachaWithEquip
-        m_Mode: 3
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 20
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &565098405
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -30697,7 +30650,7 @@ GameObject:
   - component: {fileID: 624926724}
   - component: {fileID: 624926725}
   m_Layer: 0
-  m_Name: ObjectPoolingManager
+  m_Name: PoolingManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -30738,6 +30691,7 @@ MonoBehaviour:
   thornPool: {fileID: 1109525777}
   enemyPool: {fileID: 315797666}
   bossPool: {fileID: 1908808724}
+  status: {fileID: 1945133264}
 --- !u!1 &631832682
 GameObject:
   m_ObjectHideFlags: 0
@@ -35790,7 +35744,7 @@ MonoBehaviour:
   bossGoldDropAmount: 0
   playerController: {fileID: 1945133265}
   backgroundScript: {fileID: 1549191130}
-  questmanager: {fileID: 0}
+  questmanager: {fileID: 1311017657}
 --- !u!4 &753089185
 Transform:
   m_ObjectHideFlags: 0
@@ -41094,7 +41048,7 @@ GameObject:
   - component: {fileID: 854407697}
   - component: {fileID: 854407696}
   m_Layer: 5
-  m_Name: "\uCCB4\uB825\uD68C\uBCF5"
+  m_Name: "\uCCB4\uB825\uC7AC\uC0DD"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -41139,7 +41093,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uCCB4\uB825\uD68C\uBCF5"
+  m_text: "\uCCB4\uB825\uC7AC\uC0DD"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 79a98297f2913d0488706fa0fb006619, type: 2}
   m_sharedMaterial: {fileID: 5857506103715302561, guid: 79a98297f2913d0488706fa0fb006619, type: 2}
@@ -47260,8 +47214,8 @@ MonoBehaviour:
   PetPage: {fileID: 464960927}
   OptionPage: {fileID: 549920967}
   waveBar: {fileID: 863316901}
-  gold: 5000000
-  gem: 500000
+  gold: 0
+  gem: 0
   stageNumber: 1
   roundNumber: 1
   isOpenShop: 0
@@ -47697,6 +47651,16 @@ MonoBehaviour:
   playerController: {fileID: 1945133265}
   enemyManager: {fileID: 753089184}
   enemyScript: {fileID: 8934160618751785841, guid: d4612edf9a5aca04b8e308ad3ce605f1, type: 3}
+  item:
+    Name: 
+    Type: 
+    Grade: 
+    Probability: 0
+    RetentionEffect: 0
+    EquipEffect: 0
+    Level: 0
+    Count: 0
+    RequiredCount: 0
   itemManager: {fileID: 1228576298}
   gachaManager: {fileID: 0}
   gachaUIManager: {fileID: 0}
@@ -51199,19 +51163,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1077435172}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 963673988}
-        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: 
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &1077435172
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -57897,6 +57849,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60b31b349754a8146bdfa9d708bf2b9a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  itemList: []
   csvFile: {fileID: 4900000, guid: 7a184d762f14da24ead9c0c67dffb4ca, type: 3}
   itemManager: {fileID: 1228576298}
   gachaManager: {fileID: 328319259}
@@ -58118,6 +58071,8 @@ MonoBehaviour:
   - {fileID: 856577536}
   - {fileID: 1863477624}
   - {fileID: 222236250}
+  weaponItems: []
+  armorItems: []
   playerstatus: {fileID: 1945133264}
   selectedItemName: 
   selectedItemColor: {r: 0, g: 0, b: 0, a: 0}
@@ -73752,6 +73707,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1581370846}
   m_CullTransparentMesh: 1
+--- !u!1 &1581837883
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1581837884}
+  m_Layer: 0
+  m_Name: ------------------------------
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1581837884
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1581837883}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 90}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1583453281
 GameObject:
   m_ObjectHideFlags: 0
@@ -82282,6 +82268,59 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1800773611}
   m_CullTransparentMesh: 1
+--- !u!1 &1803235546
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1803235548}
+  - component: {fileID: 1803235547}
+  m_Layer: 0
+  m_Name: Debbing
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1803235547
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1803235546}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7128abe94f7e71145be9a62b31f2f4f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  equipmentLockBtns:
+  - {fileID: 1016833875}
+  - {fileID: 923331481}
+  - {fileID: 327054130}
+  petLockBtns:
+  - {fileID: 486290538}
+  - {fileID: 308217330}
+  - {fileID: 272057601}
+  gm: {fileID: 963673988}
+--- !u!4 &1803235548
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1803235546}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1810415072
 GameObject:
   m_ObjectHideFlags: 0
@@ -95028,6 +95067,8 @@ SceneRoots:
   m_Roots:
   - {fileID: 519420032}
   - {fileID: 1846940896}
+  - {fileID: 1803235548}
+  - {fileID: 1581837884}
   - {fileID: 986739119}
   - {fileID: 963673989}
   - {fileID: 753089185}

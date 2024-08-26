@@ -21,6 +21,8 @@ public class PoolManager : MonoBehaviour
     public ObjectPool enemyPool; // 적 오브젝트 풀
     public ObjectPool bossPool; // 적 오브젝트 풀
 
+    public PlayerStatus status;
+
     // 데미지 텍스트 활성화
     public void CreateDamageText(Vector3 hitPoint, double damage, bool isCritical)
     {
@@ -35,7 +37,7 @@ public class PoolManager : MonoBehaviour
         damageText.text = TextFormatter.FormatText(damage);
         damageText.color = isCritical ? Color.red : Color.black;
 
-        StartCoroutine(DeactivateObject(damageTextObj, 1.0f));
+        StartCoroutine(DeactivateObject(damageTextObj, 0.5f));
     }
 
     // 데미지 텍스트 비활성화
@@ -56,7 +58,7 @@ public class PoolManager : MonoBehaviour
 
         if (isCritical)
         {
-            thorn.SetCriticalDamage(damage);
+            thorn.SetCriticalDamage((status.Critical_Damage / 100) * damage);
         }
         else
         {

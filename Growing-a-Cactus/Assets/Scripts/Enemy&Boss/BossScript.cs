@@ -10,9 +10,9 @@ public class BossScript : MonoBehaviour
     public ParticleSystem deathEffect;
 
     // 보스의 상태 변수
-    private int HP; // 현재 HP
-    private int maxHP; // 최대 HP
-    public int BossattackPower; // 공격력
+    private double HP; // 현재 HP
+    private double maxHP; // 최대 HP
+    public double BossattackPower; // 공격력
     private int goldDropAmount; // 드랍하는 골드 양
 
     public float speed = 0.6f; // 이동 속도
@@ -76,7 +76,7 @@ public class BossScript : MonoBehaviour
     public void UpdateHPBar()
     {
         // HP 바 업데이트
-        HpBar.fillAmount = (float)HP / maxHP;
+        HpBar.fillAmount = (float)(HP / maxHP);
     }
 
     public void Die()
@@ -155,7 +155,7 @@ public class BossScript : MonoBehaviour
     }
 
     // EnemyManager로부터 초기화 값을 설정받는 메서드
-    public void Initialize(int maxHP, int attackPower, int goldDropAmount)
+    public void Initialize(double maxHP, double attackPower, int goldDropAmount)
     {
         this.maxHP = maxHP;
         this.BossattackPower = attackPower;

@@ -40,7 +40,7 @@ public class PlayerController : MonoBehaviour
         StartCoroutine(HealthRegenCoroutine());
     }
 
-    public void TakeDamage(float damage)
+    public void TakeDamage(double damage)
     {
         CurrentHp -= (int)damage;
         UpdateHPBar();
