@@ -11,8 +11,8 @@ public class GachaManager : MonoBehaviour
     public GameObject[] equipmentLockBtn;
     public GameObject[] petLockBtn;
 
-    public bool UnLockEquipment = true;
-    public bool UnLockPet = true;
+    public bool UnLockEquipment = false;
+    public bool UnLockPet = false;
 
     public List<Item> itemList;
     public List<Pet> petList;
@@ -29,12 +29,13 @@ public class GachaManager : MonoBehaviour
         petList = pets;
     }
 
+    // 가챠 버튼 해금
     public void Unlock(string Name)
     {
         if (!UnLockEquipment && Name == "장비")
         {
             UnLockEquipment = true;
-            foreach(var btn in equipmentLockBtn)
+            foreach (var btn in equipmentLockBtn)
             {
                 btn.SetActive(false);
             }

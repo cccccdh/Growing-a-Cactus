@@ -14,8 +14,8 @@ public class PlayerController : MonoBehaviour
     public bool isOpenDie = false;
 
     public PlayerStatus status;
-    private EnemyManager enemyManager;
-    private PoolManager poolManager;
+    public EnemyManager enemyManager;
+    public PoolManager poolManager;
     private Transform target;
     private Animator animator;
 
@@ -27,7 +27,6 @@ public class PlayerController : MonoBehaviour
     {
         status = GetComponent<PlayerStatus>();
         animator = GetComponent<Animator>();
-        enemyManager = FindObjectOfType<EnemyManager>();
         poolManager = PoolManager.Instance;
     }
 
@@ -100,6 +99,13 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    // 현재 체력 설정
+    public void SetHp(float cHp)
+    {
+        CurrentHp += cHp;
+    }
+
+    // 체력 재생 설정
     public void SetHpR(float newHpR)
     {
         HpR = newHpR;

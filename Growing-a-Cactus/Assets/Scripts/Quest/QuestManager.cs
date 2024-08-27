@@ -8,11 +8,6 @@ public class QuestManager : MonoBehaviour
 {
     public static QuestManager instance;
 
-    public PlayerStatus playerStatus;
-    public GachaManager gachaManager;
-
-    private List<Quest> quests = new List<Quest>();
-
     private void Awake()
     {
         if(instance == null)
@@ -25,6 +20,11 @@ public class QuestManager : MonoBehaviour
             Debug.LogWarning("QuestManager 인스턴스가 이미 존재합니다.");
         }
     }
+
+    public PlayerStatus playerStatus;
+    public GachaManager gachaManager;
+
+    private List<Quest> quests = new List<Quest>();
 
     private void Update()
     {
@@ -89,8 +89,9 @@ public class QuestManager : MonoBehaviour
 
                     quest.IsActive = true;
 
-                    if (quest.UnlockFeature != null)
+                    if (quest.UnlockFeature != "None")
                     {
+                        Debug.Log("뽑기 해금");
                         UnlockFeature(quest.UnlockFeature);
                     }
 
@@ -102,6 +103,7 @@ public class QuestManager : MonoBehaviour
         }
     }
 
+    // 퀘스트 뽑기 해금
     private void UnlockFeature(string feature)
     {
         if(feature == "장비 뽑기 해금")

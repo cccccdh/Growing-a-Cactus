@@ -14747,8 +14747,8 @@ MonoBehaviour:
   - {fileID: 486290538}
   - {fileID: 308217330}
   - {fileID: 272057601}
-  UnLockEquipment: 1
-  UnLockPet: 1
+  UnLockEquipment: 0
+  UnLockPet: 0
   itemList: []
 --- !u!114 &328319260
 MonoBehaviour:
@@ -77070,7 +77070,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1653316784
 RectTransform:
   m_ObjectHideFlags: 0
@@ -82297,15 +82297,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7128abe94f7e71145be9a62b31f2f4f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  equipmentLockBtns:
-  - {fileID: 1016833875}
-  - {fileID: 923331481}
-  - {fileID: 327054130}
-  petLockBtns:
-  - {fileID: 486290538}
-  - {fileID: 308217330}
-  - {fileID: 272057601}
   gm: {fileID: 963673988}
+  gachaManager: {fileID: 328319259}
 --- !u!4 &1803235548
 Transform:
   m_ObjectHideFlags: 0

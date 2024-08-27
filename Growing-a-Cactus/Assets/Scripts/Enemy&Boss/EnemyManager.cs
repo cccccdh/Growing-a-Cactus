@@ -3,22 +3,25 @@ using System.Collections;
 
 public class EnemyManager : MonoBehaviour
 {
-    // Prefabs
+    [Header("프리팹")]
     public GameObject enemyPrefab;
     public GameObject bossPrefab;
 
-    // Spawn Points
+    [Header("소환 위치")]
     public Transform[] spawnPoints;
     public Transform bossSpawnPoint;
 
-    // Enemy stats
+    [Header("적 상태")]
     private int enemiesKilled = 0;
     private int enemyCount = 0;
 
+    [Header("스테이지")]
     public int stageNumber = 1;
     public int roundNumber = 1;
 
     private int roundCount = 1;
+
+    [Header("적 스탯")]
     public double hpCalcA;
     public double hpCalcB;
     public double HpMax;
@@ -28,12 +31,12 @@ public class EnemyManager : MonoBehaviour
     public int DropGold;
     public int befGold;
 
-    // Boss 스탯
+    [Header("보스 스탯")]
     public double bossMaxHP;
     public double bossAttackPower;
     public int bossGoldDropAmount;
 
-    // 참조
+    [Header("스크립트 참조")]
     public PlayerController playerController;
     public BackgroundScript backgroundScript;
     public QuestManager questmanager;

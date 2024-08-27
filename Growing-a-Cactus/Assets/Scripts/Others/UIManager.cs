@@ -5,45 +5,59 @@ using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
+    public struct Texts
+    {
+        public TextMeshProUGUI at;
+    }
+
+    [Header("공격력")]
     public TextMeshProUGUI Attack_Level;
     public TextMeshProUGUI Attack;
     public TextMeshProUGUI Attack_Cost;
 
+    [Header("체력")]
     public TextMeshProUGUI Hp_Level;
     public TextMeshProUGUI Hp;
     public TextMeshProUGUI Hp_Cost;
 
+    [Header("체력재생")]
     public TextMeshProUGUI Hp_Recovery_Level;
     public TextMeshProUGUI Hp_Recovery;
     public TextMeshProUGUI Hp_Recovery_Cost;
 
+    [Header("공격속도")]
     public TextMeshProUGUI Attack_Speed_Level;
     public TextMeshProUGUI Attack_Speed;
     public TextMeshProUGUI Attack_Speed_Cost;
 
+    [Header("치명타확률")]
     public TextMeshProUGUI Critical_Level;
     public TextMeshProUGUI Critical;
     public TextMeshProUGUI Critical_Cost;
 
+    [Header("치명타데미지")]
     public TextMeshProUGUI Critical_Damage_Level;
     public TextMeshProUGUI Critical_Damage;
     public TextMeshProUGUI Critical_Damage_Cost;
 
+    [Header("더블가시")]
     public TextMeshProUGUI DoubleAttack_Level;
     public TextMeshProUGUI DoubleAttack;
     public TextMeshProUGUI DoubleAttack_Cost;
 
+    [Header("트리플가시")]
     public TextMeshProUGUI TripleAttack_Level;
     public TextMeshProUGUI TripleAttack;
     public TextMeshProUGUI TripleAttack_Cost;
 
+    [Header("전투력")]
     public TextMeshProUGUI PowerLevel;
 
+    [Header("스탯 버튼 & 비용")]
     public Button[] buttons;
     public TextMeshProUGUI[] costs;
 
     private StringBuilder sb = new StringBuilder();
-
 
     public void Update_Text(string status, double stat, int level, int cost)
     {

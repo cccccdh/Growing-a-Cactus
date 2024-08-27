@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class ItemManager : MonoBehaviour
 {
-    // 무기 관련 UI 요소
+    [Header ("무기 관련 UI 요소")]
     public Image WeaponImg;
     public Image EquipWeaponImg;
     public TextMeshProUGUI EquipWeaponText;
@@ -20,7 +20,7 @@ public class ItemManager : MonoBehaviour
     public TextMeshProUGUI[] weaponCountTexts; // 무기 개수 텍스트 배열
     public TextMeshProUGUI[] weaponLevelTexts; // 무기 레벨 텍스트 배열
 
-    // 방어구 관련 UI 요소
+    [Header("방어구 관련 UI 요소")]
     public Image ArmorImg;
     public Image EquipArmorImg;
     public TextMeshProUGUI EquipArmorText;
@@ -35,19 +35,18 @@ public class ItemManager : MonoBehaviour
     public TextMeshProUGUI[] armorCountTexts; // 방어구 개수 텍스트 배열
     public TextMeshProUGUI[] armorLevelTexts; // 방어구 레벨 텍스트 배열
 
+    [HideInInspector]
     public List<Item> weaponItems = new List<Item>(); // 무기 아이템 리스트
+    [HideInInspector]
     public List<Item> armorItems = new List<Item>(); // 방어구 아이템 리스트
 
+    [Header ("스크립트 참조")]
     public PlayerStatus playerstatus; // 플레이어 상태 참조
 
+    [HideInInspector]
     public string selectedItemName; // 선택된 아이템의 이름
+    [HideInInspector]
     public Color selectedItemColor; // 선택된 아이템의 색상
-
-    private void Awake()
-    {
-        // Player 객체에서 PlayerStatus 컴포넌트를 가져옴
-        playerstatus = GameObject.Find("Player").GetComponent<PlayerStatus>();
-    }
 
     // UI 업데이트 함수
     public void UpdateUI()
@@ -335,12 +334,13 @@ public class ItemManager : MonoBehaviour
                 {
                     item.Count -= item.RequiredCount; // 아이템 개수 감소
                     item.Level++; // 아이템 레벨 증가
-                    item.RetentionEffect += 0.0416f; // 보유 효과 증가
-                    item.EquipEffect += item.EquipEffect / 5; // 장착 효과 증가
-                    item.RequiredCount += 2; // 강화에 필요한 개수 증가
 
                     if (item.Type == "무기")
                     {
+                        item.RetentionEffect += 0.0416f; // 보유 효과 증가
+                        item.EquipEffect += item.EquipEffect / 5; // 장착 효과 증가
+                        item.RequiredCount += 2; // 강화에 필요한 개수 증가
+
                         // 무기 보유 효과 업데이트
                         playerstatus.UpdateWeaponRetentionEffects(items);
 
@@ -352,8 +352,12 @@ public class ItemManager : MonoBehaviour
 
                         UpdateWeaponInfo(item); // 무기 정보 UI 업데이트
                     }
-                    else
+                    else if(item.Type == "방어구")
                     {
+                        item.RetentionEffect += 0.0416f; // 보유 효과 증가
+                        item.EquipEffect += item.EquipEffect / 5; // 장착 효과 증가
+                        item.RequiredCount += 2; // 강화에 필요한 개수 증가
+
                         // 방어구 보유 효과 업데이트
                         playerstatus.UpdateArmorRetentionEffects(items);
 

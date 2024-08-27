@@ -122,7 +122,7 @@ public class GameManager : MonoBehaviour
 
     public void UpdateGemText()
     {
-        GemText.text = TextFormatter.FormatText(gem);
+        GemText.text = gem.ToString();
     }
 
     public void UpdateStageText()

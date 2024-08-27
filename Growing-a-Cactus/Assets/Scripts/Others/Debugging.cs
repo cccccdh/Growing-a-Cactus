@@ -2,10 +2,9 @@ using UnityEngine;
 
 public class Debugging : MonoBehaviour
 {
-    public GameObject[] equipmentLockBtns;
-    public GameObject[] petLockBtns;
-
+    [Header("스크립트 참조")]
     public GameManager gm;
+    public GachaManager gachaManager;
 
     // 디버깅용 키 모음
     void Update()
@@ -13,19 +12,13 @@ public class Debugging : MonoBehaviour
         // 장비 잠금 해제
         if (Input.GetKeyDown(KeyCode.F1))
         {
-            foreach (var btn in equipmentLockBtns)
-            {
-                btn.SetActive(false);
-            }
+            gachaManager.Unlock("장비");
         }
 
         // 펫 잠금 해제
         if (Input.GetKeyDown(KeyCode.F2))
         {
-            foreach (var btn in petLockBtns)
-            {
-                btn.SetActive(false);
-            }
+            gachaManager.Unlock("펫");
         }
 
         // 골드 증가

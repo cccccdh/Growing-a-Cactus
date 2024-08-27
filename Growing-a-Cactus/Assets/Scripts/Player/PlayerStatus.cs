@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -126,6 +127,7 @@ public class PlayerStatus : MonoBehaviour
     public void OnClickIncrease(string status)
     {
         PerformIncrease(status);
+        QuestManager.instance.UpdateQuestProgress(0, "");
     }
 
     // 무기 보유효과 -> 공격력 증가
@@ -305,261 +307,281 @@ public class PlayerStatus : MonoBehaviour
         switch (status)
         {
             case "Attack":
-                if (GameManager.instance.Gold >= Attack_Cost)
-                {
-                    GameManager.instance.DecreaseGold(Attack_Cost);
-                    Attack += Increase_Attack;
-                    Attack_Level++;
-                    if (Attack_Level % 5 == 0) Increase_Attack++;
-                    if (Attack_Level % 50 == 0)
-                    {
-                        Attack_Cost += 15;
-                    }
-                    else if (Attack_Level % 100 == 0)
-                    {
-                        Attack_Cost += 30;
-                    }
-                    else
-                    {
-                        if (Attack_Level % 10 == 1 || Attack_Level % 10 == 4 || Attack_Level % 10 == 7)
-                        {
-                            Attack_Cost += 2;
-                        }
-                        else
-                        {
-                            Attack_Cost += 1;
-                        }
-                    }
-                    UpdatePowerLevel();
-                    QuestManager.instance.UpdateQuestProgress(0, "공격력 강화");
-                    uiManager.Update_Text("Attack", Attack, Attack_Level, Attack_Cost);
-                }
-                break;
+                if (GameManager.instance.Gold >= Attack_Cost) EnhanceAttack();
+                    break;
             case "Hp":
-                if (GameManager.instance.Gold >= Hp_Cost)
-                {
-                    GameManager.instance.DecreaseGold(Hp_Cost);
-                    Hp += Increase_HP;
-                    Hp_Level++;
-                    if (Hp_Level % 5 == 0) Increase_HP++;
-                    if (Hp_Level % 50 == 0)
-                    {
-                        Hp_Cost += 15;
-                    }
-                    else if (Hp_Level % 100 == 0)
-                    {
-                        Hp_Cost += 30;
-                    }
-                    else
-                    {
-                        if (Hp_Level % 10 == 1 || Hp_Level % 10 == 4 || Hp_Level % 10 == 7)
-                        {
-                            Hp_Cost += 2;
-                        }
-                        else
-                        {
-                            Hp_Cost += 1;
-                        }
-                    }
-                    UpdateHP();
-                    QuestManager.instance.UpdateQuestProgress(0, "체력 강화");
-                    uiManager.Update_Text("Hp", effectiveHP, Hp_Level, Hp_Cost);
-                }
-                break;
+                if (GameManager.instance.Gold >= Hp_Cost) EnhanceHp();
+                    break;
             case "Hp_Recovery":
-                if (GameManager.instance.Gold >= Hp_Recovery_Cost)
-                {
-                    GameManager.instance.DecreaseGold(Hp_Recovery_Cost);
-                    Hp_Recovery += Increase_Hp_Recovery;
-                    if(Hp_Recovery_Level % 6 == 0) Increase_Hp_Recovery += 2;
-                    Hp_Recovery_Level++;
-                    if (Hp_Recovery_Level % 50 == 0)
-                    {
-                        Hp_Recovery_Cost += 15;
-                    }
-                    else if (Hp_Recovery_Level % 100 == 0)
-                    {
-                        Hp_Recovery_Cost += 30;
-                    }
-                    else
-                    {
-                        if (Hp_Recovery_Level % 10 == 1 || Hp_Recovery_Level % 10 == 4 || Hp_Recovery_Level % 10 == 7)
-                        {
-                            Hp_Recovery_Cost += 2;
-                        }
-                        else
-                        {
-                            Hp_Recovery_Cost += 1;
-                        }
-                    }
-                    playerController.SetHpR(Hp_Recovery);
-                    uiManager.Update_Text("Hp_Recovery", Hp_Recovery, Hp_Recovery_Level, Hp_Recovery_Cost);
-                }
-                break;
-            case "Attack_Speed":
-                if (Attack_Speed_Level >= 200)
-                {
-                    return; // 강화 불가능
-                }
-
-                if (GameManager.instance.Gold >= Attack_Speed_Cost)
-                {
-                    GameManager.instance.DecreaseGold((int)Attack_Speed_Cost);
-                    Attack_Speed += 0.01f;
-                    Attack_Speed_Level++;
-                    if (Attack_Speed_Level >= 15)
-                    {
-                        if (Attack_Speed_Level % 25 == 0)
-                        {
-                            Attack_Speed_Cost += 15;
-                        }
-                        else
-                        {
-                            if (Attack_Speed_Level % 10 == 2 || Attack_Speed_Level % 10 == 4 || Attack_Speed_Level % 10 == 8)
-                            {
-                                Attack_Speed_Cost *= 1.06f;
-                            }
-                            else
-                            {
-                                Attack_Speed_Cost *= 1.05f;
-                            }
-                        }
-                    }
-                    else
-                    {
-                        switch(Attack_Speed_Level)
-                        {
-                            case 1:
-                                Attack_Speed_Cost *= 1.3f;
-                                break;
-                            case 2:
-                                Attack_Speed_Cost *= 1.3f;
-                                break;
-                            case 3:
-                                Attack_Speed_Cost *= 1.3f;
-                                break;
-                            case 4:
-                                Attack_Speed_Cost *= 1.2f;
-                                break;
-                            case 5:
-                                Attack_Speed_Cost *= 1.15f;
-                                break;
-                            case 6:
-                                Attack_Speed_Cost *= 1.15f;
-                                break;
-                            case 7:
-                                Attack_Speed_Cost *= 1.1f;
-                                break;
-                            case 8:
-                                Attack_Speed_Cost *= 1.1f;
-                                break;
-                            case 9:
-                                Attack_Speed_Cost *= 1.08f;
-                                break;
-                            case 10:
-                                Attack_Speed_Cost *= 1.08f;
-                                break;
-                            case 11:
-                                Attack_Speed_Cost *= 1.06f;
-                                break;
-                            case 12:
-                                Attack_Speed_Cost *= 1.06f;
-                                break;
-                            case 13:
-                                Attack_Speed_Cost *= 1.06f;
-                                break;
-                            case 14:
-                                Attack_Speed_Cost *= 1.06f;
-                                break;
-                        }
-                    }
-                    uiManager.Update_Text("Attack_Speed", Attack_Speed, Attack_Speed_Level, (int)Attack_Speed_Cost);
-                }
-                break;
+                if (GameManager.instance.Gold >= Hp_Recovery_Cost) EnhanceHpRecovery();
+                    break;
+            case "Attack_Speed":                
+                if (GameManager.instance.Gold >= Attack_Speed_Cost) EnhanceAttackSpeed();
+                    break;
             case "Critical":
-                if (GameManager.instance.Gold >= Critical_Cost)
-                {
-                    if (Critical_Level >= 1000)
-                        return;
-                    GameManager.instance.DecreaseGold(Critical_Cost);
-                    Critical += 0.1f;
-                    Critical_Level++;
-                    if (Critical_Level % 25 == 0)
-                    {
-                        Critical_Cost += 15;
-                    }
-                    else
-                    {
-                        if (Critical_Level % 10 == 2 || Critical_Level % 10 == 4 || Critical_Level % 10 == 8)
-                        {
-                            Critical_Cost += (int)1.06f;
-                        }
-                        else
-                        {
-                            Critical_Cost += (int)1.05f;
-                        }
-                    }
-                    uiManager.Update_Text("Critical", Critical, Critical_Level, Critical_Cost);
-                }
-                break;
+                if (GameManager.instance.Gold >= Critical_Cost) EnhanceCritical();
+                    break;
             case "Critical_Damage":
-                if (GameManager.instance.Gold >= Critical_Damage_Cost)
-                {
-                    GameManager.instance.DecreaseGold(Critical_Damage_Cost);
-                    Critical_Damage += 1;
-                    Critical_Damage_Level++;
-                    if (Critical_Damage_Level % 50 == 0)
-                    {
-                        Critical_Damage_Cost += 15;
-                    }
-                    else if (Critical_Damage_Level % 100 == 0)
-                    {
-                        Critical_Damage_Cost += 30;
-                    }
-                    else
-                    {
-                        if (Critical_Damage_Level % 10 == 1 || Critical_Damage_Level % 10 == 4 || Critical_Damage_Level % 10 == 7)
-                        {
-                            Critical_Damage_Cost += 2;
-                        }
-                        else
-                        {
-                            Critical_Damage_Cost += 1;
-                        }
-                    }
-                    uiManager.Update_Text("Critical_Damage", Critical_Damage, Critical_Damage_Level, Critical_Damage_Cost);
-                }
-                break;
-            case "DoubleAttack":
-                if (Attack_Speed_Level < 200)
-                {
-                    return;
-                }
-
-                if (GameManager.instance.Gold >= DoubleAttack_Cost)
-                {
-                    GameManager.instance.DecreaseGold(DoubleAttack_Cost);
-                    DoubleAttackChance += 0.1f;
-                    DoubleAttack_Level++;
-                    DoubleAttack_Cost += 10;
-                    uiManager.Update_Text("DoubleAttack", DoubleAttackChance, DoubleAttack_Level, DoubleAttack_Cost);
-                }
-                break;
+                if (GameManager.instance.Gold >= Critical_Damage_Cost) EnhanceCriticalDamage();
+                    break;
+            case "DoubleAttack":          
+                if (GameManager.instance.Gold >= DoubleAttack_Cost) EnhanceDoubleAttack();
+                    break;
             case "TripleAttack":
-                if (DoubleAttack_Level < 1000)
-                {
-                    return;
-                }
-
-                if (GameManager.instance.Gold >= TripleAttack_Cost)
-                {
-                    GameManager.instance.DecreaseGold(TripleAttack_Cost);
-                    TripleAttackChance += 0.1f;
-                    TripleAttack_Level++;
-                    TripleAttack_Cost += 20;
-                    uiManager.Update_Text("TripleAttack", TripleAttackChance, TripleAttack_Level, TripleAttack_Cost);
-                }
-                break;
+                if (GameManager.instance.Gold >= TripleAttack_Cost) EnhanceTripleAttack();
+                    break;
         }
+    }   
+
+    // 공격력 강화
+    private void EnhanceAttack()
+    {
+        GameManager.instance.DecreaseGold(Attack_Cost);
+        Attack += Increase_Attack;
+        Attack_Level++;
+        if (Attack_Level % 5 == 0) Increase_Attack++;
+        if (Attack_Level % 50 == 0)
+        {
+            Attack_Cost += 15;
+        }
+        else if (Attack_Level % 100 == 0)
+        {
+            Attack_Cost += 30;
+        }
+        else
+        {
+            if (Attack_Level % 10 == 1 || Attack_Level % 10 == 4 || Attack_Level % 10 == 7)
+            {
+                Attack_Cost += 2;
+            }
+            else
+            {
+                Attack_Cost += 1;
+            }
+        }
+        UpdatePowerLevel();
+        QuestManager.instance.UpdateQuestProgress(0, "공격력 강화");
+        uiManager.Update_Text("Attack", Attack, Attack_Level, Attack_Cost);
+    }
+
+    // 체력 강화
+    private void EnhanceHp()
+    {
+        GameManager.instance.DecreaseGold(Hp_Cost);
+        Hp += Increase_HP;
+        Hp_Level++;
+        if (Hp_Level % 5 == 0) Increase_HP++;
+        if (Hp_Level % 50 == 0)
+        {
+            Hp_Cost += 15;
+        }
+        else if (Hp_Level % 100 == 0)
+        {
+            Hp_Cost += 30;
+        }
+        else
+        {
+            if (Hp_Level % 10 == 1 || Hp_Level % 10 == 4 || Hp_Level % 10 == 7)
+            {
+                Hp_Cost += 2;
+            }
+            else
+            {
+                Hp_Cost += 1;
+            }
+        }
+        UpdateHP();
+        playerController.SetHp(Increase_HP);
+        QuestManager.instance.UpdateQuestProgress(0, "체력 강화");
+        uiManager.Update_Text("Hp", effectiveHP, Hp_Level, Hp_Cost);
+    }
+
+    // 체력재생 강화
+    private void EnhanceHpRecovery()
+    {
+        GameManager.instance.DecreaseGold(Hp_Recovery_Cost);
+        Hp_Recovery += Increase_Hp_Recovery;
+        if (Hp_Recovery_Level % 6 == 0) Increase_Hp_Recovery += 2;
+        Hp_Recovery_Level++;
+        if (Hp_Recovery_Level % 50 == 0)
+        {
+            Hp_Recovery_Cost += 15;
+        }
+        else if (Hp_Recovery_Level % 100 == 0)
+        {
+            Hp_Recovery_Cost += 30;
+        }
+        else
+        {
+            if (Hp_Recovery_Level % 10 == 1 || Hp_Recovery_Level % 10 == 4 || Hp_Recovery_Level % 10 == 7)
+            {
+                Hp_Recovery_Cost += 2;
+            }
+            else
+            {
+                Hp_Recovery_Cost += 1;
+            }
+        }
+        playerController.SetHpR(Hp_Recovery);
+        uiManager.Update_Text("Hp_Recovery", Hp_Recovery, Hp_Recovery_Level, Hp_Recovery_Cost);
+    }
+
+    // 공격속도 강화
+    private void EnhanceAttackSpeed()
+    {
+        if (Attack_Speed_Level >= 200) 
+            return;
+
+        GameManager.instance.DecreaseGold((int)Attack_Speed_Cost);
+        Attack_Speed += 0.01f;
+        Attack_Speed_Level++;
+        if (Attack_Speed_Level >= 15)
+        {
+            if (Attack_Speed_Level % 25 == 0)
+            {
+                Attack_Speed_Cost += 15;
+            }
+            else
+            {
+                if (Attack_Speed_Level % 10 == 2 || Attack_Speed_Level % 10 == 4 || Attack_Speed_Level % 10 == 8)
+                {
+                    Attack_Speed_Cost *= 1.06f;
+                }
+                else
+                {
+                    Attack_Speed_Cost *= 1.05f;
+                }
+            }
+        }
+        else
+        {
+            switch (Attack_Speed_Level)
+            {
+                case 1:
+                    Attack_Speed_Cost *= 1.3f;
+                    break;
+                case 2:
+                    Attack_Speed_Cost *= 1.3f;
+                    break;
+                case 3:
+                    Attack_Speed_Cost *= 1.3f;
+                    break;
+                case 4:
+                    Attack_Speed_Cost *= 1.2f;
+                    break;
+                case 5:
+                    Attack_Speed_Cost *= 1.15f;
+                    break;
+                case 6:
+                    Attack_Speed_Cost *= 1.15f;
+                    break;
+                case 7:
+                    Attack_Speed_Cost *= 1.1f;
+                    break;
+                case 8:
+                    Attack_Speed_Cost *= 1.1f;
+                    break;
+                case 9:
+                    Attack_Speed_Cost *= 1.08f;
+                    break;
+                case 10:
+                    Attack_Speed_Cost *= 1.08f;
+                    break;
+                case 11:
+                    Attack_Speed_Cost *= 1.06f;
+                    break;
+                case 12:
+                    Attack_Speed_Cost *= 1.06f;
+                    break;
+                case 13:
+                    Attack_Speed_Cost *= 1.06f;
+                    break;
+                case 14:
+                    Attack_Speed_Cost *= 1.06f;
+                    break;
+            }
+        }
+        uiManager.Update_Text("Attack_Speed", Attack_Speed, Attack_Speed_Level, (int)Attack_Speed_Cost);
+    }
+
+    // 치명타확률 강화
+    private void EnhanceCritical()
+    {
+        if (Critical_Level >= 1000)
+            return;
+
+        GameManager.instance.DecreaseGold(Critical_Cost);
+        Critical += 0.1f;
+        Critical_Level++;
+        if (Critical_Level % 25 == 0)
+        {
+            Critical_Cost += 15;
+        }
+        else
+        {
+            if (Critical_Level % 10 == 2 || Critical_Level % 10 == 4 || Critical_Level % 10 == 8)
+            {
+                Critical_Cost += (int)1.06f;
+            }
+            else
+            {
+                Critical_Cost += (int)1.05f;
+            }
+        }
+        uiManager.Update_Text("Critical", Critical, Critical_Level, Critical_Cost);
+    }
+
+    // 치명타데미지 강화
+    private void EnhanceCriticalDamage()
+    {
+        GameManager.instance.DecreaseGold(Critical_Damage_Cost);
+        Critical_Damage += 1;
+        Critical_Damage_Level++;
+        if (Critical_Damage_Level % 50 == 0)
+        {
+            Critical_Damage_Cost += 15;
+        }
+        else if (Critical_Damage_Level % 100 == 0)
+        {
+            Critical_Damage_Cost += 30;
+        }
+        else
+        {
+            if (Critical_Damage_Level % 10 == 1 || Critical_Damage_Level % 10 == 4 || Critical_Damage_Level % 10 == 7)
+            {
+                Critical_Damage_Cost += 2;
+            }
+            else
+            {
+                Critical_Damage_Cost += 1;
+            }
+        }
+        uiManager.Update_Text("Critical_Damage", Critical_Damage, Critical_Damage_Level, Critical_Damage_Cost);
+    }
+
+    // 더블가시 강화
+    private void EnhanceDoubleAttack()
+    {
+        if (Attack_Speed_Level < 200)
+            return;
+
+        GameManager.instance.DecreaseGold(DoubleAttack_Cost);
+        DoubleAttackChance += 0.1f;
+        DoubleAttack_Level++;
+        DoubleAttack_Cost += 10;
+        uiManager.Update_Text("DoubleAttack", DoubleAttackChance, DoubleAttack_Level, DoubleAttack_Cost);
+    }
+
+    // 트리플 가시 강화
+    private void EnhanceTripleAttack()
+    {
+        if (DoubleAttack_Level < 1000)
+            return;
+
+        GameManager.instance.DecreaseGold(TripleAttack_Cost);
+        TripleAttackChance += 0.1f;
+        TripleAttack_Level++;
+        TripleAttack_Cost += 20;
+        uiManager.Update_Text("TripleAttack", TripleAttackChance, TripleAttack_Level, TripleAttack_Cost);
     }
 }
