@@ -4,18 +4,22 @@ using UnityEngine;
 
 public class GachaManager : MonoBehaviour
 {
-    public ItemManager itemManager;
     public GachaUIManager gachaUIManager;
+    public ItemManager itemManager;
     public PetManager petManager;
 
     public GameObject[] equipmentLockBtn;
     public GameObject[] petLockBtn;
+    public GameObject[] clothesLockBtn;
 
     public bool UnLockEquipment = false;
     public bool UnLockPet = false;
+    public bool UnLockClothes = false;
+    
 
     public List<Item> itemList;
     public List<Pet> petList;
+    public List<Clothes> clothesList;
 
     // 장비 리스트 초기화
     public void InitializeItems(List<Item> items)
@@ -29,6 +33,12 @@ public class GachaManager : MonoBehaviour
         petList = pets;
     }
 
+    // 의상 리스트 초기화
+    public void InitializeClothes(List<Clothes> clothes)
+    {
+        clothesList = clothes;
+    }
+
     // 가챠 버튼 해금
     public void Unlock(string Name)
     {
@@ -40,14 +50,22 @@ public class GachaManager : MonoBehaviour
                 btn.SetActive(false);
             }
         }
-        else if(!UnLockPet && Name == "펫")
+        else if (!UnLockPet && Name == "펫")
         {
             UnLockPet = true;
             foreach (var btn in petLockBtn)
             {
                 btn.SetActive(false);
             }
-        }        
+        }
+        //else if (!UnLockClothes && Name == "의상")
+        //{
+        //    UnLockClothes = true;
+        //    foreach (var btn in clothesLockBtn)
+        //    {
+        //        btn.SetActive(false);
+        //    }
+        //}
     }
 
     // 장비 가챠를 수행하는 메서드

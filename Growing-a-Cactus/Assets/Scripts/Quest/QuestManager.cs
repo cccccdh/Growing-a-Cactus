@@ -1,8 +1,5 @@
 using System.Collections.Generic;
-using System.Security.Cryptography;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
-using UnityEngine.Playables;
 
 public class QuestManager : MonoBehaviour
 {
