@@ -6,13 +6,15 @@ public class PoolManager : MonoBehaviour
 {
     public static PoolManager instance;
 
-    public static PoolManager Instance
+    private void Awake()
     {
-        get
+        if (instance == null)
         {
-            if (instance == null)
-                instance = FindObjectOfType<PoolManager>();
-            return instance;
+            instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
         }
     }
 

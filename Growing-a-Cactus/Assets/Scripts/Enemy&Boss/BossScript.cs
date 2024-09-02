@@ -98,7 +98,7 @@ public class BossScript : MonoBehaviour
 
             Instantiate(deathEffect, transform.position, Quaternion.identity); // ªÁ∏¡ ¿Ã∆Â∆Æ
 
-            PoolManager.Instance.ReturnToBossPool(gameObject);
+            PoolManager.instance.ReturnToBossPool(gameObject);
 
             if (backgroundScript != null)
             {

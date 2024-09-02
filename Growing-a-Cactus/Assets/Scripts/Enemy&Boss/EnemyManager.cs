@@ -65,8 +65,7 @@ public class EnemyManager : MonoBehaviour
 
     public void SpawnBoss()
     {
-        //GameObject bossObject = Instantiate(bossPrefab, bossSpawnPoint.position, Quaternion.identity);
-        GameObject bossObject = PoolManager.Instance.GetBoss(bossSpawnPoint.position);
+        GameObject bossObject = PoolManager.instance.GetBoss(bossSpawnPoint.position);
         BossScript bossScript = bossObject.GetComponent<BossScript>();
 
         if (bossScript != null)

@@ -9,7 +9,7 @@ public class Thorn : MonoBehaviour
 
     private void Start()
     {
-        poolManager = PoolManager.Instance;
+        poolManager = PoolManager.instance;
     }
 
     public void SetDamage(double damage)

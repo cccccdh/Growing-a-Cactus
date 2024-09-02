@@ -15,7 +15,6 @@ public class PlayerController : MonoBehaviour
 
     public PlayerStatus status;
     public EnemyManager enemyManager;
-    public PoolManager poolManager;
     private Transform target;
     private Animator animator;
 
@@ -27,7 +26,6 @@ public class PlayerController : MonoBehaviour
     {
         status = GetComponent<PlayerStatus>();
         animator = GetComponent<Animator>();
-        poolManager = PoolManager.Instance;
     }
 
     void Start()
@@ -150,7 +148,7 @@ public class PlayerController : MonoBehaviour
     private void ShootThorn(Vector2 direction, double damage)
     {
         bool isCritical = Random.Range(0, 100f) < status.Critical;
-        poolManager.GetThorn(shootpivot, direction, damage, isCritical);
+        PoolManager.instance.GetThorn(shootpivot, direction, damage, isCritical);
 
         HandleDoubleAndTripleAttack(direction, damage);
     }
@@ -177,7 +175,7 @@ public class PlayerController : MonoBehaviour
             yield return new WaitForSeconds(delay);
 
             bool isCritical = Random.Range(0, 100f) < status.Critical;
-            poolManager.GetThorn(transform.position, direction, damage, isCritical);
+            PoolManager.instance.GetThorn(transform.position, direction, damage, isCritical);
         }
     }
 
