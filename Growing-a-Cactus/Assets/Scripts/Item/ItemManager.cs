@@ -184,7 +184,7 @@ public class ItemManager : MonoBehaviour
         UpdateItemImagesInList(resultItemList, armorImages); // 방어구 이미지 업데이트
     }
 
-    private void UpdateItemImagesInList(List<Item> resultItemList, Image[] images)
+    public void UpdateItemImagesInList(List<Item> resultItemList, Image[] images)
     {
         foreach (var result in resultItemList)
         {
@@ -199,6 +199,7 @@ public class ItemManager : MonoBehaviour
             }
         }
     }
+
 
     // 아이템에 따라 UI 텍스트를 업데이트하는 메서드
     public void UpdateItemText(string itemName, List<Item> items)

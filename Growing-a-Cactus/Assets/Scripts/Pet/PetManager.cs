@@ -22,9 +22,9 @@ public class PetManager : MonoBehaviour
 
     public PlayerStatus playerstatus;
 
-    private List<Pet> pets = new List<Pet>();
-    private string selectedPetName;
-    private Color selectedPetColor;
+    public List<Pet> pets = new List<Pet>();
+    public string selectedPetName;
+    public Color selectedPetColor;
 
     private void Awake()
     {

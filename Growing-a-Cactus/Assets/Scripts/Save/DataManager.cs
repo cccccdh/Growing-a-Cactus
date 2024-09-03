@@ -76,8 +76,10 @@ public class DataManager : MonoBehaviour
         public int bossGoldDropAmount;
         public int emroundnumber;
 
+        // itemManager
         public List<Item> weaponItems = new List<Item>();
         public List<Item> armorItems = new List<Item>();
+
 
         public PlayerStatus playerstatus;
     }
@@ -136,8 +138,9 @@ public class DataManager : MonoBehaviour
             // ItemManager
             weaponItems = itemManager.weaponItems,
             armorItems = itemManager.armorItems,
+            
 
-            playerstatus = playerStatus,  // playerStatus는 현재 playerStatus 인스턴스를 참조
+              playerstatus = playerStatus,  // playerStatus는 현재 playerStatus 인스턴스를 참조
             // GameManager
             gold = gameManager.Gold,
             gem = gameManager.gem,
@@ -148,7 +151,8 @@ public class DataManager : MonoBehaviour
         string jsonData = JsonUtility.ToJson(data, true);
         File.WriteAllText(saveFilePath, jsonData);
         Debug.Log("게임 저장됨: " + saveFilePath);
-        PrintItemData();
+        //PrintItemData();
+
     }
 
     public void PrintItemData()
@@ -169,6 +173,7 @@ public class DataManager : MonoBehaviour
     // 게임 데이터를 불러오는 함수
     public void LoadGame()
     {
+
         if (File.Exists(saveFilePath))
         {
             string jsonData = File.ReadAllText(saveFilePath);
@@ -235,8 +240,44 @@ public class DataManager : MonoBehaviour
             itemManager.weaponItems = data.weaponItems;
             itemManager.armorItems = data.armorItems;
             itemManager.UpdateUI();
+
             itemManager.playerstatus = data.playerstatus;
-            PrintItemData();
+
+            // 보유 중인 아이템에 대해 텍스트 업데이트
+            foreach (var item in itemManager.weaponItems)
+            {
+                if (item.Count > 0) // 소지한 아이템만 업데이트
+                {
+                    itemManager.UpdateItemText(item.Name, itemManager.weaponItems);
+                }
+            }
+
+            foreach (var item in itemManager.armorItems)
+            {
+                if (item.Count > 0) // 소지한 아이템만 업데이트
+                {
+                    itemManager.UpdateItemText(item.Name, itemManager.armorItems);
+                }
+            }
+
+            List<Item> ownedItems = new List<Item>();
+            foreach (var item in itemManager.weaponItems)
+            {
+                if (item.Count > 0) // Count가 0보다 큰 아이템만 추가
+                {
+                    ownedItems.Add(item);
+                }
+            }
+            foreach (var item in itemManager.armorItems)
+            {
+                if (item.Count > 0) // Count가 0보다 큰 아이템만 추가
+                {
+                    ownedItems.Add(item);
+                }
+            }
+            itemManager.UpdateItemImages(ownedItems);  // 소지 중인 아이템만 전달
+
+            // PrintItemData();
 
             // GameManager
             if (gameManager != null)
@@ -248,14 +289,13 @@ public class DataManager : MonoBehaviour
                 gameManager.roundNumber = data.roundNumber;
                 gameManager.UpdateStageText();
             }
-
             Debug.Log("게임 불러오기 완료");
-            
+
         }
         else
         {
             Debug.LogWarning("저장된 게임 파일이 없습니다.");
         }
-        
     }
+    
 }
