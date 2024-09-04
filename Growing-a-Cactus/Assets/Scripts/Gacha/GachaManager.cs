@@ -7,6 +7,7 @@ public class GachaManager : MonoBehaviour
     public GachaUIManager gachaUIManager;
     public ItemManager itemManager;
     public PetManager petManager;
+    public ClothesManager clothesManager;
 
     public GameObject[] equipmentLockBtn;
     public GameObject[] petLockBtn;
@@ -58,14 +59,14 @@ public class GachaManager : MonoBehaviour
                 btn.SetActive(false);
             }
         }
-        //else if (!UnLockClothes && Name == "의상")
-        //{
-        //    UnLockClothes = true;
-        //    foreach (var btn in clothesLockBtn)
-        //    {
-        //        btn.SetActive(false);
-        //    }
-        //}
+        else if (!UnLockClothes && Name == "의상")
+        {
+            UnLockClothes = true;
+            foreach (var btn in clothesLockBtn)
+            {
+                btn.SetActive(false);
+            }
+        }
     }
 
     // 장비 가챠를 수행하는 메서드
@@ -127,5 +128,36 @@ public class GachaManager : MonoBehaviour
             // 퀘스트 진행 상황 업데이트
             QuestManager.instance.UpdateQuestProgress(times, "펫 뽑기");
         }        
+    }
+
+    // 의상 가챠를 수행하는 메서드
+    public void PerformGachaWithClothes(int times)
+    {
+        if (UnLockClothes)
+        {
+            var resultClothesList = new List<Clothes>();
+            for (int i = 0; i < times; i++)
+            {
+                float rand = Random.Range(0, 100f);
+                float cumulative = 0f;
+                foreach (var cloth in clothesList)
+                {
+                    cumulative += cloth.Probability;
+                    if (rand < cumulative)
+                    {
+                        resultClothesList.Add(cloth);
+                        clothesManager.UpdateClothesCount(cloth.Name);
+                        //Debug.Log($"뽑기 {i + 1}: {cloth.Name} / 등급: {cloth.Grade}");
+                        break;
+                    }
+                }
+            }
+
+            clothesManager.UpdateClothesImages(resultClothesList); // 의상 이미지 업데이트
+            gachaUIManager.UpdateGachaUI(resultClothesList); // UI 업데이트
+
+            // 퀘스트 진행 상황 업데이트 (미구현)
+            //QuestManager.instance.UpdateQuestProgress(times, "의상 뽑기");
+        }
     }
 }

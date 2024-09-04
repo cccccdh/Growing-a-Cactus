@@ -59,6 +59,7 @@ public class PlayerStatus : MonoBehaviour
     private float armorTotalRetentionEffect = 0f;
     private float petTotalEquipEffect = 0f;
     private float petTotalRetentionEffect = 0f;
+    private float clothesTotalRetentionEffect = 0f;
 
     private Item equippedWeapon;
     private Item equippedArmor;
@@ -175,6 +176,21 @@ public class PlayerStatus : MonoBehaviour
         UpdatePowerLevel();
     }
 
+    // 의상 보유효과 -> 공격력 증가
+    public void UpdateClothesRetentionEffects(List<Clothes> clothes)
+    {
+        clothesTotalRetentionEffect = 0;
+        foreach (var cloth in clothes)
+        {
+            if (cloth.Count > 0 || (cloth.Count == 0 && cloth.Level > 1))
+            {
+                clothesTotalRetentionEffect += cloth.RetentionEffect;
+                //Debug.Log($"전체 의상 보유효과 : {clothesTotalRetentionEffect}");
+            }
+        }
+        UpdatePowerLevel();
+    }
+
     // 무기 장착 효과 -> 공격력 증가
     public void EquipWeapon(Item item)
     {
@@ -235,7 +251,7 @@ public class PlayerStatus : MonoBehaviour
         //Debug.Log($"총 펫 보유효과 : {petTotalRetentionEffect}");
         //Debug.Log($"총 펫 장착효과 : {petTotalEquipEffect}");
 
-        double effect = Attack * (1 + weaponTotalRetentionEffect + petTotalRetentionEffect); // 보유 효과 적용
+        double effect = Attack * (1 + weaponTotalRetentionEffect + petTotalRetentionEffect + clothesTotalRetentionEffect); // 보유 효과 적용
         effect *= (1 + weaponTotalEquipEffect + petTotalEquipEffect); // 장착 효과 적용
 
         PowerLevel = effect;

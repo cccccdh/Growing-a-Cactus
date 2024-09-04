@@ -32,5 +32,10 @@ public class Debugging : MonoBehaviour
         {
             gm.gem += 5000000;
         }
+        // 펫 잠금 해제
+        if (Input.GetKeyDown(KeyCode.F5))
+        {
+            gachaManager.Unlock("의상");
+        }
     }
 }

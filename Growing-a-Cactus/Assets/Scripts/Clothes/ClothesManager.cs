@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using static UnityEditor.Timeline.TimelinePlaybackControls;
 
 public class ClothesManager : MonoBehaviour
 {
@@ -36,12 +35,25 @@ public class ClothesManager : MonoBehaviour
 
     private List<Clothes> clothes = new List<Clothes>();
     private string selectedClothesName;
+        
+    private void Start()
+    {
+        Init();
+    }
+
+    // 텍스트 초기화
+    public void Init()
+    {
+        NameText.text = $"기본";
+        ProjectileText.text = "가시";
+        RetentionEffectText.text = $"공격력 + 0.00%";
+    }
 
     // 의상 리스트 설정
     public void SetClothes(List<Clothes> clothesList)
     {
         clothes = clothesList;
-        // 보유효과 갱신 추가
+        playerstatus.UpdateClothesRetentionEffects(clothesList);
     }
 
     // 의상 개수를 업데이트하는 함수
@@ -52,15 +64,16 @@ public class ClothesManager : MonoBehaviour
             if (cloth.Name == clothesName)
             {
                 cloth.Count++;
+                UpdateClothesText(clothesName);
                 // 보유효과 갱신 추가
-                //playerstatus.UpdatePetRetentionEffects(pets);
+                playerstatus.UpdateClothesRetentionEffects(clothes);
                 break;
             }
         }
     }
 
     // 의상 보유개수를 가져오는 함수
-    public int GetPetCount(string clothesName)
+    public int GetClothesCount(string clothesName)
     {
         foreach (var cloth in clothes)
         {
@@ -73,7 +86,7 @@ public class ClothesManager : MonoBehaviour
     }
 
     // 의상 강화 개수를 가져오는 함수
-    public int GetPetRequiredCount(string clothesName)
+    public int GetClothesRequiredCount(string clothesName)
     {
         foreach (var cloth in clothes)
         {
@@ -86,7 +99,7 @@ public class ClothesManager : MonoBehaviour
     }
 
     // 의상 레벨을 가져오는 함수
-    public int GetPetLevel(string clothesName)
+    public int GetClothesLevel(string clothesName)
     {
         foreach (var cloth in clothes)
         {
@@ -99,7 +112,7 @@ public class ClothesManager : MonoBehaviour
     }
 
     // 의상 획득 시 의상 UI 업데이트
-    public void UpdatePetImages(List<Clothes> resultClothesList)
+    public void UpdateClothesImages(List<Clothes> resultClothesList)
     {
         foreach (var result in resultClothesList)
         {
@@ -123,9 +136,9 @@ public class ClothesManager : MonoBehaviour
         {
             if (clothesImages[i].name == clothesName)
             {
-                int count = GetPetCount(clothesName);
-                int requiredcount = GetPetRequiredCount(clothesName);
-                int level = GetPetLevel(clothesName);
+                int count = GetClothesCount(clothesName);
+                int requiredcount = GetClothesRequiredCount(clothesName);
+                int level = GetClothesLevel(clothesName);
                 clothesLevelTexts[i].text = $"Lv.{level}";
                 clothesCountTexts[i].text = $"({count}/{requiredcount})";
                 break;
@@ -148,10 +161,11 @@ public class ClothesManager : MonoBehaviour
     {
         foreach (var cloth in clothes)
         {
-            if (cloth.Name == selectedClothesName)
+            if (selectedClothesName == cloth.Name)
             {
                 RetentionEffectText.text = $"공격력 + {TextFormatter.FormatText(cloth.RetentionEffect * 100)}%";
                 LevelText.text = $"Lv.{cloth.Level}";
+                ProjectileText.text = (cloth.Set == "Null" ? "가시" : $"{cloth.Set}");
                 break;
             }
         }
@@ -160,7 +174,7 @@ public class ClothesManager : MonoBehaviour
     // 의상 장착
     public void EquipClothes()
     {
-        int count = GetPetCount(selectedClothesName);
+        int count = GetClothesCount(selectedClothesName);
 
         Clothes selectedClothes = clothes.Find(cloth => cloth.Name == selectedClothesName);
 
@@ -192,7 +206,7 @@ public class ClothesManager : MonoBehaviour
                     cloth.RequiredCount += 2;
 
                     // 보유효과 업데이트
-                    //playerstatus.UpdatePetRetentionEffects(pets);
+                    playerstatus.UpdateClothesRetentionEffects(clothes);
                                         
                     UpdateClothesText(cloth.Name);
 
