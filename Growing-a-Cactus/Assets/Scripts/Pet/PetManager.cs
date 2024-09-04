@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -5,9 +6,11 @@ using UnityEngine.UI;
 
 public class PetManager : MonoBehaviour
 {
-    
+    [Header("Pet")]
     public GameObject Pet;
     public TextMeshProUGUI PetName;
+
+    [Header("Information")]
     public Image PetImage;
     public TextMeshProUGUI NameText;
     public TextMeshProUGUI GradeText;
@@ -16,21 +19,22 @@ public class PetManager : MonoBehaviour
     public TextMeshProUGUI RetentionEffect;
     public TextMeshProUGUI EquipEffectText;
 
+    [Header("Scroll VIew")]
     public Image[] petImages;
     public TextMeshProUGUI[] petCountTexts;
     public TextMeshProUGUI[] petLevelTexts;
 
+    [Header("장착 중 텍스트")]
+    public GameObject prefabs;
+    private GameObject equippedTextObject;
+
+    [Header("스크립트 참조")]
     public PlayerStatus playerstatus;
 
+    [HideInInspector] public List<Pet> pets = new List<Pet>();
 
-    [HideInInspector]
-
-    public List<Pet> pets = new List<Pet>(); // 펫리스트
-
-    public string selectedPetName;
-    public Color selectedPetColor;
-
-
+    [HideInInspector] public string selectedPetName;
+    [HideInInspector] public Color selectedPetColor;
 
     public void Awake()
     {
@@ -177,14 +181,40 @@ public class PetManager : MonoBehaviour
             foreach(var pet in pets)
             {
                 if(pet.Name == selectedPetName)
-                {
+                {   
                     // 플레이어 전투력에 장착효과 부여
                     playerstatus.EquipPet(pet);
-
+                    
                     Pet.SetActive(true);
                     PetName.text = pet.Name;
+
+                    ShowEquippedText(selectedPetName);
                     break;
                 }
+            }
+        }
+    }
+
+    // 장착 중 텍스트 표시
+    private void ShowEquippedText(string selectedPetName)
+    {
+        if (equippedTextObject != null)
+        {
+            Destroy(equippedTextObject);
+        }
+
+        for (int i = 0; i < petImages.Length; i++)
+        {
+            if (petImages[i].name == selectedPetName)
+            {
+                // 새로운 "장착중" 텍스트 생성
+                equippedTextObject = Instantiate(prefabs);
+                equippedTextObject.transform.SetParent(petImages[i].transform, false); // 부모를 설정하면서 World Position 유지하지 않음
+
+                // RectTransform 설정
+                RectTransform rectTransform = equippedTextObject.GetComponent<RectTransform>();
+                rectTransform.anchoredPosition = new Vector2(35, -20); // 원하는 위치로 설정
+                break;
             }
         }
     }

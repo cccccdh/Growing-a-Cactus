@@ -6,10 +6,7 @@ public class QuestManager : MonoBehaviour
     public static QuestManager instance;
 
     private void Awake()
-    {
-        gachaManager.Unlock("¿Â∫Ò");
-        gachaManager.Unlock("∆Í");
-
+    {        
         if (instance == null)
         {
             instance = this;

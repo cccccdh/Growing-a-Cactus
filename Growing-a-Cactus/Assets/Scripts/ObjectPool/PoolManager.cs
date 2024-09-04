@@ -18,11 +18,13 @@ public class PoolManager : MonoBehaviour
         }
     }
 
+    [Header("ObjectPool")]
     public ObjectPool damageTextPool; // 데미지 텍스트 풀
     public ObjectPool thornPool; // 가시 오브젝트 풀
     public ObjectPool enemyPool; // 적 오브젝트 풀
     public ObjectPool bossPool; // 적 오브젝트 풀
 
+    [Header("참조")]
     public PlayerStatus status;
 
     // 데미지 텍스트 활성화

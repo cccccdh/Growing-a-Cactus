@@ -35,18 +35,19 @@ public class ItemManager : MonoBehaviour
     public TextMeshProUGUI[] armorCountTexts; // 방어구 개수 텍스트 배열
     public TextMeshProUGUI[] armorLevelTexts; // 방어구 레벨 텍스트 배열
 
-    [HideInInspector]
-    public List<Item> weaponItems = new List<Item>(); // 무기 아이템 리스트
-    [HideInInspector]
-    public List<Item> armorItems = new List<Item>(); // 방어구 아이템 리스트
+    [Header("장착 중 텍스트")]
+    public GameObject prefabs;
+    private GameObject weaponEquippedTextObject; // 무기 장착 중 텍스트 오브젝트
+    private GameObject armorEquippedTextObject; // 방어구 장착 중 텍스트 오브젝트
+
+    [HideInInspector] public List<Item> weaponItems = new List<Item>(); // 무기 아이템 리스트
+    [HideInInspector] public List<Item> armorItems = new List<Item>(); // 방어구 아이템 리스트
 
     [Header ("스크립트 참조")]
     public PlayerStatus playerstatus; // 플레이어 상태 참조
 
-    [HideInInspector]
-    public string selectedItemName; // 선택된 아이템의 이름
-    [HideInInspector]
-    public Color selectedItemColor; // 선택된 아이템의 색상
+    [HideInInspector] public string selectedItemName; // 선택된 아이템의 이름
+    [HideInInspector] public Color selectedItemColor; // 선택된 아이템의 색상
 
     // UI 업데이트 함수
 
@@ -283,7 +284,7 @@ public class ItemManager : MonoBehaviour
         Item selectedItem = weaponItems.Find(item => item.Name == selectedItemName)
             ?? armorItems.Find(item => item.Name == selectedItemName);
 
-        if (selectedItem != null && count > 0 || selectedItem.Level > 1)
+        if (selectedItem != null && (count > 0 || selectedItem.Level > 1))
         {
             if (selectedItem.Type == "무기")
             {
@@ -293,6 +294,9 @@ public class ItemManager : MonoBehaviour
 
                 // 플레이어에게 무기 장착 효과 부여
                 playerstatus.EquipWeapon(selectedItem);
+
+                // 장착 중 텍스트 표시
+                ShowEquippedText(selectedItem);
             }
             else if (selectedItem.Type == "방어구")
             {
@@ -302,6 +306,59 @@ public class ItemManager : MonoBehaviour
 
                 // 플레이어에게 방어구 장착 효과 부여
                 playerstatus.EquipArmor(selectedItem);
+
+                // 장착 중 텍스트 표시
+                ShowEquippedText(selectedItem);
+            }
+        }
+    }
+
+    public void ShowEquippedText(Item item)
+    {
+        // 장착 중인 무기 텍스트가 존재하면 삭제
+        if (weaponEquippedTextObject != null && item.Type == "무기")
+        {
+            Destroy(weaponEquippedTextObject);
+        }
+
+        // 장착 중인 방어구 텍스트가 존재하면 삭제
+        if (armorEquippedTextObject != null && item.Type == "방어구")
+        {
+            Destroy(armorEquippedTextObject);
+        }
+
+        // 무기 장착 중 텍스트 생성
+        if (item.Type == "무기")
+        {
+            for (int i = 0; i < weaponImages.Length; i++)
+            {
+                if (weaponImages[i].name == item.Name)
+                {
+                    weaponEquippedTextObject = Instantiate(prefabs);
+                    weaponEquippedTextObject.transform.SetParent(weaponImages[i].transform, false);
+
+                    // RectTransform 설정
+                    RectTransform rectTransform = weaponEquippedTextObject.GetComponent<RectTransform>();
+                    rectTransform.anchoredPosition = new Vector2(35, -20); // 원하는 위치로 설정
+                    break;
+                }
+            }            
+        }
+        // 방어구 장착 중 텍스트 생성
+        else if (item.Type == "방어구")
+        {
+            for (int i = 0; i < armorImages.Length; i++)
+            {
+                if (armorImages[i].name == item.Name)
+                {
+                    armorEquippedTextObject = Instantiate(prefabs);
+                    armorEquippedTextObject.transform.SetParent(armorImages[i].transform, false);
+
+                    // RectTransform 설정
+                    RectTransform rectTransform = armorEquippedTextObject.GetComponent<RectTransform>();
+                    rectTransform.anchoredPosition = new Vector2(35, -20); // 원하는 위치로 설정
+                    break;
+                }
             }
         }
     }

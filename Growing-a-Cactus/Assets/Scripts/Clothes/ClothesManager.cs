@@ -30,6 +30,10 @@ public class ClothesManager : MonoBehaviour
     public TextMeshProUGUI[] clothesCountTexts;
     public TextMeshProUGUI[] clothesLevelTexts;
 
+    [Header("장착 중 텍스트")]
+    public GameObject prefabs;
+    private GameObject equippedTextObject;
+
     [Header("참조")]
     public PlayerStatus playerstatus;
 
@@ -182,11 +186,36 @@ public class ClothesManager : MonoBehaviour
         {
             foreach (var cloth in clothes)
             {
-                if (cloth.Name == selectedClothesName)
+                if (cloth.Name == selectedClothes.Name)
                 {
                     // 플레이어에게 장착효과 부여 => 투사체 변경 및 이펙트 변경 예정
+                    ShowEquippedText(selectedClothes.Name);
                     break;
                 }
+            }
+        }
+    }
+
+    // 장착 중 텍스트 표시
+    private void ShowEquippedText(string selectedPetName)
+    {
+        if (equippedTextObject != null)
+        {
+            Destroy(equippedTextObject);
+        }
+
+        for (int i = 0; i < clothesImages.Length; i++)
+        {
+            if (clothesImages[i].name == selectedPetName)
+            {
+                // 새로운 "장착중" 텍스트 생성
+                equippedTextObject = Instantiate(prefabs);
+                equippedTextObject.transform.SetParent(clothesImages[i].transform, false); // 부모를 설정하면서 World Position 유지하지 않음
+
+                // RectTransform 설정
+                RectTransform rectTransform = equippedTextObject.GetComponent<RectTransform>();
+                rectTransform.anchoredPosition = new Vector2(35, -20); // 원하는 위치로 설정
+                break;
             }
         }
     }
