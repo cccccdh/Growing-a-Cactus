@@ -5,9 +5,9 @@ using UnityEngine.UI;
 
 public class PetManager : MonoBehaviour
 {
+    
     public GameObject Pet;
     public TextMeshProUGUI PetName;
-
     public Image PetImage;
     public TextMeshProUGUI NameText;
     public TextMeshProUGUI GradeText;
@@ -22,11 +22,17 @@ public class PetManager : MonoBehaviour
 
     public PlayerStatus playerstatus;
 
-    public List<Pet> pets = new List<Pet>();
+
+    [HideInInspector]
+
+    public List<Pet> pets = new List<Pet>(); // Æê¸®½ºÆ®
+
     public string selectedPetName;
     public Color selectedPetColor;
 
-    private void Awake()
+
+
+    public void Awake()
     {
         playerstatus = GameObject.Find("Player").GetComponent<PlayerStatus>();
         Pet.SetActive(false);

@@ -49,10 +49,7 @@ public class ItemManager : MonoBehaviour
     public Color selectedItemColor; // 선택된 아이템의 색상
 
     // UI 업데이트 함수
-    public void UpdateUI()
-    {
-        // TODO: 무기 및 방어구 UI 업데이트 로직 추가
-    }
+
 
     // 아이템 리스트를 설정하는 메서드
     public void SetItems(List<Item> itemList)

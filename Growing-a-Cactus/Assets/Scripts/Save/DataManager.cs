@@ -13,10 +13,8 @@ public class DataManager : MonoBehaviour
     public PlayerController playerController;
     public EnemyManager enemyManager;
     public EnemyScript enemyScript;
-    public Item item;
     public ItemManager itemManager;
-    public GachaManager gachaManager;
-    public GachaUIManager gachaUIManager;
+    public PetManager petManager;
 
     [System.Serializable]
     public class GameData
@@ -56,6 +54,17 @@ public class DataManager : MonoBehaviour
         public double PowerLevel;
         public double effectiveHP;
 
+        public float weaponTotalEquipEffect;
+        public float weaponTotalRetentionEffect;
+        public float armorTotalEquipEffect;
+        public float armorTotalRetentionEffect;
+        public float petTotalEquipEffect;
+        public float petTotalRetentionEffect;
+
+        public Item equippedWeapon;
+        public Item equippedArmor;
+        // public Pet equippedPet; 일단 보류
+
         // GamaManager
         public double gold;
         public int gem;
@@ -81,8 +90,13 @@ public class DataManager : MonoBehaviour
         public List<Item> armorItems = new List<Item>();
 
 
-        public PlayerStatus playerstatus;
+        public List<Pet> pets = new List<Pet>();
+
+
+        //public PlayerStatus playerstatus;
     }
+
+    
 
     void Start()
     {
@@ -121,6 +135,17 @@ public class DataManager : MonoBehaviour
             PowerLevel = playerStatus.PowerLevel,
             effectiveHP = playerStatus.effectiveHP,
 
+            weaponTotalEquipEffect = playerStatus.weaponTotalEquipEffect,
+            weaponTotalRetentionEffect = playerStatus.weaponTotalRetentionEffect,
+            armorTotalEquipEffect = playerStatus.armorTotalEquipEffect,
+            armorTotalRetentionEffect = playerStatus.armorTotalRetentionEffect,
+            petTotalEquipEffect = playerStatus.petTotalEquipEffect,
+            petTotalRetentionEffect = playerStatus.petTotalRetentionEffect,
+
+            equippedWeapon = playerStatus.equippedWeapon,
+            equippedArmor = playerStatus.equippedArmor,
+            // equippedPet = playerStatus.equippedPet, 일단 보류
+
             // EnemyManager
             hpCalcA = enemyManager.hpCalcA,
             hpCalcB = enemyManager.hpCalcB,
@@ -138,9 +163,11 @@ public class DataManager : MonoBehaviour
             // ItemManager
             weaponItems = itemManager.weaponItems,
             armorItems = itemManager.armorItems,
-            
+            //playerstatus = playerStatus,
 
-              playerstatus = playerStatus,  // playerStatus는 현재 playerStatus 인스턴스를 참조
+           pets = petManager.pets,
+
+
             // GameManager
             gold = gameManager.Gold,
             gem = gameManager.gem,
@@ -148,32 +175,19 @@ public class DataManager : MonoBehaviour
             roundNumber = gameManager.roundNumber,
         };
 
+     
         string jsonData = JsonUtility.ToJson(data, true);
         File.WriteAllText(saveFilePath, jsonData);
         Debug.Log("게임 저장됨: " + saveFilePath);
         //PrintItemData();
 
+
     }
 
-    public void PrintItemData()
-    {
-        // 무기 데이터 출력
-        foreach (var item in itemManager.weaponItems)
-        {
-            Debug.Log($"무기 데이터: 이름={item.Name}, 레벨={item.Level}, 개수={item.Count}, 등급={item.Grade}");
-        }
-
-        // 방어구 데이터 출력
-        foreach (var item in itemManager.armorItems)
-        {
-            Debug.Log($"방어구 데이터: 이름={item.Name}, 레벨={item.Level}, 개수={item.Count}, 등급={item.Grade}");
-        }
-    }
 
     // 게임 데이터를 불러오는 함수
     public void LoadGame()
     {
-
         if (File.Exists(saveFilePath))
         {
             string jsonData = File.ReadAllText(saveFilePath);
@@ -205,6 +219,16 @@ public class DataManager : MonoBehaviour
             playerStatus.TripleAttack_Cost = data.TripleAttack_Cost;
             playerStatus.PowerLevel = data.PowerLevel;
             playerStatus.effectiveHP = data.effectiveHP;
+            playerStatus.weaponTotalEquipEffect = data.weaponTotalEquipEffect;
+            playerStatus.weaponTotalRetentionEffect = data.weaponTotalRetentionEffect;
+            playerStatus.armorTotalEquipEffect = data.armorTotalEquipEffect;
+            playerStatus.armorTotalRetentionEffect = data.armorTotalRetentionEffect;
+            playerStatus.petTotalEquipEffect = data.petTotalEquipEffect;
+            playerStatus.petTotalRetentionEffect = data.petTotalRetentionEffect;
+
+            playerStatus.equippedWeapon = data.equippedWeapon;
+            playerStatus.equippedArmor = data.equippedArmor;
+
 
             enemyManager.hpCalcA = data.hpCalcA;
             enemyManager.hpCalcB = data.hpCalcB;
@@ -239,26 +263,6 @@ public class DataManager : MonoBehaviour
             // ItemManager
             itemManager.weaponItems = data.weaponItems;
             itemManager.armorItems = data.armorItems;
-            itemManager.UpdateUI();
-
-            itemManager.playerstatus = data.playerstatus;
-
-            // 보유 중인 아이템에 대해 텍스트 업데이트
-            foreach (var item in itemManager.weaponItems)
-            {
-                if (item.Count > 0) // 소지한 아이템만 업데이트
-                {
-                    itemManager.UpdateItemText(item.Name, itemManager.weaponItems);
-                }
-            }
-
-            foreach (var item in itemManager.armorItems)
-            {
-                if (item.Count > 0) // 소지한 아이템만 업데이트
-                {
-                    itemManager.UpdateItemText(item.Name, itemManager.armorItems);
-                }
-            }
 
             List<Item> ownedItems = new List<Item>();
             foreach (var item in itemManager.weaponItems)
@@ -277,7 +281,15 @@ public class DataManager : MonoBehaviour
             }
             itemManager.UpdateItemImages(ownedItems);  // 소지 중인 아이템만 전달
 
-            // PrintItemData();
+            // PetManager
+            petManager.pets = data.pets;
+
+            // 펫 데이터를 UI에 업데이트
+            foreach (var pet in petManager.pets)
+            {
+                petManager.UpdatePetText(pet.Name);
+            }
+            petManager.UpdatePetImages(data.pets);
 
             // GameManager
             if (gameManager != null)
@@ -290,12 +302,11 @@ public class DataManager : MonoBehaviour
                 gameManager.UpdateStageText();
             }
             Debug.Log("게임 불러오기 완료");
-
         }
         else
         {
             Debug.LogWarning("저장된 게임 파일이 없습니다.");
         }
     }
-    
+
 }

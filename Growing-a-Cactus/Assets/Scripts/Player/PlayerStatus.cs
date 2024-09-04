@@ -53,16 +53,16 @@ public class PlayerStatus : MonoBehaviour
     private float holdTime = 0f;
 
     // 아이템 효과 변수
-    private float weaponTotalEquipEffect = 0f;
-    private float weaponTotalRetentionEffect = 0f;
-    private float armorTotalEquipEffect = 0f;
-    private float armorTotalRetentionEffect = 0f;
-    private float petTotalEquipEffect = 0f;
-    private float petTotalRetentionEffect = 0f;
+    public float weaponTotalEquipEffect = 0f;
+    public float weaponTotalRetentionEffect = 0f;
+    public float armorTotalEquipEffect = 0f;
+    public float armorTotalRetentionEffect = 0f;
+    public float petTotalEquipEffect = 0f;
+    public float petTotalRetentionEffect = 0f;
 
-    private Item equippedWeapon;
-    private Item equippedArmor;
-    private Pet equippedPet;
+    public Item equippedWeapon;
+    public Item equippedArmor;
+    public Pet equippedPet;
 
     private void Awake()
     {
