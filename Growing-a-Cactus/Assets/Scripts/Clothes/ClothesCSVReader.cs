@@ -13,6 +13,7 @@ public class ClothesCSVReader : MonoBehaviour
     void Start()
     {
         ReadCSV();
+        clothesManager.SetClothes(clothesList);
     }
 
     void ReadCSV()
@@ -38,6 +39,9 @@ public class ClothesCSVReader : MonoBehaviour
                     Probability = float.Parse(values[2]),
                     Set = values[3],
                     RetentionEffect = float.Parse(values[4]) / 100,
+                    Level = 1,
+                    Count = 0,
+                    RequiredCount = 2,
                 };
                 clothesList.Add(clothes);
             }
