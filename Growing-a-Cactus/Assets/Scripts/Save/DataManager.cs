@@ -92,7 +92,7 @@ public class DataManager : MonoBehaviour
 
         public List<Pet> pets = new List<Pet>();
 
-
+        public TextData textData; // 추가된 필드
         //public PlayerStatus playerstatus;
     }
 
@@ -173,6 +173,7 @@ public class DataManager : MonoBehaviour
             gem = gameManager.gem,
             stageNumber = gameManager.stageNumber,
             roundNumber = gameManager.roundNumber,
+            textData = itemManager.GetTextData()
         };
 
      
@@ -263,6 +264,8 @@ public class DataManager : MonoBehaviour
             // ItemManager
             itemManager.weaponItems = data.weaponItems;
             itemManager.armorItems = data.armorItems;
+
+            itemManager.SetTextData(data.textData); // TextData 불러오기
 
             List<Item> ownedItems = new List<Item>();
             foreach (var item in itemManager.weaponItems)

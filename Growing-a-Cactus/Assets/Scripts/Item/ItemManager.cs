@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -434,6 +435,41 @@ public class ItemManager : MonoBehaviour
                 }
                 break;
             }
+        }
+    }
+    public TextData GetTextData()
+    {
+        TextData textData = new TextData
+        {
+            weaponCountTexts = Array.ConvertAll(weaponCountTexts, text => text.text),
+            weaponLevelTexts = Array.ConvertAll(weaponLevelTexts, text => text.text),
+            armorCountTexts = Array.ConvertAll(armorCountTexts, text => text.text),
+            armorLevelTexts = Array.ConvertAll(armorLevelTexts, text => text.text)
+        };
+        return textData;
+    }
+
+    public void SetTextData(TextData textData)
+    {
+        for (int i = 0; i < weaponCountTexts.Length; i++)
+        {
+            if (i < textData.weaponCountTexts.Length)
+                weaponCountTexts[i].text = textData.weaponCountTexts[i];
+        }
+        for (int i = 0; i < weaponLevelTexts.Length; i++)
+        {
+            if (i < textData.weaponLevelTexts.Length)
+                weaponLevelTexts[i].text = textData.weaponLevelTexts[i];
+        }
+        for (int i = 0; i < armorCountTexts.Length; i++)
+        {
+            if (i < textData.armorCountTexts.Length)
+                armorCountTexts[i].text = textData.armorCountTexts[i];
+        }
+        for (int i = 0; i < armorLevelTexts.Length; i++)
+        {
+            if (i < textData.armorLevelTexts.Length)
+                armorLevelTexts[i].text = textData.armorLevelTexts[i];
         }
     }
 }
