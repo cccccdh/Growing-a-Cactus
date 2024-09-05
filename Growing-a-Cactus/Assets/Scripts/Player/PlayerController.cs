@@ -6,8 +6,9 @@ public class PlayerController : MonoBehaviour
 {
     public Image HpBar;
     public GameObject DiePage;
-    public ParticleSystem attackEffect;
+    public ParticleSystem SpeedLine;
     public Transform thronPivot;
+
     public double CurrentHp;
     public float attackRange = 5f;
     public float HpR;
@@ -26,6 +27,7 @@ public class PlayerController : MonoBehaviour
     {
         status = GetComponent<PlayerStatus>();
         animator = GetComponent<Animator>();
+        SpeedLine.Stop();
     }
 
     void Start()
@@ -197,6 +199,7 @@ public class PlayerController : MonoBehaviour
     private IEnumerator MovePlayerCoroutine(float delay)
     {
         animator.SetBool("Walk", true); // 걷기 애니메이션 시작
+        SpeedLine.Play(); // 이동 이펙트 시작
 
         Vector3 targetPosition = originalPosition + Vector3.right * 1f;
 
@@ -219,6 +222,7 @@ public class PlayerController : MonoBehaviour
             yield return null;
         }
         transform.position = originalPosition;
+        SpeedLine.Stop(); // 이동 이펙트 종료
 
         animator.SetBool("Walk", false); // 걷기 애니메이션 종료
     }
