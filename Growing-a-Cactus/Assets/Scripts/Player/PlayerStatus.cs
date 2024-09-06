@@ -65,6 +65,8 @@ public class PlayerStatus : MonoBehaviour
     public Item equippedArmor;
     public Pet equippedPet;
 
+
+
     private void Awake()
     {
         Init();

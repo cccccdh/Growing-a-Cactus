@@ -38,8 +38,8 @@ public class ItemManager : MonoBehaviour
 
     [Header("장착 중 텍스트")]
     public GameObject prefabs;
-    private GameObject weaponEquippedTextObject; // 무기 장착 중 텍스트 오브젝트
-    private GameObject armorEquippedTextObject; // 방어구 장착 중 텍스트 오브젝트
+    public GameObject weaponEquippedObject; // 무기 장착 중 오브젝트
+    public GameObject armorEquippedObject; // 방어구 장착 중 오브젝트
 
     [HideInInspector] public List<Item> weaponItems = new List<Item>(); // 무기 아이템 리스트
     [HideInInspector] public List<Item> armorItems = new List<Item>(); // 방어구 아이템 리스트
@@ -317,15 +317,15 @@ public class ItemManager : MonoBehaviour
     public void ShowEquippedText(Item item)
     {
         // 장착 중인 무기 텍스트가 존재하면 삭제
-        if (weaponEquippedTextObject != null && item.Type == "무기")
+        if (weaponEquippedObject != null && item.Type == "무기")
         {
-            Destroy(weaponEquippedTextObject);
+            Destroy(weaponEquippedObject);
         }
 
         // 장착 중인 방어구 텍스트가 존재하면 삭제
-        if (armorEquippedTextObject != null && item.Type == "방어구")
+        if (armorEquippedObject != null && item.Type == "방어구")
         {
-            Destroy(armorEquippedTextObject);
+            Destroy(armorEquippedObject);
         }
 
         // 무기 장착 중 텍스트 생성
@@ -335,11 +335,11 @@ public class ItemManager : MonoBehaviour
             {
                 if (weaponImages[i].name == item.Name)
                 {
-                    weaponEquippedTextObject = Instantiate(prefabs);
-                    weaponEquippedTextObject.transform.SetParent(weaponImages[i].transform, false);
+                    weaponEquippedObject = Instantiate(prefabs);
+                    weaponEquippedObject.transform.SetParent(weaponImages[i].transform, false);
 
                     // RectTransform 설정
-                    RectTransform rectTransform = weaponEquippedTextObject.GetComponent<RectTransform>();
+                    RectTransform rectTransform = weaponEquippedObject.GetComponent<RectTransform>();
                     rectTransform.anchoredPosition = new Vector2(35, -20); // 원하는 위치로 설정
                     break;
                 }
@@ -352,11 +352,11 @@ public class ItemManager : MonoBehaviour
             {
                 if (armorImages[i].name == item.Name)
                 {
-                    armorEquippedTextObject = Instantiate(prefabs);
-                    armorEquippedTextObject.transform.SetParent(armorImages[i].transform, false);
+                    armorEquippedObject = Instantiate(prefabs);
+                    armorEquippedObject.transform.SetParent(armorImages[i].transform, false);
 
                     // RectTransform 설정
-                    RectTransform rectTransform = armorEquippedTextObject.GetComponent<RectTransform>();
+                    RectTransform rectTransform = armorEquippedObject.GetComponent<RectTransform>();
                     rectTransform.anchoredPosition = new Vector2(35, -20); // 원하는 위치로 설정
                     break;
                 }
