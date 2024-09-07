@@ -8,6 +8,8 @@ TagManager:
   - Thorn
   - Boss
   - Wall
+  - FxTemporaire
+  - Title
   layers:
   - Default
   - TransparentFX
