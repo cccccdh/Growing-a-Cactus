@@ -38,8 +38,8 @@ public class ItemManager : MonoBehaviour
 
     [Header("장착 중 텍스트")]
     public GameObject prefabs;
-    public GameObject weaponEquippedObject; // 무기 장착 중 오브젝트
-    public GameObject armorEquippedObject; // 방어구 장착 중 오브젝트
+    [HideInInspector] public GameObject weaponEquippedObject; // 무기 장착 중 오브젝트
+    [HideInInspector] public GameObject armorEquippedObject; // 방어구 장착 중 오브젝트
 
     [HideInInspector] public List<Item> weaponItems = new List<Item>(); // 무기 아이템 리스트
     [HideInInspector] public List<Item> armorItems = new List<Item>(); // 방어구 아이템 리스트
@@ -437,6 +437,7 @@ public class ItemManager : MonoBehaviour
             }
         }
     }
+
     public TextData GetTextData()
     {
         TextData textData = new TextData

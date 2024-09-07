@@ -61,7 +61,7 @@ public class DataManager : MonoBehaviour
         public float petTotalEquipEffect;
         public float petTotalRetentionEffect;
 
-        
+
         // GamaManager
         public double gold;
         public int gem;
@@ -108,18 +108,12 @@ public class DataManager : MonoBehaviour
 
         public TextData textData; // 추가된 필드
         //public PlayerStatus playerstatus;
-
-
     }
-
-   
-
-
-
 
     void Start()
     {
         saveFilePath = Path.Combine(Application.persistentDataPath, "savefile.json");
+        Debug.Log("Save File Path: " + saveFilePath); // 경로 확인을 위한 로그
     }
 
     // 게임 데이터를 저장하는 함수
@@ -211,8 +205,10 @@ public class DataManager : MonoBehaviour
             textData = itemManager.GetTextData()
         };
 
-            Debug.Log("게임 저장 완료");
+        string json = JsonUtility.ToJson(data, true);
+        File.WriteAllText(saveFilePath, json);
 
+        Debug.Log("게임 저장 완료");
     }
 
     // 게임 데이터를 불러오는 함수
@@ -220,8 +216,6 @@ public class DataManager : MonoBehaviour
     {
         if (File.Exists(saveFilePath))
         {
-
-
             string jsonData = File.ReadAllText(saveFilePath);
             GameData data = JsonUtility.FromJson<GameData>(jsonData);
 
@@ -318,7 +312,7 @@ public class DataManager : MonoBehaviour
             List<Item> ownedItems = new List<Item>();
             foreach (var item in itemManager.weaponItems)
             {
-                if (item.Count > 0 || item.Level >=2) // Count가 0보다 큰 아이템만 추가
+                if (item.Count > 0 || item.Level >= 2) // Count가 0보다 큰 아이템만 추가
                 {
                     ownedItems.Add(item);
                 }
