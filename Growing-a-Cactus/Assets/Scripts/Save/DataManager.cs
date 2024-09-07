@@ -211,7 +211,8 @@ public class DataManager : MonoBehaviour
             textData = itemManager.GetTextData()
         };
 
-        
+            Debug.Log("게임 저장 완료");
+
     }
 
     // 게임 데이터를 불러오는 함수
@@ -256,7 +257,6 @@ public class DataManager : MonoBehaviour
             playerStatus.armorTotalRetentionEffect = data.armorTotalRetentionEffect;
             playerStatus.petTotalEquipEffect = data.petTotalEquipEffect;
             playerStatus.petTotalRetentionEffect = data.petTotalRetentionEffect;
-
 
 
 
@@ -335,12 +335,6 @@ public class DataManager : MonoBehaviour
             // PetManager
             petManager.pets = data.pets;
 
-            // 펫 데이터를 UI에 업데이트
-            foreach (var pet in petManager.pets)
-            {
-                petManager.UpdatePetText(pet.Name);
-            }
-            petManager.UpdatePetImages(data.pets);
 
             // GameManager
             gameManager.IncreaseGold(data.gold - gameManager.Gold);
