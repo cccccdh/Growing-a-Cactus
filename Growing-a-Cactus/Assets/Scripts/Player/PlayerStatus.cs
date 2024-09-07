@@ -470,6 +470,9 @@ public class PlayerStatus : MonoBehaviour
                     Attack_Speed_Cost *= 1.05f;
                 }
             }
+
+            if (Attack_Speed_Level == 200)
+                Attack_Speed = 3;
         }
         else
         {
@@ -519,6 +522,10 @@ public class PlayerStatus : MonoBehaviour
                     break;
             }
         }
+
+        if (Attack_Speed_Level == 200)
+            uiManager.UnLock("DoubleAttack");
+
         uiManager.Update_Text("Attack_Speed", Attack_Speed, Attack_Speed_Level, (int)Attack_Speed_Cost);
     }
 
@@ -586,7 +593,11 @@ public class PlayerStatus : MonoBehaviour
         GameManager.instance.DecreaseGold(DoubleAttack_Cost);
         DoubleAttackChance += 0.1f;
         DoubleAttack_Level++;
-        DoubleAttack_Cost += 10;
+        DoubleAttack_Cost += 10; 
+
+        if (DoubleAttack_Level == 1000)
+            uiManager.UnLock("TripleAttack");
+
         uiManager.Update_Text("DoubleAttack", DoubleAttackChance, DoubleAttack_Level, DoubleAttack_Cost);
     }
 

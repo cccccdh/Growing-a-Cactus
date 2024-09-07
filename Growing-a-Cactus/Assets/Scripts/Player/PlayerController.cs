@@ -6,8 +6,9 @@ public class PlayerController : MonoBehaviour
 {
     public Image HpBar;
     public GameObject DiePage;
-    public ParticleSystem attackEffect;
+    public ParticleSystem SpeedLine;
     public Transform thronPivot;
+
     public double CurrentHp;
     public float attackRange = 5f;
     public float HpR;
@@ -26,6 +27,7 @@ public class PlayerController : MonoBehaviour
     {
         status = GetComponent<PlayerStatus>();
         animator = GetComponent<Animator>();
+        SpeedLine.Stop();
     }
 
     void Start()
@@ -54,7 +56,7 @@ public class PlayerController : MonoBehaviour
         CurrentHp = status.effectiveHP; // HP 초기화
         UpdateHPBar();
         transform.position = originalPosition; // 원래 위치로 되돌리기
-        StartCoroutine(OpenDieWithDelay(0.5f)); // 0.5초 지연 후 OpenDie 호출
+        StartCoroutine(OpenDieWithDelay(0.7f)); // 0.7초 지연 후 OpenDie 호출
         enemyManager.ResetRound(); // EnemyManager에 라운드 리셋 요청
     }
 
@@ -70,11 +72,39 @@ public class PlayerController : MonoBehaviour
         if (isOpenDie)
         {
             DiePage.SetActive(true);
+            StartCoroutine(FadeOutAfterDelay(10f)); // 10초 후 페이드 아웃 시작
         }
         else
         {
             DiePage.SetActive(false);
         }
+    }
+
+    // 일정 시간 후 사라지는 코루틴
+    IEnumerator FadeOutAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay); // 지정된 시간(10초) 동안 대기
+
+        CanvasGroup canvasGroup = DiePage.GetComponent<CanvasGroup>();
+
+        if (canvasGroup == null)
+        {
+            canvasGroup = DiePage.AddComponent<CanvasGroup>(); // CanvasGroup이 없으면 추가
+        }
+
+        float fadeDuration = 1.5f; // 페이드 아웃 지속 시간 (1.5초)
+        float fadeSpeed = 1f / fadeDuration;
+
+        for (float t = 0; t < 1; t += Time.deltaTime * fadeSpeed)
+        {
+            canvasGroup.alpha = 1 - t; // 알파 값을 점진적으로 감소
+            yield return null;
+        }
+
+        canvasGroup.alpha = 0; // 완전히 투명하게 설정
+        DiePage.SetActive(false); // 페이지 비활성화
+
+        canvasGroup.alpha = 1; // 초기화
     }
 
     public void CloseDie()
@@ -83,6 +113,7 @@ public class PlayerController : MonoBehaviour
         isOpenDie = false;
     }
 
+    // 플레이어 체력 바 업데이트
     public void UpdateHPBar()
     {
         HpBar.fillAmount = (float)(CurrentHp / status.effectiveHP);
@@ -197,6 +228,7 @@ public class PlayerController : MonoBehaviour
     private IEnumerator MovePlayerCoroutine(float delay)
     {
         animator.SetBool("Walk", true); // 걷기 애니메이션 시작
+        SpeedLine.Play(); // 이동 이펙트 시작
 
         Vector3 targetPosition = originalPosition + Vector3.right * 1f;
 
@@ -219,6 +251,7 @@ public class PlayerController : MonoBehaviour
             yield return null;
         }
         transform.position = originalPosition;
+        SpeedLine.Stop(); // 이동 이펙트 종료
 
         animator.SetBool("Walk", false); // 걷기 애니메이션 종료
     }

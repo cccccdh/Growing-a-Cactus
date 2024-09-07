@@ -15,7 +15,7 @@ public class EnemyScript : MonoBehaviour
 
     public ParticleSystem deathEffect; // 사망 이펙트
 
-    private bool isAttacking = false;
+    public bool isAttacking = false;
 
     private EnemyManager enemyManager; // EnemyManager 참조
     private Transform playerTransform; // 플레이어의 Transform 참조
@@ -60,6 +60,7 @@ public class EnemyScript : MonoBehaviour
             maxHP = enemyManager.HpMax;
             attackPower = enemyManager.AttackDamage;
             goldDropAmount = enemyManager.DropGold;
+            isAttacking = false;
         }
         UpdateHPBar();
     }

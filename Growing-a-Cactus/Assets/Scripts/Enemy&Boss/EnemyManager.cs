@@ -190,7 +190,7 @@ public class EnemyManager : MonoBehaviour
     public void ResetRound()
     {
         StopAllCoroutines();
-        DestroyAllEnemiesAndBosses();
+        DisableAllEnemiesAndBosses();
         enemyCount = 0;
         enemiesKilled = 0;
         roundNumber = 1;
@@ -199,17 +199,17 @@ public class EnemyManager : MonoBehaviour
         SpawnEnemies();
     }
 
-    private void DestroyAllEnemiesAndBosses()
+    private void DisableAllEnemiesAndBosses()
     {
-        DestroyObjectsWithTag("Enemy");
-        DestroyObjectsWithTag("Boss");
+        DisableObjectsWithTag("Enemy", PoolManager.instance.ReturnToEnemyPool);
+        DisableObjectsWithTag("Boss", PoolManager.instance.ReturnToBossPool);
     }
 
-    private void DestroyObjectsWithTag(string tag)
+    private void DisableObjectsWithTag(string tag, System.Action<GameObject> returnToPoolMethod)
     {
         foreach (GameObject obj in GameObject.FindGameObjectsWithTag(tag))
         {
-            Destroy(obj);
+            returnToPoolMethod(obj);
         }
     }
 }
