@@ -44,11 +44,13 @@ public class UIManager : MonoBehaviour
     public TextMeshProUGUI DoubleAttack_Level;
     public TextMeshProUGUI DoubleAttack;
     public TextMeshProUGUI DoubleAttack_Cost;
+    public GameObject LockDoubleAttack;
 
     [Header("트리플가시")]
     public TextMeshProUGUI TripleAttack_Level;
     public TextMeshProUGUI TripleAttack;
     public TextMeshProUGUI TripleAttack_Cost;
+    public GameObject LockTripleAttack;
 
     [Header("전투력")]
     public TextMeshProUGUI PowerLevel;
@@ -123,14 +125,15 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    public void Update_Cost(string status, int cost)
-    {
-        int index = GetIndexFromStatus(status);
-        if (index >= 0 && index < costs.Length)
-        {
-            costs[index].text = TextFormatter.FormatText(cost);
-        }
-    }
+    //// 비용 상태 업데이트 메서드
+    //public void Update_Cost(string status, int cost)
+    //{
+    //    int index = GetIndexFromStatus(status);
+    //    if (index >= 0 && index < costs.Length)
+    //    {
+    //        costs[index].text = TextFormatter.FormatText(cost);
+    //    }
+    //}
 
     // 상태에 따른 인덱스를 반환하는 메서드
     private int GetIndexFromStatus(string status)
@@ -146,6 +149,19 @@ public class UIManager : MonoBehaviour
             case "DoubleAttack": return 6;
             case "TripleAttack": return 7;
             default: return -1;  // 상태에 맞는 인덱스가 없을 경우
+        }
+    }
+
+    public void UnLock(string status)
+    {
+        switch(status)
+        {
+            case "DoubleAttack":
+                LockDoubleAttack.SetActive(false);
+                return;
+            case "TripleAttack":
+                LockTripleAttack.SetActive(false);
+                return;
         }
     }
 }
