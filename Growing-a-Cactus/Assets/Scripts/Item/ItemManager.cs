@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -37,8 +38,8 @@ public class ItemManager : MonoBehaviour
 
     [Header("장착 중 텍스트")]
     public GameObject prefabs;
-    private GameObject weaponEquippedTextObject; // 무기 장착 중 텍스트 오브젝트
-    private GameObject armorEquippedTextObject; // 방어구 장착 중 텍스트 오브젝트
+    public GameObject weaponEquippedObject; // 무기 장착 중 오브젝트
+    public GameObject armorEquippedObject; // 방어구 장착 중 오브젝트
 
     [HideInInspector] public List<Item> weaponItems = new List<Item>(); // 무기 아이템 리스트
     [HideInInspector] public List<Item> armorItems = new List<Item>(); // 방어구 아이템 리스트
@@ -316,15 +317,15 @@ public class ItemManager : MonoBehaviour
     public void ShowEquippedText(Item item)
     {
         // 장착 중인 무기 텍스트가 존재하면 삭제
-        if (weaponEquippedTextObject != null && item.Type == "무기")
+        if (weaponEquippedObject != null && item.Type == "무기")
         {
-            Destroy(weaponEquippedTextObject);
+            Destroy(weaponEquippedObject);
         }
 
         // 장착 중인 방어구 텍스트가 존재하면 삭제
-        if (armorEquippedTextObject != null && item.Type == "방어구")
+        if (armorEquippedObject != null && item.Type == "방어구")
         {
-            Destroy(armorEquippedTextObject);
+            Destroy(armorEquippedObject);
         }
 
         // 무기 장착 중 텍스트 생성
@@ -334,11 +335,11 @@ public class ItemManager : MonoBehaviour
             {
                 if (weaponImages[i].name == item.Name)
                 {
-                    weaponEquippedTextObject = Instantiate(prefabs);
-                    weaponEquippedTextObject.transform.SetParent(weaponImages[i].transform, false);
+                    weaponEquippedObject = Instantiate(prefabs);
+                    weaponEquippedObject.transform.SetParent(weaponImages[i].transform, false);
 
                     // RectTransform 설정
-                    RectTransform rectTransform = weaponEquippedTextObject.GetComponent<RectTransform>();
+                    RectTransform rectTransform = weaponEquippedObject.GetComponent<RectTransform>();
                     rectTransform.anchoredPosition = new Vector2(35, -20); // 원하는 위치로 설정
                     break;
                 }
@@ -351,11 +352,11 @@ public class ItemManager : MonoBehaviour
             {
                 if (armorImages[i].name == item.Name)
                 {
-                    armorEquippedTextObject = Instantiate(prefabs);
-                    armorEquippedTextObject.transform.SetParent(armorImages[i].transform, false);
+                    armorEquippedObject = Instantiate(prefabs);
+                    armorEquippedObject.transform.SetParent(armorImages[i].transform, false);
 
                     // RectTransform 설정
-                    RectTransform rectTransform = armorEquippedTextObject.GetComponent<RectTransform>();
+                    RectTransform rectTransform = armorEquippedObject.GetComponent<RectTransform>();
                     rectTransform.anchoredPosition = new Vector2(35, -20); // 원하는 위치로 설정
                     break;
                 }
@@ -434,6 +435,41 @@ public class ItemManager : MonoBehaviour
                 }
                 break;
             }
+        }
+    }
+    public TextData GetTextData()
+    {
+        TextData textData = new TextData
+        {
+            weaponCountTexts = Array.ConvertAll(weaponCountTexts, text => text.text),
+            weaponLevelTexts = Array.ConvertAll(weaponLevelTexts, text => text.text),
+            armorCountTexts = Array.ConvertAll(armorCountTexts, text => text.text),
+            armorLevelTexts = Array.ConvertAll(armorLevelTexts, text => text.text)
+        };
+        return textData;
+    }
+
+    public void SetTextData(TextData textData)
+    {
+        for (int i = 0; i < weaponCountTexts.Length; i++)
+        {
+            if (i < textData.weaponCountTexts.Length)
+                weaponCountTexts[i].text = textData.weaponCountTexts[i];
+        }
+        for (int i = 0; i < weaponLevelTexts.Length; i++)
+        {
+            if (i < textData.weaponLevelTexts.Length)
+                weaponLevelTexts[i].text = textData.weaponLevelTexts[i];
+        }
+        for (int i = 0; i < armorCountTexts.Length; i++)
+        {
+            if (i < textData.armorCountTexts.Length)
+                armorCountTexts[i].text = textData.armorCountTexts[i];
+        }
+        for (int i = 0; i < armorLevelTexts.Length; i++)
+        {
+            if (i < textData.armorLevelTexts.Length)
+                armorLevelTexts[i].text = textData.armorLevelTexts[i];
         }
     }
 }

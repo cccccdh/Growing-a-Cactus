@@ -69126,6 +69126,8 @@ MonoBehaviour:
   - {fileID: 1863477624}
   - {fileID: 222236250}
   prefabs: {fileID: 3943455607745288781, guid: a29a30e62e646c644b23f1ec5ed81163, type: 3}
+  weaponEquippedObject: {fileID: 0}
+  armorEquippedObject: {fileID: 0}
   weaponItems: []
   armorItems: []
   playerstatus: {fileID: 1945133264}

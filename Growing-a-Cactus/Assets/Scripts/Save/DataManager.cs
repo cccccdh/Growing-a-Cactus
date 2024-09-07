@@ -61,10 +61,7 @@ public class DataManager : MonoBehaviour
         public float petTotalEquipEffect;
         public float petTotalRetentionEffect;
 
-        public Item equippedWeapon;
-        public Item equippedArmor;
-        // public Pet equippedPet; 일단 보류
-
+        
         // GamaManager
         public double gold;
         public int gem;
@@ -89,14 +86,36 @@ public class DataManager : MonoBehaviour
         public List<Item> weaponItems = new List<Item>();
         public List<Item> armorItems = new List<Item>();
 
+        public string EquipWeaponTextContent;
+        public string EquipWeaponLevelTextContent;
+        public string EquipArmorTextContent;
+        public string EquipArmorLevelTextContent;
+
+
+        public float EquipWeaponImgR;
+        public float EquipWeaponImgG;
+        public float EquipWeaponImgB;
+        public float EquipWeaponImgA;
+
+        public float EquipArmorImgR;
+        public float EquipArmorImgG;
+        public float EquipArmorImgB;
+        public float EquipArmorImgA;
+
 
         public List<Pet> pets = new List<Pet>();
 
 
+        public TextData textData; // 추가된 필드
         //public PlayerStatus playerstatus;
+
+
     }
 
-    
+   
+
+
+
 
     void Start()
     {
@@ -142,9 +161,7 @@ public class DataManager : MonoBehaviour
             petTotalEquipEffect = playerStatus.petTotalEquipEffect,
             petTotalRetentionEffect = playerStatus.petTotalRetentionEffect,
 
-            equippedWeapon = playerStatus.equippedWeapon,
-            equippedArmor = playerStatus.equippedArmor,
-            // equippedPet = playerStatus.equippedPet, 일단 보류
+
 
             // EnemyManager
             hpCalcA = enemyManager.hpCalcA,
@@ -163,9 +180,27 @@ public class DataManager : MonoBehaviour
             // ItemManager
             weaponItems = itemManager.weaponItems,
             armorItems = itemManager.armorItems,
+
+            EquipWeaponTextContent = itemManager.EquipWeaponText.text,
+            EquipWeaponLevelTextContent = itemManager.EquipWeaponLevelText.text,
+            EquipArmorTextContent = itemManager.EquipArmorText.text,
+            EquipArmorLevelTextContent = itemManager.EquipArmorLevelText.text,
+
+
+            EquipWeaponImgR = itemManager.EquipWeaponImg.color.r,
+            EquipWeaponImgG = itemManager.EquipWeaponImg.color.g,
+            EquipWeaponImgB = itemManager.EquipWeaponImg.color.b,
+            EquipWeaponImgA = itemManager.EquipWeaponImg.color.a,
+
+            EquipArmorImgR = itemManager.EquipArmorImg.color.r,
+            EquipArmorImgG = itemManager.EquipArmorImg.color.g,
+            EquipArmorImgB = itemManager.EquipArmorImg.color.b,
+            EquipArmorImgA = itemManager.EquipArmorImg.color.a,
+
+
             //playerstatus = playerStatus,
 
-           pets = petManager.pets,
+            pets = petManager.pets,
 
 
             // GameManager
@@ -173,23 +208,20 @@ public class DataManager : MonoBehaviour
             gem = gameManager.gem,
             stageNumber = gameManager.stageNumber,
             roundNumber = gameManager.roundNumber,
+            textData = itemManager.GetTextData()
         };
 
-     
-        string jsonData = JsonUtility.ToJson(data, true);
-        File.WriteAllText(saveFilePath, jsonData);
-        Debug.Log("게임 저장됨: " + saveFilePath);
-        //PrintItemData();
-
+            Debug.Log("게임 저장 완료");
 
     }
-
 
     // 게임 데이터를 불러오는 함수
     public void LoadGame()
     {
         if (File.Exists(saveFilePath))
         {
+
+
             string jsonData = File.ReadAllText(saveFilePath);
             GameData data = JsonUtility.FromJson<GameData>(jsonData);
 
@@ -226,8 +258,6 @@ public class DataManager : MonoBehaviour
             playerStatus.petTotalEquipEffect = data.petTotalEquipEffect;
             playerStatus.petTotalRetentionEffect = data.petTotalRetentionEffect;
 
-            playerStatus.equippedWeapon = data.equippedWeapon;
-            playerStatus.equippedArmor = data.equippedArmor;
 
 
             enemyManager.hpCalcA = data.hpCalcA;
@@ -264,17 +294,38 @@ public class DataManager : MonoBehaviour
             itemManager.weaponItems = data.weaponItems;
             itemManager.armorItems = data.armorItems;
 
+            itemManager.EquipWeaponText.text = data.EquipWeaponTextContent;
+            itemManager.EquipWeaponLevelText.text = data.EquipWeaponLevelTextContent;
+            itemManager.EquipArmorText.text = data.EquipArmorTextContent;
+            itemManager.EquipArmorLevelText.text = data.EquipArmorLevelTextContent;
+            itemManager.EquipWeaponImg.color = new Color(
+            data.EquipWeaponImgR,
+            data.EquipWeaponImgG,
+            data.EquipWeaponImgB,
+            data.EquipWeaponImgA
+            );
+            itemManager.EquipArmorImg.color = new Color(
+            data.EquipArmorImgR,
+            data.EquipArmorImgG,
+            data.EquipArmorImgB,
+            data.EquipArmorImgA
+            );
+
+
+
+            itemManager.SetTextData(data.textData); // TextData 불러오기
+
             List<Item> ownedItems = new List<Item>();
             foreach (var item in itemManager.weaponItems)
             {
-                if (item.Count > 0) // Count가 0보다 큰 아이템만 추가
+                if (item.Count > 0 || item.Level >=2) // Count가 0보다 큰 아이템만 추가
                 {
                     ownedItems.Add(item);
                 }
             }
             foreach (var item in itemManager.armorItems)
             {
-                if (item.Count > 0) // Count가 0보다 큰 아이템만 추가
+                if (item.Count > 0 || item.Level >= 2) // Count가 0보다 큰 아이템만 추가
                 {
                     ownedItems.Add(item);
                 }
@@ -284,28 +335,15 @@ public class DataManager : MonoBehaviour
             // PetManager
             petManager.pets = data.pets;
 
-            // 펫 데이터를 UI에 업데이트
-            foreach (var pet in petManager.pets)
-            {
-                petManager.UpdatePetText(pet.Name);
-            }
-            petManager.UpdatePetImages(data.pets);
 
             // GameManager
-            if (gameManager != null)
-            {
-                gameManager.IncreaseGold(data.gold - gameManager.Gold);
-                gameManager.gem = data.gem;
-                gameManager.UpdateGemText();
-                gameManager.stageNumber = data.stageNumber;
-                gameManager.roundNumber = data.roundNumber;
-                gameManager.UpdateStageText();
-            }
+            gameManager.IncreaseGold(data.gold - gameManager.Gold);
+            gameManager.gem = data.gem;
+            gameManager.UpdateGemText();
+            gameManager.stageNumber = data.stageNumber;
+            gameManager.roundNumber = data.roundNumber;
+            gameManager.UpdateStageText();
             Debug.Log("게임 불러오기 완료");
-        }
-        else
-        {
-            Debug.LogWarning("저장된 게임 파일이 없습니다.");
         }
     }
 

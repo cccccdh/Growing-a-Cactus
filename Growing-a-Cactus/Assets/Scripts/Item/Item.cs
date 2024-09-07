@@ -11,4 +11,5 @@ public class Item
     public int Level;
     public int Count;
     public int RequiredCount;
+
 }
