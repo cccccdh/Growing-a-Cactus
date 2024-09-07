@@ -120,6 +120,12 @@ public class DataManager : MonoBehaviour
     void Start()
     {
         saveFilePath = Path.Combine(Application.persistentDataPath, "savefile.json");
+        Debug.Log("Save File Path: " + saveFilePath); // 경로 확인을 위한 로그
+        if (File.Exists(saveFilePath))
+        {
+            File.WriteAllText(saveFilePath, string.Empty);
+            Debug.Log("JSON 파일 내용이 초기화되었습니다.");
+        }
     }
 
     // 게임 데이터를 저장하는 함수
