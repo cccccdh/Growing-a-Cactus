@@ -87,18 +87,15 @@ public class EnemyScript : MonoBehaviour
         // HP가 0 이하일 경우 오브젝트 파괴 및 골드 증가
         if (HP <= 0)
         {
-            if(GameManager.instance != null)
-            {
-                GameManager.instance.IncreaseGold(goldDropAmount);
-            }
+            EffectManager.instance.MoveCoin(transform.position);
 
             Instantiate(deathEffect, transform.position, Quaternion.identity);
+
             PoolManager.instance.ReturnToEnemyPool(gameObject);
 
-            if (enemyManager != null)
-            {
-                enemyManager.OnEnemyKilled();
-            }
+            GameManager.instance.IncreaseGold(goldDropAmount);
+
+            enemyManager?.OnEnemyKilled();
         }
     }
 

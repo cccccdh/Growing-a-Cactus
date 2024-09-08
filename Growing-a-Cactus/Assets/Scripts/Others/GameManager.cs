@@ -6,6 +6,19 @@ using UnityEngine.UI;
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance { get; private set; }
+    private void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+
     public TextMeshProUGUI GoldText;
     public TextMeshProUGUI StageText;
     public TextMeshProUGUI GemText;
@@ -34,26 +47,13 @@ public class GameManager : MonoBehaviour
     public bool isOpenPet = false;
     public bool isOpenOption = false;
 
-    private void Awake()
-    {
-        if (instance == null)
-        {
-            instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
-    }
-
+   
     void Start()
     {
         UpdateGoldText();
         UpdateGemText();
         UpdateStageText();
         UpdateWaveBar();
-        Application.targetFrameRate = 120;
     }
 
     private void Update()

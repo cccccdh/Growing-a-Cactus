@@ -23,6 +23,7 @@ public class PoolManager : MonoBehaviour
     public ObjectPool thornPool; // 가시 오브젝트 풀
     public ObjectPool enemyPool; // 적 오브젝트 풀
     public ObjectPool bossPool; // 적 오브젝트 풀
+    public ObjectPool goldeffectPool; // 골드 이펙트 오브젝트 풀
 
     [Header("참조")]
     public PlayerStatus status;
@@ -117,5 +118,21 @@ public class PoolManager : MonoBehaviour
     public void ReturnToBossPool(GameObject obj)
     {
         bossPool.ReturnObject(obj);
+    }
+
+    // 골드 이펙트 비활성화
+    public GameObject GetGold(Vector3 position)
+    {
+        GameObject goldObj = goldeffectPool.GetObject();
+        goldObj.transform.position = position;
+        goldObj.transform.rotation = Quaternion.identity;
+        
+        return goldObj;
+    }
+
+    // 골드 이펙트 비활성화
+    public void ReturnToGoldPool(GameObject obj)
+    {
+        goldeffectPool.ReturnObject(obj);
     }
 }
