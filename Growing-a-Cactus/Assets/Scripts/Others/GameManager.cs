@@ -31,23 +31,33 @@ public class GameManager : MonoBehaviour
     public GameObject OptionPage;
     public Image waveBar; // 웨이브 바 이미지 추가
 
+    [Header("하단 버튼")]
+    public GameObject characterName;
+    public GameObject characterX;
+    public GameObject petName;
+    public GameObject petX;
+    public GameObject shopName;
+    public GameObject shopX;
+
+    [Header("재화")]
     public double gold = 0;
     public int gem = 0;
+
+    [Header("라운드 & 웨이브")]
     public int stageNumber = 1;
     public int roundNumber = 1;
-
     private int wave = 0; // 현재 웨이브를 추적하는 변수 추가
     private const int maxWave = 100; // 최대 웨이브 값
 
+    [Header("팝업 창 bool 값")]
     public bool isOpenShop = false;
     public bool isOpenGacha = false;
     public bool isOpenCharacter = false;
     public bool isOpenWeapon = false;
     public bool isOpenArmor = false;
     public bool isOpenPet = false;
-    public bool isOpenOption = false;
+    public bool isOpenOption = false;    
 
-   
     void Start()
     {
         UpdateGoldText();
@@ -215,6 +225,12 @@ public class GameManager : MonoBehaviour
         isOpenArmor = false;
         isOpenPet = false;
         isOpenOption = false;
+        characterX.SetActive(false);
+        petX.SetActive(false);
+        shopX.SetActive(false);
+        characterName.SetActive(true);
+        petName.SetActive(true);
+        shopName.SetActive(true);
     }
 
     public void OpenShop()
@@ -222,6 +238,9 @@ public class GameManager : MonoBehaviour
         bool newState = !isOpenShop;
         ResetAllFlags();
         isOpenShop = newState;
+
+        shopName.SetActive(!isOpenShop);
+        shopX.SetActive(isOpenShop);
     }
 
     public void OpenRandomPick()
@@ -234,6 +253,9 @@ public class GameManager : MonoBehaviour
         bool newState = !isOpenCharacter;
         ResetAllFlags();
         isOpenCharacter = newState;
+
+        characterName.SetActive(!isOpenCharacter);
+        characterX.SetActive(isOpenCharacter);
     }
 
     public void OpenPet()
@@ -241,6 +263,9 @@ public class GameManager : MonoBehaviour
         bool newState = !isOpenPet;
         ResetAllFlags();
         isOpenPet = newState;
+
+        petName.SetActive(!isOpenPet);
+        petX.SetActive(isOpenPet);
     }
 
     public void OpenOption()
