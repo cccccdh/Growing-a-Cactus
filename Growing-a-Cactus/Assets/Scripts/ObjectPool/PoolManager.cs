@@ -120,7 +120,7 @@ public class PoolManager : MonoBehaviour
         bossPool.ReturnObject(obj);
     }
 
-    // ∞ÒµÂ ¿Ã∆Â∆Æ ∫Ò»∞º∫»≠
+    // ∞ÒµÂ ¿Ã∆Â∆Æ »∞º∫»≠
     public GameObject GetGold(Vector3 position)
     {
         GameObject goldObj = goldeffectPool.GetObject();

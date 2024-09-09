@@ -56,7 +56,7 @@ public class GameManager : MonoBehaviour
     public bool isOpenWeapon = false;
     public bool isOpenArmor = false;
     public bool isOpenPet = false;
-    public bool isOpenOption = false;    
+    public bool isOpenOption = false;
 
     void Start()
     {

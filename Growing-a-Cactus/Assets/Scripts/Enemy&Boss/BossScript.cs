@@ -88,13 +88,14 @@ public class BossScript : MonoBehaviour
 
             player?.MovePlayerWithDelay(1f); // 플레이어 이동 지연
 
+            EffectManager.instance.MoveCoin(transform.position);
+
             if (GameManager.instance != null)
             {
                 GameManager.instance.IncreaseGold(goldDropAmount);
                 GameManager.instance.IncreaseStage();
                 GameManager.instance.ResetWave();
             }
-
 
             Instantiate(deathEffect, transform.position, Quaternion.identity); // 사망 이펙트
 
