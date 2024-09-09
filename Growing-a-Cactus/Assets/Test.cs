@@ -30,7 +30,7 @@ public class Test : MonoBehaviour
             Sequence sequence = DOTween.Sequence();
             sequence.Append(imagepos.DOScale(2f, 0.3f).SetDelay(delay).SetEase(Ease.InOutBack));
 
-            delay += 0.1f;
+            delay += 0.05f;
         }
     }
 }
