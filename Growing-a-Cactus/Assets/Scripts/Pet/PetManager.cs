@@ -103,6 +103,20 @@ public class PetManager : MonoBehaviour
         return 0;
     }
 
+    // Æê »ö»ó °ª °¡Á®¿À±â
+    public Color GetColorForPet(string petName)
+    {
+        for (int i = 0; i < petImages.Length; i++)
+        {
+            if (petImages[i].name == petName)
+            {
+                Color color = petImages[i].color;
+                return color;
+            }
+        }
+        return Color.white; 
+    }
+
     // Æê È¹µæ ½Ã Æê ÆäÀÌÁö ¾÷µ¥ÀÌÆ®
     public void UpdatePetImages(List<Pet> resultPetList)
     {

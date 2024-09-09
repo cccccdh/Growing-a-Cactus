@@ -176,6 +176,34 @@ public class ItemManager : MonoBehaviour
         return 0; // 아이템이 리스트에 없으면 0 반환
     }
 
+    // 무기 아이템 색상 값 가져오기
+    public Color GetColorForWeapon(string weaponName)
+    {
+        for (int i = 0; i < weaponImages.Length; i++)
+        {
+            if (weaponImages[i].name == weaponName)
+            {
+                Color color = weaponImages[i].color;
+                return color;
+            }
+        }
+        return Color.white; 
+    }
+
+    // 방어구 아이템 색상 값 가져오기
+    public Color GetColorForArmor(string armorName)
+    {
+        for (int i = 0; i < armorImages.Length; i++)
+        {
+            if (armorImages[i].name == armorName)
+            {
+                Color color = armorImages[i].color;
+                return color;
+            }
+        }
+        return Color.white; 
+    }
+
     // 장비창의 아이템 이미지를 업데이트하는 메서드
     public void UpdateItemImages(List<Item> resultItemList)
     {
@@ -198,7 +226,6 @@ public class ItemManager : MonoBehaviour
             }
         }
     }
-
 
     // 아이템에 따라 UI 텍스트를 업데이트하는 메서드
     public void UpdateItemText(string itemName, List<Item> items)
