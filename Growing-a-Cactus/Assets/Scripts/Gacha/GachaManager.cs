@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class GachaManager : MonoBehaviour
@@ -15,8 +14,7 @@ public class GachaManager : MonoBehaviour
 
     public bool UnLockEquipment = false;
     public bool UnLockPet = false;
-    public bool UnLockClothes = false;
-    
+    public bool UnLockClothes = false;    
 
     public List<Item> itemList;
     public List<Pet> petList;

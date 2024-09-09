@@ -115,6 +115,20 @@ public class ClothesManager : MonoBehaviour
         return 0;
     }
 
+    // 의상 색상 값 가져오기
+    public Color GetColorForClothes(string clothesName)
+    {
+        for (int i = 0; i < clothesImages.Length; i++)
+        {
+            if (clothesImages[i].name == clothesName)
+            {
+                Color color = clothesImages[i].color;
+                return color;
+            }
+        }
+        return Color.white;
+    }
+
     // 의상 획득 시 의상 UI 업데이트
     public void UpdateClothesImages(List<Clothes> resultClothesList)
     {
