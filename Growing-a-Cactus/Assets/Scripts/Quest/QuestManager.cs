@@ -21,7 +21,7 @@ public class QuestManager : MonoBehaviour
     public PlayerStatus playerStatus;
     public GachaManager gachaManager;
 
-    private List<Quest> quests = new List<Quest>();
+    public List<Quest> quests = new List<Quest>();
 
     private void Update()
     {

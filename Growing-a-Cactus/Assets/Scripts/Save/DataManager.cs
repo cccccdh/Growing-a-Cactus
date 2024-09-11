@@ -3,6 +3,9 @@ using System.IO;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using static UnityEditor.Timeline.TimelinePlaybackControls;
+using UnityEditor.Search;
+using Unity.VisualScripting;
 
 public class DataManager : MonoBehaviour
 {
@@ -15,6 +18,8 @@ public class DataManager : MonoBehaviour
     public EnemyScript enemyScript;
     public ItemManager itemManager;
     public PetManager petManager;
+    public QuestUI questUI;
+    public QuestManager questManager;
 
     [System.Serializable]
     public class GameData
@@ -61,7 +66,6 @@ public class DataManager : MonoBehaviour
         public float petTotalEquipEffect;
         public float petTotalRetentionEffect;
 
-
         // GamaManager
         public double gold;
         public int gem;
@@ -86,11 +90,10 @@ public class DataManager : MonoBehaviour
         public List<Item> weaponItems = new List<Item>();
         public List<Item> armorItems = new List<Item>();
 
-        public string EquipWeaponTextContent;
-        public string EquipWeaponLevelTextContent;
-        public string EquipArmorTextContent;
-        public string EquipArmorLevelTextContent;
-
+        public string EquipWeaponText;
+        public string EquipWeaponLevelText;
+        public string EquipArmorText;
+        public string EquipArmorLevelText;
 
         public float EquipWeaponImgR;
         public float EquipWeaponImgG;
@@ -102,12 +105,48 @@ public class DataManager : MonoBehaviour
         public float EquipArmorImgB;
         public float EquipArmorImgA;
 
+        public ItemTextData itemtextData;
+        public PetTextData pettextData;
+
+
+        //petManager
 
         public List<Pet> pets = new List<Pet>();
 
+        public string GradeText;
+        public string LevelText;
+        public string CountText;
+        public string PetName;
 
-        public TextData textData; // 추가된 필드
-        //public PlayerStatus playerstatus;
+
+        public bool isPetActive;
+
+        // QuestUI
+        public string questNameText;
+        public string questProgressText;
+        public string questRewardText;
+        
+        // Quest
+        public int Id;
+        public string Title;
+        public string Description;
+        public int Goal;
+        public int Reward;
+        public string Requirement;
+        public string UnlockFeature;
+        public int GoalCount;
+        public bool IsActive;
+        public List<Quest> quests = new List<Quest>();
+
+
+        // QuestCSVReader
+        public List<Quest> questList = new List<Quest>();
+
+        // uiManager
+        public string PowerLevelText;
+
+
+
     }
 
     void Start()
@@ -155,8 +194,6 @@ public class DataManager : MonoBehaviour
             petTotalEquipEffect = playerStatus.petTotalEquipEffect,
             petTotalRetentionEffect = playerStatus.petTotalRetentionEffect,
 
-
-
             // EnemyManager
             hpCalcA = enemyManager.hpCalcA,
             hpCalcB = enemyManager.hpCalcB,
@@ -175,11 +212,10 @@ public class DataManager : MonoBehaviour
             weaponItems = itemManager.weaponItems,
             armorItems = itemManager.armorItems,
 
-            EquipWeaponTextContent = itemManager.EquipWeaponText.text,
-            EquipWeaponLevelTextContent = itemManager.EquipWeaponLevelText.text,
-            EquipArmorTextContent = itemManager.EquipArmorText.text,
-            EquipArmorLevelTextContent = itemManager.EquipArmorLevelText.text,
-
+            EquipWeaponText = itemManager.EquipWeaponText.text,
+            EquipWeaponLevelText = itemManager.EquipWeaponLevelText.text,
+            EquipArmorText = itemManager.EquipArmorText.text,
+            EquipArmorLevelText = itemManager.EquipArmorLevelText.text,
 
             EquipWeaponImgR = itemManager.EquipWeaponImg.color.r,
             EquipWeaponImgG = itemManager.EquipWeaponImg.color.g,
@@ -192,17 +228,34 @@ public class DataManager : MonoBehaviour
             EquipArmorImgA = itemManager.EquipArmorImg.color.a,
 
 
-            //playerstatus = playerStatus,
-
+            // PetManager
             pets = petManager.pets,
+            GradeText = petManager.GradeText.text,
+            LevelText = petManager.LevelText.text,
+            CountText = petManager.CountText.text,
+            isPetActive = petManager.Pet.activeSelf,
+            PetName = petManager.PetName.text,
 
+            // QuestUI
+
+            questNameText = questUI.questNameText.text,
+            questProgressText = questUI.questProgressText.text,
+            questRewardText = questUI.questRewardText.text,
+
+            //uiManager
+            PowerLevelText = uiManager.PowerLevel.text,
+
+            // QuestManager
+             quests = questManager.quests,
 
             // GameManager
             gold = gameManager.Gold,
             gem = gameManager.gem,
             stageNumber = gameManager.stageNumber,
             roundNumber = gameManager.roundNumber,
-            textData = itemManager.GetTextData()
+            itemtextData = itemManager.GetItemTextData(),
+            pettextData = petManager.GetPetTextData()
+
         };
 
         string json = JsonUtility.ToJson(data, true);
@@ -219,6 +272,10 @@ public class DataManager : MonoBehaviour
             string jsonData = File.ReadAllText(saveFilePath);
             GameData data = JsonUtility.FromJson<GameData>(jsonData);
 
+            //playerController
+            playerController.CurrentHp = data.effectiveHP;
+
+            //playerStatus
             playerStatus.Attack = data.Attack;
             playerStatus.Attack_Level = data.Attack_Level;
             playerStatus.Attack_Cost = data.Attack_Cost;
@@ -252,8 +309,6 @@ public class DataManager : MonoBehaviour
             playerStatus.petTotalEquipEffect = data.petTotalEquipEffect;
             playerStatus.petTotalRetentionEffect = data.petTotalRetentionEffect;
 
-
-
             enemyManager.hpCalcA = data.hpCalcA;
             enemyManager.hpCalcB = data.hpCalcB;
             enemyManager.HpMax = data.hpMax;
@@ -283,15 +338,16 @@ public class DataManager : MonoBehaviour
             uiManager.Update_Text("Critical_Damage", playerStatus.Critical_Damage, playerStatus.Critical_Damage_Level, playerStatus.Critical_Damage_Cost);
             uiManager.Update_Text("DoubleAttack", playerStatus.DoubleAttackChance, playerStatus.DoubleAttack_Level, playerStatus.DoubleAttack_Cost);
             uiManager.Update_Text("TripleAttack", playerStatus.TripleAttackChance, playerStatus.TripleAttack_Level, playerStatus.TripleAttack_Cost);
+            uiManager.PowerLevel.text = data.PowerLevelText;
 
             // ItemManager
             itemManager.weaponItems = data.weaponItems;
             itemManager.armorItems = data.armorItems;
 
-            itemManager.EquipWeaponText.text = data.EquipWeaponTextContent;
-            itemManager.EquipWeaponLevelText.text = data.EquipWeaponLevelTextContent;
-            itemManager.EquipArmorText.text = data.EquipArmorTextContent;
-            itemManager.EquipArmorLevelText.text = data.EquipArmorLevelTextContent;
+            itemManager.EquipWeaponText.text = data.EquipWeaponText;
+            itemManager.EquipWeaponLevelText.text = data.EquipWeaponLevelText;
+            itemManager.EquipArmorText.text = data.EquipArmorText;
+            itemManager.EquipArmorLevelText.text = data.EquipArmorLevelText;
             itemManager.EquipWeaponImg.color = new Color(
             data.EquipWeaponImgR,
             data.EquipWeaponImgG,
@@ -305,9 +361,6 @@ public class DataManager : MonoBehaviour
             data.EquipArmorImgA
             );
 
-
-
-            itemManager.SetTextData(data.textData); // TextData 불러오기
 
             List<Item> ownedItems = new List<Item>();
             foreach (var item in itemManager.weaponItems)
@@ -326,9 +379,42 @@ public class DataManager : MonoBehaviour
             }
             itemManager.UpdateItemImages(ownedItems);  // 소지 중인 아이템만 전달
 
-            // PetManager
-            petManager.pets = data.pets;
+            itemManager.SetTextData(data.itemtextData); // TextData 불러오기
 
+            // PetManager
+            
+            petManager.pets = data.pets;
+            petManager.GradeText.text = data.GradeText;
+            petManager.LevelText.text = data.LevelText;
+            petManager.CountText.text = data.CountText;
+            petManager.PetName.text = data.PetName;
+
+
+            List<Pet> ownedpets = new List<Pet>();
+            foreach (var pet in petManager.pets)
+            {
+                if (pet.Count > 0 || pet.Level >= 2) // Count가 0보다 큰 아이템만 추가
+                {
+                    ownedpets.Add(pet);
+                }
+            }
+
+            if (data.isPetActive)
+            {
+                petManager.Pet.SetActive(true);  // 활성화
+            }
+            petManager.UpdateOwnedPetImages(ownedpets);
+
+            petManager.SetTextData(data.pettextData); // TextData 불러오기
+
+
+            // QuestUI
+            questUI.questNameText.text = data.questNameText;
+            questUI.questProgressText.text = data.questProgressText;
+            questUI.questRewardText.text = data.questRewardText;
+
+            // QuestManager
+            questManager.quests = data.quests;
 
             // GameManager
             gameManager.IncreaseGold(data.gold - gameManager.Gold);
@@ -337,6 +423,7 @@ public class DataManager : MonoBehaviour
             gameManager.stageNumber = data.stageNumber;
             gameManager.roundNumber = data.roundNumber;
             gameManager.UpdateStageText();
+
             Debug.Log("게임 불러오기 완료");
         }
     }

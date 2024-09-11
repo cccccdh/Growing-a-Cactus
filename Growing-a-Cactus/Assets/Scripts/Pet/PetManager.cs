@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class PetManager : MonoBehaviour
 {
     [Header("Pet")]
-    public GameObject Pet;
+    public GameObject Pet;  
     public TextMeshProUGUI PetName;
 
     [Header("Information")]
@@ -278,6 +278,52 @@ public class PetManager : MonoBehaviour
                     break;
                 }
             }
+        }
+    }
+
+    public void UpdateOwnedPetImages(List<Pet> resultPetList)
+    {
+        UpdatePetImagesInList(resultPetList, petImages); // 무기 이미지 업데이트
+
+    }
+
+    public void UpdatePetImagesInList(List<Pet> resultPetList, Image[] images)
+    {
+        foreach (var result in resultPetList)
+        {
+            foreach (var image in images)
+            {
+                if (image.name == result.Name)
+                {
+                    Color color = image.color;
+                    color.a = 1f; // 이미지의 알파 값을 1로 설정하여 보이게 함
+                    image.color = color;
+                }
+            }
+        }
+    }
+
+    public PetTextData GetPetTextData()
+    {
+        PetTextData textData = new PetTextData
+        {
+            PetCountTexts = Array.ConvertAll(petCountTexts, text => text.text),
+            PetLevelTexts = Array.ConvertAll(petLevelTexts, text => text.text),
+        };
+        return textData;
+    }
+
+    public void SetTextData(PetTextData textData)
+    {
+        for (int i = 0; i < petCountTexts.Length; i++)
+        {
+            if (i < textData.PetCountTexts.Length)
+                petCountTexts[i].text = textData.PetCountTexts[i];
+        }
+        for (int i = 0; i < petLevelTexts.Length; i++)
+        {
+            if (i < textData.PetLevelTexts.Length)
+                petLevelTexts[i].text = textData.PetLevelTexts[i];
         }
     }
 }

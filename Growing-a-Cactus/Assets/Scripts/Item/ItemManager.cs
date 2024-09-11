@@ -495,9 +495,9 @@ public class ItemManager : MonoBehaviour
         }
     }
 
-    public TextData GetTextData()
+    public ItemTextData GetItemTextData()
     {
-        TextData textData = new TextData
+        ItemTextData textData = new ItemTextData
         {
             weaponCountTexts = Array.ConvertAll(weaponCountTexts, text => text.text),
             weaponLevelTexts = Array.ConvertAll(weaponLevelTexts, text => text.text),
@@ -507,7 +507,7 @@ public class ItemManager : MonoBehaviour
         return textData;
     }
 
-    public void SetTextData(TextData textData)
+    public void SetTextData(ItemTextData textData)
     {
         for (int i = 0; i < weaponCountTexts.Length; i++)
         {

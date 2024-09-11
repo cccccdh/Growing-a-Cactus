@@ -1,3 +1,4 @@
+[System.Serializable]
 public class Quest
 {
     public int Id;

@@ -1,5 +1,5 @@
 [System.Serializable]
-public class TextData
+public class ItemTextData
 {
     public string[] weaponCountTexts;
     public string[] weaponLevelTexts;

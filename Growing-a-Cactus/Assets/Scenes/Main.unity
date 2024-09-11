@@ -56857,6 +56857,8 @@ MonoBehaviour:
   enemyScript: {fileID: 8934160618751785841, guid: d4612edf9a5aca04b8e308ad3ce605f1, type: 3}
   itemManager: {fileID: 1228576298}
   petManager: {fileID: 1504575519}
+  questUI: {fileID: 1311017659}
+  questManager: {fileID: 1311017657}
 --- !u!4 &986739119
 Transform:
   m_ObjectHideFlags: 0
@@ -73868,6 +73870,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerStatus: {fileID: 1945133264}
   gachaManager: {fileID: 328319259}
+  quests: []
 --- !u!4 &1311017658
 Transform:
   m_ObjectHideFlags: 0
@@ -73912,6 +73915,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   csvFile: {fileID: 4900000, guid: af0920398e6be3b478fe13c427b271c0, type: 3}
   questmanager: {fileID: 1311017657}
+  questList: []
 --- !u!1 &1312050665
 GameObject:
   m_ObjectHideFlags: 0

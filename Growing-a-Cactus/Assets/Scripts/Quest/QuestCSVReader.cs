@@ -7,7 +7,7 @@ public class QuestCSVReader : MonoBehaviour
     public TextAsset csvFile;
     public QuestManager questmanager;
 
-    private List<Quest> questList = new List<Quest>();
+    public List<Quest> questList = new List<Quest>();
 
     void Start()
     {
