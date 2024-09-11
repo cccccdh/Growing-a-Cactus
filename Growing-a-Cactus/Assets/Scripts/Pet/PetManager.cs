@@ -18,6 +18,8 @@ public class PetManager : MonoBehaviour
     public TextMeshProUGUI CountText;
     public TextMeshProUGUI RetentionEffect;
     public TextMeshProUGUI EquipEffectText;
+    public Button petEquipButton;
+    public Button petEnhanceButton;
 
     [Header("Scroll VIew")]
     public Image[] petImages;
@@ -38,8 +40,16 @@ public class PetManager : MonoBehaviour
 
     public void Awake()
     {
-        playerstatus = GameObject.Find("Player").GetComponent<PlayerStatus>();
+        Initialize();        
+    }
+    private void Initialize()
+    {
+        // 펫 UI 초기화
         Pet.SetActive(false);
+
+        // 버튼 상태 초기화
+        petEquipButton.interactable = false;
+        petEnhanceButton.interactable = false;
     }
 
     // 펫 리스트 설정
@@ -178,6 +188,12 @@ public class PetManager : MonoBehaviour
                 EquipEffectText.text = $"공격력 + {TextFormatter.FormatText(pet.EquipEffect * 100)}%";
                 LevelText.text = $"Lv.{pet.Level}";
                 CountText.text = $"( {pet.Count} / {pet.RequiredCount} )";
+
+                int level = GetPetLevel(pet.Name);
+                int count = GetPetCount(pet.Name);
+                int requirecount = GetPetRequiredCount(pet.Name);
+                petEquipButton.interactable = (count > 0 || level > 1);
+                petEnhanceButton.interactable = count >= requirecount;
                 break;
             }
         }

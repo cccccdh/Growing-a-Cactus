@@ -24,6 +24,8 @@ public class ClothesManager : MonoBehaviour
     public TextMeshProUGUI ProjectileText;
     public TextMeshProUGUI LevelText;
     public TextMeshProUGUI RetentionEffectText;
+    public Button clothesEquipButton;
+    public Button clothesEnhanceButton;
 
     [Header("Scroll VIew")]
     public Image[] clothesImages;
@@ -45,12 +47,16 @@ public class ClothesManager : MonoBehaviour
         Init();
     }
 
-    // 텍스트 초기화
     public void Init()
     {
+        // 텍스트 초기화
         NameText.text = $"기본";
         ProjectileText.text = "가시";
         RetentionEffectText.text = $"공격력 + 0.00%";
+        
+        // 버튼 상태 초기화
+        clothesEquipButton.interactable = false;
+        clothesEnhanceButton.interactable = false;
     }
 
     // 의상 리스트 설정
@@ -184,6 +190,12 @@ public class ClothesManager : MonoBehaviour
                 RetentionEffectText.text = $"공격력 + {TextFormatter.FormatText(cloth.RetentionEffect * 100)}%";
                 LevelText.text = $"Lv.{cloth.Level}";
                 ProjectileText.text = (cloth.Set == "Null" ? "가시" : $"{cloth.Set}");
+
+                int level = GetClothesLevel(cloth.Name);
+                int count = GetClothesCount(cloth.Name);
+                int requirecount = GetClothesRequiredCount(cloth.Name);
+                clothesEquipButton.interactable = (count > 0 || level > 1);
+                clothesEnhanceButton.interactable = count >= requirecount;
                 break;
             }
         }

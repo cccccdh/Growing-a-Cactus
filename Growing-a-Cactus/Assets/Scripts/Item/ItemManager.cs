@@ -20,6 +20,8 @@ public class ItemManager : MonoBehaviour
     public Image[] weaponImages; // 무기 아이콘 배열
     public TextMeshProUGUI[] weaponCountTexts; // 무기 개수 텍스트 배열
     public TextMeshProUGUI[] weaponLevelTexts; // 무기 레벨 텍스트 배열
+    public Button weaponEquipButton;
+    public Button weaponEnhanceButton;
 
     [Header("방어구 관련 UI 요소")]
     public Image ArmorImg;
@@ -35,6 +37,8 @@ public class ItemManager : MonoBehaviour
     public Image[] armorImages; // 방어구 아이콘 배열
     public TextMeshProUGUI[] armorCountTexts; // 방어구 개수 텍스트 배열
     public TextMeshProUGUI[] armorLevelTexts; // 방어구 레벨 텍스트 배열
+    public Button armorEquipButton;
+    public Button armorEnhanceButton;
 
     [Header("장착 중 텍스트")]
     public GameObject prefabs;
@@ -50,7 +54,19 @@ public class ItemManager : MonoBehaviour
     [HideInInspector] public string selectedItemName; // 선택된 아이템의 이름
     [HideInInspector] public Color selectedItemColor; // 선택된 아이템의 색상
 
-    // UI 업데이트 함수
+    private void Start()
+    {
+        Initialize();       
+    }
+
+    private void Initialize()
+    {
+        // 버튼 상태 초기화
+        weaponEquipButton.interactable = false;
+        weaponEnhanceButton.interactable = false;
+        armorEquipButton.interactable = false;
+        armorEnhanceButton.interactable = false;
+    }
 
 
     // 아이템 리스트를 설정하는 메서드
@@ -291,6 +307,13 @@ public class ItemManager : MonoBehaviour
         WeaponEquipEffectText.text = $"공격력 + {TextFormatter.FormatText(item.EquipEffect * 100)}%"; // 장착 효과 텍스트 업데이트
         WeaponLevelText.text = $"Lv.{item.Level}"; // 무기 레벨 텍스트 업데이트
         WeaponCountText.text = $"( {item.Count} / {item.RequiredCount} )"; // 무기 개수 텍스트 업데이트
+
+        // 버튼 상태 업데이트 
+        int level = GetItemLevel(item.Name);
+        int count = GetItemCount(item.Name);
+        int requirecount = GetItemRequiredCount(item.Name);
+        weaponEquipButton.interactable = (count > 0 || level > 1);
+        weaponEnhanceButton.interactable = count >= requirecount;
     }
 
     // 방어구 정보를 UI에 업데이트하는 메서드
@@ -301,6 +324,13 @@ public class ItemManager : MonoBehaviour
         ArmorEquipEffectText.text = $"체력 + {TextFormatter.FormatText(item.EquipEffect * 100)}%"; // 장착 효과 텍스트 업데이트
         ArmorLevelText.text = $"Lv.{item.Level}"; // 방어구 레벨 텍스트 업데이트
         ArmorCountText.text = $"( {item.Count} / {item.RequiredCount} )"; // 방어구 개수 텍스트 업데이트
+
+        // 버튼 상태 업데이트 
+        int level = GetItemLevel(item.Name);
+        int count = GetItemCount(item.Name);
+        int requirecount = GetItemRequiredCount(item.Name);
+        armorEquipButton.interactable = (count > 0 || level > 1);
+        armorEnhanceButton.interactable = count >= requirecount;
     }
 
     // 선택된 아이템을 장착하는 메서드

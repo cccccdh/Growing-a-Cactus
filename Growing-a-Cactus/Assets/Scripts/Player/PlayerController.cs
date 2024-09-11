@@ -12,7 +12,6 @@ public class PlayerController : MonoBehaviour
     public double CurrentHp;
     public float attackRange = 5f;
     public float HpR;
-    public float nextRegenTime = 0f;
     public bool isOpenDie = false;
 
     public PlayerStatus status;
@@ -42,17 +41,19 @@ public class PlayerController : MonoBehaviour
 
     public void Update()
     {
-        if (Time.time >= nextRegenTime)
+        var delay = 0f;
+        delay += Time.deltaTime;
+        if (delay >= 1)
         {
             CurrentHp = Mathf.Min((float)CurrentHp + (int)HpR, (float)status.effectiveHP);
             UpdateHPBar();
-            nextRegenTime = Time.time + 1f; // 1초 후 다음 체력 회복
+            delay = 0f;
         }
     }
 
     public void TakeDamage(double damage)
     {
-        CurrentHp -= (int)damage;
+        CurrentHp -= damage;
         UpdateHPBar();
         if (CurrentHp <= 0)
         {
