@@ -103726,6 +103726,7 @@ MonoBehaviour:
   CurrentHp: 0
   attackRange: 5
   HpR: 0
+  nextRegenTime: 0
   isOpenDie: 0
   status: {fileID: 1945133264}
   enemyManager: {fileID: 753089184}

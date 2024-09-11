@@ -71,15 +71,17 @@ public class EnemyManager : MonoBehaviour
         if (bossScript != null)
         {
             bossMaxHP = befHP * 15;
+
             if(roundCount <= 10)
                 bossAttackPower = befAtt * 3;
             else if(roundCount <= 30)
                 bossAttackPower = befAtt * 50;
             else
                 bossAttackPower = befAtt * 200;
+
             bossGoldDropAmount = befGold * 5;
 
-            bossScript.Initialize(bossMaxHP, bossAttackPower, bossGoldDropAmount);
+            bossScript.Init();
         }
     }
 

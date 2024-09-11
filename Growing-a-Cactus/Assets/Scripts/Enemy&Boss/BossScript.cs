@@ -10,8 +10,8 @@ public class BossScript : MonoBehaviour
     public ParticleSystem deathEffect;
 
     // 보스의 상태 변수
-    private double HP; // 현재 HP
-    private double maxHP; // 최대 HP
+    public double HP; // 현재 HP
+    public double maxHP; // 최대 HP
     public double BossattackPower; // 공격력
     private int goldDropAmount; // 드랍하는 골드 양
 
@@ -27,7 +27,20 @@ public class BossScript : MonoBehaviour
 
     private void OnEnable()
     {
-        HP = maxHP;
+        Init();
+    }
+
+    // 스텟 초기화
+    public void Init()
+    {
+        if (enemyManager != null)
+        {
+            HP = enemyManager.bossMaxHP;
+            maxHP = enemyManager.bossMaxHP;
+            BossattackPower = enemyManager.bossAttackPower;
+            goldDropAmount = enemyManager.bossGoldDropAmount;
+            isAttacking = false;
+        }
         UpdateHPBar();
     }
 
@@ -63,7 +76,7 @@ public class BossScript : MonoBehaviour
     public void TakeDamage(double damage)
     {
         // 피해 처리 및 HP 바 업데이트
-        HP -= (int)damage;
+        HP -= damage;
         UpdateHPBar();
 
         // HP가 0 이하일 때 사망 처리
@@ -113,10 +126,10 @@ public class BossScript : MonoBehaviour
         }
     }
 
-    public void SetGoldDropAmount(int amount)
-    {
-        goldDropAmount = amount; // 골드 드랍 양 설정
-    }
+    //public void SetGoldDropAmount(int amount)
+    //{
+    //    goldDropAmount = amount; // 골드 드랍 양 설정
+    //}
 
     public void SetEnemyManager(EnemyManager manager)
     {
@@ -153,15 +166,5 @@ public class BossScript : MonoBehaviour
                 player.Die(); // 플레이어 사망
             }
         }
-    }
-
-    // EnemyManager로부터 초기화 값을 설정받는 메서드
-    public void Initialize(double maxHP, double attackPower, int goldDropAmount)
-    {
-        this.maxHP = maxHP;
-        this.BossattackPower = attackPower;
-        this.goldDropAmount = goldDropAmount;
-        this.HP = maxHP; // 초기 HP 설정
-        UpdateHPBar(); // HP 바 초기화
-    }
+    }    
 }
