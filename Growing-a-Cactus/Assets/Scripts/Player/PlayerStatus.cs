@@ -590,6 +590,9 @@ public class PlayerStatus : MonoBehaviour
         if (Attack_Speed_Level < 200)
             return;
 
+        if (DoubleAttack_Level >= 1000)
+            return;
+
         GameManager.instance.DecreaseGold(DoubleAttack_Cost);
         DoubleAttackChance += 0.1f;
         DoubleAttack_Level++;
@@ -605,6 +608,9 @@ public class PlayerStatus : MonoBehaviour
     private void EnhanceTripleAttack()
     {
         if (DoubleAttack_Level < 1000)
+            return;
+
+        if (TripleAttack_Level >= 1000)
             return;
 
         GameManager.instance.DecreaseGold(TripleAttack_Cost);

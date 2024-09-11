@@ -67,7 +67,7 @@ public class EnemyScript : MonoBehaviour
 
     public void TakeDamage(double damage)
     {
-        HP -= (int)damage;
+        HP -= damage;
 
         UpdateHPBar();
 

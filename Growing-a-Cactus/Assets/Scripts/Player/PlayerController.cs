@@ -12,6 +12,7 @@ public class PlayerController : MonoBehaviour
     public double CurrentHp;
     public float attackRange = 5f;
     public float HpR;
+    public float nextRegenTime = 0f;
     public bool isOpenDie = false;
 
     public PlayerStatus status;
@@ -39,6 +40,16 @@ public class PlayerController : MonoBehaviour
         StartCoroutine(HealthRegenCoroutine());
     }
 
+    public void Update()
+    {
+        if (Time.time >= nextRegenTime)
+        {
+            CurrentHp = Mathf.Min((float)CurrentHp + (int)HpR, (float)status.effectiveHP);
+            UpdateHPBar();
+            nextRegenTime = Time.time + 1f; // 1초 후 다음 체력 회복
+        }
+    }
+
     public void TakeDamage(double damage)
     {
         CurrentHp -= (int)damage;
@@ -56,14 +67,8 @@ public class PlayerController : MonoBehaviour
         CurrentHp = status.effectiveHP; // HP 초기화
         UpdateHPBar();
         transform.position = originalPosition; // 원래 위치로 되돌리기
-        StartCoroutine(OpenDieWithDelay(0.7f)); // 0.7초 지연 후 OpenDie 호출
+        Invoke("OpenDie", 0.7f); // 0.7초 지연 후 OpenDie 호출
         enemyManager.ResetRound(); // EnemyManager에 라운드 리셋 요청
-    }
-
-    private IEnumerator OpenDieWithDelay(float delay)
-    {
-        yield return new WaitForSeconds(delay);
-        OpenDie();
     }
 
     public void OpenDie()
@@ -186,15 +191,14 @@ public class PlayerController : MonoBehaviour
 
     private void HandleDoubleAndTripleAttack(Vector2 direction, double damage)
     {
-        if (Random.Range(0, 100f) < status.DoubleAttackChance)
+        if (status.TripleAttack_Level < 2 && Random.Range(0, 100f) < status.DoubleAttackChance)
         {
-            Debug.Log("Double attack!");
+            //Debug.Log("Double attack!");
             StartCoroutine(ShootThornWithDelay(direction, damage, 0.1f));
         }
-
-        if (Random.Range(0, 100f) < status.TripleAttackChance)
+        else if (Random.Range(0, 100f) < status.TripleAttackChance)
         {
-            Debug.Log("Triple attack!");
+            //Debug.Log("Triple attack!");
             StartCoroutine(ShootThornWithDelay(direction, damage, 0.1f, 2));
         }
     }
