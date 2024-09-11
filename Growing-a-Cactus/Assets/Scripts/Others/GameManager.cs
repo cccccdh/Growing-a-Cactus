@@ -64,6 +64,9 @@ public class GameManager : MonoBehaviour
         UpdateGemText();
         UpdateStageText();
         UpdateWaveBar();
+        
+        // 프레임 60으로 고정
+        Application.targetFrameRate = 60;
     }
 
     private void Update()
