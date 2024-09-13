@@ -20,6 +20,8 @@ public class DataManager : MonoBehaviour
     public PetManager petManager;
     public QuestUI questUI;
     public QuestManager questManager;
+    public QuestCSVReader questCSVReader;
+    public GachaManager gachaManager;
 
     [System.Serializable]
     public class GameData
@@ -125,7 +127,7 @@ public class DataManager : MonoBehaviour
         public string questNameText;
         public string questProgressText;
         public string questRewardText;
-        
+
         // Quest
         public int Id;
         public string Title;
@@ -145,18 +147,21 @@ public class DataManager : MonoBehaviour
         // uiManager
         public string PowerLevelText;
 
-
+        // gachaManager
+        public bool UnLockEquipment;
+        public bool UnLockPet;
+        public bool UnLockClothes;
 
     }
 
     void Start()
     {
         saveFilePath = Path.Combine(Application.persistentDataPath, "savefile.json");
-        Debug.Log("Save File Path: " + saveFilePath); // 경로 확인을 위한 로그
+        //LoadGame();
     }
 
     // 게임 데이터를 저장하는 함수
-    public void SaveGame()
+    public void SaveGame()//OnApplicationQuit()
     {
         GameData data = new GameData
         {
@@ -246,8 +251,13 @@ public class DataManager : MonoBehaviour
             PowerLevelText = uiManager.PowerLevel.text,
 
             // QuestManager
-             quests = questManager.quests,
+            quests = questManager.quests,
 
+            //gachaManager
+            UnLockEquipment = gachaManager.UnLockEquipment,
+            UnLockPet = gachaManager.UnLockPet,
+            UnLockClothes = gachaManager.UnLockClothes,
+            
             // GameManager
             gold = gameManager.Gold,
             gem = gameManager.gem,
@@ -267,6 +277,7 @@ public class DataManager : MonoBehaviour
     // 게임 데이터를 불러오는 함수
     public void LoadGame()
     {
+
         if (File.Exists(saveFilePath))
         {
             string jsonData = File.ReadAllText(saveFilePath);
@@ -338,7 +349,6 @@ public class DataManager : MonoBehaviour
             uiManager.Update_Text("Critical_Damage", playerStatus.Critical_Damage, playerStatus.Critical_Damage_Level, playerStatus.Critical_Damage_Cost);
             uiManager.Update_Text("DoubleAttack", playerStatus.DoubleAttackChance, playerStatus.DoubleAttack_Level, playerStatus.DoubleAttack_Cost);
             uiManager.Update_Text("TripleAttack", playerStatus.TripleAttackChance, playerStatus.TripleAttack_Level, playerStatus.TripleAttack_Cost);
-            uiManager.PowerLevel.text = data.PowerLevelText;
 
             // ItemManager
             itemManager.weaponItems = data.weaponItems;
@@ -362,27 +372,27 @@ public class DataManager : MonoBehaviour
             );
 
 
-            List<Item> ownedItems = new List<Item>();
+            List<Item> ResetItems = new List<Item>();
             foreach (var item in itemManager.weaponItems)
             {
-                if (item.Count > 0 || item.Level >= 2) // Count가 0보다 큰 아이템만 추가
+                if (item.Count > 0 || item.Level >= 2) 
                 {
-                    ownedItems.Add(item);
+                    ResetItems.Add(item);
                 }
             }
             foreach (var item in itemManager.armorItems)
             {
-                if (item.Count > 0 || item.Level >= 2) // Count가 0보다 큰 아이템만 추가
+                if (item.Count > 0 || item.Level >= 2) 
                 {
-                    ownedItems.Add(item);
+                    ResetItems.Add(item);
                 }
             }
-            itemManager.UpdateItemImages(ownedItems);  // 소지 중인 아이템만 전달
+            itemManager.UpdateItemImages(ResetItems);  // 소지 중인 아이템만 전달
 
-            itemManager.SetTextData(data.itemtextData); // TextData 불러오기
+            // itemManager.SetTextData(data.itemtextData); // TextData 불러오기
 
             // PetManager
-            
+
             petManager.pets = data.pets;
             petManager.GradeText.text = data.GradeText;
             petManager.LevelText.text = data.LevelText;
@@ -424,8 +434,187 @@ public class DataManager : MonoBehaviour
             gameManager.roundNumber = data.roundNumber;
             gameManager.UpdateStageText();
 
+            //gachaManager
+            gachaManager.UnLockEquipment = data.UnLockEquipment;
+            if (gachaManager.UnLockEquipment == true)
+            {
+                Debug.Log(gachaManager.UnLockEquipment);
+                gachaManager.LoadUnlock("장비");
+            }
+            gachaManager.UnLockPet = data.UnLockPet;
+
+            if (gachaManager.UnLockPet == true)
+            {
+                gachaManager.LoadUnlock("펫");
+                Debug.Log(gachaManager.UnLockPet);
+
+            }
+            gachaManager.UnLockClothes = data.UnLockClothes;
+
             Debug.Log("게임 불러오기 완료");
+            uiManager.PowerLevel.text = data.PowerLevelText;
+
         }
+    }
+
+    public void ResetGame()
+    {
+
+        if (File.Exists(saveFilePath))
+        {
+            File.WriteAllText(saveFilePath, "");  // 파일의 내용을 빈 문자열로 덮어쓰기
+            Debug.Log("저장 파일의 내용을 초기화했습니다.");
+
+        }
+
+        //playerController
+        playerController.CurrentHp = 120;
+
+        //playerStatus
+        playerStatus.Attack = 10;
+        playerStatus.Attack_Level = 1;
+        playerStatus.Attack_Cost = 10;
+        playerStatus.Hp = 120;
+        playerStatus.Hp_Level = 1;
+        playerStatus.Hp_Cost = 5;
+        playerStatus.Hp_Recovery = 10;
+        playerStatus.Hp_Recovery_Level = 1;
+        playerStatus.Hp_Recovery_Cost = 7;
+        playerStatus.Attack_Speed = 1;
+        playerStatus.Attack_Speed_Level = 1;
+        playerStatus.Attack_Speed_Cost = 22;
+        playerStatus.Critical = 0.1f;
+        playerStatus.Critical_Level = 1;
+        playerStatus.Critical_Cost = 15;
+        playerStatus.Critical_Damage = 120;
+        playerStatus.Critical_Damage_Level = 1;
+        playerStatus.Critical_Damage_Cost = 6;
+        playerStatus.DoubleAttackChance = 0;
+        playerStatus.DoubleAttack_Level = 1;
+        playerStatus.DoubleAttack_Cost = 50;
+        playerStatus.TripleAttackChance = 0;
+        playerStatus.TripleAttack_Level = 1;
+        playerStatus.TripleAttack_Cost = 100;
+        playerStatus.PowerLevel = 10;
+        playerStatus.effectiveHP = 120;
+        playerStatus.weaponTotalEquipEffect = 0;
+        playerStatus.weaponTotalRetentionEffect = 0;
+        playerStatus.armorTotalEquipEffect = 0;
+        playerStatus.armorTotalRetentionEffect = 0;
+        playerStatus.petTotalEquipEffect = 0;
+        playerStatus.petTotalRetentionEffect = 0;
+
+        enemyManager.hpCalcA = 0;
+        enemyManager.hpCalcB = 0;
+        enemyManager.HpMax = 30;
+        enemyManager.befHP = 30;
+        enemyManager.AttackDamage = 10;
+        enemyManager.befAtt = 10;
+        enemyManager.DropGold = 20;
+        enemyManager.befGold = 20;
+        enemyManager.bossAttackPower = 0;
+        enemyManager.bossGoldDropAmount = 0;
+        enemyManager.bossMaxHP = 0;
+        enemyManager.roundNumber = 0;
+        enemyManager.ResetRound();
+
+        enemyScript.HP = 30;
+        enemyScript.maxHP = 30;
+        enemyScript.attackPower = 10;
+        enemyScript.goldDropAmount = 20;
+
+        playerController.HpR = 10;
+
+        // uiManager
+        uiManager.Update_Text("Attack", playerStatus.Attack, playerStatus.Attack_Level, playerStatus.Attack_Cost);
+        uiManager.Update_Text("Hp", playerStatus.Hp, playerStatus.Hp_Level, playerStatus.Hp_Cost);
+        uiManager.Update_Text("Hp_Recovery", playerStatus.Hp_Recovery, playerStatus.Hp_Recovery_Level, playerStatus.Hp_Recovery_Cost);
+        uiManager.Update_Text("Attack_Speed", playerStatus.Attack_Speed, playerStatus.Attack_Speed_Level, (int)playerStatus.Attack_Speed_Cost);
+        uiManager.Update_Text("Critical", playerStatus.Critical, playerStatus.Critical_Level, playerStatus.Critical_Cost);
+        uiManager.Update_Text("Critical_Damage", playerStatus.Critical_Damage, playerStatus.Critical_Damage_Level, playerStatus.Critical_Damage_Cost);
+        uiManager.Update_Text("DoubleAttack", playerStatus.DoubleAttackChance, playerStatus.DoubleAttack_Level, playerStatus.DoubleAttack_Cost);
+        uiManager.Update_Text("TripleAttack", playerStatus.TripleAttackChance, playerStatus.TripleAttack_Level, playerStatus.TripleAttack_Cost);
+
+        // ItemManager
+
+
+        itemManager.EquipWeaponText.text = "장착 무기";
+        itemManager.EquipWeaponLevelText.text = "";
+        itemManager.EquipArmorText.text = "장착 방어구";
+        itemManager.EquipArmorLevelText.text = "";
+        itemManager.EquipWeaponImg.color = new Color(255,255,255,255);
+        itemManager.EquipArmorImg.color = new Color(255,255,255,255);
+
+
+        List<Item> resetItems = new List<Item>();
+        foreach (var item in itemManager.weaponItems)
+        {
+            if (item.Count > 0 || item.Level >= 2)
+            {
+                resetItems.Add(item);
+            }
+        }
+        foreach (var item in itemManager.armorItems)
+        {
+            if (item.Count > 0 || item.Level >= 2)
+            {
+                resetItems.Add(item);
+            }
+        }
+        itemManager.ResetItemImages(resetItems);  // 소지 중인 아이템만 전달
+
+        // itemManager.SetTextData(data.itemtextData); // 이거 어캐 초기화시키노..
+
+
+
+        // PetManager
+
+        petManager.GradeText.text = "일반";
+        petManager.LevelText.text = "Lv.1";
+        petManager.CountText.text = "( 0 / 0 )";
+        petManager.PetName.text = "토끼";
+
+
+        List<Pet> resetpets = new List<Pet>();
+        foreach (var pet in petManager.pets)
+        {
+            if (pet.Count > 0 || pet.Level >= 2) 
+            {
+                resetpets.Add(pet);
+            }
+        }
+
+        petManager.Pet.SetActive(false);  // 활성화
+        petManager.UpdateResetPetImages(resetpets);
+
+        //petManager.SetTextData(data.pettextData); // 얘도 초기화해야함..
+
+
+        // QuestUI
+        // List<Quest> questList = new List<Quest>();
+
+        // questCSVReader.LoadQuests();
+        // questManager.SetQuest(questList);
+
+
+        //questUI.questNameText.text = "튜토리얼 1";
+        //questUI.questProgressText.text = "공격력 강화 ( 0 / 20 )";
+        //questUI.questRewardText.text = "보상 : 200 젬";
+
+
+
+        // GameManager
+        gameManager.IncreaseGold(0);
+        gameManager.gem = 0;
+        gameManager.UpdateGemText();
+        gameManager.stageNumber = 1;
+        gameManager.roundNumber = 1;
+        gameManager.UpdateStageText();
+
+        //Debug.Log("게임 불러오기 완료");
+        uiManager.PowerLevel.text = $"전투력 : {TextFormatter.FormatText(10)}";
+
+
     }
 
 }

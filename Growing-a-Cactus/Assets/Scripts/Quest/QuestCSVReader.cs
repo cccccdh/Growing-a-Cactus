@@ -15,7 +15,7 @@ public class QuestCSVReader : MonoBehaviour
         questmanager.SetQuest(questList);
     }
 
-    private void LoadQuests()
+    public void LoadQuests()
     {
         using (StringReader reader = new StringReader(csvFile.text))
         {

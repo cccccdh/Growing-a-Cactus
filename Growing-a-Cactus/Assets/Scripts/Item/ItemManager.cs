@@ -243,6 +243,27 @@ public class ItemManager : MonoBehaviour
         }
     }
 
+    public void ResetItemImages(List<Item> resultItemList)
+    {
+        ResetItemImagesInList(resultItemList, weaponImages); // 무기 이미지 업데이트
+        ResetItemImagesInList(resultItemList, armorImages); // 방어구 이미지 업데이트
+    }
+
+    public void ResetItemImagesInList(List<Item> resultItemList, Image[] images)
+    {
+        foreach (var result in resultItemList)
+        {
+            foreach (var image in images)
+            {
+                if (image.name == result.Name)
+                {
+                    Color color = image.color;
+                    color.a = 0.4f; // 이미지의 알파 값을 1로 설정하여 보이게 함
+                    image.color = color;
+                }
+            }
+        }
+    }
     // 아이템에 따라 UI 텍스트를 업데이트하는 메서드
     public void UpdateItemText(string itemName, List<Item> items)
     {

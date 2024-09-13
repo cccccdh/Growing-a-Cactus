@@ -67,6 +67,33 @@ public class GachaManager : MonoBehaviour
         }
     }
 
+    public void LoadUnlock(string Name)
+    {
+        if (Name == "장비")
+        {
+            UnLockEquipment = true;
+            foreach (var btn in equipmentLockBtn)
+            {
+                btn.SetActive(false);
+            }
+        }
+        else if (Name == "펫")
+        {
+            UnLockPet = true;
+            foreach (var btn in petLockBtn)
+            {
+                btn.SetActive(false);
+            }
+        }
+        else if (Name == "의상")
+        {
+            UnLockClothes = true;
+            foreach (var btn in clothesLockBtn)
+            {
+                btn.SetActive(false);
+            }
+        }
+    }
     // 장비 가챠를 수행하는 메서드
     public void PerformGachaWithEquip(int times)
     {

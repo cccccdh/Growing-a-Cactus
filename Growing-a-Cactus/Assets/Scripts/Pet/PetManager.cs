@@ -302,7 +302,27 @@ public class PetManager : MonoBehaviour
             }
         }
     }
+    public void UpdateResetPetImages(List<Pet> resetPetList)
+    {
+        UpdateResetImagesInList(resetPetList, petImages); // 무기 이미지 업데이트
 
+    }
+
+    public void UpdateResetImagesInList(List<Pet> resetPetList, Image[] images)
+    {
+        foreach (var reset in resetPetList)
+        {
+            foreach (var image in images)
+            {
+                if (image.name == reset.Name)
+                {
+                    Color color = image.color;
+                    color.a = 0.4f; // 이미지의 알파 값을 1로 설정하여 보이게 함
+                    image.color = color;
+                }
+            }
+        }
+    }
     public PetTextData GetPetTextData()
     {
         PetTextData textData = new PetTextData
