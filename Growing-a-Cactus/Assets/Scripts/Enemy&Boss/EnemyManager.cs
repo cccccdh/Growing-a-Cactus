@@ -12,8 +12,8 @@ public class EnemyManager : MonoBehaviour
     public Transform bossSpawnPoint;
 
     [Header("적 상태")]
-    private int enemiesKilled = 0;
-    private int enemyCount = 0;
+    public int enemiesKilled = 0;
+    public int enemyCount = 0;
 
     [Header("스테이지")]
     public int stageNumber = 1;
@@ -90,13 +90,13 @@ public class EnemyManager : MonoBehaviour
 
         QuestManager.instance.UpdateQuestProgress(1, "적 처치");
 
-        if (enemyCount <= 0)
+        if (enemyCount == 0)
         {
             GameManager.instance.IncreaseWave(25);
             playerController?.MovePlayerWithDelay(1f);
             backgroundScript?.OnKilled();
 
-            if (enemiesKilled % 12 == 0)
+            if (enemiesKilled >= 12)
             {
                 StartCoroutine(SpawnBossWithDelay(1f));
             }
