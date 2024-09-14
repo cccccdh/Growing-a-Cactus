@@ -167,4 +167,17 @@ public class QuestManager : MonoBehaviour
             }
         }
     }
+
+    public void SkipQuest()
+    {
+        foreach (var quest in quests)
+        {
+            if (quest.IsActive)
+            {
+                quest.GoalCount = quest.Goal;
+                CompleteQuest(quest.Id); // 퀘스트 완료 처리
+                break; // 하나의 퀘스트만 스킵
+            }
+        }
+    }
 }

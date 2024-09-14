@@ -98618,6 +98618,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gm: {fileID: 963673988}
   gachaManager: {fileID: 328319259}
+  questManager: {fileID: 1311017657}
 --- !u!4 &1803235548
 Transform:
   m_ObjectHideFlags: 0
