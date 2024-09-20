@@ -1,11 +1,8 @@
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
-using TMPro;
-using UnityEngine.UI;
-using static UnityEditor.Timeline.TimelinePlaybackControls;
-using UnityEditor.Search;
-using Unity.VisualScripting;
+using static UnityEditor.Progress;
+
 
 public class DataManager : MonoBehaviour
 {
@@ -22,6 +19,7 @@ public class DataManager : MonoBehaviour
     public QuestManager questManager;
     public QuestCSVReader questCSVReader;
     public GachaManager gachaManager;
+    public ItemCSVReader itemCSVReader;
 
     [System.Serializable]
     public class GameData
@@ -110,9 +108,7 @@ public class DataManager : MonoBehaviour
         public ItemTextData itemtextData;
         public PetTextData pettextData;
 
-
         //petManager
-
         public List<Pet> pets = new List<Pet>();
 
         public string GradeText;
@@ -140,7 +136,6 @@ public class DataManager : MonoBehaviour
         public bool IsActive;
         public List<Quest> quests = new List<Quest>();
 
-
         // QuestCSVReader
         public List<Quest> questList = new List<Quest>();
 
@@ -151,7 +146,6 @@ public class DataManager : MonoBehaviour
         public bool UnLockEquipment;
         public bool UnLockPet;
         public bool UnLockClothes;
-
     }
 
     void Start()
@@ -216,17 +210,14 @@ public class DataManager : MonoBehaviour
             // ItemManager
             weaponItems = itemManager.weaponItems,
             armorItems = itemManager.armorItems,
-
             EquipWeaponText = itemManager.EquipWeaponText.text,
             EquipWeaponLevelText = itemManager.EquipWeaponLevelText.text,
             EquipArmorText = itemManager.EquipArmorText.text,
             EquipArmorLevelText = itemManager.EquipArmorLevelText.text,
-
             EquipWeaponImgR = itemManager.EquipWeaponImg.color.r,
             EquipWeaponImgG = itemManager.EquipWeaponImg.color.g,
             EquipWeaponImgB = itemManager.EquipWeaponImg.color.b,
             EquipWeaponImgA = itemManager.EquipWeaponImg.color.a,
-
             EquipArmorImgR = itemManager.EquipArmorImg.color.r,
             EquipArmorImgG = itemManager.EquipArmorImg.color.g,
             EquipArmorImgB = itemManager.EquipArmorImg.color.b,
@@ -242,7 +233,6 @@ public class DataManager : MonoBehaviour
             PetName = petManager.PetName.text,
 
             // QuestUI
-
             questNameText = questUI.questNameText.text,
             questProgressText = questUI.questProgressText.text,
             questRewardText = questUI.questRewardText.text,
@@ -267,7 +257,6 @@ public class DataManager : MonoBehaviour
             pettextData = petManager.GetPetTextData()
 
         };
-
         string json = JsonUtility.ToJson(data, true);
         File.WriteAllText(saveFilePath, json);
 
@@ -371,7 +360,6 @@ public class DataManager : MonoBehaviour
             data.EquipArmorImgA
             );
 
-
             List<Item> ResetItems = new List<Item>();
             foreach (var item in itemManager.weaponItems)
             {
@@ -389,16 +377,12 @@ public class DataManager : MonoBehaviour
             }
             itemManager.UpdateItemImages(ResetItems);  // 소지 중인 아이템만 전달
 
-            // itemManager.SetTextData(data.itemtextData); // TextData 불러오기
-
             // PetManager
-
             petManager.pets = data.pets;
             petManager.GradeText.text = data.GradeText;
             petManager.LevelText.text = data.LevelText;
             petManager.CountText.text = data.CountText;
             petManager.PetName.text = data.PetName;
-
 
             List<Pet> ownedpets = new List<Pet>();
             foreach (var pet in petManager.pets)
@@ -456,7 +440,6 @@ public class DataManager : MonoBehaviour
 
         }
     }
-
     public void ResetGame()
     {
 
@@ -537,13 +520,12 @@ public class DataManager : MonoBehaviour
 
         // ItemManager
 
-
         itemManager.EquipWeaponText.text = "장착 무기";
         itemManager.EquipWeaponLevelText.text = "";
         itemManager.EquipArmorText.text = "장착 방어구";
         itemManager.EquipArmorLevelText.text = "";
-        itemManager.EquipWeaponImg.color = new Color(255,255,255,255);
-        itemManager.EquipArmorImg.color = new Color(255,255,255,255);
+        itemManager.EquipWeaponImg.color = new Color(255, 255, 255, 255);
+        itemManager.EquipArmorImg.color = new Color(255, 255, 255, 255);
 
 
         List<Item> resetItems = new List<Item>();
@@ -551,6 +533,10 @@ public class DataManager : MonoBehaviour
         {
             if (item.Count > 0 || item.Level >= 2)
             {
+                item.Count = 0;
+                item.Level = 1;
+                item.RequiredCount = 2;
+
                 resetItems.Add(item);
             }
         }
@@ -558,14 +544,19 @@ public class DataManager : MonoBehaviour
         {
             if (item.Count > 0 || item.Level >= 2)
             {
+                item.Count = 0;
+                item.Level = 1;
+                item.RequiredCount = 2;
+
                 resetItems.Add(item);
             }
         }
         itemManager.ResetItemImages(resetItems);  // 소지 중인 아이템만 전달
 
-        // itemManager.SetTextData(data.itemtextData); // 이거 어캐 초기화시키노..
-
-
+        foreach (var item in resetItems)
+        {
+            itemManager.UpdateItemText(item.Name, resetItems);
+        }
 
         // PetManager
 
@@ -578,16 +569,22 @@ public class DataManager : MonoBehaviour
         List<Pet> resetpets = new List<Pet>();
         foreach (var pet in petManager.pets)
         {
-            if (pet.Count > 0 || pet.Level >= 2) 
+            if (pet.Count > 0 || pet.Level >= 2)
             {
+                pet.Count = 0;
+                pet.Level = 1;
+                pet.RequiredCount = 2;
                 resetpets.Add(pet);
             }
         }
 
         petManager.Pet.SetActive(false);  // 활성화
         petManager.UpdateResetPetImages(resetpets);
+        foreach (var pet in resetpets)
+        {
+            petManager.UpdatePetText(pet.Name);
+        }
 
-        //petManager.SetTextData(data.pettextData); // 얘도 초기화해야함..
 
 
         // QuestUI
@@ -596,12 +593,9 @@ public class DataManager : MonoBehaviour
         // questCSVReader.LoadQuests();
         // questManager.SetQuest(questList);
 
-
         //questUI.questNameText.text = "튜토리얼 1";
         //questUI.questProgressText.text = "공격력 강화 ( 0 / 20 )";
         //questUI.questRewardText.text = "보상 : 200 젬";
-
-
 
         // GameManager
         gameManager.IncreaseGold(0);
@@ -613,8 +607,5 @@ public class DataManager : MonoBehaviour
 
         //Debug.Log("게임 불러오기 완료");
         uiManager.PowerLevel.text = $"전투력 : {TextFormatter.FormatText(10)}";
-
-
     }
-
 }

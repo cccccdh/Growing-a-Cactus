@@ -15,7 +15,7 @@ public class ItemCSVReader : MonoBehaviour
         itemManager.SetItems(itemList);
     }
 
-    void ReadCSV()
+    public void ReadCSV()
     {
         using (StringReader reader = new StringReader(csvFile.text))
         {

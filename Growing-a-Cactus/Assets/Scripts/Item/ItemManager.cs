@@ -258,7 +258,23 @@ public class ItemManager : MonoBehaviour
                 if (image.name == result.Name)
                 {
                     Color color = image.color;
-                    color.a = 0.4f; // 이미지의 알파 값을 1로 설정하여 보이게 함
+                    color.a = 0.4f; // 이미지의 알파 값을 0.4로 설정하여 안 보이게 함
+                    image.color = color;
+                }
+            }
+        }
+    }
+
+    public void ResetItemtextsInList(List<Item> resultItemList, Image[] images)
+    {
+        foreach (var result in resultItemList)
+        {
+            foreach (var image in images)
+            {
+                if (image.name == result.Name)
+                {
+                    Color color = image.color;
+                    color.a = 0.4f; // 이미지의 알파 값을 0.4로 설정하여 안 보이게 함
                     image.color = color;
                 }
             }
@@ -551,4 +567,5 @@ public class ItemManager : MonoBehaviour
                 armorLevelTexts[i].text = textData.armorLevelTexts[i];
         }
     }
+    
 }
