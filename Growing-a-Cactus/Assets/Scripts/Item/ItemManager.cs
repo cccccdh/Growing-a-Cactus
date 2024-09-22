@@ -192,6 +192,30 @@ public class ItemManager : MonoBehaviour
         return 0; // 아이템이 리스트에 없으면 0 반환
     }
 
+    // 장비 레벨이 2 이상인 장비의 개수를 가져오는 함수
+    public int GetItemsLevelUp(int count)
+    {
+        int highLevelItems = 0;
+
+        foreach (var item in weaponItems)
+        {
+            if (item.Level >= count)
+            {
+                highLevelItems++;
+            }
+        }
+
+        foreach (var item in armorItems)
+        {
+            if (item.Level >= count)
+            {
+                highLevelItems++;
+            }
+        }
+
+        return highLevelItems;
+    }
+
     // 무기 아이템 색상 값 가져오기
     public Color GetColorForWeapon(string weaponName)
     {
@@ -265,21 +289,6 @@ public class ItemManager : MonoBehaviour
         }
     }
 
-    public void ResetItemtextsInList(List<Item> resultItemList, Image[] images)
-    {
-        foreach (var result in resultItemList)
-        {
-            foreach (var image in images)
-            {
-                if (image.name == result.Name)
-                {
-                    Color color = image.color;
-                    color.a = 0.4f; // 이미지의 알파 값을 0.4로 설정하여 안 보이게 함
-                    image.color = color;
-                }
-            }
-        }
-    }
     // 아이템에 따라 UI 텍스트를 업데이트하는 메서드
     public void UpdateItemText(string itemName, List<Item> items)
     {
@@ -527,6 +536,8 @@ public class ItemManager : MonoBehaviour
                         EquipItem(); // 장착된 아이템 UI 업데이트
                     }
                 }
+
+                QuestManager.instance.UpdateQuestProgress(0, "장비 강화");
                 break;
             }
         }

@@ -130,7 +130,6 @@ public class PlayerStatus : MonoBehaviour
     public void OnClickIncrease(string status)
     {
         PerformIncrease(status);
-        QuestManager.instance.UpdateQuestProgress(0, "");
     }
 
     // 무기 보유효과 -> 공격력 증가
@@ -442,6 +441,7 @@ public class PlayerStatus : MonoBehaviour
             }
         }
         playerController.SetHpR(Hp_Recovery);
+        QuestManager.instance.UpdateQuestProgress(0, "체력재생 강화");
         uiManager.Update_Text("Hp_Recovery", Hp_Recovery, Hp_Recovery_Level, Hp_Recovery_Cost);
     }
 
@@ -527,6 +527,7 @@ public class PlayerStatus : MonoBehaviour
         if (Attack_Speed_Level == 200)
             uiManager.UnLock("DoubleAttack");
 
+        QuestManager.instance.UpdateQuestProgress(0, "공격속도 강화");
         uiManager.Update_Text("Attack_Speed", Attack_Speed, Attack_Speed_Level, (int)Attack_Speed_Cost);
     }
 
@@ -554,6 +555,7 @@ public class PlayerStatus : MonoBehaviour
                 Critical_Cost += (int)1.05f;
             }
         }
+        QuestManager.instance.UpdateQuestProgress(0, "치명타확률 강화");
         uiManager.Update_Text("Critical", Critical, Critical_Level, Critical_Cost);
     }
 

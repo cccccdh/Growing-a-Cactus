@@ -1,3 +1,4 @@
+using DG.Tweening.Core.Easing;
 using System;
 using TMPro;
 using UnityEngine;
@@ -167,6 +168,7 @@ public class GameManager : MonoBehaviour
             UpdateGoldText();
         }
     }
+
     public void IncreaseGem(int amount)
     {
         gem += amount;
@@ -185,13 +187,17 @@ public class GameManager : MonoBehaviour
 
     public void IncreaseStage()
     {
+        // 라운드 증가
         roundNumber++;
-
         if (roundNumber > 10)
         {
             roundNumber = 1;
             stageNumber++;
         }
+
+        // 퀘스트 스테이지 갱신
+        QuestManager.instance.UpdateQuestProgress(1, "스테이지 클리어");
+        Debug.Log($"퀘스트 스테이지 갱신");
 
         UpdateStageText();
 
