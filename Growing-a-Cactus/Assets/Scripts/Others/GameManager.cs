@@ -159,7 +159,7 @@ public class GameManager : MonoBehaviour
         UpdateGoldText();
     }
 
-    public void DecreaseGold(int amount)
+    public void DecreaseGold(double amount)
     {
         if (gold >= amount)
         {
