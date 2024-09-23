@@ -40,8 +40,9 @@ public class QuestUI : MonoBehaviour
 
         questNameText.text = $"[ Æ©Åä¸®¾ó {quest.Id} ]";
 
-        questProgressText.text = $"{quest.Description}";
-        questDescriptionText.text = $"{quest.GoalCount} / {quest.Goal} ";
+        questDescriptionText.text = $"{quest.Description}";
+
+        questProgressText.text = $"( {quest.GoalCount} / {quest.Goal} )";
 
         questRewardText.text = quest.Reward != 0 ? $"º¸»ó : {quest.Reward} Áª" : "";
     }

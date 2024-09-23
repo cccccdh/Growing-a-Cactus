@@ -123,6 +123,7 @@ public class BossScript : MonoBehaviour
         if (questManager != null)
         {
             questManager.UpdateQuestProgress(1, "적 처치"); // 몬스터 처치 수 업데이트
+            questManager.UpdateQuestProgress(1, "보스 처치"); // 몬스터 처치 수 업데이트
         }
     }
 

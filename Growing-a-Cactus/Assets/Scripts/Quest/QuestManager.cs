@@ -182,7 +182,8 @@ public class QuestManager : MonoBehaviour
                         quest.GoalCount = itemManager.GetItemsLevelUp(2);
                         break;
 
-                    case "보스 처치":                        
+                    case "보스 처치":
+                        quest.GoalCount += increment;
                         break;
 
                     case "의상 뽑기":
