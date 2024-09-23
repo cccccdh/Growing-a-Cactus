@@ -21,7 +21,7 @@ public class StatusUIManager : MonoBehaviour
         Init_Texts();
     }
 
-    private void Init_Texts()
+    public void Init_Texts()
     {
         stat_Attack.text = $"{status.Attack}";
         stat_Hp.text = $"{status.effectiveHP}";

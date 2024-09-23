@@ -8,6 +8,7 @@ public class QuestUI : MonoBehaviour
 
     public Image questImage;
     public TextMeshProUGUI questNameText;
+    public TextMeshProUGUI questDescriptionText;
     public TextMeshProUGUI questProgressText;
     public TextMeshProUGUI questRewardText;
 
@@ -39,7 +40,8 @@ public class QuestUI : MonoBehaviour
 
         questNameText.text = $"[ Æ©Åä¸®¾ó {quest.Id} ]";
 
-        questProgressText.text = $"{quest.Description} \n ( {quest.GoalCount} / {quest.Goal} )";
+        questProgressText.text = $"{quest.Description}";
+        questDescriptionText.text = $"{quest.GoalCount} / {quest.Goal} ";
 
         questRewardText.text = quest.Reward != 0 ? $"º¸»ó : {quest.Reward} Áª" : "";
     }

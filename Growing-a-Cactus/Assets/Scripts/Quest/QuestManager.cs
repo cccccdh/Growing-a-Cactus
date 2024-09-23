@@ -182,6 +182,18 @@ public class QuestManager : MonoBehaviour
                         quest.GoalCount = itemManager.GetItemsLevelUp(2);
                         break;
 
+                    case "보스 처치":                        
+                        break;
+
+                    case "의상 뽑기":
+                        clothescount += increment;
+                        quest.GoalCount = clothescount;
+                        break;
+
+                    case "치명타 피해 강화":
+                        quest.GoalCount = playerStatus.Critical_Damage_Level;
+                        break;
+
                     default:
                         Debug.LogWarning($"알 수 없는 퀘스트 설명: {description}");
                         break;
@@ -192,7 +204,6 @@ public class QuestManager : MonoBehaviour
             }
         }
     }
-
 
     public void Reward()
     {
