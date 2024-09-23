@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEditor.Progress;
 
 public class ItemManager : MonoBehaviour
 {
@@ -11,6 +12,7 @@ public class ItemManager : MonoBehaviour
     public Image EquipWeaponImg;
     public TextMeshProUGUI EquipWeaponText;
     public TextMeshProUGUI EquipWeaponLevelText;
+    public TextMeshProUGUI EquipWeaponEquipEffectText;
     public TextMeshProUGUI WeaponNameText;
     public TextMeshProUGUI WeaponGradeText;
     public TextMeshProUGUI WeaponLevelText;
@@ -28,6 +30,7 @@ public class ItemManager : MonoBehaviour
     public Image EquipArmorImg;
     public TextMeshProUGUI EquipArmorText;
     public TextMeshProUGUI EquipArmorLevelText;
+    public TextMeshProUGUI EquipArmorEquipEffectText;
     public TextMeshProUGUI ArmorNameText;
     public TextMeshProUGUI ArmorGradeText;
     public TextMeshProUGUI ArmorLevelText;
@@ -395,6 +398,7 @@ public class ItemManager : MonoBehaviour
                 EquipWeaponImg.color = selectedItemColor; // 장착된 무기 이미지 색상 업데이트
                 EquipWeaponText.text = selectedItemName; // 장착된 무기 이름 텍스트 업데이트
                 EquipWeaponLevelText.text = $"Lv.{selectedItem.Level}"; // 장착된 무기 레벨 텍스트 업데이트
+                EquipWeaponEquipEffectText.text = $"공격력 + {TextFormatter.FormatText(selectedItem.EquipEffect * 100)}%"; // 장착 효과 텍스트 업데이트
 
                 // 플레이어에게 무기 장착 효과 부여
                 playerstatus.EquipWeapon(selectedItem);
@@ -407,6 +411,7 @@ public class ItemManager : MonoBehaviour
                 EquipArmorImg.color = selectedItemColor; // 장착된 방어구 이미지 색상 업데이트
                 EquipArmorText.text = selectedItemName; // 장착된 방어구 이름 텍스트 업데이트
                 EquipArmorLevelText.text = $"Lv.{selectedItem.Level}"; // 장착된 방어구 레벨 텍스트 업데이트
+                EquipArmorEquipEffectText.text = $"체력 + {TextFormatter.FormatText(selectedItem.EquipEffect * 100)}%"; // 장착 효과 텍스트 업데이트
 
                 // 플레이어에게 방어구 장착 효과 부여
                 playerstatus.EquipArmor(selectedItem);

@@ -26,6 +26,7 @@ public class GameManager : MonoBehaviour
     public GameObject ShopPage;
     public GameObject GachaPage;
     public GameObject CharacterPage;
+    public GameObject ClothesPage;
     public GameObject WeaponPage;
     public GameObject ArmorPage;
     public GameObject PetPage;
@@ -54,6 +55,7 @@ public class GameManager : MonoBehaviour
     public bool isOpenShop = false;
     public bool isOpenGacha = false;
     public bool isOpenCharacter = false;
+    public bool isOpenClothes = false;
     public bool isOpenWeapon = false;
     public bool isOpenArmor = false;
     public bool isOpenPet = false;
@@ -98,6 +100,7 @@ public class GameManager : MonoBehaviour
         ShopPage.SetActive(false);
         GachaPage.SetActive(false);
         CharacterPage.SetActive(false);
+        ClothesPage.SetActive(false);
         WeaponPage.SetActive(false);
         ArmorPage.SetActive(false);
         PetPage.SetActive(false);
@@ -116,6 +119,7 @@ public class GameManager : MonoBehaviour
         else if (isOpenCharacter && !isOpenShop && !isOpenPet)
         {
             CharacterPage.SetActive(true);
+            ClothesPage.SetActive(isOpenClothes);
             WeaponPage.SetActive(isOpenWeapon);
             ArmorPage.SetActive(isOpenArmor);
         }
@@ -160,7 +164,7 @@ public class GameManager : MonoBehaviour
         UpdateGoldText();
     }
 
-    public void DecreaseGold(int amount)
+    public void DecreaseGold(double amount)
     {
         if (gold >= amount)
         {
@@ -230,6 +234,7 @@ public class GameManager : MonoBehaviour
         isOpenShop = false;
         isOpenGacha = false;
         isOpenCharacter = false;
+        isOpenClothes = false;
         isOpenWeapon = false;
         isOpenArmor = false;
         isOpenPet = false;
@@ -282,6 +287,11 @@ public class GameManager : MonoBehaviour
         bool newState = !isOpenOption;
         ResetAllFlags();
         isOpenOption = newState;
+    }
+
+    public void OpenClothes()
+    {
+        isOpenClothes = !isOpenClothes;
     }
 
     public void OpenWeapon()

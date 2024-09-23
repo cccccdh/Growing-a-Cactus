@@ -588,17 +588,19 @@ public class DataManager : MonoBehaviour
 
 
         // QuestUI
-        // List<Quest> questList = new List<Quest>();
 
-        // questCSVReader.LoadQuests();
-        // questManager.SetQuest(questList);
+        questCSVReader.questList.Clear(); // 리스트를 명확히 비워줍니다.
+        questCSVReader.LoadQuests(); // CSV에서 퀘스트 데이터를 다시 로드
 
-        //questUI.questNameText.text = "튜토리얼 1";
-        //questUI.questProgressText.text = "공격력 강화 ( 0 / 20 )";
-        //questUI.questRewardText.text = "보상 : 200 젬";
+        // QuestManager에 새로운 퀘스트 리스트 설정
+        questManager.SetQuest(questCSVReader.questList);
+
+        // UI 초기화
+        Quest initialQuest = questManager.quests[0]; // 첫 번째 퀘스트를 가져옵니다.
+        questUI.UpdateQuestUI(initialQuest); // 첫 번째 퀘스트 정보를 UI에 반영
 
         // GameManager
-        gameManager.IncreaseGold(0);
+        gameManager.DecreaseGold(gameManager.gold);
         gameManager.gem = 0;
         gameManager.UpdateGemText();
         gameManager.stageNumber = 1;
