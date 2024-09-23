@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -18,10 +19,17 @@ public class QuestManager : MonoBehaviour
         }
     }
 
+    private int equipmentcount;
+    private int petcount;
+    private int clothescount;
+    
+    [Header("스크립트 참조")]
     public PlayerStatus playerStatus;
     public GachaManager gachaManager;
+    public GameManager gameManager;
+    public ItemManager itemManager;
 
-    public List<Quest> quests = new List<Quest>();
+    public List<Quest> quests = new List<Quest>();        
 
     private void Update()
     {
@@ -57,8 +65,12 @@ public class QuestManager : MonoBehaviour
             if(quest.Requirement == "None" && !quest.IsActive)
             {
                 quest.IsActive = true;
+
                 // 퀘스트 활성화
                 Debug.Log("퀘스트 활성화");
+
+                // 퀘스트 UI 초기화
+                UpdateQuestProgress(0, "공격력 강화");
                 QuestUI.instance.UpdateQuestUI(quest);
             }
         }
@@ -84,17 +96,17 @@ public class QuestManager : MonoBehaviour
                 {
                     Debug.Log($"다음 퀘스트 시작 : {quest.Title}");
 
+                    // 퀘스트 완료
                     quest.IsActive = true;
+
+                    // 퀘스트 UI 초기화
+                    UpdateQuestProgress(0, quest.Description);
 
                     if (quest.UnlockFeature != "None")
                     {
                         Debug.Log("뽑기 해금");
                         UnlockFeature(quest.UnlockFeature);
                     }
-
-                    // UI 업데이트
-                    UpdateQuestProgress(0, "");
-                    QuestUI.instance.UpdateQuestUI(quest);
                 }
             }
         }
@@ -124,36 +136,63 @@ public class QuestManager : MonoBehaviour
     {
         foreach (var quest in quests)
         {
-            if (quest.IsActive)
-            {                
-                // 적 처치
-                if (quest.Description == description)
+            if (quest.IsActive && quest.Description == description)
+            {
+                switch (description)
                 {
-                    quest.GoalCount += increment;
-                }
-                // 공격력 강화
-                else if (quest.Description == "공격력 강화")
-                {
-                    quest.GoalCount = playerStatus.Attack_Level;                    
-                }
-                // 체력 강화
-                else if (quest.Description == "체력 강화")
-                {
-                    quest.GoalCount = playerStatus.Hp_Level;
-                }
-                // 스테이지 1-10 클리어
-                else if (quest.Description == "1 - 10 스테이지 클리어")
-                {
-                    // 스테이지 클리어와 관련된 목표는 플레이어의 스테이지 상태를 확인해야 합니다.
-                    // 이를 위한 로직을 추가합니다.
+                    case "적 처치":
+                        quest.GoalCount += increment;
+                        break;
+
+                    case "장비 뽑기":
+                        equipmentcount += increment;
+                        quest.GoalCount = equipmentcount;
+                        break;
+
+                    case "펫 뽑기":
+                        petcount += increment;
+                        quest.GoalCount = petcount;
+                        break;
+
+                    case "공격력 강화":
+                        quest.GoalCount = playerStatus.Attack_Level;
+                        break;
+
+                    case "체력 강화":
+                        quest.GoalCount = playerStatus.Hp_Level;
+                        break;
+
+                    case "스테이지 클리어":
+                        quest.GoalCount = gameManager.roundNumber;
+                        break;
+
+                    case "체력재생 강화":
+                        quest.GoalCount = playerStatus.Hp_Recovery_Level;
+                        break;
+
+                    case "치명타확률 강화":
+                        quest.GoalCount = playerStatus.Critical_Level;
+                        break;
+
+                    case "공격속도 강화":
+                        quest.GoalCount = playerStatus.Attack_Speed_Level;
+                        break; 
+
+                    case "장비 강화":
+                        quest.GoalCount = itemManager.GetItemsLevelUp(2);
+                        break;
+
+                    default:
+                        Debug.LogWarning($"알 수 없는 퀘스트 설명: {description}");
+                        break;
                 }
 
                 QuestUI.instance.UpdateQuestUI(quest);
-
-                break; // 현재 진행 중인 퀘스트 찾은 후 반복문 종료
+                break;
             }
         }
     }
+
 
     public void Reward()
     {

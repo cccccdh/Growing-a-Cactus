@@ -76227,9 +76227,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1311017658}
-  - component: {fileID: 1311017657}
-  - component: {fileID: 1311017659}
   - component: {fileID: 1311017660}
+  - component: {fileID: 1311017659}
+  - component: {fileID: 1311017657}
   m_Layer: 0
   m_Name: QuestManager
   m_TagString: Untagged
@@ -76251,6 +76251,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerStatus: {fileID: 1945133264}
   gachaManager: {fileID: 328319259}
+  gameManager: {fileID: 963673988}
+  itemManager: {fileID: 1228576298}
   quests: []
 --- !u!4 &1311017658
 Transform:
@@ -76279,6 +76281,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 749a148ee15d50a4db0230a82a32b819, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  questImage: {fileID: 1601732624}
   questNameText: {fileID: 253045745}
   questProgressText: {fileID: 1054021431}
   questRewardText: {fileID: 1449000821}
@@ -92621,14 +92624,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 0.6862745}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: cd0eaedf897f1104cbca5defd3ab8e1c, type: 3}
+  m_Sprite: {fileID: 21300000, guid: cf48f4c3501ac8d4e9ce00878f3b291c, type: 3}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -123094,8 +123097,8 @@ SceneRoots:
   - {fileID: 1846940896}
   - {fileID: 1803235548}
   - {fileID: 1019613261}
-  - {fileID: 986739119}
   - {fileID: 963673989}
+  - {fileID: 986739119}
   - {fileID: 753089185}
   - {fileID: 384226809}
   - {fileID: 1228576295}

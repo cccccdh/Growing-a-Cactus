@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class PlayerStatus : MonoBehaviour
 {
-    // UIManager¿Í PlayerController ÂüÁ¶
+    // UIManagerì™€ PlayerController ì°¸ì¡°
     public UIManager uiManager;
     public StatusUIManager statusUIManager;
     public PlayerController playerController;
 
-    // ÇÃ·¹ÀÌ¾î ½ºÅÈ º¯¼ö
+    // í”Œë ˆì´ì–´ ìŠ¤íƒ¯ ë³€ìˆ˜
     public double Attack;
     public int Attack_Level;
     public int Attack_Cost;
@@ -48,12 +48,12 @@ public class PlayerStatus : MonoBehaviour
     public double PowerLevel;
     public double effectiveHP;
 
-    // ¹öÆ° »óÅÂ º¯¼ö
+    // ë²„íŠ¼ ìƒíƒœ ë³€ìˆ˜
     private bool isButtonDowning = false;
     private string currentStatus = null;
     private float holdTime = 0f;
 
-    // ¾ÆÀÌÅÛ È¿°ú º¯¼ö
+    // ì•„ì´í…œ íš¨ê³¼ ë³€ìˆ˜
     public float weaponTotalEquipEffect = 0f;
     public float weaponTotalRetentionEffect = 0f;
     public float armorTotalEquipEffect = 0f;
@@ -131,10 +131,9 @@ public class PlayerStatus : MonoBehaviour
     public void OnClickIncrease(string status)
     {
         PerformIncrease(status);
-        QuestManager.instance.UpdateQuestProgress(0, "");
     }
 
-    // ¹«±â º¸À¯È¿°ú -> °ø°İ·Â Áõ°¡
+    // ë¬´ê¸° ë³´ìœ íš¨ê³¼ -> ê³µê²©ë ¥ ì¦ê°€
     public void UpdateWeaponRetentionEffects(List<Item> items)
     {
         weaponTotalRetentionEffect = 0;
@@ -143,13 +142,13 @@ public class PlayerStatus : MonoBehaviour
             if (item.Count > 0 || (item.Count == 0 && item.Level > 1))
             {
                 weaponTotalRetentionEffect += item.RetentionEffect;
-                //Debug.Log($"ÀüÃ¼ º¸À¯È¿°ú : {weaponTotalRetentionEffect}");
+                //Debug.Log($"ì „ì²´ ë³´ìœ íš¨ê³¼ : {weaponTotalRetentionEffect}");
             }
         }
         UpdatePowerLevel();
     }
 
-    // ¹æ¾î±¸ º¸À¯È¿°ú -> Ã¼·Â Áõ°¡
+    // ë°©ì–´êµ¬ ë³´ìœ íš¨ê³¼ -> ì²´ë ¥ ì¦ê°€
     public void UpdateArmorRetentionEffects(List<Item> items)
     {
         armorTotalRetentionEffect = 0;
@@ -158,13 +157,13 @@ public class PlayerStatus : MonoBehaviour
             if (item.Count > 0 || (item.Count == 0 && item.Level > 1))
             {
                 armorTotalRetentionEffect += item.RetentionEffect;
-                //Debug.Log($"ÀüÃ¼ º¸À¯È¿°ú : {armorTotalRetentionEffect}");
+                //Debug.Log($"ì „ì²´ ë³´ìœ íš¨ê³¼ : {armorTotalRetentionEffect}");
             }
         }
         UpdateHP();
     }
     
-    // Æê º¸À¯È¿°ú -> °ø°İ·Â Áõ°¡
+    // í« ë³´ìœ íš¨ê³¼ -> ê³µê²©ë ¥ ì¦ê°€
     public void UpdatePetRetentionEffects(List<Pet> pets)
     {
         petTotalRetentionEffect = 0;
@@ -173,13 +172,13 @@ public class PlayerStatus : MonoBehaviour
             if (pet.Count > 0 || (pet.Count == 0 && pet.Level > 1))
             {
                 petTotalRetentionEffect += pet.RetentionEffect;
-                //Debug.Log($"ÀüÃ¼ Æê º¸À¯È¿°ú : {petTotalRetentionEffect}");
+                //Debug.Log($"ì „ì²´ í« ë³´ìœ íš¨ê³¼ : {petTotalRetentionEffect}");
             }
         }
         UpdatePowerLevel();
     }
 
-    // ÀÇ»ó º¸À¯È¿°ú -> °ø°İ·Â Áõ°¡
+    // ì˜ìƒ ë³´ìœ íš¨ê³¼ -> ê³µê²©ë ¥ ì¦ê°€
     public void UpdateClothesRetentionEffects(List<Clothes> clothes)
     {
         clothesTotalRetentionEffect = 0;
@@ -188,13 +187,13 @@ public class PlayerStatus : MonoBehaviour
             if (cloth.Count > 0 || (cloth.Count == 0 && cloth.Level > 1))
             {
                 clothesTotalRetentionEffect += cloth.RetentionEffect;
-                //Debug.Log($"ÀüÃ¼ ÀÇ»ó º¸À¯È¿°ú : {clothesTotalRetentionEffect}");
+                //Debug.Log($"ì „ì²´ ì˜ìƒ ë³´ìœ íš¨ê³¼ : {clothesTotalRetentionEffect}");
             }
         }
         UpdatePowerLevel();
     }
 
-    // ¹«±â ÀåÂø È¿°ú -> °ø°İ·Â Áõ°¡
+    // ë¬´ê¸° ì¥ì°© íš¨ê³¼ -> ê³µê²©ë ¥ ì¦ê°€
     public void EquipWeapon(Item item)
     {
         if (equippedWeapon != null)
@@ -209,7 +208,7 @@ public class PlayerStatus : MonoBehaviour
         UpdatePowerLevel();
     }
 
-    // ¹æ¾î±¸ ÀåÂøÈ¿°ú -> Ã¼·Â Áõ°¡
+    // ë°©ì–´êµ¬ ì¥ì°©íš¨ê³¼ -> ì²´ë ¥ ì¦ê°€
     public void EquipArmor(Item item)
     {
         if (equippedArmor != null)
@@ -224,7 +223,7 @@ public class PlayerStatus : MonoBehaviour
         UpdateHP();
     }
 
-    // Æê ÀåÂøÈ¿°ú -> °ø°İ·Â Áõ°¡
+    // í« ì¥ì°©íš¨ê³¼ -> ê³µê²©ë ¥ ì¦ê°€
     public void EquipPet(Pet pet)
     {
         if (equippedPet != null)
@@ -247,42 +246,42 @@ public class PlayerStatus : MonoBehaviour
 
     public void UpdatePowerLevel()
     {
-        // ·Î±×·Î »óÅÂ È®ÀÎ
-        //Debug.Log($"°ø°İ·Â : {Attack}");
-        //Debug.Log($"ÃÑ ¹«±â º¸À¯È¿°ú : {weaponTotalRetentionEffect}");
-        //Debug.Log($"ÃÑ ¹«±â ÀåÂøÈ¿°ú : {weaponTotalEquipEffect}");
-        //Debug.Log($"ÃÑ Æê º¸À¯È¿°ú : {petTotalRetentionEffect}");
-        //Debug.Log($"ÃÑ Æê ÀåÂøÈ¿°ú : {petTotalEquipEffect}");
+        // ë¡œê·¸ë¡œ ìƒíƒœ í™•ì¸
+        //Debug.Log($"ê³µê²©ë ¥ : {Attack}");
+        //Debug.Log($"ì´ ë¬´ê¸° ë³´ìœ íš¨ê³¼ : {weaponTotalRetentionEffect}");
+        //Debug.Log($"ì´ ë¬´ê¸° ì¥ì°©íš¨ê³¼ : {weaponTotalEquipEffect}");
+        //Debug.Log($"ì´ í« ë³´ìœ íš¨ê³¼ : {petTotalRetentionEffect}");
+        //Debug.Log($"ì´ í« ì¥ì°©íš¨ê³¼ : {petTotalEquipEffect}");
 
-        double effect = Attack * (1 + weaponTotalRetentionEffect + petTotalRetentionEffect + clothesTotalRetentionEffect); // º¸À¯ È¿°ú Àû¿ë
-        effect *= (1 + weaponTotalEquipEffect + petTotalEquipEffect); // ÀåÂø È¿°ú Àû¿ë
+        double effect = Attack * (1 + weaponTotalRetentionEffect + petTotalRetentionEffect + clothesTotalRetentionEffect); // ë³´ìœ  íš¨ê³¼ ì ìš©
+        effect *= (1 + weaponTotalEquipEffect + petTotalEquipEffect); // ì¥ì°© íš¨ê³¼ ì ìš©
 
         PowerLevel = effect;
 
-        // ·Î±×·Î °è»ê °á°ú È®ÀÎ
-        //Debug.Log($"ÀüÅõ·Â : {PowerLevel}");
+        // ë¡œê·¸ë¡œ ê³„ì‚° ê²°ê³¼ í™•ì¸
+        //Debug.Log($"ì „íˆ¬ë ¥ : {PowerLevel}");
         //Debug.Log($"==================================================");
 
-        // UI °»½Å
+        // UI ê°±ì‹ 
         uiManager.PowerLevelTEXT(PowerLevel);
     }
 
     public void UpdateHP()
     {
-        // ·Î±×·Î »óÅÂ È®ÀÎ
-        //Debug.Log($"Ã¼·Â : {Hp}");
-        //Debug.Log($"ÃÑ º¸À¯È¿°ú : {armorTotalRetentionEffect}");
-        //Debug.Log($"ÃÑ ÀåÂøÈ¿°ú : {armorTotalEquipEffect}");
+        // ë¡œê·¸ë¡œ ìƒíƒœ í™•ì¸
+        //Debug.Log($"ì²´ë ¥ : {Hp}");
+        //Debug.Log($"ì´ ë³´ìœ íš¨ê³¼ : {armorTotalRetentionEffect}");
+        //Debug.Log($"ì´ ì¥ì°©íš¨ê³¼ : {armorTotalEquipEffect}");
 
-        double effect = Hp * (1 + armorTotalRetentionEffect); // º¸À¯ È¿°ú Àû¿ë
-        effect *= (1 + armorTotalEquipEffect); // ÀåÂø È¿°ú Àû¿ë
+        double effect = Hp * (1 + armorTotalRetentionEffect); // ë³´ìœ  íš¨ê³¼ ì ìš©
+        effect *= (1 + armorTotalEquipEffect); // ì¥ì°© íš¨ê³¼ ì ìš©
 
         effectiveHP = effect;
 
-        // ·Î±×·Î °è»ê °á°ú È®ÀÎ
-        //Debug.Log($"Ã¼·Â : {effectiveHP}");
+        // ë¡œê·¸ë¡œ ê³„ì‚° ê²°ê³¼ í™•ì¸
+        //Debug.Log($"ì²´ë ¥ : {effectiveHP}");
 
-        // UI °»½Å
+        // UI ê°±ì‹ 
         uiManager.Update_Text("Hp", effectiveHP, Hp_Level, Hp_Cost);
         statusUIManager.UpdateStatText("Hp");
     }
@@ -303,7 +302,7 @@ public class PlayerStatus : MonoBehaviour
         UpdateButtonInteractivity();
     }
 
-    // º¸À¯ °ñµå¿¡ µû¶ó ¹öÆ° »óÅÂ È®ÀÎ ÇÔ¼ö
+    // ë³´ìœ  ê³¨ë“œì— ë”°ë¼ ë²„íŠ¼ ìƒíƒœ í™•ì¸ í•¨ìˆ˜
     public void UpdateButtonInteractivity()
     {
         UpdateButtonState("Attack", GameManager.instance.Gold >= Attack_Cost);
@@ -316,7 +315,7 @@ public class PlayerStatus : MonoBehaviour
         UpdateButtonState("TripleAttack", GameManager.instance.Gold >= TripleAttack_Cost);
     }
 
-    // ¹öÆ° »óÅÂ º¯°æ
+    // ë²„íŠ¼ ìƒíƒœ ë³€ê²½
     private void UpdateButtonState(string status, bool isInteractable)
     {
         uiManager.UpdateButtonInteractivity(status, isInteractable);
@@ -361,7 +360,7 @@ public class PlayerStatus : MonoBehaviour
         }
     }   
 
-    // °ø°İ·Â °­È­
+    // ê³µê²©ë ¥ ê°•í™”
     private void EnhanceAttack()
     {
         GameManager.instance.DecreaseGold(Attack_Cost);
@@ -390,15 +389,15 @@ public class PlayerStatus : MonoBehaviour
 
         UpdatePowerLevel();
 
-        // Äù½ºÆ® ¹İ¿µ
-        QuestManager.instance.UpdateQuestProgress(0, "°ø°İ·Â °­È­");
+        // í€˜ìŠ¤íŠ¸ ë°˜ì˜
+        QuestManager.instance.UpdateQuestProgress(0, "ê³µê²©ë ¥ ê°•í™”");
 
-        // UI ¹İ¿µ
+        // UI ë°˜ì˜
         uiManager.Update_Text("Attack", Attack, Attack_Level, Attack_Cost);
         statusUIManager.UpdateStatText("Attack");
     }
 
-    // Ã¼·Â °­È­
+    // ì²´ë ¥ ê°•í™”
     private void EnhanceHp()
     {
         GameManager.instance.DecreaseGold(Hp_Cost);
@@ -428,15 +427,15 @@ public class PlayerStatus : MonoBehaviour
         UpdateHP();
         playerController.SetHp(Increase_HP);
         
-        // Äù½ºÆ® ¹İ¿µ
-        QuestManager.instance.UpdateQuestProgress(0, "Ã¼·Â °­È­");
+        // í€˜ìŠ¤íŠ¸ ë°˜ì˜
+        QuestManager.instance.UpdateQuestProgress(0, "ì²´ë ¥ ê°•í™”");
 
-        // UI °»½Å
+        // UI ê°±ì‹ 
         uiManager.Update_Text("Hp", effectiveHP, Hp_Level, Hp_Cost);
         statusUIManager.UpdateStatText("Hp");
     }
 
-    // Ã¼·ÂÀç»ı °­È­
+    // ì²´ë ¥ì¬ìƒ ê°•í™”
     private void EnhanceHpRecovery()
     {
         GameManager.instance.DecreaseGold(Hp_Recovery_Cost);
@@ -463,13 +462,14 @@ public class PlayerStatus : MonoBehaviour
             }
         }
         playerController.SetHpR(Hp_Recovery);
+        
+        QuestManager.instance.UpdateQuestProgress(0, "ì²´ë ¥ì¬ìƒ ê°•í™”");
 
-        // UI °»½Å
         uiManager.Update_Text("Hp_Recovery", Hp_Recovery, Hp_Recovery_Level, Hp_Recovery_Cost);
         statusUIManager.UpdateStatText("Hp_Recovery");
     }
 
-    // °ø°İ¼Óµµ °­È­
+    // ê³µê²©ì†ë„ ê°•í™”
     private void EnhanceAttackSpeed()
     {
         if (Attack_Speed_Level >= 200) 
@@ -551,12 +551,13 @@ public class PlayerStatus : MonoBehaviour
         if (Attack_Speed_Level == 200)
             uiManager.UnLock("DoubleAttack");
 
-        //UI °»½Å
+        QuestManager.instance.UpdateQuestProgress(0, "ê³µê²©ì†ë„ ê°•í™”");
+
         uiManager.Update_Text("Attack_Speed", Attack_Speed, Attack_Speed_Level, (int)Attack_Speed_Cost);
         statusUIManager.UpdateStatText("Attack_Speed");
     }
 
-    // Ä¡¸íÅ¸È®·ü °­È­
+    // ì¹˜ëª…íƒ€í™•ë¥  ê°•í™”
     private void EnhanceCritical()
     {
         if (Critical_Level >= 1000)
@@ -580,13 +581,13 @@ public class PlayerStatus : MonoBehaviour
                 Critical_Cost += (int)1.05f;
             }
         }
+        QuestManager.instance.UpdateQuestProgress(0, "ì¹˜ëª…íƒ€í™•ë¥  ê°•í™”");
 
-        // UI °»½Å
         uiManager.Update_Text("Critical", Critical, Critical_Level, Critical_Cost);
         statusUIManager.UpdateStatText("Critical");
     }
 
-    // Ä¡¸íÅ¸µ¥¹ÌÁö °­È­
+    // ì¹˜ëª…íƒ€ë°ë¯¸ì§€ ê°•í™”
     private void EnhanceCriticalDamage()
     {
         GameManager.instance.DecreaseGold(Critical_Damage_Cost);
@@ -612,12 +613,12 @@ public class PlayerStatus : MonoBehaviour
             }
         }
         
-        // UI °»½Å
+        // UI ê°±ì‹ 
         uiManager.Update_Text("Critical_Damage", Critical_Damage, Critical_Damage_Level, Critical_Damage_Cost);
         statusUIManager.UpdateStatText("Critical_Damage");
     }
 
-    // ´õºí°¡½Ã °­È­
+    // ë”ë¸”ê°€ì‹œ ê°•í™”
     private void EnhanceDoubleAttack()
     {
         if (Attack_Speed_Level < 200)
@@ -634,12 +635,12 @@ public class PlayerStatus : MonoBehaviour
         if (DoubleAttack_Level == 1000)
             uiManager.UnLock("TripleAttack");
 
-        // UI °»½Å
+        // UI ê°±ì‹ 
         uiManager.Update_Text("DoubleAttack", DoubleAttackChance, DoubleAttack_Level, DoubleAttack_Cost);
         statusUIManager.UpdateStatText("DoubleAttack");
     }
 
-    // Æ®¸®ÇÃ °¡½Ã °­È­
+    // íŠ¸ë¦¬í”Œ ê°€ì‹œ ê°•í™”
     private void EnhanceTripleAttack()
     {
         if (DoubleAttack_Level < 1000)
@@ -653,7 +654,7 @@ public class PlayerStatus : MonoBehaviour
         TripleAttack_Level++;
         TripleAttack_Cost += 20;
         
-        // UI °»½Å
+        // UI ê°±ì‹ 
         uiManager.Update_Text("TripleAttack", TripleAttackChance, TripleAttack_Level, TripleAttack_Cost);
         statusUIManager.UpdateStatText("TripleAttack");
     }

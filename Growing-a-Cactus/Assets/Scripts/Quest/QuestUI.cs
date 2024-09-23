@@ -1,13 +1,19 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class QuestUI : MonoBehaviour
 {
     public static QuestUI instance;
 
+    public Image questImage;
     public TextMeshProUGUI questNameText;
     public TextMeshProUGUI questProgressText;
     public TextMeshProUGUI questRewardText;
+
+    Color alpha;
+    Color highlight;
+    Color defalut;
 
     void Awake()
     {
@@ -15,21 +21,26 @@ public class QuestUI : MonoBehaviour
         {
             instance = this;
         }
+
+        InitializeColor();
+    }
+
+    private void InitializeColor()
+    {
+        // »ö»ó ÃÊ±âÈ­
+        alpha = questImage.color;
+        highlight = new Color(203f / 255f, 203f / 255f, 0, alpha.a);
+        defalut = new Color(0f, 0f, 0f, alpha.a);
     }
 
     public void UpdateQuestUI(Quest quest)
     {
-        questNameText.text = $"Æ©Åä¸®¾ó {quest.Id}";
+        questImage.color = quest.GoalCount >= quest.Goal ? highlight : defalut;
 
-        questProgressText.text = $"{quest.Description} ( {quest.GoalCount} / {quest.Goal} )";
+        questNameText.text = $"[ Æ©Åä¸®¾ó {quest.Id} ]";
 
-        if (quest.Reward != 0)
-        {
-            questRewardText.text = $"º¸»ó : {quest.Reward} Áª";
-        }
-        else
-        {
-            questRewardText.text = "";
-        }
+        questProgressText.text = $"{quest.Description} \n ( {quest.GoalCount} / {quest.Goal} )";
+
+        questRewardText.text = quest.Reward != 0 ? $"º¸»ó : {quest.Reward} Áª" : "";
     }
 }
