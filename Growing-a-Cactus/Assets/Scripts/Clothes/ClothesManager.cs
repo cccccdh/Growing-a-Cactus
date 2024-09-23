@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using static UnityEditor.Timeline.TimelinePlaybackControls;
 
 public class ClothesManager : MonoBehaviour
 {
@@ -19,10 +20,15 @@ public class ClothesManager : MonoBehaviour
         }
     }
 
+    [Header("Charater")]
+    public TextMeshProUGUI equipClothesName;
+    public TextMeshProUGUI equipProjectileName;
+
     [Header("Information")]
     public TextMeshProUGUI NameText;
     public TextMeshProUGUI ProjectileText;
     public TextMeshProUGUI LevelText;
+    public TextMeshProUGUI CountText;
     public TextMeshProUGUI RetentionEffectText;
     public Button clothesEquipButton;
     public Button clothesEnhanceButton;
@@ -189,6 +195,7 @@ public class ClothesManager : MonoBehaviour
             {
                 RetentionEffectText.text = $"공격력 + {TextFormatter.FormatText(cloth.RetentionEffect * 100)}%";
                 LevelText.text = $"Lv.{cloth.Level}";
+                CountText.text = $"( {cloth.Count} / {cloth.RequiredCount} )";
                 ProjectileText.text = (cloth.Set == "Null" ? "가시" : $"{cloth.Set}");
 
                 int level = GetClothesLevel(cloth.Name);
@@ -214,6 +221,9 @@ public class ClothesManager : MonoBehaviour
             {
                 if (cloth.Name == selectedClothes.Name)
                 {
+                    equipClothesName.text = cloth.Name;
+                    equipProjectileName.text = cloth.Set;
+
                     // 플레이어에게 장착효과 부여 => 투사체 변경 및 이펙트 변경 예정
                     ShowEquippedText(selectedClothes.Name);
                     break;

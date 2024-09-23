@@ -6,6 +6,7 @@ public class PlayerStatus : MonoBehaviour
 {
     // UIManager와 PlayerController 참조
     public UIManager uiManager;
+    public StatusUIManager statusUIManager;
     public PlayerController playerController;
 
     // 플레이어 스탯 변수
@@ -262,6 +263,7 @@ public class PlayerStatus : MonoBehaviour
         //Debug.Log($"전투력 : {PowerLevel}");
         //Debug.Log($"==================================================");
 
+        // UI 갱신
         uiManager.PowerLevelTEXT(PowerLevel);
     }
 
@@ -279,13 +281,13 @@ public class PlayerStatus : MonoBehaviour
 
         // 로그로 계산 결과 확인
         //Debug.Log($"체력 : {effectiveHP}");
+
+        // UI 갱신
         uiManager.Update_Text("Hp", effectiveHP, Hp_Level, Hp_Cost);
+        statusUIManager.UpdateStatText("Hp");
     }
 
-    private void UpdateButtonState(string status, bool isInteractable)
-    {
-        uiManager.UpdateButtonInteractivity(status, isInteractable);
-    }
+    
 
     private void Update()
     {
@@ -301,7 +303,8 @@ public class PlayerStatus : MonoBehaviour
         UpdateButtonInteractivity();
     }
 
-    private void UpdateButtonInteractivity()
+    // 보유 골드에 따라 버튼 상태 확인 함수
+    public void UpdateButtonInteractivity()
     {
         UpdateButtonState("Attack", GameManager.instance.Gold >= Attack_Cost);
         UpdateButtonState("Hp", GameManager.instance.Gold >= Hp_Cost);
@@ -311,6 +314,12 @@ public class PlayerStatus : MonoBehaviour
         UpdateButtonState("Critical_Damage", GameManager.instance.Gold >= Critical_Damage_Cost);
         UpdateButtonState("DoubleAttack", GameManager.instance.Gold >= DoubleAttack_Cost);
         UpdateButtonState("TripleAttack", GameManager.instance.Gold >= TripleAttack_Cost);
+    }
+
+    // 버튼 상태 변경
+    private void UpdateButtonState(string status, bool isInteractable)
+    {
+        uiManager.UpdateButtonInteractivity(status, isInteractable);
     }
 
     private void PerformIncrease()
@@ -378,9 +387,15 @@ public class PlayerStatus : MonoBehaviour
                 Attack_Cost += 1;
             }
         }
+
         UpdatePowerLevel();
+
+        // 퀘스트 반영
         QuestManager.instance.UpdateQuestProgress(0, "공격력 강화");
+
+        // UI 반영
         uiManager.Update_Text("Attack", Attack, Attack_Level, Attack_Cost);
+        statusUIManager.UpdateStatText("Attack");
     }
 
     // 체력 강화
@@ -409,10 +424,16 @@ public class PlayerStatus : MonoBehaviour
                 Hp_Cost += 1;
             }
         }
+
         UpdateHP();
         playerController.SetHp(Increase_HP);
+        
+        // 퀘스트 반영
         QuestManager.instance.UpdateQuestProgress(0, "체력 강화");
+
+        // UI 갱신
         uiManager.Update_Text("Hp", effectiveHP, Hp_Level, Hp_Cost);
+        statusUIManager.UpdateStatText("Hp");
     }
 
     // 체력재생 강화
@@ -442,7 +463,10 @@ public class PlayerStatus : MonoBehaviour
             }
         }
         playerController.SetHpR(Hp_Recovery);
+
+        // UI 갱신
         uiManager.Update_Text("Hp_Recovery", Hp_Recovery, Hp_Recovery_Level, Hp_Recovery_Cost);
+        statusUIManager.UpdateStatText("Hp_Recovery");
     }
 
     // 공격속도 강화
@@ -527,7 +551,9 @@ public class PlayerStatus : MonoBehaviour
         if (Attack_Speed_Level == 200)
             uiManager.UnLock("DoubleAttack");
 
+        //UI 갱신
         uiManager.Update_Text("Attack_Speed", Attack_Speed, Attack_Speed_Level, (int)Attack_Speed_Cost);
+        statusUIManager.UpdateStatText("Attack_Speed");
     }
 
     // 치명타확률 강화
@@ -554,7 +580,10 @@ public class PlayerStatus : MonoBehaviour
                 Critical_Cost += (int)1.05f;
             }
         }
+
+        // UI 갱신
         uiManager.Update_Text("Critical", Critical, Critical_Level, Critical_Cost);
+        statusUIManager.UpdateStatText("Critical");
     }
 
     // 치명타데미지 강화
@@ -582,7 +611,10 @@ public class PlayerStatus : MonoBehaviour
                 Critical_Damage_Cost += 1;
             }
         }
+        
+        // UI 갱신
         uiManager.Update_Text("Critical_Damage", Critical_Damage, Critical_Damage_Level, Critical_Damage_Cost);
+        statusUIManager.UpdateStatText("Critical_Damage");
     }
 
     // 더블가시 강화
@@ -602,7 +634,9 @@ public class PlayerStatus : MonoBehaviour
         if (DoubleAttack_Level == 1000)
             uiManager.UnLock("TripleAttack");
 
+        // UI 갱신
         uiManager.Update_Text("DoubleAttack", DoubleAttackChance, DoubleAttack_Level, DoubleAttack_Cost);
+        statusUIManager.UpdateStatText("DoubleAttack");
     }
 
     // 트리플 가시 강화
@@ -618,6 +652,9 @@ public class PlayerStatus : MonoBehaviour
         TripleAttackChance += 0.1f;
         TripleAttack_Level++;
         TripleAttack_Cost += 20;
+        
+        // UI 갱신
         uiManager.Update_Text("TripleAttack", TripleAttackChance, TripleAttack_Level, TripleAttack_Cost);
+        statusUIManager.UpdateStatText("TripleAttack");
     }
 }
