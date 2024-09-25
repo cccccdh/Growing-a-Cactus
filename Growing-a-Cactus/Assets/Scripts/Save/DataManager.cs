@@ -1,11 +1,6 @@
 using System.Collections.Generic;
 using System.IO;
-using TMPro;
 using UnityEngine;
-#if UNITY_EDITOR
-using static UnityEditor.Progress;
-#endif
-
 
 public class DataManager : MonoBehaviour
 {
@@ -461,22 +456,12 @@ public class DataManager : MonoBehaviour
             }
             gachaManager.UnLockClothes = data.UnLockClothes;
 
-            Debug.Log("게임 불러오기 완료");
-            uiManager.PowerLevel.text = data.PowerLevelText;
-
-
-            // statusUIManager
-            //statusUIManager.stat_Attack.text = data.stat_Attack;
-            //statusUIManager.stat_Hp.text = data.stat_Hp;
-            //statusUIManager.stat_HpRecovery.text = data.stat_HpRecovery;
-            //statusUIManager.stat_AttackSpeed.text = data.stat_AttackSpeed;
-            //statusUIManager.stat_Critical.text = data.stat_Critical;
-            //statusUIManager.stat_CriticalDamage.text = data.stat_CriticalDamage;
-            //statusUIManager.stat_DoubleAttackChance.text = data.stat_DoubleAttackChance;
-            //statusUIManager.stat_TripleAttackChance.text = data.stat_TripleAttackChance;
+            // 스탯 창 초기화
             statusUIManager.Init_Texts();
 
+            uiManager.PowerLevel.text = data.PowerLevelText;
 
+            Debug.Log("게임 불러오기 완료");
         }
     }
     public void ResetGame()
@@ -491,28 +476,10 @@ public class DataManager : MonoBehaviour
 
         //playerController
         playerController.CurrentHp = 120;
+
         playerStatus.Init();
 
-        playerStatus.weaponTotalEquipEffect = 0;
-        playerStatus.weaponTotalRetentionEffect = 0;
-        playerStatus.armorTotalEquipEffect = 0;
-        playerStatus.armorTotalRetentionEffect = 0;
-        playerStatus.petTotalEquipEffect = 0;
-        playerStatus.petTotalRetentionEffect = 0;
-
-        enemyManager.hpCalcA = 0;
-        enemyManager.hpCalcB = 0;
-        enemyManager.HpMax = 30;
-        enemyManager.befHP = 30;
-        enemyManager.AttackDamage = 10;
-        enemyManager.befAtt = 10;
-        enemyManager.DropGold = 20;
-        enemyManager.befGold = 20;
-        enemyManager.bossAttackPower = 0;
-        enemyManager.bossGoldDropAmount = 0;
-        enemyManager.bossMaxHP = 0;
-        enemyManager.roundNumber = 0;
-        enemyManager.ResetRound();
+        enemyManager.InitializeStats();
 
         enemyScript.HP = 30;
         enemyScript.maxHP = 30;
@@ -541,14 +508,7 @@ public class DataManager : MonoBehaviour
         itemManager.EquipArmorImg.color = new Color(255, 255, 255, 255);
 
         // statusUIManager
-        statusUIManager.stat_Attack.text = "10";
-        statusUIManager.stat_Hp.text = "120";
-        statusUIManager.stat_HpRecovery.text = "10";
-        statusUIManager.stat_AttackSpeed.text = "1";
-        statusUIManager.stat_Critical.text = "0.1%";
-        statusUIManager.stat_CriticalDamage.text = "120%";
-        statusUIManager.stat_DoubleAttackChance.text = "0%";
-        statusUIManager.stat_TripleAttackChance.text = "0%";
+        statusUIManager.Init_Texts();
 
         List<Item> resetItems = new List<Item>();
         foreach (var item in itemManager.weaponItems)

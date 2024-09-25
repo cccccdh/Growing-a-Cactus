@@ -25,7 +25,7 @@ public class EnemyManager : MonoBehaviour
     public double hpCalcA;
     public double hpCalcB;
     public double HpMax;
-    public double befHP = 0;
+    public double befHP;
     public double AttackDamage;
     public double befAtt;
     public int DropGold;
@@ -44,17 +44,24 @@ public class EnemyManager : MonoBehaviour
     private void Start()
     {
         InitializeStats();
-        SpawnEnemies();
+        SpawnEnemies();        
     }
 
-    private void InitializeStats()
+    public void InitializeStats()
     {
+        hpCalcA = 0;
+        hpCalcB = 0;
+        HpMax = 30;
         befHP = 30;
         befAtt = 0;
         befGold = 10;
         HpMax = SetEnemyHP(befHP);
         AttackDamage = setEnemyAtt(befAtt);
-        DropGold = setGoldDrop(befGold);
+        DropGold = setGoldDrop(befGold);                
+        bossAttackPower = 0;
+        bossGoldDropAmount = 0;
+        bossMaxHP = 0;
+        ResetRound();
     }
 
     public void SpawnEnemies()

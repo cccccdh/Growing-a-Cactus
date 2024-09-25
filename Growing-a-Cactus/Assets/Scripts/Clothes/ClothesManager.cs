@@ -2,9 +2,6 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-#if UNITY_EDITOR
-using static UnityEditor.Timeline.TimelinePlaybackControls;
-#endif
 
 public class ClothesManager : MonoBehaviour
 {

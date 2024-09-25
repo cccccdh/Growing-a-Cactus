@@ -5,11 +5,6 @@ using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
-    public struct Texts
-    {
-        public TextMeshProUGUI at;
-    }
-
     [Header("°ø°Ý·Â")]
     public TextMeshProUGUI Attack_Level;
     public TextMeshProUGUI Attack;

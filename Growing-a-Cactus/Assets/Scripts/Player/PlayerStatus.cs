@@ -54,7 +54,7 @@ public class PlayerStatus : MonoBehaviour
     private float holdTime = 0f;
 
     // 아이템 효과 변수
-    public float weaponTotalEquipEffect = 0f;
+    public float weaponTotalEquipEffect;
     public float weaponTotalRetentionEffect = 0f;
     public float armorTotalEquipEffect = 0f;
     public float armorTotalRetentionEffect = 0f;
@@ -112,6 +112,15 @@ public class PlayerStatus : MonoBehaviour
 
         PowerLevel = Attack;
         effectiveHP = Hp;
+
+        weaponTotalEquipEffect = 0f;
+        weaponTotalEquipEffect = 0f;
+        weaponTotalRetentionEffect = 0f;
+        armorTotalEquipEffect = 0f;
+        armorTotalRetentionEffect = 0f;
+        petTotalEquipEffect = 0f;
+        petTotalRetentionEffect = 0f;
+        clothesTotalRetentionEffect = 0f;
     }
 
     public void Increase(string status)
