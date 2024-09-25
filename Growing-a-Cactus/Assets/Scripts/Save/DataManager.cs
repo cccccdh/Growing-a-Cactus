@@ -480,6 +480,7 @@ public class DataManager : MonoBehaviour
         playerStatus.Init();
 
         enemyManager.InitializeStats();
+        enemyManager.ResetRound();
 
         enemyScript.HP = 30;
         enemyScript.maxHP = 30;

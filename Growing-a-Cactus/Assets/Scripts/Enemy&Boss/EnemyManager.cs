@@ -61,7 +61,6 @@ public class EnemyManager : MonoBehaviour
         bossAttackPower = 0;
         bossGoldDropAmount = 0;
         bossMaxHP = 0;
-        ResetRound();
     }
 
     public void SpawnEnemies()
