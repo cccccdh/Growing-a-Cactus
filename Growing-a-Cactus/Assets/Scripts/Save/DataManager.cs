@@ -1,7 +1,10 @@
 using System.Collections.Generic;
 using System.IO;
+using TMPro;
 using UnityEngine;
+#if UNITY_EDITOR
 using static UnityEditor.Progress;
+#endif
 
 
 public class DataManager : MonoBehaviour
@@ -20,6 +23,7 @@ public class DataManager : MonoBehaviour
     public QuestCSVReader questCSVReader;
     public GachaManager gachaManager;
     public ItemCSVReader itemCSVReader;
+    public StatusUIManager statusUIManager;
 
     [System.Serializable]
     public class GameData
@@ -130,8 +134,6 @@ public class DataManager : MonoBehaviour
         public string Description;
         public int Goal;
         public int Reward;
-        public string Requirement;
-        public string UnlockFeature;
         public int GoalCount;
         public bool IsActive;
         public List<Quest> quests = new List<Quest>();
@@ -146,6 +148,18 @@ public class DataManager : MonoBehaviour
         public bool UnLockEquipment;
         public bool UnLockPet;
         public bool UnLockClothes;
+
+        //statusuiManager
+
+        public string stat_Attack;
+        public string stat_Hp;
+        public string stat_HpRecovery;
+        public string stat_AttackSpeed;
+        public string stat_Critical;
+        public string stat_CriticalDamage;
+        public string stat_DoubleAttackChance;
+        public string stat_TripleAttackChance;
+
     }
 
     void Start()
@@ -243,11 +257,21 @@ public class DataManager : MonoBehaviour
             // QuestManager
             quests = questManager.quests,
 
-            //gachaManager
+            // gachaManager
             UnLockEquipment = gachaManager.UnLockEquipment,
             UnLockPet = gachaManager.UnLockPet,
             UnLockClothes = gachaManager.UnLockClothes,
-            
+
+            // statusUIManager
+            stat_Attack = statusUIManager.stat_Attack.text,
+            stat_Hp = statusUIManager.stat_Hp.text,
+            stat_HpRecovery = statusUIManager.stat_HpRecovery.text,
+            stat_AttackSpeed = statusUIManager.stat_AttackSpeed.text,
+            stat_Critical = statusUIManager.stat_Critical.text,
+            stat_CriticalDamage = statusUIManager.stat_CriticalDamage.text,
+            stat_DoubleAttackChance = statusUIManager.stat_DoubleAttackChance.text,
+            stat_TripleAttackChance = statusUIManager.stat_TripleAttackChance.text,
+
             // GameManager
             gold = gameManager.Gold,
             gem = gameManager.gem,
@@ -272,14 +296,13 @@ public class DataManager : MonoBehaviour
             string jsonData = File.ReadAllText(saveFilePath);
             GameData data = JsonUtility.FromJson<GameData>(jsonData);
 
-            //playerController
-            playerController.CurrentHp = data.effectiveHP;
+  
 
             //playerStatus
             playerStatus.Attack = data.Attack;
             playerStatus.Attack_Level = data.Attack_Level;
             playerStatus.Attack_Cost = data.Attack_Cost;
-            playerStatus.Hp = data.Hp;
+            playerStatus.Hp = data.effectiveHP;
             playerStatus.Hp_Level = data.Hp_Level;
             playerStatus.Hp_Cost = data.Hp_Cost;
             playerStatus.Hp_Recovery = data.Hp_Recovery;
@@ -308,6 +331,9 @@ public class DataManager : MonoBehaviour
             playerStatus.armorTotalRetentionEffect = data.armorTotalRetentionEffect;
             playerStatus.petTotalEquipEffect = data.petTotalEquipEffect;
             playerStatus.petTotalRetentionEffect = data.petTotalRetentionEffect;
+
+            //playerController
+            playerController.CurrentHp = data.effectiveHP;
 
             enemyManager.hpCalcA = data.hpCalcA;
             enemyManager.hpCalcB = data.hpCalcB;
@@ -438,6 +464,19 @@ public class DataManager : MonoBehaviour
             Debug.Log("게임 불러오기 완료");
             uiManager.PowerLevel.text = data.PowerLevelText;
 
+
+            // statusUIManager
+            //statusUIManager.stat_Attack.text = data.stat_Attack;
+            //statusUIManager.stat_Hp.text = data.stat_Hp;
+            //statusUIManager.stat_HpRecovery.text = data.stat_HpRecovery;
+            //statusUIManager.stat_AttackSpeed.text = data.stat_AttackSpeed;
+            //statusUIManager.stat_Critical.text = data.stat_Critical;
+            //statusUIManager.stat_CriticalDamage.text = data.stat_CriticalDamage;
+            //statusUIManager.stat_DoubleAttackChance.text = data.stat_DoubleAttackChance;
+            //statusUIManager.stat_TripleAttackChance.text = data.stat_TripleAttackChance;
+            statusUIManager.Init_Texts();
+
+
         }
     }
     public void ResetGame()
@@ -452,34 +491,8 @@ public class DataManager : MonoBehaviour
 
         //playerController
         playerController.CurrentHp = 120;
+        playerStatus.Init();
 
-        //playerStatus
-        playerStatus.Attack = 10;
-        playerStatus.Attack_Level = 1;
-        playerStatus.Attack_Cost = 10;
-        playerStatus.Hp = 120;
-        playerStatus.Hp_Level = 1;
-        playerStatus.Hp_Cost = 5;
-        playerStatus.Hp_Recovery = 10;
-        playerStatus.Hp_Recovery_Level = 1;
-        playerStatus.Hp_Recovery_Cost = 7;
-        playerStatus.Attack_Speed = 1;
-        playerStatus.Attack_Speed_Level = 1;
-        playerStatus.Attack_Speed_Cost = 22;
-        playerStatus.Critical = 0.1f;
-        playerStatus.Critical_Level = 1;
-        playerStatus.Critical_Cost = 15;
-        playerStatus.Critical_Damage = 120;
-        playerStatus.Critical_Damage_Level = 1;
-        playerStatus.Critical_Damage_Cost = 6;
-        playerStatus.DoubleAttackChance = 0;
-        playerStatus.DoubleAttack_Level = 1;
-        playerStatus.DoubleAttack_Cost = 50;
-        playerStatus.TripleAttackChance = 0;
-        playerStatus.TripleAttack_Level = 1;
-        playerStatus.TripleAttack_Cost = 100;
-        playerStatus.PowerLevel = 10;
-        playerStatus.effectiveHP = 120;
         playerStatus.weaponTotalEquipEffect = 0;
         playerStatus.weaponTotalRetentionEffect = 0;
         playerStatus.armorTotalEquipEffect = 0;
@@ -527,6 +540,15 @@ public class DataManager : MonoBehaviour
         itemManager.EquipWeaponImg.color = new Color(255, 255, 255, 255);
         itemManager.EquipArmorImg.color = new Color(255, 255, 255, 255);
 
+        // statusUIManager
+        statusUIManager.stat_Attack.text = "10";
+        statusUIManager.stat_Hp.text = "120";
+        statusUIManager.stat_HpRecovery.text = "10";
+        statusUIManager.stat_AttackSpeed.text = "1";
+        statusUIManager.stat_Critical.text = "0.1%";
+        statusUIManager.stat_CriticalDamage.text = "120%";
+        statusUIManager.stat_DoubleAttackChance.text = "0%";
+        statusUIManager.stat_TripleAttackChance.text = "0%";
 
         List<Item> resetItems = new List<Item>();
         foreach (var item in itemManager.weaponItems)

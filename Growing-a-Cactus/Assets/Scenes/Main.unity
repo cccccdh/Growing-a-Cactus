@@ -58842,7 +58842,8 @@ MonoBehaviour:
   questManager: {fileID: 1311017657}
   questCSVReader: {fileID: 1311017660}
   gachaManager: {fileID: 328319259}
-  itemCSVReader: {fileID: 0}
+  itemCSVReader: {fileID: 1228576297}
+  statusUIManager: {fileID: 384226810}
 --- !u!4 &986739119
 Transform:
   m_ObjectHideFlags: 0
@@ -79487,7 +79488,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 0
+  m_text: 1
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 79a98297f2913d0488706fa0fb006619, type: 2}
   m_sharedMaterial: {fileID: 5857506103715302561, guid: 79a98297f2913d0488706fa0fb006619, type: 2}
@@ -90125,7 +90126,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 1
+  m_text: 1.00
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 79a98297f2913d0488706fa0fb006619, type: 2}
   m_sharedMaterial: {fileID: 5857506103715302561, guid: 79a98297f2913d0488706fa0fb006619, type: 2}
