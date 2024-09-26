@@ -23,7 +23,7 @@ public class EnemyScript : MonoBehaviour
 
     private void OnEnable()
     {
-        Init();
+        Initialize();
     }
 
     private void Start()
@@ -52,7 +52,7 @@ public class EnemyScript : MonoBehaviour
         }
     }
 
-    public void Init()
+    public void Initialize()
     {
         if (enemyManager != null)
         {

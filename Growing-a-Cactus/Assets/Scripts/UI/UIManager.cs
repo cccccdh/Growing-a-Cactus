@@ -120,16 +120,6 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    //// 비용 상태 업데이트 메서드
-    //public void Update_Cost(string status, int cost)
-    //{
-    //    int index = GetIndexFromStatus(status);
-    //    if (index >= 0 && index < costs.Length)
-    //    {
-    //        costs[index].text = TextFormatter.FormatText(cost);
-    //    }
-    //}
-
     // 상태에 따른 인덱스를 반환하는 메서드
     private int GetIndexFromStatus(string status)
     {

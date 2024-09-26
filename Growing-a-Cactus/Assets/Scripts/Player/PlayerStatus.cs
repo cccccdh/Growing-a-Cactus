@@ -70,10 +70,10 @@ public class PlayerStatus : MonoBehaviour
 
     private void Awake()
     {
-        Init();
+        Initialize();
     }
 
-    public void Init()
+    public void Initialize()
     {
         Attack = 10;
         Attack_Level = 1;
@@ -121,6 +121,8 @@ public class PlayerStatus : MonoBehaviour
         petTotalEquipEffect = 0f;
         petTotalRetentionEffect = 0f;
         clothesTotalRetentionEffect = 0f;
+
+        uiManager.PowerLevelTEXT(PowerLevel);
     }
 
     public void Increase(string status)

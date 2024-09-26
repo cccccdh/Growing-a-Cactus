@@ -72,7 +72,7 @@ public class ItemManager : MonoBehaviour
         Initialize();       
     }
 
-    private void Initialize()
+    public void Initialize()
     {
         // 버튼 상태 초기화
         weaponEquipButton.interactable = false;
@@ -84,6 +84,7 @@ public class ItemManager : MonoBehaviour
         EquipWeaponText.text = "-";
         EquipWeaponLevelText.text = "-";
         EquipWeaponEquipEffectText.text = "공격력 + 0.0%";
+
         EquipArmorText.text = "-";
         EquipArmorLevelText.text = "-";
         EquipArmorEquipEffectText.text = "체력 + 0.0%";
@@ -91,13 +92,44 @@ public class ItemManager : MonoBehaviour
         // 이미지 초기화
         EquipWeaponImg.sprite = ChangeSpriteWithWeapon("weapon");
         EquipArmorImg.sprite = ChangeSpriteWithArmor("armor");
+        InitializeWeaponImages();
+        InitializeArmorImages();
+
+        // 색상 초기화
+        EquipWeaponImgBG.color = new Color(255, 255, 255, 255);
+        EquipArmorImgBG.color = new Color(255, 255, 255, 255);
+    }
+
+    // 무기 이미지 초기화
+    private void InitializeWeaponImages()
+    {
+        foreach (var image in weaponImages)
+        {
+            Transform child = image.transform.GetChild(3);
+            child.gameObject.SetActive(true);
+        }
+    }
+
+    // 방어구 이미지 초기화
+    private void InitializeArmorImages()
+    {
+        foreach (var image in armorImages)
+        {
+            Transform child = image.transform.GetChild(3);
+            child.gameObject.SetActive(true);
+        }
+    }
+
+    public void InitializeLists()
+    {
+        weaponItems.Clear(); // 무기 리스트 초기화
+        armorItems.Clear(); // 방어구 리스트 초기화
     }
 
     // 아이템 리스트를 설정하는 메서드
     public void SetItems(List<Item> itemList)
     {
-        weaponItems.Clear(); // 무기 리스트 초기화
-        armorItems.Clear(); // 방어구 리스트 초기화
+        InitializeLists();
 
         // 주어진 아이템 리스트에서 무기와 방어구를 구분하여 각각의 리스트에 추가
         foreach (var item in itemList)

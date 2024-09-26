@@ -39,9 +39,9 @@ public class ItemCSVReader : MonoBehaviour
                     Probability = float.Parse(values[3]),
                     RetentionEffect = float.Parse(values[4]) / 100,
                     EquipEffect = float.Parse(values[5]) / 100,
-                    Level = 1,
-                    Count = 0,
-                    RequiredCount = 2
+                    Level = int.Parse(values[6]),
+                    Count = int.Parse(values[7]),
+                    RequiredCount = int.Parse(values[8])
                 };
                 itemList.Add(item);
             }

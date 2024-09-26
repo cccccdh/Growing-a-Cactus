@@ -351,14 +351,7 @@ public class DataManager : MonoBehaviour
             playerController.HpR = data.Hp_Recovery;
 
             // uiManager
-            uiManager.Update_Text("Attack", playerStatus.Attack, playerStatus.Attack_Level, playerStatus.Attack_Cost);
-            uiManager.Update_Text("Hp", playerStatus.Hp, playerStatus.Hp_Level, playerStatus.Hp_Cost);
-            uiManager.Update_Text("Hp_Recovery", playerStatus.Hp_Recovery, playerStatus.Hp_Recovery_Level, playerStatus.Hp_Recovery_Cost);
-            uiManager.Update_Text("Attack_Speed", playerStatus.Attack_Speed, playerStatus.Attack_Speed_Level, (int)playerStatus.Attack_Speed_Cost);
-            uiManager.Update_Text("Critical", playerStatus.Critical, playerStatus.Critical_Level, playerStatus.Critical_Cost);
-            uiManager.Update_Text("Critical_Damage", playerStatus.Critical_Damage, playerStatus.Critical_Damage_Level, playerStatus.Critical_Damage_Cost);
-            uiManager.Update_Text("DoubleAttack", playerStatus.DoubleAttackChance, playerStatus.DoubleAttack_Level, playerStatus.DoubleAttack_Cost);
-            uiManager.Update_Text("TripleAttack", playerStatus.TripleAttackChance, playerStatus.TripleAttack_Level, playerStatus.TripleAttack_Cost);
+            UpdateStatusTexts();
 
             // ItemManager
             itemManager.weaponItems = data.weaponItems;
@@ -458,60 +451,46 @@ public class DataManager : MonoBehaviour
             gachaManager.UnLockClothes = data.UnLockClothes;
 
             // 스탯 창 초기화
-            statusUIManager.Init_Texts();
+            statusUIManager.Initialize_Texts();
 
             uiManager.PowerLevel.text = data.PowerLevelText;
 
             Debug.Log("게임 불러오기 완료");
         }
     }
+
     public void ResetGame()
     {
-
         if (File.Exists(saveFilePath))
         {
             File.WriteAllText(saveFilePath, "");  // 파일의 내용을 빈 문자열로 덮어쓰기
             Debug.Log("저장 파일의 내용을 초기화했습니다.");
-
         }
 
-        //playerController
-        playerController.CurrentHp = 120;
+        // GameManager
+        gameManager.Initialize();
 
-        playerStatus.Init();
+        // PlayerController
+        playerController.Initialize();
 
+        // PlayerStatus
+        playerStatus.Initialize();
+
+        // enemyManager
         enemyManager.InitializeStats();
         enemyManager.ResetRound();
 
-        enemyScript.HP = 30;
-        enemyScript.maxHP = 30;
-        enemyScript.attackPower = 10;
-        enemyScript.goldDropAmount = 20;
-
-        playerController.HpR = 10;
+        // enemyScript
+        enemyScript.Initialize();
 
         // uiManager
-        uiManager.Update_Text("Attack", playerStatus.Attack, playerStatus.Attack_Level, playerStatus.Attack_Cost);
-        uiManager.Update_Text("Hp", playerStatus.Hp, playerStatus.Hp_Level, playerStatus.Hp_Cost);
-        uiManager.Update_Text("Hp_Recovery", playerStatus.Hp_Recovery, playerStatus.Hp_Recovery_Level, playerStatus.Hp_Recovery_Cost);
-        uiManager.Update_Text("Attack_Speed", playerStatus.Attack_Speed, playerStatus.Attack_Speed_Level, (int)playerStatus.Attack_Speed_Cost);
-        uiManager.Update_Text("Critical", playerStatus.Critical, playerStatus.Critical_Level, playerStatus.Critical_Cost);
-        uiManager.Update_Text("Critical_Damage", playerStatus.Critical_Damage, playerStatus.Critical_Damage_Level, playerStatus.Critical_Damage_Cost);
-        uiManager.Update_Text("DoubleAttack", playerStatus.DoubleAttackChance, playerStatus.DoubleAttack_Level, playerStatus.DoubleAttack_Cost);
-        uiManager.Update_Text("TripleAttack", playerStatus.TripleAttackChance, playerStatus.TripleAttack_Level, playerStatus.TripleAttack_Cost);
-
-        // ItemManager
-
-        itemManager.EquipWeaponText.text = "장착 무기";
-        itemManager.EquipWeaponLevelText.text = "";
-        itemManager.EquipArmorText.text = "장착 방어구";
-        itemManager.EquipArmorLevelText.text = "";
-        itemManager.EquipWeaponImgBG.color = new Color(255, 255, 255, 255);
-        itemManager.EquipArmorImgBG.color = new Color(255, 255, 255, 255);
+        UpdateStatusTexts();
 
         // statusUIManager
-        statusUIManager.Init_Texts();
+        statusUIManager.Initialize_Texts();
 
+        // ItemManager
+        itemManager.Initialize();
         List<Item> resetItems = new List<Item>();
         foreach (var item in itemManager.weaponItems)
         {
@@ -535,7 +514,6 @@ public class DataManager : MonoBehaviour
                 resetItems.Add(item);
             }
         }
-        itemManager.ResetItemImages(resetItems);  // 소지 중인 아이템만 전달
 
         foreach (var item in resetItems)
         {
@@ -544,7 +522,6 @@ public class DataManager : MonoBehaviour
 
         // PetManager
         petManager.Initialize();
-
         List<Pet> resetpets = new List<Pet>();
         foreach (var pet in petManager.pets)
         {
@@ -563,7 +540,6 @@ public class DataManager : MonoBehaviour
         }
 
         // QuestUI
-
         questCSVReader.questList.Clear(); // 리스트를 명확히 비워줍니다.
         questCSVReader.LoadQuests(); // CSV에서 퀘스트 데이터를 다시 로드
 
@@ -572,17 +548,20 @@ public class DataManager : MonoBehaviour
 
         // UI 초기화
         Quest initialQuest = questManager.quests[0]; // 첫 번째 퀘스트를 가져옵니다.
-        questUI.UpdateQuestUI(initialQuest); // 첫 번째 퀘스트 정보를 UI에 반영
-
-        // GameManager
-        gameManager.DecreaseGold(gameManager.gold);
-        gameManager.gem = 0;
-        gameManager.UpdateGemText();
-        gameManager.stageNumber = 1;
-        gameManager.roundNumber = 1;
-        gameManager.UpdateStageText();
+        questUI.UpdateQuestUI(initialQuest); // 첫 번째 퀘스트 정보를 UI에 반영        
 
         //Debug.Log("게임 불러오기 완료");
-        uiManager.PowerLevel.text = $"전투력 : {TextFormatter.FormatText(10)}";
+    }
+
+    private void UpdateStatusTexts()
+    {
+        uiManager.Update_Text("Attack", playerStatus.Attack, playerStatus.Attack_Level, playerStatus.Attack_Cost);
+        uiManager.Update_Text("Hp", playerStatus.Hp, playerStatus.Hp_Level, playerStatus.Hp_Cost);
+        uiManager.Update_Text("Hp_Recovery", playerStatus.Hp_Recovery, playerStatus.Hp_Recovery_Level, playerStatus.Hp_Recovery_Cost);
+        uiManager.Update_Text("Attack_Speed", playerStatus.Attack_Speed, playerStatus.Attack_Speed_Level, (int)playerStatus.Attack_Speed_Cost);
+        uiManager.Update_Text("Critical", playerStatus.Critical, playerStatus.Critical_Level, playerStatus.Critical_Cost);
+        uiManager.Update_Text("Critical_Damage", playerStatus.Critical_Damage, playerStatus.Critical_Damage_Level, playerStatus.Critical_Damage_Cost);
+        uiManager.Update_Text("DoubleAttack", playerStatus.DoubleAttackChance, playerStatus.DoubleAttack_Level, playerStatus.DoubleAttack_Cost);
+        uiManager.Update_Text("TripleAttack", playerStatus.TripleAttackChance, playerStatus.TripleAttack_Level, playerStatus.TripleAttack_Cost);
     }
 }

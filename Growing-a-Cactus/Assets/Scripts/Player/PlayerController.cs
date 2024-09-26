@@ -31,12 +31,19 @@ public class PlayerController : MonoBehaviour
     }
 
     void Start()
-    {        
+    {
+        Initialize();
+        // 체력 재생 코루틴 실행
+        StartCoroutine(HealthRegenCoroutine());
+    }
+
+    // 초기화 함수
+    public void Initialize()
+    {
         CurrentHp = status.effectiveHP;
         HpR = status.Hp_Recovery;
-        originalPosition = transform.position;        
+        originalPosition = transform.position;
         shootpivot = thronPivot.position;
-        StartCoroutine(HealthRegenCoroutine());
     }
 
     public void Update()

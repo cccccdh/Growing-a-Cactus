@@ -42,14 +42,14 @@ public class GameManager : MonoBehaviour
     public GameObject shopX;
 
     [Header("재화")]
-    public double gold = 0;
-    public int gem = 0;
+    public double gold;
+    public int gem;
 
     [Header("라운드 & 웨이브")]
-    public int stageNumber = 1;
-    public int roundNumber = 1;
-    private int wave = 0; // 현재 웨이브를 추적하는 변수 추가
-    private const int maxWave = 100; // 최대 웨이브 값
+    public int stageNumber;
+    public int roundNumber;
+    private int wave; // 현재 웨이브를 추적하는 변수 추가
+    private int maxWave; // 최대 웨이브 값
 
     [Header("팝업 창 bool 값")]
     public bool isOpenShop = false;
@@ -63,11 +63,27 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+        Initialize();
+    }
+    
+    // 초기화 함수
+    public void Initialize()
+    {
+        gold = 0;
+        gem = 0;
+        stageNumber = 1;
+        roundNumber = 1;
+        wave = 0;
+        maxWave = 100;
+
         UpdateGoldText();
         UpdateGemText();
         UpdateStageText();
         UpdateWaveBar();
-        
+
+        DeactivateAllPages();
+        ResetAllFlags();        
+
         // 프레임 60으로 고정
         Application.targetFrameRate = 60;
     }
@@ -133,7 +149,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    void UpdateGoldText()
+    private void UpdateGoldText()
     {
         GoldText.text = TextFormatter.FormatText(gold);
     }
