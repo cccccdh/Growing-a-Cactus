@@ -41,34 +41,6 @@ public class GachaManager : MonoBehaviour
     // 가챠 버튼 해금
     public void Unlock(string Name)
     {
-        if (!UnLockEquipment && Name == "장비")
-        {
-            UnLockEquipment = true;
-            foreach (var btn in equipmentLockBtn)
-            {
-                btn.SetActive(false);
-            }
-        }
-        else if (!UnLockPet && Name == "펫")
-        {
-            UnLockPet = true;
-            foreach (var btn in petLockBtn)
-            {
-                btn.SetActive(false);
-            }
-        }
-        else if (!UnLockClothes && Name == "의상")
-        {
-            UnLockClothes = true;
-            foreach (var btn in clothesLockBtn)
-            {
-                btn.SetActive(false);
-            }
-        }
-    }
-
-    public void LoadUnlock(string Name)
-    {
         if (Name == "장비")
         {
             UnLockEquipment = true;
@@ -94,6 +66,7 @@ public class GachaManager : MonoBehaviour
             }
         }
     }
+
     // 장비 가챠를 수행하는 메서드
     public void PerformGachaWithEquip(int times)
     {

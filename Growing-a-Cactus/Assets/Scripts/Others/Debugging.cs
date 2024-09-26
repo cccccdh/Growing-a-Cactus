@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Debugging : MonoBehaviour
 {
@@ -45,6 +46,5 @@ public class Debugging : MonoBehaviour
         {
             questManager.SkipQuest();
         }
-       
     }
 }

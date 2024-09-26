@@ -223,14 +223,14 @@ public class DataManager : MonoBehaviour
             EquipWeaponLevelText = itemManager.EquipWeaponLevelText.text,
             EquipArmorText = itemManager.EquipArmorText.text,
             EquipArmorLevelText = itemManager.EquipArmorLevelText.text,
-            EquipWeaponImgR = itemManager.EquipWeaponImg.color.r,
-            EquipWeaponImgG = itemManager.EquipWeaponImg.color.g,
-            EquipWeaponImgB = itemManager.EquipWeaponImg.color.b,
-            EquipWeaponImgA = itemManager.EquipWeaponImg.color.a,
-            EquipArmorImgR = itemManager.EquipArmorImg.color.r,
-            EquipArmorImgG = itemManager.EquipArmorImg.color.g,
-            EquipArmorImgB = itemManager.EquipArmorImg.color.b,
-            EquipArmorImgA = itemManager.EquipArmorImg.color.a,
+            EquipWeaponImgR = itemManager.EquipWeaponImgBG.color.r,
+            EquipWeaponImgG = itemManager.EquipWeaponImgBG.color.g,
+            EquipWeaponImgB = itemManager.EquipWeaponImgBG.color.b,
+            EquipWeaponImgA = itemManager.EquipWeaponImgBG.color.a,
+            EquipArmorImgR = itemManager.EquipArmorImgBG.color.r,
+            EquipArmorImgG = itemManager.EquipArmorImgBG.color.g,
+            EquipArmorImgB = itemManager.EquipArmorImgBG.color.b,
+            EquipArmorImgA = itemManager.EquipArmorImgBG.color.a,
 
 
             // PetManager
@@ -368,13 +368,13 @@ public class DataManager : MonoBehaviour
             itemManager.EquipWeaponLevelText.text = data.EquipWeaponLevelText;
             itemManager.EquipArmorText.text = data.EquipArmorText;
             itemManager.EquipArmorLevelText.text = data.EquipArmorLevelText;
-            itemManager.EquipWeaponImg.color = new Color(
+            itemManager.EquipWeaponImgBG.color = new Color(
             data.EquipWeaponImgR,
             data.EquipWeaponImgG,
             data.EquipWeaponImgB,
             data.EquipWeaponImgA
             );
-            itemManager.EquipArmorImg.color = new Color(
+            itemManager.EquipArmorImgBG.color = new Color(
             data.EquipArmorImgR,
             data.EquipArmorImgG,
             data.EquipArmorImgB,
@@ -444,13 +444,13 @@ public class DataManager : MonoBehaviour
             if (gachaManager.UnLockEquipment == true)
             {
                 Debug.Log(gachaManager.UnLockEquipment);
-                gachaManager.LoadUnlock("Àåºñ");
+                gachaManager.Unlock("Àåºñ");
             }
             gachaManager.UnLockPet = data.UnLockPet;
 
             if (gachaManager.UnLockPet == true)
             {
-                gachaManager.LoadUnlock("Æê");
+                gachaManager.Unlock("Æê");
                 Debug.Log(gachaManager.UnLockPet);
 
             }
@@ -505,8 +505,8 @@ public class DataManager : MonoBehaviour
         itemManager.EquipWeaponLevelText.text = "";
         itemManager.EquipArmorText.text = "ÀåÂø ¹æ¾î±¸";
         itemManager.EquipArmorLevelText.text = "";
-        itemManager.EquipWeaponImg.color = new Color(255, 255, 255, 255);
-        itemManager.EquipArmorImg.color = new Color(255, 255, 255, 255);
+        itemManager.EquipWeaponImgBG.color = new Color(255, 255, 255, 255);
+        itemManager.EquipArmorImgBG.color = new Color(255, 255, 255, 255);
 
         // statusUIManager
         statusUIManager.Init_Texts();
