@@ -3,42 +3,53 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using static TMPro.SpriteAssetUtilities.TexturePacker_JsonArray;
 
 public class ItemManager : MonoBehaviour
 {
     [Header ("무기 관련 UI 요소")]
-    public Image WeaponImg;
+    public Image EquipWeaponImgBG;
     public Image EquipWeaponImg;
     public TextMeshProUGUI EquipWeaponText;
     public TextMeshProUGUI EquipWeaponLevelText;
     public TextMeshProUGUI EquipWeaponEquipEffectText;
+
+    public Image InfoWeaponBGColor;
+    public Image InfoWeaponImage;
     public TextMeshProUGUI WeaponNameText;
     public TextMeshProUGUI WeaponGradeText;
     public TextMeshProUGUI WeaponLevelText;
     public TextMeshProUGUI WeaponCountText;
     public TextMeshProUGUI WeaponRetentionEffect;
     public TextMeshProUGUI WeaponEquipEffectText;
+
     public Image[] weaponImages; // 무기 아이콘 배열
     public TextMeshProUGUI[] weaponCountTexts; // 무기 개수 텍스트 배열
     public TextMeshProUGUI[] weaponLevelTexts; // 무기 레벨 텍스트 배열
+
     public Button weaponEquipButton;
     public Button weaponEnhanceButton;
 
     [Header("방어구 관련 UI 요소")]
-    public Image ArmorImg;
+    public Image EquipArmorImgBG;
     public Image EquipArmorImg;
     public TextMeshProUGUI EquipArmorText;
     public TextMeshProUGUI EquipArmorLevelText;
     public TextMeshProUGUI EquipArmorEquipEffectText;
+
+    public Image InfoArmorBGColor;
+    public Image InfoArmorImage;
     public TextMeshProUGUI ArmorNameText;
     public TextMeshProUGUI ArmorGradeText;
     public TextMeshProUGUI ArmorLevelText;
     public TextMeshProUGUI ArmorCountText;
     public TextMeshProUGUI ArmorRetentionEffect;
     public TextMeshProUGUI ArmorEquipEffectText;
+
     public Image[] armorImages; // 방어구 아이콘 배열
     public TextMeshProUGUI[] armorCountTexts; // 방어구 개수 텍스트 배열
     public TextMeshProUGUI[] armorLevelTexts; // 방어구 레벨 텍스트 배열
+
     public Button armorEquipButton;
     public Button armorEnhanceButton;
 
@@ -68,8 +79,16 @@ public class ItemManager : MonoBehaviour
         weaponEnhanceButton.interactable = false;
         armorEquipButton.interactable = false;
         armorEnhanceButton.interactable = false;
-    }
 
+        // 텍스트 초기화
+        EquipWeaponText.text = "-";
+        EquipWeaponLevelText.text = "-";
+        EquipWeaponEquipEffectText.text = "공격력 + 0.0%";
+
+        // 이미지 초기화
+        EquipWeaponImg.sprite = ChangeSpriteWithWeapon("weapon");
+        EquipArmorImg.sprite = ChangeSpriteWithArmor("armor");
+    }
 
     // 아이템 리스트를 설정하는 메서드
     public void SetItems(List<Item> itemList)
@@ -194,7 +213,7 @@ public class ItemManager : MonoBehaviour
         return 0; // 아이템이 리스트에 없으면 0 반환
     }
 
-    // 장비 레벨이 2 이상인 장비의 개수를 가져오는 함수
+    // [퀘스트 용] 장비 레벨이 2 이상인 장비의 개수를 가져오는 함수
     public int GetItemsLevelUp(int count)
     {
         int highLevelItems = 0;
@@ -261,9 +280,8 @@ public class ItemManager : MonoBehaviour
             {
                 if (image.name == result.Name)
                 {
-                    Color color = image.color;
-                    color.a = 1f; // 이미지의 알파 값을 1로 설정하여 보이게 함
-                    image.color = color;
+                    Transform child = image.transform.Find("Lock");
+                    child.gameObject.SetActive(false);
                 }
             }
         }
@@ -324,8 +342,8 @@ public class ItemManager : MonoBehaviour
     public void SelectedItem(Image image)
     {
         selectedItemName = image.name;
+
         selectedItemColor = image.color;
-        selectedItemColor.a = 1f; // 선택된 아이템의 색상 알파 값을 1로 설정
 
         // 선택된 아이템을 무기나 방어구 리스트에서 찾음
         Item selectedItem = weaponItems.Find(item => item.Name == selectedItemName)
@@ -333,15 +351,24 @@ public class ItemManager : MonoBehaviour
 
         if (selectedItem == null) return; // 아이템이 없으면 반환
 
+        // 선택된 아이템의 이미지를 Resources 폴더에서 로드
+        Sprite selectedSprite;
+
         if (selectedItem.Type == "무기")
         {
-            WeaponImg.color = selectedItemColor; // 무기 이미지 색상 업데이트
+            selectedSprite = Resources.Load<Sprite>($"_Item/Weapons/{selectedItemName}");
+
+            InfoWeaponBGColor.color = selectedItemColor; // 무기 이미지 색상 업데이트
+            InfoWeaponImage.sprite = selectedSprite; // 무기 이미지 업데이트
             WeaponNameText.text = selectedItemName; // 무기 이름 텍스트 업데이트
             UpdateWeaponInfo(selectedItem); // 무기 정보 업데이트
         }
         else if (selectedItem.Type == "방어구")
         {
-            ArmorImg.color = selectedItemColor; // 방어구 이미지 색상 업데이트
+            selectedSprite = Resources.Load<Sprite>($"_Item/Armors/{selectedItemName}");
+
+            InfoArmorBGColor.color = selectedItemColor; // 방어구 이미지 색상 업데이트
+            InfoArmorImage.sprite = selectedSprite; // 방어구 이미지 업데이트
             ArmorNameText.text = selectedItemName; // 방어구 이름 텍스트 업데이트
             UpdateArmorInfo(selectedItem); // 방어구 정보 업데이트
         }
@@ -394,7 +421,8 @@ public class ItemManager : MonoBehaviour
         {
             if (selectedItem.Type == "무기")
             {
-                EquipWeaponImg.color = selectedItemColor; // 장착된 무기 이미지 색상 업데이트
+                EquipWeaponImgBG.color = selectedItemColor; // 장착된 무기 이미지 색상 업데이트
+                EquipWeaponImg.sprite = ChangeSpriteWithWeapon(selectedItem.Name);
                 EquipWeaponText.text = selectedItemName; // 장착된 무기 이름 텍스트 업데이트
                 EquipWeaponLevelText.text = $"Lv.{selectedItem.Level}"; // 장착된 무기 레벨 텍스트 업데이트
                 EquipWeaponEquipEffectText.text = $"공격력 + {TextFormatter.FormatText(selectedItem.EquipEffect * 100)}%"; // 장착 효과 텍스트 업데이트
@@ -407,7 +435,8 @@ public class ItemManager : MonoBehaviour
             }
             else if (selectedItem.Type == "방어구")
             {
-                EquipArmorImg.color = selectedItemColor; // 장착된 방어구 이미지 색상 업데이트
+                EquipArmorImgBG.color = selectedItemColor; // 장착된 방어구 이미지 색상 업데이트
+                EquipArmorImg.sprite = ChangeSpriteWithArmor(selectedItem.Name);
                 EquipArmorText.text = selectedItemName; // 장착된 방어구 이름 텍스트 업데이트
                 EquipArmorLevelText.text = $"Lv.{selectedItem.Level}"; // 장착된 방어구 레벨 텍스트 업데이트
                 EquipArmorEquipEffectText.text = $"체력 + {TextFormatter.FormatText(selectedItem.EquipEffect * 100)}%"; // 장착 효과 텍스트 업데이트
@@ -452,6 +481,7 @@ public class ItemManager : MonoBehaviour
                 }
             }            
         }
+
         // 방어구 장착 중 텍스트 생성
         else if (item.Type == "방어구")
         {
@@ -545,6 +575,20 @@ public class ItemManager : MonoBehaviour
                 break;
             }
         }
+    }
+
+    // 무기 이미지 반환 함수
+    public Sprite ChangeSpriteWithWeapon(string name)
+    {
+        var sprite = Resources.Load<Sprite>($"_Item/Weapons/{name}");
+        return sprite;
+    }
+
+    // 무기 이미지 반환 함수
+    public Sprite ChangeSpriteWithArmor(string name)
+    {
+        var sprite = Resources.Load<Sprite>($"_Item/Armors/{name}");
+        return sprite;
     }
 
     public ItemTextData GetItemTextData()

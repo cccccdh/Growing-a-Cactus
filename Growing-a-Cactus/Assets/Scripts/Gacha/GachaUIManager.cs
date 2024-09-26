@@ -14,12 +14,14 @@ public class GachaUIManager : MonoBehaviour
 
     private float delay;
     Color color = Color.white;
+    Sprite gachaSprite;
+    Transform typeImage;
 
     // 장비 뽑기 결과를 UI에 반영
     public void UpdateGachaUI(List<Item> resultItemList)
     {
         InitImageScale();
-        InitText();
+        InitImages();
 
         delay = 0f;
 
@@ -29,25 +31,28 @@ public class GachaUIManager : MonoBehaviour
             if (i < resultItemList.Count)
             {
                 var result = resultItemList[i];
-                var text = gachaImages[i].GetComponentInChildren<TextMeshProUGUI>();
+                var image = gachaImages[i].transform.GetChild(0).GetComponent<Image>();                
 
                 if (result.Type == "무기")
                 {
-                    color = itemManager.GetColorForWeapon(result.Name);
+                    typeImage = gachaImages[i].transform.GetChild(1);
+                    gachaSprite = Resources.Load<Sprite>($"_Item/Weapons/{result.Name}");
+                    color = itemManager.GetColorForWeapon(result.Name);                    
                 }
                 else if (result.Type == "방어구")
                 {
+                    typeImage = gachaImages[i].transform.GetChild(2);
+                    gachaSprite = Resources.Load<Sprite>($"_Item/Armors/{result.Name}");
                     color = itemManager.GetColorForArmor(result.Name);
                 }
 
+                typeImage.gameObject.SetActive(true);
                 gachaImages[i].color = color;
+                image.sprite = gachaSprite;
 
+                // 가챠 애니메이션
                 Sequence sequence = DOTween.Sequence();
-                sequence.Append(gachaImages[i].transform.DOScale(1f, 0.3f).SetDelay(delay).SetEase(Ease.InOutBack))
-                    .OnComplete(() =>
-                    {
-                        text.text = result.Name;
-                    });
+                sequence.Append(gachaImages[i].transform.DOScale(1f, 0.3f).SetDelay(delay).SetEase(Ease.InOutBack));
 
                 delay += 0.05f;
             }
@@ -58,7 +63,7 @@ public class GachaUIManager : MonoBehaviour
     public void UpdateGachaUI(List<Pet> resultPetList)
     {
         InitImageScale();
-        InitText();
+        InitImages();
 
         delay = 0f;
 
@@ -89,7 +94,7 @@ public class GachaUIManager : MonoBehaviour
     public void UpdateGachaUI(List<Clothes> resultClothesList)
     {
         InitImageScale();
-        InitText();
+        InitImages();
 
          delay = 0f;
 
@@ -125,16 +130,13 @@ public class GachaUIManager : MonoBehaviour
         }
     }
 
-    // 가챠창의 텍스트를 초기화 (나중에 아트 오면 사라질 함수)
-    private void InitText()
+    // 이미지 초기화
+    private void InitImages()
     {        
         foreach (var image in gachaImages)
         {
-            var text = image.GetComponentInChildren<TextMeshProUGUI>();
-            if (text != null)
-            {
-                text.text = "";
-            }
+            image.transform.GetChild(1).gameObject.SetActive(false);
+            image.transform.GetChild(2).gameObject.SetActive(false);
         }
     }
 }
