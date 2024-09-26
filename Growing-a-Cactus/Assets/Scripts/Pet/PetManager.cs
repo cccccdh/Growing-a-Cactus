@@ -7,10 +7,10 @@ using UnityEngine.UI;
 public class PetManager : MonoBehaviour
 {
     [Header("Pet")]
-    public GameObject Pet;  
-    public TextMeshProUGUI PetName;
+    public GameObject Pet;
 
     [Header("Information")]
+    public Image PetBGImage;
     public Image PetImage;
     public TextMeshProUGUI NameText;
     public TextMeshProUGUI GradeText;
@@ -18,6 +18,7 @@ public class PetManager : MonoBehaviour
     public TextMeshProUGUI CountText;
     public TextMeshProUGUI RetentionEffect;
     public TextMeshProUGUI EquipEffectText;
+
     public Button petEquipButton;
     public Button petEnhanceButton;
 
@@ -42,14 +43,36 @@ public class PetManager : MonoBehaviour
     {
         Initialize();        
     }
-    private void Initialize()
+
+    public void Initialize()
     {
         // 펫 UI 초기화
-        Pet.SetActive(false);
+        Pet.gameObject.SetActive(false);
 
         // 버튼 상태 초기화
         petEquipButton.interactable = false;
         petEnhanceButton.interactable = false;
+
+        // 텍스트 초기화        
+        PetImage.sprite = ChangeSpriteWithPet("토끼");
+        NameText.text = "토끼";
+        GradeText.text = "일반";
+        LevelText.text = "Lv.1";
+        CountText.text = "( 0 / 0 )";
+        RetentionEffect.text = "공격력 + 7.3%";
+        EquipEffectText.text = "공격력 + 24.7%";
+
+        InitializePetImages();
+    }
+
+    // 펫 이미지 초기화
+    private void InitializePetImages()
+    {
+        foreach (var image in petImages)
+        {
+            Transform child = image.transform.GetChild(3);
+            child.gameObject.SetActive(true);
+        }
     }
 
     // 펫 리스트 설정
@@ -136,13 +159,19 @@ public class PetManager : MonoBehaviour
             {
                 if(image.name == result.Name)
                 {
-                    // 알파값 변경
-                    Color color = image.color;
-                    color.a = 1f;
-                    image.color = color;
+                    Transform child = image.transform.GetChild(3);
+                    child.gameObject.SetActive(false);
                 }
             }
         }
+    }
+
+    // 펫 이미지 반환 함수
+    public Sprite ChangeSpriteWithPet(string name)
+    {
+        var sprite = Resources.Load<Sprite>($"_Pet/{name}");
+
+        return sprite;
     }
 
     // 펫에 따라 텍스트 업데이트
@@ -168,10 +197,8 @@ public class PetManager : MonoBehaviour
         selectedPetName = image.name;
 
         selectedPetColor = image.color;
-        selectedPetColor.a = 1f;
-        PetImage.color = selectedPetColor;
 
-        NameText.text = selectedPetName;
+        PetBGImage.color = selectedPetColor;
 
         InfomationText();
     }
@@ -183,6 +210,8 @@ public class PetManager : MonoBehaviour
         {
             if(pet.Name == selectedPetName)
             {
+                PetImage.sprite = ChangeSpriteWithPet(selectedPetName);
+                NameText.text = selectedPetName;
                 GradeText.text = pet.Grade;
                 RetentionEffect.text = $"공격력 + {TextFormatter.FormatText(pet.RetentionEffect * 100)}%";
                 EquipEffectText.text = $"공격력 + {TextFormatter.FormatText(pet.EquipEffect * 100)}%";
@@ -215,8 +244,8 @@ public class PetManager : MonoBehaviour
                     // 플레이어 전투력에 장착효과 부여
                     playerstatus.EquipPet(pet);
                     
-                    Pet.SetActive(true);
-                    PetName.text = pet.Name;
+                    Pet.gameObject.SetActive(true);
+                    Pet.GetComponent<SpriteRenderer>().sprite = ChangeSpriteWithPet(selectedPetName);
 
                     ShowEquippedText(selectedPetName);
                     break;
@@ -272,7 +301,9 @@ public class PetManager : MonoBehaviour
                     {
                         playerstatus.EquipPet(pet);
                     }
+
                     UpdatePetText(pet.Name);
+
                     InfomationText();
 
                     break;
@@ -281,48 +312,6 @@ public class PetManager : MonoBehaviour
         }
     }
 
-    public void UpdateOwnedPetImages(List<Pet> resultPetList)
-    {
-        UpdatePetImagesInList(resultPetList, petImages); // 무기 이미지 업데이트
-
-    }
-
-    public void UpdatePetImagesInList(List<Pet> resultPetList, Image[] images)
-    {
-        foreach (var result in resultPetList)
-        {
-            foreach (var image in images)
-            {
-                if (image.name == result.Name)
-                {
-                    Color color = image.color;
-                    color.a = 1f; // 이미지의 알파 값을 1로 설정하여 보이게 함
-                    image.color = color;
-                }
-            }
-        }
-    }
-    public void UpdateResetPetImages(List<Pet> resetPetList)
-    {
-        UpdateResetImagesInList(resetPetList, petImages); // 무기 이미지 업데이트
-
-    }
-
-    public void UpdateResetImagesInList(List<Pet> resetPetList, Image[] images)
-    {
-        foreach (var reset in resetPetList)
-        {
-            foreach (var image in images)
-            {
-                if (image.name == reset.Name)
-                {
-                    Color color = image.color;
-                    color.a = 0.4f; // 이미지의 알파 값을 1로 설정하여 보이게 함
-                    image.color = color;
-                }
-            }
-        }
-    }
     public PetTextData GetPetTextData()
     {
         PetTextData textData = new PetTextData

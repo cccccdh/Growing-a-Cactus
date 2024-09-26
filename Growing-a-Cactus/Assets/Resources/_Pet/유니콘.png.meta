@@ -1,25 +1,22 @@
 fileFormatVersion: 2
-guid: b071fcc11e51d344ea046d54609c776e
+guid: af68e4e43ab59154aa4f8e16a01eeddc
 TextureImporter:
   internalIDToNameTable:
   - first:
       213: 21300000
-    second: Eye_0
+    second: Lurker_0
   - first:
       213: 21300002
-    second: Eye_1
+    second: Lurker_1
   - first:
       213: 21300004
-    second: Eye_2
+    second: Lurker_2
   - first:
       213: 21300006
-    second: Eye_3
+    second: Lurker_3
   - first:
       213: 21300008
-    second: Eye_4
-  - first:
-      213: 21300010
-    second: Eye_5
+    second: Lurker_4
   externalObjects: {}
   serializedVersion: 12
   mipmaps:
@@ -141,7 +138,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Eye_0
+      name: Lurker_0
       rect:
         serializedVersion: 2
         x: 0
@@ -162,7 +159,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Eye_1
+      name: Lurker_1
       rect:
         serializedVersion: 2
         x: 16
@@ -183,7 +180,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Eye_2
+      name: Lurker_2
       rect:
         serializedVersion: 2
         x: 32
@@ -204,7 +201,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Eye_3
+      name: Lurker_3
       rect:
         serializedVersion: 2
         x: 48
@@ -225,7 +222,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Eye_4
+      name: Lurker_4
       rect:
         serializedVersion: 2
         x: 64
@@ -245,27 +242,6 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
-    - serializedVersion: 2
-      name: Eye_5
-      rect:
-        serializedVersion: 2
-        x: 80
-        y: 0
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: a2305410000000000800000000000000
-      internalID: 21300010
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -277,12 +253,11 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Eye_0: 21300000
-      Eye_1: 21300002
-      Eye_2: 21300004
-      Eye_3: 21300006
-      Eye_4: 21300008
-      Eye_5: 21300010
+      Lurker_0: 21300000
+      Lurker_1: 21300002
+      Lurker_2: 21300004
+      Lurker_3: 21300006
+      Lurker_4: 21300008
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

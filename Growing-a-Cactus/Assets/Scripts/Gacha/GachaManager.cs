@@ -114,7 +114,7 @@ public class GachaManager : MonoBehaviour
                     {
                         resultPetList.Add(pet);
                         petManager.UpdatePetCount(pet.Name);
-                        //Debug.Log($"»Ì±â {i + 1}: {pet.Name} / µî±Þ: {pet.Grade}");
+                        //Debug.Log($"»Ì±â {i + 1}: {Pet.Name} / µî±Þ: {Pet.Grade}");
                         break;
                     }
                 }

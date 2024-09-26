@@ -113,7 +113,7 @@ public class DataManager : MonoBehaviour
         public string GradeText;
         public string LevelText;
         public string CountText;
-        public string PetName;
+        public string NameText;
 
 
         public bool isPetActive;
@@ -235,11 +235,11 @@ public class DataManager : MonoBehaviour
 
             // PetManager
             pets = petManager.pets,
+            NameText = petManager.NameText.text,
             GradeText = petManager.GradeText.text,
             LevelText = petManager.LevelText.text,
             CountText = petManager.CountText.text,
-            isPetActive = petManager.Pet.activeSelf,
-            PetName = petManager.PetName.text,
+            isPetActive = petManager.Pet.gameObject.activeSelf,
 
             // QuestUI
             questNameText = questUI.questNameText.text,
@@ -403,7 +403,7 @@ public class DataManager : MonoBehaviour
             petManager.GradeText.text = data.GradeText;
             petManager.LevelText.text = data.LevelText;
             petManager.CountText.text = data.CountText;
-            petManager.PetName.text = data.PetName;
+            petManager.NameText.text = data.NameText;
 
             List<Pet> ownedpets = new List<Pet>();
             foreach (var pet in petManager.pets)
@@ -416,9 +416,10 @@ public class DataManager : MonoBehaviour
 
             if (data.isPetActive)
             {
-                petManager.Pet.SetActive(true);  // 활성화
+                petManager.Pet.gameObject.SetActive(true);  // 활성화
             }
-            petManager.UpdateOwnedPetImages(ownedpets);
+
+            petManager.UpdatePetImages(ownedpets);
 
             petManager.SetTextData(data.pettextData); // TextData 불러오기
 
@@ -542,12 +543,7 @@ public class DataManager : MonoBehaviour
         }
 
         // PetManager
-
-        petManager.GradeText.text = "일반";
-        petManager.LevelText.text = "Lv.1";
-        petManager.CountText.text = "( 0 / 0 )";
-        petManager.PetName.text = "토끼";
-
+        petManager.Initialize();
 
         List<Pet> resetpets = new List<Pet>();
         foreach (var pet in petManager.pets)
@@ -561,14 +557,10 @@ public class DataManager : MonoBehaviour
             }
         }
 
-        petManager.Pet.SetActive(false);  // 활성화
-        petManager.UpdateResetPetImages(resetpets);
         foreach (var pet in resetpets)
         {
             petManager.UpdatePetText(pet.Name);
         }
-
-
 
         // QuestUI
 

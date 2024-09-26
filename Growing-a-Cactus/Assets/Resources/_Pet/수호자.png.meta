@@ -1,37 +1,19 @@
 fileFormatVersion: 2
-guid: c4ef4b3283820274f9d5eff772190102
+guid: 5ab39786cdd753742ad4af7f1eec74bf
 TextureImporter:
   internalIDToNameTable:
   - first:
       213: 21300000
-    second: Butterfly_0
+    second: Mushroom_0
   - first:
       213: 21300002
-    second: Butterfly_1
+    second: Mushroom_1
   - first:
       213: 21300004
-    second: Butterfly_2
+    second: Mushroom_2
   - first:
       213: 21300006
-    second: Butterfly_3
-  - first:
-      213: 21300008
-    second: Butterfly_4
-  - first:
-      213: 21300010
-    second: Butterfly_5
-  - first:
-      213: 21300012
-    second: Butterfly_6
-  - first:
-      213: 21300014
-    second: Butterfly_7
-  - first:
-      213: 21300016
-    second: Butterfly_8
-  - first:
-      213: 21300018
-    second: Butterfly_9
+    second: Mushroom_3
   externalObjects: {}
   serializedVersion: 12
   mipmaps:
@@ -153,7 +135,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Butterfly_0
+      name: Mushroom_0
       rect:
         serializedVersion: 2
         x: 0
@@ -174,7 +156,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Butterfly_1
+      name: Mushroom_1
       rect:
         serializedVersion: 2
         x: 16
@@ -195,7 +177,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Butterfly_2
+      name: Mushroom_2
       rect:
         serializedVersion: 2
         x: 32
@@ -216,7 +198,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Butterfly_3
+      name: Mushroom_3
       rect:
         serializedVersion: 2
         x: 48
@@ -236,132 +218,6 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
-    - serializedVersion: 2
-      name: Butterfly_4
-      rect:
-        serializedVersion: 2
-        x: 64
-        y: 0
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 82305410000000000800000000000000
-      internalID: 21300008
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Butterfly_5
-      rect:
-        serializedVersion: 2
-        x: 80
-        y: 0
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: a2305410000000000800000000000000
-      internalID: 21300010
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Butterfly_6
-      rect:
-        serializedVersion: 2
-        x: 96
-        y: 0
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: c2305410000000000800000000000000
-      internalID: 21300012
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Butterfly_7
-      rect:
-        serializedVersion: 2
-        x: 112
-        y: 0
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: e2305410000000000800000000000000
-      internalID: 21300014
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Butterfly_8
-      rect:
-        serializedVersion: 2
-        x: 128
-        y: 0
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 03305410000000000800000000000000
-      internalID: 21300016
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Butterfly_9
-      rect:
-        serializedVersion: 2
-        x: 144
-        y: 0
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 23305410000000000800000000000000
-      internalID: 21300018
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -373,16 +229,10 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Butterfly_0: 21300000
-      Butterfly_1: 21300002
-      Butterfly_2: 21300004
-      Butterfly_3: 21300006
-      Butterfly_4: 21300008
-      Butterfly_5: 21300010
-      Butterfly_6: 21300012
-      Butterfly_7: 21300014
-      Butterfly_8: 21300016
-      Butterfly_9: 21300018
+      Mushroom_0: 21300000
+      Mushroom_1: 21300002
+      Mushroom_2: 21300004
+      Mushroom_3: 21300006
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

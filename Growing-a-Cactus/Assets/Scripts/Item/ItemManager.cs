@@ -84,6 +84,9 @@ public class ItemManager : MonoBehaviour
         EquipWeaponText.text = "-";
         EquipWeaponLevelText.text = "-";
         EquipWeaponEquipEffectText.text = "공격력 + 0.0%";
+        EquipArmorText.text = "-";
+        EquipArmorLevelText.text = "-";
+        EquipArmorEquipEffectText.text = "체력 + 0.0%";
 
         // 이미지 초기화
         EquipWeaponImg.sprite = ChangeSpriteWithWeapon("weapon");
@@ -263,6 +266,20 @@ public class ItemManager : MonoBehaviour
             }
         }
         return Color.white; 
+    }
+
+    // 무기 이미지 반환 함수
+    public Sprite ChangeSpriteWithWeapon(string name)
+    {
+        var sprite = Resources.Load<Sprite>($"_Item/Weapons/{name}");
+        return sprite;
+    }
+
+    // 방어구 이미지 반환 함수
+    public Sprite ChangeSpriteWithArmor(string name)
+    {
+        var sprite = Resources.Load<Sprite>($"_Item/Armors/{name}");
+        return sprite;
     }
 
     // 장비창의 아이템 이미지를 업데이트하는 메서드
@@ -575,21 +592,7 @@ public class ItemManager : MonoBehaviour
                 break;
             }
         }
-    }
-
-    // 무기 이미지 반환 함수
-    public Sprite ChangeSpriteWithWeapon(string name)
-    {
-        var sprite = Resources.Load<Sprite>($"_Item/Weapons/{name}");
-        return sprite;
-    }
-
-    // 무기 이미지 반환 함수
-    public Sprite ChangeSpriteWithArmor(string name)
-    {
-        var sprite = Resources.Load<Sprite>($"_Item/Armors/{name}");
-        return sprite;
-    }
+    }    
 
     public ItemTextData GetItemTextData()
     {

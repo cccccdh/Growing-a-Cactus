@@ -13,8 +13,14 @@ public class GachaUIManager : MonoBehaviour
     public ClothesManager clothesManager;
 
     private float delay;
+
+    // 배경색
     Color color = Color.white;
+
+    // 이미지
     Sprite gachaSprite;
+    
+    // 무기인지 방어구인지 타입 확인
     Transform typeImage;
 
     // 장비 뽑기 결과를 UI에 반영
@@ -73,17 +79,19 @@ public class GachaUIManager : MonoBehaviour
             if (i < resultPetList.Count)
             {
                 var result = resultPetList[i];
-                var text = gachaImages[i].GetComponentInChildren<TextMeshProUGUI>();
+                var image = gachaImages[i].transform.GetChild(0).GetComponent<Image>();
 
+                // 이미지 변경
+                gachaSprite = Resources.Load<Sprite>($"_Pet/{result.Name}");
+                image.sprite = gachaSprite;
+
+                // 색상 변경
                 color = petManager.GetColorForPet(result.Name);
                 gachaImages[i].color = color;
 
+                // 가챠 애니메이션
                 Sequence sequence = DOTween.Sequence();
-                sequence.Append(gachaImages[i].transform.DOScale(1f, 0.3f).SetDelay(delay).SetEase(Ease.InOutBack))
-                    .OnComplete(() =>
-                    {
-                        text.text = result.Name;
-                    });
+                sequence.Append(gachaImages[i].transform.DOScale(new Vector3(-1,1,1), 0.3f).SetDelay(delay).SetEase(Ease.InOutBack));
 
                 delay += 0.05f;
             }        
