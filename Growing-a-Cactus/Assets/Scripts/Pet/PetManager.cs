@@ -289,7 +289,7 @@ public class PetManager : MonoBehaviour
                 {
                     pet.Count -= pet.RequiredCount;
                     pet.Level++;
-                    pet.RetentionEffect += 0.0598f;
+                    pet.RetentionEffect += pet.RetentionEffect / 15;
                     pet.EquipEffect += pet.EquipEffect / 5;
                     pet.RequiredCount += 2;
 

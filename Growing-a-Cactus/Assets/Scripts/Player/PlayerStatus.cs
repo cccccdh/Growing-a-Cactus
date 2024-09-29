@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 public class PlayerStatus : MonoBehaviour
@@ -577,21 +578,17 @@ public class PlayerStatus : MonoBehaviour
         GameManager.instance.DecreaseGold(Critical_Cost);
         Critical += 0.1f;
         Critical_Level++;
-        if (Critical_Level % 25 == 0)
-        {
-            Critical_Cost += 15;
-        }
-        else
-        {
+        double cost = 0;
             if (Critical_Level % 10 == 2 || Critical_Level % 10 == 4 || Critical_Level % 10 == 8)
             {
-                Critical_Cost += (int)1.06f;
+                cost = (double)Critical_Cost * 1.03f;
             }
             else
             {
-                Critical_Cost += (int)1.05f;
+                cost = (double)Critical_Cost * 1.04f;
             }
-        }
+            Critical_Cost = (int)Math.Ceiling(cost);
+        
         QuestManager.instance.UpdateQuestProgress(0, "치명타확률 강화");
 
         uiManager.Update_Text("Critical", Critical, Critical_Level, Critical_Cost);
@@ -602,7 +599,7 @@ public class PlayerStatus : MonoBehaviour
     private void EnhanceCriticalDamage()
     {
         GameManager.instance.DecreaseGold(Critical_Damage_Cost);
-        Critical_Damage += 1;
+        Critical_Damage += 0.3f;
         Critical_Damage_Level++;
         if (Critical_Damage_Level % 50 == 0)
         {

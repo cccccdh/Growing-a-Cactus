@@ -53,7 +53,7 @@ public class StatusUIManager : MonoBehaviour
                 stat_Critical.text = $"{status.Critical:F1}%";
                 break;
             case "Critical_Damage":
-                stat_CriticalDamage.text = $"{status.Critical_Damage}%";
+                stat_CriticalDamage.text = $"{status.Critical_Damage:F1}%";
                 break;
             case "DoubleAttackChance":
                 stat_DoubleAttackChance.text = $"{status.DoubleAttackChance:F1}%";
