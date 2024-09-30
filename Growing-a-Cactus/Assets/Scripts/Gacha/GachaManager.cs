@@ -20,28 +20,28 @@ public class GachaManager : MonoBehaviour
     public List<Pet> petList;
     public List<Clothes> clothesList;
 
-    // ��� ����Ʈ �ʱ�ȭ
+    // 장비 퀘스트 초기화
     public void InitializeItems(List<Item> items)
     {
         itemList = items;
     }
 
-    // �� ����Ʈ �ʱ�ȭ
+    // 펫 퀘스트 초기화
     public void InitializePets(List<Pet> pets)
     {
         petList = pets;
     }
 
-    // �ǻ� ����Ʈ �ʱ�ȭ
+    // 의상 퀘스트 초기화
     public void InitializeClothes(List<Clothes> clothes)
     {
         clothesList = clothes;
     }
 
-    // ��í ��ư �ر�
+    // 뽑기 해금
     public void Unlock(string Name)
     {
-        if (Name == "���")
+        if (Name == "장비")
         {
             UnLockEquipment = true;
             foreach (var btn in equipmentLockBtn)
@@ -49,7 +49,7 @@ public class GachaManager : MonoBehaviour
                 btn.SetActive(false);
             }
         }
-        else if (Name == "��")
+        else if (Name == "펫")
         {
             UnLockPet = true;
             foreach (var btn in petLockBtn)
@@ -57,7 +57,7 @@ public class GachaManager : MonoBehaviour
                 btn.SetActive(false);
             }
         }
-        else if (Name == "�ǻ�")
+        else if (Name == "의상")
         {
             UnLockClothes = true;
             foreach (var btn in clothesLockBtn)
@@ -67,7 +67,7 @@ public class GachaManager : MonoBehaviour
         }
     }
 
-    // ��� ��í�� �����ϴ� �޼���
+    // 장비 뽑기
     public void PerformGachaWithEquip(int times)
     {
         if (UnLockEquipment)
@@ -83,23 +83,21 @@ public class GachaManager : MonoBehaviour
                     if (rand < cumulative)
                     {
                         resultItemList.Add(item);
-                        itemManager.UpdateItemCount(item.Name); // ������ ���� ������Ʈ
-                        //Debug.Log($"�̱� {i + 1}: {item.Name} (Ÿ��: {item.Type}, ���: {item.Grade}), ���� : {item.Count}");
+                        itemManager.UpdateItemCount(item.Name); 
                         break;
                     }
                 }
             }
-            itemManager.UpdateItemImages(resultItemList); // ���â ������Ʈ
-            gachaUIManager.UpdateGachaUI(resultItemList); // UI ������Ʈ
 
+            itemManager.UpdateItemImages(resultItemList); 
+            gachaUIManager.UpdateGachaUI(resultItemList); 
 
-            // ����Ʈ ���� ��Ȳ ������Ʈ;
-
+            // 퀘스트 진행상황 업데이트
             QuestManager.instance.DrawEquipment(times);
         }        
     }
 
-    // �� ��í�� �����ϴ� �޼���
+    // 펫 뽑기
     public void PerformGachaWithPet(int times)
     {
         if (UnLockPet)
@@ -116,21 +114,20 @@ public class GachaManager : MonoBehaviour
                     {
                         resultPetList.Add(pet);
                         petManager.UpdatePetCount(pet.Name);
-                        //Debug.Log($"�̱� {i + 1}: {Pet.Name} / ���: {Pet.Grade}");
                         break;
                     }
                 }
             }
 
-            petManager.UpdatePetImages(resultPetList); // ��â ������Ʈ
-            gachaUIManager.UpdateGachaUI(resultPetList); // UI ������Ʈ
+            petManager.UpdatePetImages(resultPetList); 
+            gachaUIManager.UpdateGachaUI(resultPetList); 
 
-            // ����Ʈ ���� ��Ȳ ������Ʈ
+            // 퀘스트 진행상황 업데이트
             QuestManager.instance.DrawPet(times);
         }        
     }
 
-    // �ǻ� ��í�� �����ϴ� �޼���
+    // 의상 뽑기
     public void PerformGachaWithClothes(int times)
     {
         if (UnLockClothes)
@@ -147,16 +144,15 @@ public class GachaManager : MonoBehaviour
                     {
                         resultClothesList.Add(cloth);
                         clothesManager.UpdateClothesCount(cloth.Name);
-                        //Debug.Log($"�̱� {i + 1}: {cloth.Name} / ���: {cloth.Grade}");
                         break;
                     }
                 }
             }
 
-            clothesManager.UpdateClothesImages(resultClothesList); // �ǻ� �̹��� ������Ʈ
-            gachaUIManager.UpdateGachaUI(resultClothesList); // UI ������Ʈ
+            clothesManager.UpdateClothesImages(resultClothesList); 
+            gachaUIManager.UpdateGachaUI(resultClothesList); 
 
-            // ����Ʈ ���� ��Ȳ ������Ʈ
+            // 퀘스트 진행상황 업데이트
             QuestManager.instance.DrawClothes(times);
         }
     }

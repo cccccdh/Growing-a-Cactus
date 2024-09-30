@@ -1,5 +1,3 @@
-using DG.Tweening.Core.Easing;
-using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;

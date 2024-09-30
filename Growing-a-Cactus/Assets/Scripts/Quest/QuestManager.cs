@@ -15,7 +15,7 @@ public class QuestManager : MonoBehaviour
         else
         {
             Destroy(gameObject);
-            Debug.LogWarning("QuestManager �ν��Ͻ��� �̹� �����մϴ�.");
+            Debug.LogWarning("QuestManager 가 이미 존재합니다.");
         }
     }
 
@@ -23,7 +23,7 @@ public class QuestManager : MonoBehaviour
     private int petcount;
     private int clothescount; 
 
-    [Header("��ũ��Ʈ ����")]
+    [Header("스크립트 참조")]
     public PlayerStatus playerStatus;
     public GachaManager gachaManager;
     public GameManager gameManager;
@@ -37,14 +37,14 @@ public class QuestManager : MonoBehaviour
         //UpdateQuestProgress(0);
     }
 
-    // ����Ʈ ����Ʈ �ʱ�ȭ
+    // 퀘스트 리스트 세팅
     public void SetQuest(List<Quest> questList)
     {
         quests = questList;
         ActivateInitialQuest();
     }
 
-    // ����Ʈ ���� ������ �������� �޼���
+    // 퀘스트의 개수 가져오기
     public int GetQuestGoalCountInList(int questId)
     {
         int count = 0;
@@ -58,7 +58,7 @@ public class QuestManager : MonoBehaviour
         return count;
     }
 
-    // �ʱ� ����Ʈ Ȱ��ȭ
+    // 초반 퀘스트 활성화
     public void ActivateInitialQuest()
     {
         foreach(var quest in quests)
@@ -67,45 +67,42 @@ public class QuestManager : MonoBehaviour
             {
                 quest.IsActive = true;
 
-                // ����Ʈ Ȱ��ȭ
-                Debug.Log("����Ʈ Ȱ��ȭ");
+                Debug.Log("퀘스트 활성화");
 
-                // ����Ʈ UI �ʱ�ȭ
-                UpdateQuestProgress(0, "���ݷ� ��ȭ");
+                UpdateQuestProgress(0, "");
                 QuestUI.instance.UpdateQuestUI(quest);
             }
         }
     }
 
-    // ����Ʈ �Ϸ� �� ���� ����Ʈ Ȱ��ȭ
+    // 퀘스트 완료
     public void CompleteQuest(int questId)
     {
         Quest completedQuest = quests.Find(q => q.Id == questId);
 
         if(completedQuest != null)
         {
-            Debug.Log($"����Ʈ �Ϸ� : {completedQuest.Title}");
+            Debug.Log($"퀘스트 완료 : {completedQuest.Title}");
 
             completedQuest.IsActive = false;
 
-            // ���� ����
+            // 보상 증정
             GameManager.instance.IncreaseGem(completedQuest.Reward);
 
             foreach (var quest in quests)
             {
                 if (quest.Requirement == $"Complete Quest {completedQuest.Id}" && !quest.IsActive)
                 {
-                    Debug.Log($"���� ����Ʈ ���� : {quest.Title}");
+                    Debug.Log($"다음 퀘스트 : {quest.Title}");
 
-                    // ����Ʈ �Ϸ�
+                    // 퀘스트 활성화
                     quest.IsActive = true;
 
-                    // ����Ʈ UI �ʱ�ȭ
                     UpdateQuestProgress(0, quest.Description);
 
                     if (quest.UnlockFeature != "None")
                     {
-                        Debug.Log("�̱� �ر�");
+                        Debug.Log("해금");
                         UnlockFeature(quest.UnlockFeature);
                     }
                 }
@@ -113,33 +110,33 @@ public class QuestManager : MonoBehaviour
         }
     }
 
-    // ����Ʈ �̱� �ر�
+    // 장비, 펫, 의상 해금
     private void UnlockFeature(string feature)
     {
-        if(feature == "��� �̱� �ر�")
+        if(feature == "장비 뽑기 해금 ")
         {
             if (!gachaManager.UnLockEquipment)
             {
-                gachaManager.Unlock("���");
+                gachaManager.Unlock("장비");
             }
         }
-        else if(feature == "�� �̱� �ر�")
+        else if(feature == "펫 뽑기 해금")
         {
             if (!gachaManager.UnLockPet)
             {
-                gachaManager.Unlock("��");
+                gachaManager.Unlock("펫");
             }
         }
-        else if (feature == "�ǻ� �̱� �ر�")
+        else if (feature == "의상 뽑기 해금")
         {
             if (!gachaManager.UnLockPet)
             {
-                gachaManager.Unlock("�ǻ�");
+                gachaManager.Unlock("의상");
             }
         }
     }
 
-    // ����Ʈ ���� ��Ȳ ������Ʈ
+    // 퀘스트 진행상황 갱신
     public void UpdateQuestProgress(int increment, string description)
     {
         foreach (var quest in quests)
@@ -148,79 +145,68 @@ public class QuestManager : MonoBehaviour
             {
                 switch (description)
                 {
-
-
-                    case "���ݷ� ��ȭ":
+                    case "공격력 강화":
                         quest.GoalCount = playerStatus.Attack_Level;
                         break;
 
-                    case "ü�� ��ȭ":
+                    case "체력 강화":
                         quest.GoalCount = playerStatus.Hp_Level;
                         break;
 
-
-                    case "�������� Ŭ����":
-                        UpdateStageClearQuest(quest);
-                        break;
-
-
-
-                    case "ü����� ��ȭ":
+                    case "체력재생 강화":
                         quest.GoalCount = playerStatus.Hp_Recovery_Level;
                         break;
 
-                    case "ġ��ŸȮ�� ��ȭ":
+                    case "치명타확률 강화":
                         quest.GoalCount = playerStatus.Critical_Level;
                         break;
 
-                    case "���ݼӵ� ��ȭ":
+                    case "공격속도 강화":
                         quest.GoalCount = playerStatus.Attack_Speed_Level;
                         break;
 
-                    case "ġ��Ÿ ���� ��ȭ":
+                    case "치명타피해 강화":
                         quest.GoalCount = playerStatus.Critical_Damage_Level;
                         break;
 
-                    case "�� óġ":
+                    case "적 처치":
                         quest.GoalCount += increment;
                         break;
 
-                    case "���� óġ":
+                    case "보스 처치":
                         quest.GoalCount += increment;
-
                         break;
 
-                    case "��� �̱�":
+                    case "장비 뽑기":
                         quest.GoalCount = equipmentcount;
                         break;
 
-                    case "�� �̱�":
+                    case "펫 뽑기":
                         quest.GoalCount = petcount;
                         break;
 
-                    case "�ǻ� �̱�":
+                    case "의상 뽑기":
                         quest.GoalCount = clothescount;
                         break;
 
-
-                    case "��� ��ȭ":
+                    case "장비 강화":
                         quest.GoalCount = itemManager.GetItemsLevelUp(2);
                         break;
 
-                    case "�� ��ȭ":
+                    case "펫 강화":
                         quest.GoalCount = petManager.GetPetsLevelUp(2);
-                        break;                    
+                        break;
 
-                    case "�������� Ŭ����":
+                    case "스테이지 클리어":
                         UpdateStageClearQuest(quest);
-                        break;   
-                        
-                    case "���� Ŭ����":
-                        // �ؾ���
+                        break;
+
+                    case "라운드 클리어":
+                        // 해야함
                         break;
 
                     default:
-                        Debug.LogWarning($"�� �� ���� ����Ʈ ����: {description}");
+                        Debug.LogWarning($"확인되지 않은 퀘스트: {description}");
                         break;
                 }
 
@@ -230,51 +216,51 @@ public class QuestManager : MonoBehaviour
         }
     }
 
-    // ��� �̱� ���� Ƚ��
+    // 장비 뽑기 누적 횟수
     public void DrawEquipment(int amount)
     {
         equipmentcount += amount;
-        UpdateQuestProgress(amount, "��� �̱�");
+        UpdateQuestProgress(amount, "장비 뽑기");
     }
 
-    
-    // �� �̱� ���� Ƚ��
+
+    // 펫 뽑기 누적 횟수
     public void DrawPet(int amount)
     {
         petcount += amount;
-        UpdateQuestProgress(amount, "�� �̱�");
+        UpdateQuestProgress(amount, "펫 뽑기");
     }
 
-    // �ǻ� �̱� ���� Ƚ��
+    // 의상 뽑기 누적 횟수
     public void DrawClothes(int amount)
     {
         clothescount += amount;
-        UpdateQuestProgress(amount, "�ǻ� �̱�");
+        UpdateQuestProgress(amount, "의상 뽑기");
     }
 
 
 
-    // �������� Ŭ���� �Լ�
+    // 스테이지 클리어 함수
     private void UpdateStageClearQuest(Quest quest)
     {
-        // 1-10 �������� Ŭ���� ó��
+        // 1-10 스테이지 클리어
         if (gameManager.stageNumber >= 2)
         {
             quest.GoalCount = quest.Goal;
         }
-        // 2-8 �������� Ŭ���� ó��
+        // 2-8 스테이지 클리어
         else if (gameManager.stageNumber >= 3 || (gameManager.stageNumber == 2 && gameManager.roundNumber >= 9))
         {
             quest.GoalCount = quest.Goal;
         }
 
-        // 5-1 �������� Ŭ���� ó��
+        // 5-1 스테이지 클리어
         else if (gameManager.stageNumber >= 6 || (gameManager.stageNumber == 5 && gameManager.roundNumber >= 2))
         {
             quest.GoalCount = quest.Goal;
         }
 
-        // ���� ��
+        // 진행 중
         else
         {
             quest.GoalCount = gameManager.roundNumber - 1; 
@@ -301,8 +287,8 @@ public class QuestManager : MonoBehaviour
             if (quest.IsActive)
             {
                 quest.GoalCount = quest.Goal;
-                CompleteQuest(quest.Id); // ����Ʈ �Ϸ� ó��
-                break; // �ϳ��� ����Ʈ�� ��ŵ
+                CompleteQuest(quest.Id);
+                break; 
             }
         }
     }    
