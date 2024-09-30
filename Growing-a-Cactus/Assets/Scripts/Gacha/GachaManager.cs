@@ -93,7 +93,8 @@ public class GachaManager : MonoBehaviour
             gachaUIManager.UpdateGachaUI(resultItemList); // UI 업데이트
 
             // 퀘스트 진행 상황 업데이트
-            QuestManager.instance.UpdateQuestProgress(times, "장비 뽑기");
+            //QuestManager.instance.UpdateQuestProgress(times, "장비 뽑기");
+            QuestManager.instance.DrawEquipment(times);
         }        
     }
 

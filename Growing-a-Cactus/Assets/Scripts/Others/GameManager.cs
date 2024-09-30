@@ -313,10 +313,12 @@ public class GameManager : MonoBehaviour
     public void OpenWeapon()
     {
         isOpenWeapon = !isOpenWeapon;
+        isOpenArmor = false;
     }
 
     public void OpenArmor()
     {
         isOpenArmor = !isOpenArmor;
+        isOpenWeapon = false;
     }
 }
