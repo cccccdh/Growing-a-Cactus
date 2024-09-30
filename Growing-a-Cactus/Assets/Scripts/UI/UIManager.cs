@@ -92,7 +92,7 @@ public class UIManager : MonoBehaviour
                 break;
             case "Critical_Damage":
                 UpdateTextFields(Critical_Damage_Level, Critical_Damage_Cost, level, cost);
-                Critical_Damage.text = string.Format("{0}%", stat);
+                Critical_Damage.text = string.Format("{0:N1}%", stat);
                 break;
             case "DoubleAttack":
                 UpdateTextFields(DoubleAttack_Level, DoubleAttack_Cost, level, cost);
