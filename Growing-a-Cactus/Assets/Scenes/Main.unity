@@ -55368,7 +55368,7 @@ GameObject:
   - component: {fileID: 866597577}
   - component: {fileID: 866597576}
   m_Layer: 5
-  m_Name: Lock
+  m_Name: Text (TMP) (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -84961,6 +84961,7 @@ MonoBehaviour:
   gachaManager: {fileID: 328319259}
   gameManager: {fileID: 963673988}
   itemManager: {fileID: 1228576298}
+  petManager: {fileID: 1504575519}
   quests: []
 --- !u!4 &1311017658
 Transform:

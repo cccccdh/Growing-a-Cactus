@@ -28,6 +28,7 @@ public class QuestManager : MonoBehaviour
     public GachaManager gachaManager;
     public GameManager gameManager;
     public ItemManager itemManager;
+    public PetManager petManager;
 
     public List<Quest> quests = new List<Quest>();        
 
@@ -147,34 +148,12 @@ public class QuestManager : MonoBehaviour
             {
                 switch (description)
                 {
-                    case "적 처치":
-                        quest.GoalCount += increment;
-                        break;
-
-                    case "장비 뽑기":
-                        quest.GoalCount = equipmentcount;
-                        break;
-
-                    case "펫 뽑기":
-                        petcount += increment;
-                        quest.GoalCount = petcount;
-                        break;
-
-                    case "의상 뽑기":
-                        clothescount += increment;
-                        quest.GoalCount = clothescount;
-                        break;
-
                     case "공격력 강화":
                         quest.GoalCount = playerStatus.Attack_Level;
                         break;
 
                     case "체력 강화":
                         quest.GoalCount = playerStatus.Hp_Level;
-                        break;
-
-                    case "스테이지 클리어":
-                        UpdateStageClearQuest(quest);
                         break;
 
                     case "체력재생 강화":
@@ -187,18 +166,46 @@ public class QuestManager : MonoBehaviour
 
                     case "공격속도 강화":
                         quest.GoalCount = playerStatus.Attack_Speed_Level;
-                        break; 
+                        break;
+
+                    case "치명타 피해 강화":
+                        quest.GoalCount = playerStatus.Critical_Damage_Level;
+                        break;
+
+                    case "적 처치":
+                        quest.GoalCount += increment;
+                        break;
+
+                    case "보스 처치":
+                        quest.GoalCount += increment;
+                        break;
+
+                    case "장비 뽑기":
+                        quest.GoalCount = equipmentcount;
+                        break;
+
+                    case "펫 뽑기":
+                        quest.GoalCount = petcount;
+                        break;
+
+                    case "의상 뽑기":
+                        quest.GoalCount = clothescount;
+                        break;
 
                     case "장비 강화":
                         quest.GoalCount = itemManager.GetItemsLevelUp(2);
                         break;
 
-                    case "보스 처치":
-                        quest.GoalCount += increment;
+                    case "펫 강화":
+                        quest.GoalCount = petManager.GetPetsLevelUp(2);
                         break;                    
 
-                    case "치명타 피해 강화":
-                        quest.GoalCount = playerStatus.Critical_Damage_Level;
+                    case "스테이지 클리어":
+                        UpdateStageClearQuest(quest);
+                        break;   
+                        
+                    case "라운드 클리어":
+                        // 해야함
                         break;
 
                     default:
@@ -218,6 +225,21 @@ public class QuestManager : MonoBehaviour
         equipmentcount += amount;
         UpdateQuestProgress(amount, "장비 뽑기");
     }
+    
+    // 펫 뽑기 누적 횟수
+    public void DrawPet(int amount)
+    {
+        petcount += amount;
+        UpdateQuestProgress(amount, "펫 뽑기");
+    }
+
+    // 의상 뽑기 누적 횟수
+    public void DrawClothes(int amount)
+    {
+        clothescount += amount;
+        UpdateQuestProgress(amount, "의상 뽑기");
+    }
+
 
     // 스테이지 클리어 함수
     private void UpdateStageClearQuest(Quest quest)
@@ -229,6 +251,11 @@ public class QuestManager : MonoBehaviour
         }
         // 2-8 스테이지 클리어 처리
         else if (gameManager.stageNumber >= 3 || (gameManager.stageNumber == 2 && gameManager.roundNumber >= 9))
+        {
+            quest.GoalCount = quest.Goal;
+        }
+        // 5-1 스테이지 클리어 처리
+        else if (gameManager.stageNumber >= 6 || (gameManager.stageNumber == 5 && gameManager.roundNumber >= 2))
         {
             quest.GoalCount = quest.Goal;
         }

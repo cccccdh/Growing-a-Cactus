@@ -92,8 +92,7 @@ public class GachaManager : MonoBehaviour
             itemManager.UpdateItemImages(resultItemList); // 장비창 업데이트
             gachaUIManager.UpdateGachaUI(resultItemList); // UI 업데이트
 
-            // 퀘스트 진행 상황 업데이트
-            //QuestManager.instance.UpdateQuestProgress(times, "장비 뽑기");
+            // 퀘스트 진행 상황 업데이트;
             QuestManager.instance.DrawEquipment(times);
         }        
     }
@@ -125,7 +124,7 @@ public class GachaManager : MonoBehaviour
             gachaUIManager.UpdateGachaUI(resultPetList); // UI 업데이트
 
             // 퀘스트 진행 상황 업데이트
-            QuestManager.instance.UpdateQuestProgress(times, "펫 뽑기");
+            QuestManager.instance.DrawPet(times);
         }        
     }
 
@@ -155,8 +154,8 @@ public class GachaManager : MonoBehaviour
             clothesManager.UpdateClothesImages(resultClothesList); // 의상 이미지 업데이트
             gachaUIManager.UpdateGachaUI(resultClothesList); // UI 업데이트
 
-            // 퀘스트 진행 상황 업데이트 (미구현)
-            //QuestManager.instance.UpdateQuestProgress(times, "의상 뽑기");
+            // 퀘스트 진행 상황 업데이트
+            QuestManager.instance.DrawClothes(times);
         }
     }
 }
