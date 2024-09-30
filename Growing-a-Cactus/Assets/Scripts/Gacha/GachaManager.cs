@@ -20,28 +20,28 @@ public class GachaManager : MonoBehaviour
     public List<Pet> petList;
     public List<Clothes> clothesList;
 
-    // Àåºñ ¸®½ºÆ® ÃÊ±âÈ­
+    // ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ® ï¿½Ê±ï¿½È­
     public void InitializeItems(List<Item> items)
     {
         itemList = items;
     }
 
-    // Æê ¸®½ºÆ® ÃÊ±âÈ­
+    // ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ® ï¿½Ê±ï¿½È­
     public void InitializePets(List<Pet> pets)
     {
         petList = pets;
     }
 
-    // ÀÇ»ó ¸®½ºÆ® ÃÊ±âÈ­
+    // ï¿½Ç»ï¿½ ï¿½ï¿½ï¿½ï¿½Æ® ï¿½Ê±ï¿½È­
     public void InitializeClothes(List<Clothes> clothes)
     {
         clothesList = clothes;
     }
 
-    // °¡Ã­ ¹öÆ° ÇØ±Ý
+    // ï¿½ï¿½Ã­ ï¿½ï¿½Æ° ï¿½Ø±ï¿½
     public void Unlock(string Name)
     {
-        if (Name == "Àåºñ")
+        if (Name == "ï¿½ï¿½ï¿½")
         {
             UnLockEquipment = true;
             foreach (var btn in equipmentLockBtn)
@@ -49,7 +49,7 @@ public class GachaManager : MonoBehaviour
                 btn.SetActive(false);
             }
         }
-        else if (Name == "Æê")
+        else if (Name == "ï¿½ï¿½")
         {
             UnLockPet = true;
             foreach (var btn in petLockBtn)
@@ -57,7 +57,7 @@ public class GachaManager : MonoBehaviour
                 btn.SetActive(false);
             }
         }
-        else if (Name == "ÀÇ»ó")
+        else if (Name == "ï¿½Ç»ï¿½")
         {
             UnLockClothes = true;
             foreach (var btn in clothesLockBtn)
@@ -67,7 +67,7 @@ public class GachaManager : MonoBehaviour
         }
     }
 
-    // Àåºñ °¡Ã­¸¦ ¼öÇàÇÏ´Â ¸Þ¼­µå
+    // ï¿½ï¿½ï¿½ ï¿½ï¿½Ã­ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½Þ¼ï¿½ï¿½ï¿½
     public void PerformGachaWithEquip(int times)
     {
         if (UnLockEquipment)
@@ -83,22 +83,23 @@ public class GachaManager : MonoBehaviour
                     if (rand < cumulative)
                     {
                         resultItemList.Add(item);
-                        itemManager.UpdateItemCount(item.Name); // ¾ÆÀÌÅÛ °³¼ö ¾÷µ¥ÀÌÆ®
-                        //Debug.Log($"»Ì±â {i + 1}: {item.Name} (Å¸ÀÔ: {item.Type}, µî±Þ: {item.Grade}), °³¼ö : {item.Count}");
+                        itemManager.UpdateItemCount(item.Name); // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®
+                        //Debug.Log($"ï¿½Ì±ï¿½ {i + 1}: {item.Name} (Å¸ï¿½ï¿½: {item.Type}, ï¿½ï¿½ï¿½: {item.Grade}), ï¿½ï¿½ï¿½ï¿½ : {item.Count}");
                         break;
                     }
                 }
             }
-            itemManager.UpdateItemImages(resultItemList); // ÀåºñÃ¢ ¾÷µ¥ÀÌÆ®
-            gachaUIManager.UpdateGachaUI(resultItemList); // UI ¾÷µ¥ÀÌÆ®
+            itemManager.UpdateItemImages(resultItemList); // ï¿½ï¿½ï¿½Ã¢ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®
+            gachaUIManager.UpdateGachaUI(resultItemList); // UI ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®
 
-            // Äù½ºÆ® ÁøÇà »óÈ² ¾÷µ¥ÀÌÆ®
-            //QuestManager.instance.UpdateQuestProgress(times, "Àåºñ »Ì±â");
+
+            // ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È² ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®;
+
             QuestManager.instance.DrawEquipment(times);
         }        
     }
 
-    // Æê °¡Ã­¸¦ ¼öÇàÇÏ´Â ¸Þ¼­µå
+    // ï¿½ï¿½ ï¿½ï¿½Ã­ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½Þ¼ï¿½ï¿½ï¿½
     public void PerformGachaWithPet(int times)
     {
         if (UnLockPet)
@@ -115,21 +116,21 @@ public class GachaManager : MonoBehaviour
                     {
                         resultPetList.Add(pet);
                         petManager.UpdatePetCount(pet.Name);
-                        //Debug.Log($"»Ì±â {i + 1}: {Pet.Name} / µî±Þ: {Pet.Grade}");
+                        //Debug.Log($"ï¿½Ì±ï¿½ {i + 1}: {Pet.Name} / ï¿½ï¿½ï¿½: {Pet.Grade}");
                         break;
                     }
                 }
             }
 
-            petManager.UpdatePetImages(resultPetList); // ÆêÃ¢ ¾÷µ¥ÀÌÆ®
-            gachaUIManager.UpdateGachaUI(resultPetList); // UI ¾÷µ¥ÀÌÆ®
+            petManager.UpdatePetImages(resultPetList); // ï¿½ï¿½Ã¢ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®
+            gachaUIManager.UpdateGachaUI(resultPetList); // UI ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®
 
-            // Äù½ºÆ® ÁøÇà »óÈ² ¾÷µ¥ÀÌÆ®
-            QuestManager.instance.UpdateQuestProgress(times, "Æê »Ì±â");
+            // ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È² ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®
+            QuestManager.instance.DrawPet(times);
         }        
     }
 
-    // ÀÇ»ó °¡Ã­¸¦ ¼öÇàÇÏ´Â ¸Þ¼­µå
+    // ï¿½Ç»ï¿½ ï¿½ï¿½Ã­ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½ ï¿½Þ¼ï¿½ï¿½ï¿½
     public void PerformGachaWithClothes(int times)
     {
         if (UnLockClothes)
@@ -146,17 +147,17 @@ public class GachaManager : MonoBehaviour
                     {
                         resultClothesList.Add(cloth);
                         clothesManager.UpdateClothesCount(cloth.Name);
-                        //Debug.Log($"»Ì±â {i + 1}: {cloth.Name} / µî±Þ: {cloth.Grade}");
+                        //Debug.Log($"ï¿½Ì±ï¿½ {i + 1}: {cloth.Name} / ï¿½ï¿½ï¿½: {cloth.Grade}");
                         break;
                     }
                 }
             }
 
-            clothesManager.UpdateClothesImages(resultClothesList); // ÀÇ»ó ÀÌ¹ÌÁö ¾÷µ¥ÀÌÆ®
-            gachaUIManager.UpdateGachaUI(resultClothesList); // UI ¾÷µ¥ÀÌÆ®
+            clothesManager.UpdateClothesImages(resultClothesList); // ï¿½Ç»ï¿½ ï¿½Ì¹ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®
+            gachaUIManager.UpdateGachaUI(resultClothesList); // UI ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®
 
-            // Äù½ºÆ® ÁøÇà »óÈ² ¾÷µ¥ÀÌÆ® (¹Ì±¸Çö)
-            //QuestManager.instance.UpdateQuestProgress(times, "ÀÇ»ó »Ì±â");
+            // ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È² ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®
+            QuestManager.instance.DrawClothes(times);
         }
     }
 }

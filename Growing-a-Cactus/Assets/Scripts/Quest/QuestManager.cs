@@ -15,7 +15,7 @@ public class QuestManager : MonoBehaviour
         else
         {
             Destroy(gameObject);
-            Debug.LogWarning("QuestManager ÀÎ½ºÅÏ½º°¡ ÀÌ¹Ì Á¸ÀçÇÕ´Ï´Ù.");
+            Debug.LogWarning("QuestManager ï¿½Î½ï¿½ï¿½Ï½ï¿½ï¿½ï¿½ ï¿½Ì¹ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Õ´Ï´ï¿½.");
         }
     }
 
@@ -23,11 +23,12 @@ public class QuestManager : MonoBehaviour
     private int petcount;
     private int clothescount; 
 
-    [Header("½ºÅ©¸³Æ® ÂüÁ¶")]
+    [Header("ï¿½ï¿½Å©ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½")]
     public PlayerStatus playerStatus;
     public GachaManager gachaManager;
     public GameManager gameManager;
     public ItemManager itemManager;
+    public PetManager petManager;
 
     public List<Quest> quests = new List<Quest>();        
 
@@ -36,14 +37,14 @@ public class QuestManager : MonoBehaviour
         //UpdateQuestProgress(0);
     }
 
-    // Äù½ºÆ® ¸®½ºÆ® ÃÊ±âÈ­
+    // ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½Æ® ï¿½Ê±ï¿½È­
     public void SetQuest(List<Quest> questList)
     {
         quests = questList;
         ActivateInitialQuest();
     }
 
-    // Äù½ºÆ® ÁøÇà °³¼ö¸¦ °¡Á®¿À´Â ¸Þ¼­µå
+    // ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Þ¼ï¿½ï¿½ï¿½
     public int GetQuestGoalCountInList(int questId)
     {
         int count = 0;
@@ -57,7 +58,7 @@ public class QuestManager : MonoBehaviour
         return count;
     }
 
-    // ÃÊ±â Äù½ºÆ® È°¼ºÈ­
+    // ï¿½Ê±ï¿½ ï¿½ï¿½ï¿½ï¿½Æ® È°ï¿½ï¿½È­
     public void ActivateInitialQuest()
     {
         foreach(var quest in quests)
@@ -66,45 +67,45 @@ public class QuestManager : MonoBehaviour
             {
                 quest.IsActive = true;
 
-                // Äù½ºÆ® È°¼ºÈ­
-                Debug.Log("Äù½ºÆ® È°¼ºÈ­");
+                // ï¿½ï¿½ï¿½ï¿½Æ® È°ï¿½ï¿½È­
+                Debug.Log("ï¿½ï¿½ï¿½ï¿½Æ® È°ï¿½ï¿½È­");
 
-                // Äù½ºÆ® UI ÃÊ±âÈ­
-                UpdateQuestProgress(0, "°ø°Ý·Â °­È­");
+                // ï¿½ï¿½ï¿½ï¿½Æ® UI ï¿½Ê±ï¿½È­
+                UpdateQuestProgress(0, "ï¿½ï¿½ï¿½Ý·ï¿½ ï¿½ï¿½È­");
                 QuestUI.instance.UpdateQuestUI(quest);
             }
         }
     }
 
-    // Äù½ºÆ® ¿Ï·á ¹× ´ÙÀ½ Äù½ºÆ® È°¼ºÈ­
+    // ï¿½ï¿½ï¿½ï¿½Æ® ï¿½Ï·ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ® È°ï¿½ï¿½È­
     public void CompleteQuest(int questId)
     {
         Quest completedQuest = quests.Find(q => q.Id == questId);
 
         if(completedQuest != null)
         {
-            Debug.Log($"Äù½ºÆ® ¿Ï·á : {completedQuest.Title}");
+            Debug.Log($"ï¿½ï¿½ï¿½ï¿½Æ® ï¿½Ï·ï¿½ : {completedQuest.Title}");
 
             completedQuest.IsActive = false;
 
-            // º¸»ó ÁõÁ¤
+            // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
             GameManager.instance.IncreaseGem(completedQuest.Reward);
 
             foreach (var quest in quests)
             {
                 if (quest.Requirement == $"Complete Quest {completedQuest.Id}" && !quest.IsActive)
                 {
-                    Debug.Log($"´ÙÀ½ Äù½ºÆ® ½ÃÀÛ : {quest.Title}");
+                    Debug.Log($"ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ : {quest.Title}");
 
-                    // Äù½ºÆ® ¿Ï·á
+                    // ï¿½ï¿½ï¿½ï¿½Æ® ï¿½Ï·ï¿½
                     quest.IsActive = true;
 
-                    // Äù½ºÆ® UI ÃÊ±âÈ­
+                    // ï¿½ï¿½ï¿½ï¿½Æ® UI ï¿½Ê±ï¿½È­
                     UpdateQuestProgress(0, quest.Description);
 
                     if (quest.UnlockFeature != "None")
                     {
-                        Debug.Log("»Ì±â ÇØ±Ý");
+                        Debug.Log("ï¿½Ì±ï¿½ ï¿½Ø±ï¿½");
                         UnlockFeature(quest.UnlockFeature);
                     }
                 }
@@ -112,33 +113,33 @@ public class QuestManager : MonoBehaviour
         }
     }
 
-    // Äù½ºÆ® »Ì±â ÇØ±Ý
+    // ï¿½ï¿½ï¿½ï¿½Æ® ï¿½Ì±ï¿½ ï¿½Ø±ï¿½
     private void UnlockFeature(string feature)
     {
-        if(feature == "Àåºñ »Ì±â ÇØ±Ý")
+        if(feature == "ï¿½ï¿½ï¿½ ï¿½Ì±ï¿½ ï¿½Ø±ï¿½")
         {
             if (!gachaManager.UnLockEquipment)
             {
-                gachaManager.Unlock("Àåºñ");
+                gachaManager.Unlock("ï¿½ï¿½ï¿½");
             }
         }
-        else if(feature == "Æê »Ì±â ÇØ±Ý")
+        else if(feature == "ï¿½ï¿½ ï¿½Ì±ï¿½ ï¿½Ø±ï¿½")
         {
             if (!gachaManager.UnLockPet)
             {
-                gachaManager.Unlock("Æê");
+                gachaManager.Unlock("ï¿½ï¿½");
             }
         }
-        else if (feature == "ÀÇ»ó »Ì±â ÇØ±Ý")
+        else if (feature == "ï¿½Ç»ï¿½ ï¿½Ì±ï¿½ ï¿½Ø±ï¿½")
         {
             if (!gachaManager.UnLockPet)
             {
-                gachaManager.Unlock("ÀÇ»ó");
+                gachaManager.Unlock("ï¿½Ç»ï¿½");
             }
         }
     }
 
-    // Äù½ºÆ® ÁøÇà »óÈ² ¾÷µ¥ÀÌÆ®
+    // ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È² ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ®
     public void UpdateQuestProgress(int increment, string description)
     {
         foreach (var quest in quests)
@@ -147,62 +148,79 @@ public class QuestManager : MonoBehaviour
             {
                 switch (description)
                 {
-                    case "Àû Ã³Ä¡":
-                        quest.GoalCount += increment;
-                        break;
 
-                    case "Àåºñ »Ì±â":
-                        quest.GoalCount = equipmentcount;
-                        break;
 
-                    case "Æê »Ì±â":
-                        petcount += increment;
-                        quest.GoalCount = petcount;
-                        break;
-
-                    case "ÀÇ»ó »Ì±â":
-                        clothescount += increment;
-                        quest.GoalCount = clothescount;
-                        break;
-
-                    case "°ø°Ý·Â °­È­":
+                    case "ï¿½ï¿½ï¿½Ý·ï¿½ ï¿½ï¿½È­":
                         quest.GoalCount = playerStatus.Attack_Level;
                         break;
 
-                    case "Ã¼·Â °­È­":
+                    case "Ã¼ï¿½ï¿½ ï¿½ï¿½È­":
                         quest.GoalCount = playerStatus.Hp_Level;
                         break;
 
-                    case "½ºÅ×ÀÌÁö Å¬¸®¾î":
+
+                    case "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½":
                         UpdateStageClearQuest(quest);
                         break;
 
-                    case "Ã¼·ÂÀç»ý °­È­":
+
+
+                    case "Ã¼ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È­":
                         quest.GoalCount = playerStatus.Hp_Recovery_Level;
                         break;
 
-                    case "Ä¡¸íÅ¸È®·ü °­È­":
+                    case "Ä¡ï¿½ï¿½Å¸È®ï¿½ï¿½ ï¿½ï¿½È­":
                         quest.GoalCount = playerStatus.Critical_Level;
                         break;
 
-                    case "°ø°Ý¼Óµµ °­È­":
+                    case "ï¿½ï¿½ï¿½Ý¼Óµï¿½ ï¿½ï¿½È­":
                         quest.GoalCount = playerStatus.Attack_Speed_Level;
-                        break; 
-
-                    case "Àåºñ °­È­":
-                        quest.GoalCount = itemManager.GetItemsLevelUp(2);
                         break;
 
-                    case "º¸½º Ã³Ä¡":
-                        quest.GoalCount += increment;
-                        break;                    
-
-                    case "Ä¡¸íÅ¸ ÇÇÇØ °­È­":
+                    case "Ä¡ï¿½ï¿½Å¸ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½È­":
                         quest.GoalCount = playerStatus.Critical_Damage_Level;
                         break;
 
+                    case "ï¿½ï¿½ Ã³Ä¡":
+                        quest.GoalCount += increment;
+                        break;
+
+                    case "ï¿½ï¿½ï¿½ï¿½ Ã³Ä¡":
+                        quest.GoalCount += increment;
+
+                        break;
+
+                    case "ï¿½ï¿½ï¿½ ï¿½Ì±ï¿½":
+                        quest.GoalCount = equipmentcount;
+                        break;
+
+                    case "ï¿½ï¿½ ï¿½Ì±ï¿½":
+                        quest.GoalCount = petcount;
+                        break;
+
+                    case "ï¿½Ç»ï¿½ ï¿½Ì±ï¿½":
+                        quest.GoalCount = clothescount;
+                        break;
+
+
+                    case "ï¿½ï¿½ï¿½ ï¿½ï¿½È­":
+                        quest.GoalCount = itemManager.GetItemsLevelUp(2);
+                        break;
+
+                    case "ï¿½ï¿½ ï¿½ï¿½È­":
+                        quest.GoalCount = petManager.GetPetsLevelUp(2);
+                        break;                    
+
+                    case "ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½":
+                        UpdateStageClearQuest(quest);
+                        break;   
+                        
+                    case "ï¿½ï¿½ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½":
+                        // ï¿½Ø¾ï¿½ï¿½ï¿½
+                        break;
+
                     default:
-                        Debug.LogWarning($"¾Ë ¼ö ¾ø´Â Äù½ºÆ® ¼³¸í: {description}");
+                        Debug.LogWarning($"ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ® ï¿½ï¿½ï¿½ï¿½: {description}");
                         break;
                 }
 
@@ -212,27 +230,51 @@ public class QuestManager : MonoBehaviour
         }
     }
 
-    // Àåºñ »Ì±â ´©Àû È½¼ö
+    // ï¿½ï¿½ï¿½ ï¿½Ì±ï¿½ ï¿½ï¿½ï¿½ï¿½ È½ï¿½ï¿½
     public void DrawEquipment(int amount)
     {
         equipmentcount += amount;
-        UpdateQuestProgress(amount, "Àåºñ »Ì±â");
+        UpdateQuestProgress(amount, "ï¿½ï¿½ï¿½ ï¿½Ì±ï¿½");
     }
 
-    // ½ºÅ×ÀÌÁö Å¬¸®¾î ÇÔ¼ö
+    
+    // ï¿½ï¿½ ï¿½Ì±ï¿½ ï¿½ï¿½ï¿½ï¿½ È½ï¿½ï¿½
+    public void DrawPet(int amount)
+    {
+        petcount += amount;
+        UpdateQuestProgress(amount, "ï¿½ï¿½ ï¿½Ì±ï¿½");
+    }
+
+    // ï¿½Ç»ï¿½ ï¿½Ì±ï¿½ ï¿½ï¿½ï¿½ï¿½ È½ï¿½ï¿½
+    public void DrawClothes(int amount)
+    {
+        clothescount += amount;
+        UpdateQuestProgress(amount, "ï¿½Ç»ï¿½ ï¿½Ì±ï¿½");
+    }
+
+
+
+    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½ ï¿½Ô¼ï¿½
     private void UpdateStageClearQuest(Quest quest)
     {
-        // 1-10 ½ºÅ×ÀÌÁö Å¬¸®¾î Ã³¸®
+        // 1-10 ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½
         if (gameManager.stageNumber >= 2)
         {
             quest.GoalCount = quest.Goal;
         }
-        // 2-8 ½ºÅ×ÀÌÁö Å¬¸®¾î Ã³¸®
+        // 2-8 ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½
         else if (gameManager.stageNumber >= 3 || (gameManager.stageNumber == 2 && gameManager.roundNumber >= 9))
         {
             quest.GoalCount = quest.Goal;
         }
-        // ÁøÇà Áß
+
+        // 5-1 ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ Å¬ï¿½ï¿½ï¿½ï¿½ Ã³ï¿½ï¿½
+        else if (gameManager.stageNumber >= 6 || (gameManager.stageNumber == 5 && gameManager.roundNumber >= 2))
+        {
+            quest.GoalCount = quest.Goal;
+        }
+
+        // ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½
         else
         {
             quest.GoalCount = gameManager.roundNumber - 1; 
@@ -259,8 +301,8 @@ public class QuestManager : MonoBehaviour
             if (quest.IsActive)
             {
                 quest.GoalCount = quest.Goal;
-                CompleteQuest(quest.Id); // Äù½ºÆ® ¿Ï·á Ã³¸®
-                break; // ÇÏ³ªÀÇ Äù½ºÆ®¸¸ ½ºÅµ
+                CompleteQuest(quest.Id); // ï¿½ï¿½ï¿½ï¿½Æ® ï¿½Ï·ï¿½ Ã³ï¿½ï¿½
+                break; // ï¿½Ï³ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½Æ®ï¿½ï¿½ ï¿½ï¿½Åµ
             }
         }
     }    

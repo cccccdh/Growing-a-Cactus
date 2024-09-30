@@ -136,6 +136,22 @@ public class PetManager : MonoBehaviour
         return 0;
     }
 
+    // [퀘스트 용] 펫 레벨이 2 이상인 펫 개수를 가져오는 함수
+    public int GetPetsLevelUp(int count)
+    {
+        int highLevelItems = 0;
+
+        foreach (var pet in pets)
+        {
+            if (pet.Level >= count)
+            {
+                highLevelItems++;
+            }
+        }
+
+        return highLevelItems;
+    }
+
     // 펫 색상 값 가져오기
     public Color GetColorForPet(string petName)
     {
