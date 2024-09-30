@@ -21,8 +21,8 @@ public class QuestManager : MonoBehaviour
 
     private int equipmentcount;
     private int petcount;
-    private int clothescount;
-    
+    private int clothescount; 
+
     [Header("스크립트 참조")]
     public PlayerStatus playerStatus;
     public GachaManager gachaManager;
@@ -129,6 +129,13 @@ public class QuestManager : MonoBehaviour
                 gachaManager.Unlock("펫");
             }
         }
+        else if (feature == "의상 뽑기 해금")
+        {
+            if (!gachaManager.UnLockPet)
+            {
+                gachaManager.Unlock("의상");
+            }
+        }
     }
 
     // 퀘스트 진행 상황 업데이트
@@ -145,13 +152,17 @@ public class QuestManager : MonoBehaviour
                         break;
 
                     case "장비 뽑기":
-                        equipmentcount += increment;
                         quest.GoalCount = equipmentcount;
                         break;
 
                     case "펫 뽑기":
                         petcount += increment;
                         quest.GoalCount = petcount;
+                        break;
+
+                    case "의상 뽑기":
+                        clothescount += increment;
+                        quest.GoalCount = clothescount;
                         break;
 
                     case "공격력 강화":
@@ -163,7 +174,7 @@ public class QuestManager : MonoBehaviour
                         break;
 
                     case "스테이지 클리어":
-                        quest.GoalCount = gameManager.roundNumber;
+                        UpdateStageClearQuest(quest);
                         break;
 
                     case "체력재생 강화":
@@ -184,12 +195,7 @@ public class QuestManager : MonoBehaviour
 
                     case "보스 처치":
                         quest.GoalCount += increment;
-                        break;
-
-                    case "의상 뽑기":
-                        clothescount += increment;
-                        quest.GoalCount = clothescount;
-                        break;
+                        break;                    
 
                     case "치명타 피해 강화":
                         quest.GoalCount = playerStatus.Critical_Damage_Level;
@@ -203,6 +209,33 @@ public class QuestManager : MonoBehaviour
                 QuestUI.instance.UpdateQuestUI(quest);
                 break;
             }
+        }
+    }
+
+    // 장비 뽑기 누적 횟수
+    public void DrawEquipment(int amount)
+    {
+        equipmentcount += amount;
+        UpdateQuestProgress(amount, "장비 뽑기");
+    }
+
+    // 스테이지 클리어 함수
+    private void UpdateStageClearQuest(Quest quest)
+    {
+        // 1-10 스테이지 클리어 처리
+        if (gameManager.stageNumber >= 2)
+        {
+            quest.GoalCount = quest.Goal;
+        }
+        // 2-8 스테이지 클리어 처리
+        else if (gameManager.stageNumber >= 3 || (gameManager.stageNumber == 2 && gameManager.roundNumber >= 9))
+        {
+            quest.GoalCount = quest.Goal;
+        }
+        // 진행 중
+        else
+        {
+            quest.GoalCount = gameManager.roundNumber - 1; 
         }
     }
 
@@ -230,5 +263,5 @@ public class QuestManager : MonoBehaviour
                 break; // 하나의 퀘스트만 스킵
             }
         }
-    }
+    }    
 }
