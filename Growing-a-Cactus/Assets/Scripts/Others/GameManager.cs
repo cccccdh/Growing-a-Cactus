@@ -244,6 +244,7 @@ public class GameManager : MonoBehaviour
             }
         }
     }
+
     public void DecreaseWave()
     {
         // DecreaseWave 코루틴을 시작
