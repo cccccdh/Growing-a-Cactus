@@ -93,7 +93,6 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    // 일정 시간 후 사라지는 코루틴
     IEnumerator FadeOutAfterDelay(float delay)
     {
         yield return new WaitForSeconds(delay); // 지정된 시간(10초) 동안 대기

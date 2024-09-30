@@ -3,6 +3,7 @@ using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Collections;
 
 public class GameManager : MonoBehaviour
 {
@@ -61,6 +62,7 @@ public class GameManager : MonoBehaviour
     public bool isOpenPet = false;
     public bool isOpenOption = false;
 
+    public Transform playerTransform;
     void Start()
     {
         Initialize();
@@ -230,12 +232,52 @@ public class GameManager : MonoBehaviour
 
     public void IncreaseWave(int amount)
     {
-        wave += amount;
-        if (wave > maxWave)
+        if (wave < 100)
         {
-            wave = maxWave;
+            wave += amount;
+            if (wave > maxWave)
+            {
+                wave = maxWave;
+            }
+            UpdateWaveBar();
+            if (wave == 100)
+            {
+                DecreaseWave();
+            }
         }
-        UpdateWaveBar();
+    }
+    public void DecreaseWave()
+    {
+        // DecreaseWave 코루틴을 시작
+        StartCoroutine(DecreaseWaveCoroutine());
+    }
+
+    private IEnumerator DecreaseWaveCoroutine()
+    {
+        // 2초 대기
+        yield return new WaitForSeconds(2f);
+
+        // wave가 0보다 클 때까지 매초 10씩 감소
+        while (wave > 0)
+        {
+            wave -= 10;
+            UpdateWaveBar();
+
+            // wave가 0보다 작아지면 0으로 설정
+            if (wave == 0)
+            {
+                PlayerController player = playerTransform.GetComponent<PlayerController>();
+                if (player != null)
+                {
+                    player.Die(); // 플레이어 사망
+                }
+                yield break; // 코루틴 종료
+            }
+
+
+            // 1초 대기
+            yield return new WaitForSeconds(1f);
+        }
     }
 
     public void ResetWave()

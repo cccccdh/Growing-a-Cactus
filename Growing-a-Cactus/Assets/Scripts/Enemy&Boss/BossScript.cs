@@ -51,7 +51,6 @@ public class BossScript : MonoBehaviour
         animator = GetComponent<Animator>();
         questManager = QuestManager.instance;
         backgroundScript = FindObjectOfType<BackgroundScript>();
-        StartCoroutine(BossTimer(10f)); // 보스 타이머 시작
     }
 
     private void Update()
@@ -155,17 +154,4 @@ public class BossScript : MonoBehaviour
         isAttacking = false;
     }
 
-    private IEnumerator BossTimer(float timeLimit)
-    {
-        yield return new WaitForSeconds(timeLimit);
-
-        if (HP > 0) // 보스가 아직 살아있다면
-        {
-            PlayerController player = playerTransform.GetComponent<PlayerController>();
-            if (player != null)
-            {
-                player.Die(); // 플레이어 사망
-            }
-        }
-    }    
 }

@@ -104,10 +104,17 @@ public class DataManager : MonoBehaviour
         public float EquipArmorImgB;
         public float EquipArmorImgA;
 
+        public string EquipWeaponImgsprite;
+        public string EquipArmorImgsprite;
+
+        public string EquipWeaponEquipEffectText;
+        public string EquipArmorEquipEffectText;
+
+
         public ItemTextData itemtextData;
-        public PetTextData pettextData;
 
         //petManager
+        public PetTextData pettextData;
         public List<Pet> pets = new List<Pet>();
 
         public string GradeText;
@@ -115,6 +122,7 @@ public class DataManager : MonoBehaviour
         public string CountText;
         public string NameText;
 
+        public string PetImgSprite;
 
         public bool isPetActive;
 
@@ -154,6 +162,8 @@ public class DataManager : MonoBehaviour
         public string stat_CriticalDamage;
         public string stat_DoubleAttackChance;
         public string stat_TripleAttackChance;
+
+
 
     }
 
@@ -232,6 +242,11 @@ public class DataManager : MonoBehaviour
             EquipArmorImgB = itemManager.EquipArmorImgBG.color.b,
             EquipArmorImgA = itemManager.EquipArmorImgBG.color.a,
 
+            EquipWeaponImgsprite = itemManager.EquipWeaponImg.sprite.name,
+            EquipArmorImgsprite = itemManager.EquipArmorImg.sprite.name,
+
+            EquipWeaponEquipEffectText = itemManager.EquipWeaponEquipEffectText.text,
+            EquipArmorEquipEffectText = itemManager.EquipArmorEquipEffectText.text,
 
             // PetManager
             pets = petManager.pets,
@@ -240,6 +255,7 @@ public class DataManager : MonoBehaviour
             LevelText = petManager.LevelText.text,
             CountText = petManager.CountText.text,
             isPetActive = petManager.Pet.gameObject.activeSelf,
+            PetImgSprite = playerStatus.equippedPet.Name,
 
             // QuestUI
             questNameText = questUI.questNameText.text,
@@ -275,11 +291,13 @@ public class DataManager : MonoBehaviour
             itemtextData = itemManager.GetItemTextData(),
             pettextData = petManager.GetPetTextData()
 
+
         };
         string json = JsonUtility.ToJson(data, true);
         File.WriteAllText(saveFilePath, json);
-
         Debug.Log("게임 저장 완료");
+        Debug.Log(data.PetImgSprite);
+        
     }
 
     // 게임 데이터를 불러오는 함수
@@ -290,8 +308,6 @@ public class DataManager : MonoBehaviour
         {
             string jsonData = File.ReadAllText(saveFilePath);
             GameData data = JsonUtility.FromJson<GameData>(jsonData);
-
-  
 
             //playerStatus
             playerStatus.Attack = data.Attack;
@@ -374,22 +390,31 @@ public class DataManager : MonoBehaviour
             data.EquipArmorImgA
             );
 
-            List<Item> ResetItems = new List<Item>();
+            List<Item> LoadItems = new List<Item>();
             foreach (var item in itemManager.weaponItems)
             {
                 if (item.Count > 0 || item.Level >= 2) 
                 {
-                    ResetItems.Add(item);
+                    LoadItems.Add(item);
                 }
             }
             foreach (var item in itemManager.armorItems)
             {
                 if (item.Count > 0 || item.Level >= 2) 
                 {
-                    ResetItems.Add(item);
+                    LoadItems.Add(item);
                 }
             }
-            itemManager.UpdateItemImages(ResetItems);  // 소지 중인 아이템만 전달
+            itemManager.UpdateItemImages(LoadItems);  // 소지 중인 아이템만 전달
+            itemManager.SetTextData(data.itemtextData);
+            itemManager.EquipWeaponImg.sprite = itemManager.ChangeSpriteWithWeapon(data.EquipWeaponImgsprite);
+            itemManager.EquipArmorImg.sprite = itemManager.ChangeSpriteWithArmor(data.EquipArmorImgsprite);
+            itemManager.EquipWeaponEquipEffectText.text = data.EquipWeaponEquipEffectText;
+            itemManager.EquipArmorEquipEffectText.text = data.EquipArmorEquipEffectText;
+            Debug.Log(data.EquipWeaponImgsprite);
+
+
+
 
             // PetManager
             petManager.pets = data.pets;
@@ -410,11 +435,13 @@ public class DataManager : MonoBehaviour
             if (data.isPetActive)
             {
                 petManager.Pet.gameObject.SetActive(true);  // 활성화
+                petManager.Pet.GetComponent<SpriteRenderer>().sprite = petManager.ChangeSpriteWithPet(data.PetImgSprite);
             }
-
+            Debug.Log(data.PetImgSprite);
             petManager.UpdatePetImages(ownedpets);
 
             petManager.SetTextData(data.pettextData); // TextData 불러오기
+
 
 
             // QuestUI
@@ -437,7 +464,7 @@ public class DataManager : MonoBehaviour
             gachaManager.UnLockEquipment = data.UnLockEquipment;
             if (gachaManager.UnLockEquipment == true)
             {
-                Debug.Log(gachaManager.UnLockEquipment);
+                //Debug.Log(gachaManager.UnLockEquipment);
                 gachaManager.Unlock("장비");
             }
             gachaManager.UnLockPet = data.UnLockPet;
@@ -445,7 +472,7 @@ public class DataManager : MonoBehaviour
             if (gachaManager.UnLockPet == true)
             {
                 gachaManager.Unlock("펫");
-                Debug.Log(gachaManager.UnLockPet);
+                //Debug.Log(gachaManager.UnLockPet);
 
             }
             gachaManager.UnLockClothes = data.UnLockClothes;

@@ -262,7 +262,6 @@ public class PetManager : MonoBehaviour
                     
                     Pet.gameObject.SetActive(true);
                     Pet.GetComponent<SpriteRenderer>().sprite = ChangeSpriteWithPet(selectedPetName);
-
                     ShowEquippedText(selectedPetName);
                     break;
                 }
