@@ -61268,7 +61268,7 @@ MonoBehaviour:
   isOpenArmor: 0
   isOpenPet: 0
   isOpenOption: 0
-  playerTransform: {fileID: 0}
+  playerTransform: {fileID: 1945133263}
 --- !u!4 &963673989
 Transform:
   m_ObjectHideFlags: 0

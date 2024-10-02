@@ -502,6 +502,7 @@ public class DataManager : MonoBehaviour
 
         // GameManager
         gameManager.Initialize();
+        gameManager.StopDecreaseWaveAndReset();
 
         // PlayerController
         playerController.Initialize();

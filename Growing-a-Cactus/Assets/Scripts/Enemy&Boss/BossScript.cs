@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using UnityEngine;
 using System.Collections;
 
+
 public class BossScript : MonoBehaviour
 {
     // UI ¹× ÀÌÆåÆ® °ü·Ã º¯¼ö
@@ -108,7 +109,12 @@ public class BossScript : MonoBehaviour
                 GameManager.instance.IncreaseStage();
                 GameManager.instance.ResetWave();
             }
+            if (GameManager.instance != null)
+            {
+                GameManager.instance.StopDecreaseWaveAndReset();
+                Debug.Log("È£ÃâµÊ");
 
+            }
             Instantiate(deathEffect, transform.position, Quaternion.identity); // »ç¸Á ÀÌÆåÆ®
 
             PoolManager.instance.ReturnToBossPool(gameObject);
@@ -126,10 +132,7 @@ public class BossScript : MonoBehaviour
         }
     }
 
-    //public void SetGoldDropAmount(int amount)
-    //{
-    //    goldDropAmount = amount; // °ñµå µå¶ø ¾ç ¼³Á¤
-    //}
+
 
     public void SetEnemyManager(EnemyManager manager)
     {

@@ -61,6 +61,7 @@ public class GameManager : MonoBehaviour
     public bool isOpenOption = false;
 
     public Transform playerTransform;
+    private Coroutine decreaseWaveCoroutine;
     void Start()
     {
         Initialize();
@@ -248,35 +249,66 @@ public class GameManager : MonoBehaviour
     public void DecreaseWave()
     {
         // DecreaseWave 코루틴을 시작
-        StartCoroutine(DecreaseWaveCoroutine());
+        decreaseWaveCoroutine = StartCoroutine(DecreaseWaveCoroutine());
     }
 
-    private IEnumerator DecreaseWaveCoroutine()
+    public IEnumerator DecreaseWaveCoroutine()
     {
-        // 2초 대기
-        yield return new WaitForSeconds(2f);
+        // 초기 웨이브 값 저장
+        float startWave = wave;
+        float targetWave = wave - 100;
 
-        // wave가 0보다 클 때까지 매초 10씩 감소
-        while (wave > 0)
+        yield return new WaitForSeconds(1.4f); // 2초 대기
+
+        // 10초 동안 감소시킬 것이므로 경과 시간을 추적
+        float duration = 10f;
+        float elapsedTime = 0f;
+
+        // 10초 동안 진행
+        while (elapsedTime < duration)
         {
-            wave -= 10;
+            // 경과 시간 비율을 계산 (0에서 1까지)
+            elapsedTime += Time.deltaTime;
+            float t = elapsedTime / duration;
+
+            // wave 값을 선형적으로 감소 (자연스러운 감소)
+            wave = (int)Mathf.Lerp(startWave, targetWave, t); // 명시적 형변환
+
+            // UI 업데이트
             UpdateWaveBar();
 
-            // wave가 0보다 작아지면 0으로 설정
-            if (wave == 0)
-            {
-                PlayerController player = playerTransform.GetComponent<PlayerController>();
-                if (player != null)
-                {
-                    player.Die(); // 플레이어 사망
-                }
-                yield break; // 코루틴 종료
-            }
-
-
-            // 1초 대기
-            yield return new WaitForSeconds(1f);
+            // 다음 프레임까지 대기
+            yield return null;
         }
+
+        // 마지막으로 정확하게 targetWave 값으로 설정
+        wave = (int)targetWave;
+        UpdateWaveBar();
+
+        // wave가 0 이하가 되었을 때 플레이어 사망 처리
+        if (wave <= 0)
+        {
+            PlayerController player = playerTransform.GetComponent<PlayerController>();
+            if (player != null)
+            {
+                player.Die(); // 플레이어 사망
+            }
+        }
+    }
+
+    public void StopDecreaseWaveAndReset()
+    {
+        // 실행 중인 코루틴이 있으면 중지
+        if (decreaseWaveCoroutine != null)
+        {
+            StopCoroutine(decreaseWaveCoroutine);
+            decreaseWaveCoroutine = null;
+        }
+
+
+        // wave 값을 0으로 설정하고 UI 업데이트
+        wave = 0;
+        UpdateWaveBar();
     }
 
     public void ResetWave()
