@@ -28,6 +28,8 @@ public class PlayerController : MonoBehaviour
         status = GetComponent<PlayerStatus>();
         animator = GetComponent<Animator>();
         SpeedLine.Stop();
+        originalPosition = transform.position;
+        shootpivot = thronPivot.position;
     }
 
     void Start()
@@ -42,8 +44,6 @@ public class PlayerController : MonoBehaviour
     {
         CurrentHp = status.effectiveHP;
         HpR = status.Hp_Recovery;
-        originalPosition = transform.position;
-        shootpivot = thronPivot.position;
     }
 
     public void Update()
