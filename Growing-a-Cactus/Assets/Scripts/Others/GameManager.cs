@@ -90,8 +90,6 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        PageControl();
-
         if (Input.GetKey("escape"))
         {
             Application.Quit();
@@ -125,14 +123,11 @@ public class GameManager : MonoBehaviour
 
     private void PageControl()
     {
+        // 모든 페이지 비활성화
         DeactivateAllPages();
 
-        if (isOpenShop && !isOpenCharacter && !isOpenPet)
-        {
-            ShopPage.SetActive(true);
-            GachaPage.SetActive(isOpenGacha);
-        }
-        else if (isOpenCharacter && !isOpenShop && !isOpenPet)
+        // 조건에 따라 페이지 활성화
+        if (isOpenCharacter && !isOpenShop && !isOpenPet)
         {
             CharacterPage.SetActive(true);
             ClothesPage.SetActive(isOpenClothes);
@@ -142,6 +137,11 @@ public class GameManager : MonoBehaviour
         else if (isOpenPet && !isOpenCharacter && !isOpenShop)
         {
             PetPage.SetActive(true);
+        }
+        else if (isOpenShop && !isOpenCharacter && !isOpenPet)
+        {
+            ShopPage.SetActive(true);
+            GachaPage.SetActive(isOpenGacha);
         }
         else if (isOpenOption)
         {
@@ -310,6 +310,8 @@ public class GameManager : MonoBehaviour
         ResetAllFlags();
         isOpenShop = newState;
 
+        PageControl();
+
         shopName.SetActive(!isOpenShop);
         shopX.SetActive(isOpenShop);
     }
@@ -317,6 +319,7 @@ public class GameManager : MonoBehaviour
     public void OpenRandomPick()
     {
         isOpenGacha = !isOpenGacha;
+        PageControl();
     }
 
     public void OpenCharacter()
@@ -324,6 +327,8 @@ public class GameManager : MonoBehaviour
         bool newState = !isOpenCharacter;
         ResetAllFlags();
         isOpenCharacter = newState;
+
+        PageControl();
 
         characterName.SetActive(!isOpenCharacter);
         characterX.SetActive(isOpenCharacter);
@@ -335,6 +340,8 @@ public class GameManager : MonoBehaviour
         ResetAllFlags();
         isOpenPet = newState;
 
+        PageControl();
+
         petName.SetActive(!isOpenPet);
         petX.SetActive(isOpenPet);
     }
@@ -344,22 +351,30 @@ public class GameManager : MonoBehaviour
         bool newState = !isOpenOption;
         ResetAllFlags();
         isOpenOption = newState;
+
+        PageControl();
     }
 
     public void OpenClothes()
     {
         isOpenClothes = !isOpenClothes;
+
+        PageControl();
     }
 
     public void OpenWeapon()
     {
         isOpenWeapon = !isOpenWeapon;
         isOpenArmor = false;
+
+        PageControl();
     }
 
     public void OpenArmor()
     {
         isOpenArmor = !isOpenArmor;
         isOpenWeapon = false;
+
+        PageControl();
     }
 }

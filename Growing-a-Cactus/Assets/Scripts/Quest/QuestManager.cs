@@ -113,7 +113,7 @@ public class QuestManager : MonoBehaviour
     // 장비, 펫, 의상 해금
     private void UnlockFeature(string feature)
     {
-        if(feature == "장비 뽑기 해금 ")
+        if(feature == "장비 뽑기 해금")
         {
             if (!gachaManager.UnLockEquipment)
             {

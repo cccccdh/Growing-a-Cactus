@@ -48,6 +48,7 @@ public class PlayerStatus : MonoBehaviour
 
     public double PowerLevel;
     public double effectiveHP;
+    public double effectiveHPRecovery;
 
     // 버튼 상태 변수
     private bool isButtonDowning = false;
@@ -190,7 +191,7 @@ public class PlayerStatus : MonoBehaviour
         UpdatePowerLevel();
     }
 
-    // 의상 보유효과 -> 공격력 증가
+    // 의상 보유효과 -> 체력 재생 증가
     public void UpdateClothesRetentionEffects(List<Clothes> clothes)
     {
         clothesTotalRetentionEffect = 0;
@@ -202,7 +203,7 @@ public class PlayerStatus : MonoBehaviour
                 //Debug.Log($"전체 의상 보유효과 : {clothesTotalRetentionEffect}");
             }
         }
-        UpdatePowerLevel();
+        UpdateHPRecovery();
     }
 
     // 무기 장착 효과 -> 공격력 증가
@@ -256,6 +257,7 @@ public class PlayerStatus : MonoBehaviour
 
     public Pet GetEquippedPet() => equippedPet;
 
+    // 전투력 갱신
     public void UpdatePowerLevel()
     {
         // 로그로 상태 확인
@@ -265,7 +267,7 @@ public class PlayerStatus : MonoBehaviour
         //Debug.Log($"총 펫 보유효과 : {petTotalRetentionEffect}");
         //Debug.Log($"총 펫 장착효과 : {petTotalEquipEffect}");
 
-        double effect = Attack * (1 + weaponTotalRetentionEffect + petTotalRetentionEffect + clothesTotalRetentionEffect); // 보유 효과 적용
+        double effect = Attack * (1 + weaponTotalRetentionEffect + petTotalRetentionEffect); // 보유 효과 적용(무기 + 펫)
         effect *= (1 + weaponTotalEquipEffect + petTotalEquipEffect); // 장착 효과 적용
 
         PowerLevel = effect;
@@ -277,7 +279,8 @@ public class PlayerStatus : MonoBehaviour
         // UI 갱신
         uiManager.PowerLevelTEXT(PowerLevel);
     }
-
+    
+    // 체력 갱신
     public void UpdateHP()
     {
         // 로그로 상태 확인
@@ -298,7 +301,25 @@ public class PlayerStatus : MonoBehaviour
         statusUIManager.UpdateStatText("Hp");
     }
 
-    
+    // 체력 재생 갱신
+    public void UpdateHPRecovery()
+    {
+        // 로그로 상태 확인
+        //Debug.Log($"체력재생 : {Hp_Recovery}");
+        //Debug.Log($"총 보유효과 : {clothesTotalRetentionEffect}");
+
+        double effect = Hp_Recovery * (1 + clothesTotalRetentionEffect); // 보유 효과 적용
+
+        effectiveHPRecovery = effect;
+
+        // 로그로 계산 결과 확인
+        //Debug.Log($"체력 재생 : {effectiveHPRecovery}");
+
+        // UI 갱신
+        uiManager.Update_Text("Hp_Recovery", effectiveHPRecovery, Hp_Recovery_Level, Hp_Cost);
+        statusUIManager.UpdateStatText("Hp");
+    }
+
 
     private void Update()
     {

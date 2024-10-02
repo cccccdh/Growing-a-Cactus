@@ -170,11 +170,16 @@ public class DataManager : MonoBehaviour
     void Start()
     {
         saveFilePath = Path.Combine(Application.persistentDataPath, "savefile.json");
-        //LoadGame();
+        LoadGame();
+    }
+
+    public void SaveGame()
+    {
+
     }
 
     // 게임 데이터를 저장하는 함수
-    public void SaveGame()//OnApplicationQuit()
+    public void OnApplicationQuit()
     {
         GameData data = new GameData
         {
