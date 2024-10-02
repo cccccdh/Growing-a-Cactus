@@ -46,7 +46,7 @@ public class ClothesManager : MonoBehaviour
 
     private List<Clothes> clothes = new List<Clothes>();
     private string selectedClothesName;
-        
+    
     private void Start()
     {
         Init();
@@ -57,7 +57,7 @@ public class ClothesManager : MonoBehaviour
         // 텍스트 초기화
         NameText.text = $"기본";
         ProjectileText.text = "가시";
-        RetentionEffectText.text = $"공격력 + 0.00%";
+        RetentionEffectText.text = $"체력 재생 + 0.00%";
         
         // 버튼 상태 초기화
         clothesEquipButton.interactable = false;
@@ -192,7 +192,7 @@ public class ClothesManager : MonoBehaviour
         {
             if (selectedClothesName == cloth.Name)
             {
-                RetentionEffectText.text = $"공격력 + {TextFormatter.FormatText(cloth.RetentionEffect * 100)}%";
+                RetentionEffectText.text = $"체력재생 + {TextFormatter.FormatText(cloth.RetentionEffect * 100)}%";
                 LevelText.text = $"Lv.{cloth.Level}";
                 CountText.text = $"( {cloth.Count} / {cloth.RequiredCount} )";
                 ProjectileText.text = (cloth.Set == "Null" ? "가시" : $"{cloth.Set}");

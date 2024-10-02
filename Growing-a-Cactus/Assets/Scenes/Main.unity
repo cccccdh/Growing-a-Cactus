@@ -46065,7 +46065,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\uCCB4\uB825 \uD68C\uBCF5\n"
+  m_text: "\uCCB4\uB825 \uC7AC\uC0DD\n"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 79a98297f2913d0488706fa0fb006619, type: 2}
   m_sharedMaterial: {fileID: 5857506103715302561, guid: 79a98297f2913d0488706fa0fb006619, type: 2}
@@ -116122,6 +116122,7 @@ MonoBehaviour:
   TripleAttack_Cost: 0
   PowerLevel: 0
   effectiveHP: 0
+  effectiveHPRecovery: 0
   weaponTotalEquipEffect: 0
   weaponTotalRetentionEffect: 0
   armorTotalEquipEffect: 0

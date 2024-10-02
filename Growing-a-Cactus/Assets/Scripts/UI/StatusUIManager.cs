@@ -25,7 +25,7 @@ public class StatusUIManager : MonoBehaviour
     {
         stat_Attack.text = $"{status.Attack}";
         stat_Hp.text = $"{status.effectiveHP:F1}";
-        stat_HpRecovery.text = $"{status.Hp_Recovery}";
+        stat_HpRecovery.text = $"{status.effectiveHPRecovery:F0}";
         stat_AttackSpeed.text = $"{status.Attack_Speed}";
         stat_Critical.text = $"{status.Critical}%";
         stat_CriticalDamage.text = $"{status.Critical_Damage}%";
@@ -44,7 +44,7 @@ public class StatusUIManager : MonoBehaviour
                 stat_Hp.text = TextFormatter.FormatText(status.effectiveHP);
                 break;
             case "Hp_Recovery":
-                stat_HpRecovery.text = TextFormatter.FormatText(status.Hp_Recovery);
+                stat_HpRecovery.text = TextFormatter.FormatText(status.effectiveHPRecovery);
                 break;
             case "Attack_Speed":
                 stat_AttackSpeed.text = $"{status.Attack_Speed:F2}";

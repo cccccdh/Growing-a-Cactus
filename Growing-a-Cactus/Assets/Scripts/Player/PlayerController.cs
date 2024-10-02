@@ -11,7 +11,7 @@ public class PlayerController : MonoBehaviour
 
     public double CurrentHp;
     public float attackRange = 5f;
-    public float HpR;
+    public double HpR;
     public bool isOpenDie = false;
 
     public PlayerStatus status;
@@ -147,7 +147,7 @@ public class PlayerController : MonoBehaviour
     }
 
     // 체력 재생 설정
-    public void SetHpR(float newHpR)
+    public void SetHpR(double newHpR)
     {
         HpR = newHpR;
     }

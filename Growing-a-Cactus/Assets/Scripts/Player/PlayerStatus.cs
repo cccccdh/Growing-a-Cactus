@@ -68,7 +68,11 @@ public class PlayerStatus : MonoBehaviour
     public Item equippedArmor;
     public Pet equippedPet;
 
+    public Item GetEquippedWeapon() => equippedWeapon;
 
+    public Item GetEquippedArmor() => equippedArmor;
+
+    public Pet GetEquippedPet() => equippedPet;
 
     private void Awake()
     {
@@ -114,6 +118,7 @@ public class PlayerStatus : MonoBehaviour
 
         PowerLevel = Attack;
         effectiveHP = Hp;
+        effectiveHPRecovery = Hp_Recovery;
 
         weaponTotalEquipEffect = 0f;
         weaponTotalEquipEffect = 0f;
@@ -125,25 +130,6 @@ public class PlayerStatus : MonoBehaviour
         clothesTotalRetentionEffect = 0f;
 
         uiManager.PowerLevelTEXT(PowerLevel);
-    }
-
-    public void Increase(string status)
-    {
-        currentStatus = status;
-        isButtonDowning = true;
-        holdTime = 0f;
-    }
-
-    public void StopIncrease()
-    {
-        isButtonDowning = false;
-        currentStatus = null;
-        holdTime = 0f;
-    }
-
-    public void OnClickIncrease(string status)
-    {
-        PerformIncrease(status);
     }
 
     // 무기 보유효과 -> 공격력 증가
@@ -251,12 +237,6 @@ public class PlayerStatus : MonoBehaviour
         UpdatePowerLevel();
     }
 
-    public Item GetEquippedWeapon() => equippedWeapon;
-
-    public Item GetEquippedArmor() => equippedArmor;
-
-    public Pet GetEquippedPet() => equippedPet;
-
     // 전투력 갱신
     public void UpdatePowerLevel()
     {
@@ -316,8 +296,8 @@ public class PlayerStatus : MonoBehaviour
         //Debug.Log($"체력 재생 : {effectiveHPRecovery}");
 
         // UI 갱신
-        uiManager.Update_Text("Hp_Recovery", effectiveHPRecovery, Hp_Recovery_Level, Hp_Cost);
-        statusUIManager.UpdateStatText("Hp");
+        uiManager.Update_Text("Hp_Recovery", effectiveHPRecovery, Hp_Recovery_Level, Hp_Recovery_Cost);
+        statusUIManager.UpdateStatText("Hp_Recovery");
     }
 
 
@@ -352,6 +332,25 @@ public class PlayerStatus : MonoBehaviour
     private void UpdateButtonState(string status, bool isInteractable)
     {
         uiManager.UpdateButtonInteractivity(status, isInteractable);
+    }
+
+    public void Increase(string status)
+    {
+        currentStatus = status;
+        isButtonDowning = true;
+        holdTime = 0f;
+    }
+
+    public void StopIncrease()
+    {
+        isButtonDowning = false;
+        currentStatus = null;
+        holdTime = 0f;
+    }
+
+    public void OnClickIncrease(string status)
+    {
+        PerformIncrease(status);
     }
 
     private void PerformIncrease()
@@ -494,11 +493,17 @@ public class PlayerStatus : MonoBehaviour
                 Hp_Recovery_Cost += 1;
             }
         }
-        playerController.SetHpR(Hp_Recovery);
         
+        // 체력 재생 반영
+        UpdateHPRecovery();
+
+        // 플레이어 체력 재생 설정
+        playerController.SetHpR(effectiveHPRecovery);
+        
+        // 퀘스트 갱신
         QuestManager.instance.UpdateQuestProgress(0, "체력재생 강화");
 
-        uiManager.Update_Text("Hp_Recovery", Hp_Recovery, Hp_Recovery_Level, Hp_Recovery_Cost);
+        uiManager.Update_Text("Hp_Recovery", effectiveHPRecovery, Hp_Recovery_Level, Hp_Recovery_Cost);
         statusUIManager.UpdateStatText("Hp_Recovery");
     }
 
