@@ -1,4 +1,3 @@
-using JetBrains.Annotations;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -202,7 +201,7 @@ public class QuestManager : MonoBehaviour
                         break;
 
                     case "라운드 클리어":
-                        // 해야함
+                        quest.GoalCount += increment;
                         break;
 
                     default:
@@ -237,8 +236,6 @@ public class QuestManager : MonoBehaviour
         clothescount += amount;
         UpdateQuestProgress(amount, "의상 뽑기");
     }
-
-
 
     // 스테이지 클리어 함수
     private void UpdateStageClearQuest(Quest quest)

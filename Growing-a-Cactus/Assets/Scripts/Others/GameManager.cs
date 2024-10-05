@@ -218,6 +218,7 @@ public class GameManager : MonoBehaviour
 
         // 퀘스트 스테이지 갱신
         QuestManager.instance.UpdateQuestProgress(1, "스테이지 클리어");
+        QuestManager.instance.UpdateQuestProgress(1, "라운드 클리어");
         Debug.Log($"퀘스트 스테이지 갱신");
 
         UpdateStageText();
