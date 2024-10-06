@@ -60,8 +60,11 @@ public class GameManager : MonoBehaviour
     public bool isOpenPet = false;
     public bool isOpenOption = false;
 
+    [Header("타임 어택")]
     public Transform playerTransform;
-    private Coroutine decreaseWaveCoroutine;
+    public Coroutine decreaseWaveCoroutine;
+    public GameObject skullObject;
+    public GameObject TimeObject;
     void Start()
     {
         Initialize();
@@ -259,6 +262,11 @@ public class GameManager : MonoBehaviour
         float startWave = wave;
         float targetWave = wave - 100;
 
+        skullObject.SetActive(false);
+        TimeObject.SetActive(true);
+        waveBar.color = Color.red;
+
+
         yield return new WaitForSeconds(1.4f); // 2초 대기
 
         // 10초 동안 감소시킬 것이므로 경과 시간을 추적
@@ -310,11 +318,19 @@ public class GameManager : MonoBehaviour
         // wave 값을 0으로 설정하고 UI 업데이트
         wave = 0;
         UpdateWaveBar();
+        skullObject.SetActive(true);
+        TimeObject.SetActive(false);
+        waveBar.color = Color.yellow;
+
+
     }
 
     public void ResetWave()
     {
         wave = 0;
+        skullObject.SetActive(true);
+        TimeObject.SetActive(false);
+        waveBar.color = Color.yellow;
         UpdateWaveBar();
     }
 

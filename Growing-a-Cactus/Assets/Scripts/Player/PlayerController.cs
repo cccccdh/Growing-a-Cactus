@@ -22,6 +22,7 @@ public class PlayerController : MonoBehaviour
     private bool isAttacking = false;
     private Vector3 originalPosition;
     private Vector3 shootpivot;
+    public GameManager gameManager;
 
     private void Awake()
     {
@@ -77,6 +78,13 @@ public class PlayerController : MonoBehaviour
         transform.position = originalPosition; // 원래 위치로 되돌리기
         Invoke("OpenDie", 0.7f); // 0.7초 지연 후 OpenDie 호출
         enemyManager.ResetRound(); // EnemyManager에 라운드 리셋 요청
+        gameManager.skullObject.SetActive(true);
+        gameManager.TimeObject.SetActive(false);
+        gameManager.waveBar.color = Color.yellow;
+        if (GameManager.instance != null)
+        {
+            GameManager.instance.StopDecreaseWaveAndReset();
+        }
     }
 
     public void OpenDie()

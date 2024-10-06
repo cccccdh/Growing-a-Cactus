@@ -112,8 +112,6 @@ public class BossScript : MonoBehaviour
             if (GameManager.instance != null)
             {
                 GameManager.instance.StopDecreaseWaveAndReset();
-                Debug.Log("»£√‚µ ");
-
             }
             Instantiate(deathEffect, transform.position, Quaternion.identity); // ªÁ∏¡ ¿Ã∆Â∆Æ
 

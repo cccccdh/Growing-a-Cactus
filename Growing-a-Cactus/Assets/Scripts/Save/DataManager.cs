@@ -146,6 +146,8 @@ public class DataManager : MonoBehaviour
 
         // uiManager
         public string PowerLevelText;
+        public bool LockDoubleAttack;
+        public bool LockTripleAttack;
 
         // gachaManager
         public bool UnLockEquipment;
@@ -263,6 +265,8 @@ public class DataManager : MonoBehaviour
 
             //uiManager
             PowerLevelText = uiManager.PowerLevel.text,
+            LockDoubleAttack = uiManager.LockDoubleAttack.gameObject.activeSelf,
+            LockTripleAttack = uiManager.LockTripleAttack.gameObject.activeSelf,
 
             // QuestManager
             quests = questManager.quests,
@@ -374,6 +378,15 @@ public class DataManager : MonoBehaviour
 
             // uiManager
             UpdateStatusTexts();
+            if (data.LockDoubleAttack == false)
+            {
+                uiManager.LockDoubleAttack.gameObject.SetActive(false);  // 활성화
+            }
+            if (data.LockTripleAttack == false)
+            {
+                uiManager.LockTripleAttack.gameObject.SetActive(false);  // 활성화
+            }
+
 
             // ItemManager
             itemManager.weaponItems = data.weaponItems;
@@ -448,8 +461,6 @@ public class DataManager : MonoBehaviour
 
             petManager.SetTextData(data.pettextData); // TextData 불러오기
 
-
-
             // QuestUI
             questUI.questNameText.text = data.questNameText;
             questUI.questProgressText.text = data.questProgressText;
@@ -470,7 +481,6 @@ public class DataManager : MonoBehaviour
             gachaManager.UnLockEquipment = data.UnLockEquipment;
             if (gachaManager.UnLockEquipment == true)
             {
-                //Debug.Log(gachaManager.UnLockEquipment);
                 gachaManager.Unlock("장비");
             }
             gachaManager.UnLockPet = data.UnLockPet;
@@ -478,8 +488,6 @@ public class DataManager : MonoBehaviour
             if (gachaManager.UnLockPet == true)
             {
                 gachaManager.Unlock("펫");
-                //Debug.Log(gachaManager.UnLockPet);
-
             }
             gachaManager.UnLockClothes = data.UnLockClothes;
 
@@ -519,6 +527,8 @@ public class DataManager : MonoBehaviour
 
         // uiManager
         UpdateStatusTexts();
+        uiManager.LockDoubleAttack.gameObject.SetActive(true);
+        uiManager.LockTripleAttack.gameObject.SetActive(true); 
 
         // statusUIManager
         statusUIManager.Initialize_Texts();
@@ -572,6 +582,10 @@ public class DataManager : MonoBehaviour
         {
             petManager.UpdatePetText(pet.Name);
         }
+        // DataManager
+        gachaManager.Relock("장비");
+        gachaManager.Relock("펫");
+        gachaManager.Relock("의상");
 
         // QuestUI
         questCSVReader.questList.Clear(); // 리스트를 명확히 비워줍니다.
@@ -584,7 +598,7 @@ public class DataManager : MonoBehaviour
         Quest initialQuest = questManager.quests[0]; // 첫 번째 퀘스트를 가져옵니다.
         questUI.UpdateQuestUI(initialQuest); // 첫 번째 퀘스트 정보를 UI에 반영        
 
-        //Debug.Log("게임 불러오기 완료");
+      
     }
 
     private void UpdateStatusTexts()

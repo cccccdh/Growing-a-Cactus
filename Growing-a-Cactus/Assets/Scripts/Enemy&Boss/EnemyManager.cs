@@ -12,8 +12,8 @@ public class EnemyManager : MonoBehaviour
     public Transform bossSpawnPoint;
 
     [Header("적 상태")]
-    private int enemiesKilled = 0;
-    private int enemyCount = 0;
+    public int enemiesKilled = 0;
+    public int enemyCount = 0;
 
     [Header("스테이지")]
     public int stageNumber = 1;
@@ -71,6 +71,7 @@ public class EnemyManager : MonoBehaviour
 
     public void SpawnBoss()
     {
+
         GameObject bossObject = PoolManager.instance.GetBoss(bossSpawnPoint.position);
         BossScript bossScript = bossObject.GetComponent<BossScript>();
 
@@ -98,7 +99,7 @@ public class EnemyManager : MonoBehaviour
 
         QuestManager.instance.UpdateQuestProgress(1, "적 처치");
 
-        if (enemyCount <= 0)
+        if (enemyCount == 0)
         {
             GameManager.instance.IncreaseWave(25);
             playerController?.MovePlayerWithDelay(1f);
