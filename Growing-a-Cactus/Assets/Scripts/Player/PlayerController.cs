@@ -81,10 +81,8 @@ public class PlayerController : MonoBehaviour
         gameManager.skullObject.SetActive(true);
         gameManager.TimeObject.SetActive(false);
         gameManager.waveBar.color = Color.yellow;
-        if (GameManager.instance != null)
-        {
-            GameManager.instance.StopDecreaseWaveAndReset();
-        }
+        gameManager.StopDecreaseWaveAndReset();
+        
     }
 
     public void OpenDie()
