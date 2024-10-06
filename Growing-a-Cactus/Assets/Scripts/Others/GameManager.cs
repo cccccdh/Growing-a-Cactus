@@ -264,7 +264,7 @@ public class GameManager : MonoBehaviour
 
         skullObject.SetActive(false);
         TimeObject.SetActive(true);
-        waveBar.color = Color.red;
+        waveBar.color = Color.cyan;
 
 
         yield return new WaitForSeconds(1.4f); // 2√  ¥Î±‚
