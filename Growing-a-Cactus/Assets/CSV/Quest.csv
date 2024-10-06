@@ -25,7 +25,7 @@
 24,20마리 잡기 반복 1회,적 처치,20,200,Complete Quest 23,None,0,FALSE
 25,체력을 150레벨 이상으로 올리기,체력 강화,150,200,Complete Quest 24,None,0,FALSE
 26,보스 처치하기,보스 처치,1,200,Complete Quest 25,None,0,FALSE
-27,2-8 스테이지 클리어하기,스테이지 클리어,8,2000,Complete Quest 26,의상 뽑기 해금,0,FALSE
+27,2-8 스테이지 클리어하기,스테이지 클리어,8,2000,Complete Quest 26,None,0,FALSE
 28,의상 20회 뽑기,의상 뽑기,20,300,Complete Quest 27,None,0,FALSE
 29,공격력을 150레벨 이상으로 올리기,공격력 강화,150,300,Complete Quest 28,None,0,FALSE
 30,20마리 잡기 반복 1회,적 처치,20,300,Complete Quest 29,None,0,FALSE
@@ -45,14 +45,56 @@
 44,공격 속도를 100레벨 이상으로 올리기,공격속도 강화,100,500,Complete Quest 43,None,0,FALSE
 45,체력을 300레벨 이상으로 올리기,체력 강화,300,500,Complete Quest 44,None,0,FALSE
 46,체력 재생을 200레벨 이상으로 올리기,체력재생 강화,200,300,Complete Quest 45,None,0,FALSE
-47,10마리 잡기 반복 5회,적 처치,20,300,Complete Quest 46,None,0,FALSE
-48,장비 60회 뽑기,장비 뽑기,60,500,Complete Quest 47,None,0,FALSE
-49,20마리 잡기 반복 2회,적 처치,20,300,Complete Quest 48,None,0,FALSE
-50,공격력을 1000레벨 이상으로 올리기,공격력 강화,1000,500,Complete Quest 49,None,0,FALSE
-51,치명타 확률을 200레벨 이상으로 올리기,치명타확률 강화,200,500,Complete Quest 50,None,0,FALSE
-52,치명타 피해를 300레벨 이상으로 올리기,치명타피해 강화,300,300,Complete Quest 51,None,0,FALSE
-53,장비 5개 강화하기,장비 강화,5,300,Complete Quest 52,None,0,FALSE
-54,20마리 잡기 반복 2회,적 처치,20,300,Complete Quest 53,None,0,FALSE
-55,공격 속도를 150레벨 이상으로 올리기,공격속도 강화,150,300,Complete Quest 54,None,0,FALSE
-56,보스 처치하기,보스 처치,1,300,Complete Quest 55,None,0,FALSE
-57,5-1스테이지 클리어하기,스테이지 클리어,1,2000,Complete Quest 56,None,0,FALSE
+47,5마리 잡기,적 처치,5,300,Complete Quest 46,None,0,FALSE
+48,10마리 잡기,적 처치,10,300,Complete Quest 47,None,0,FALSE
+49,공격력을 1000레벨 이상으로 올리기,공격력 강화,1000,500,Complete Quest 48,None,0,FALSE
+50,15마리 잡기,적 처치,15,300,Complete Quest 49,None,0,FALSE
+51,체력을 500레벨 이상으로 올리기,체력 강화,500,300,Complete Quest 50,None,0,FALSE
+52,10마리 잡기,적 처치,20,300,Complete Quest 51,None,0,FALSE
+53,20마리 잡기,적 처치,20,300,Complete Quest 52,None,0,FALSE
+54,장비 60회 뽑기,장비 뽑기,60,500,Complete Quest 53,None,0,FALSE
+55,치명타 피해를 300레벨 이상으로 올리기,치명타피해 강화,300,300,Complete Quest 54,None,0,FALSE
+56,15마리 잡기,적 처치,15,300,Complete Quest 55,None,0,FALSE
+57,20마리 잡기,적 처치,20,300,Complete Quest 56,None,0,FALSE
+58,공격 속도를 150레벨 이상으로 올리기,공격속도 강화,150,500,Complete Quest 57,None,0,FALSE
+59,치명타 확률을 180레벨 이상으로 올리기,치명타확률 강화,180,500,Complete Quest 58,None,0,FALSE
+60,치명타 피해를 500레벨 이상으로 올리기,치명타피해 강화,500,300,Complete Quest 59,None,0,FALSE
+61,장비 10번 강화하기,장비 강화,10,300,Complete Quest 60,None,0,FALSE
+62,10마리 잡기,적 처치,10,300,Complete Quest 61,None,0,FALSE
+63,20마리 잡기,적 처치,20,300,Complete Quest 62,None,0,FALSE
+64,공격 속도를 200레벨 이상으로 올리기,공격속도 강화,200,1000,Complete Quest 63,None,0,FALSE
+65,보스 처치하기,보스 처치,1,300,Complete Quest 64,None,0,FALSE
+66,5-1스테이지 클리어하기,스테이지 클리어,1,2000,Complete Quest 65,None,0,FALSE
+67,더블 가시를 50레벨 이상으로 올리기,더블가시 강화,50,300,Complete Quest 66,None,0,FALSE
+68,20마리 잡기 반복 1회,적 처치,20,300,Complete Quest 67,None,0,FALSE
+69,체력을 1000레벨 이상으로 올리기,체력 강화,1000,500,Complete Quest 68,None,0,FALSE
+70,장비 100회 뽑기,장비 뽑기,100,500,Complete Quest 69,None,0,FALSE
+71,10마리 잡기,적 처치,10,300,Complete Quest 70,None,0,FALSE
+72,15마리 잡기,적 처치,15,300,Complete Quest 71,None,0,FALSE
+73,치명타 피해를 500레벨 이상으로 올리기,치명타피해 강화,500,300,Complete Quest 72,None,0,FALSE
+74,공격력을 1500레벨 이상으로 올리기,공격력 강화,1500,300,Complete Quest 73,None,0,FALSE
+75,라운드 5개 클리어하기,라운드 클리어,5,300,Complete Quest 74,None,0,FALSE
+76,치명타 확률을 230레벨 이상으로 올리기,치명타확률 강화,230,300,Complete Quest 75,None,0,FALSE
+77,더블가시를 250레벨 이상으로 올리기,더블가시 강화,250,300,Complete Quest 76,None,0,FALSE
+78,20마리 잡기 반복 1회,적 처치,20,300,Complete Quest 77,None,0,FALSE
+79,체력 재생을 500레벨 이상으로 올리기,체력재생 강화,500,300,Complete Quest 78,None,0,FALSE
+80,펫 60회 뽑기,펫 뽑기,60,500,Complete Quest 79,None,0,FALSE
+81,펫 8회 강화하기,펫 강화,8,300,Complete Quest 80,None,0,FALSE
+82,공격력을 3000레벨 이상으로 올리기,공격력 강화,3000,300,Complete Quest 81,None,0,FALSE
+83,10마리 잡기,적 처치,10,300,Complete Quest 82,None,0,FALSE
+84,15마리 잡기,적 처치,15,300,Complete Quest 83,None,0,FALSE
+85,20마리 잡기,적 처치,20,300,Complete Quest 84,None,0,FALSE
+86,체력을 2000레벨 이상으로 올리기,체력 강화,2000,300,Complete Quest 85,None,0,FALSE
+87,장비 17회 강화하기,장비 강화,17,300,Complete Quest 86,None,0,FALSE
+88,치명타 피해를 1000레벨 이상으로 올리기,치명타피해 강화,1000,500,Complete Quest 87,None,0,FALSE
+89,10마리 잡기,적 처치,10,300,Complete Quest 88,None,0,FALSE
+90,15마리 잡기,적 처치,15,300,Complete Quest 89,None,0,FALSE
+91,공격력을 5000레벨 이상으로 올리기,공격력 강화,5000,300,Complete Quest 90,None,0,FALSE
+92,체력 재생을 1000레벨 이상으로 올리기,체력재생 강화,1000,300,Complete Quest 91,None,0,FALSE
+93,더블 가시를 300레벨 이상으로 올리기,더블가시 강화,300,300,Complete Quest 92,None,0,FALSE
+94,10마리 잡기,적 처치,10,300,Complete Quest 93,None,0,FALSE
+95,장비 150회 뽑기,장비 뽑기,150,1000,Complete Quest 94,None,0,FALSE
+96,치명타 확률을 250레벨 이상으로 올리기,치명타확률 강화,250,300,Complete Quest 95,None,0,FALSE
+97,20마리 잡기,적 처치,20,300,Complete Quest 96,None,0,FALSE
+98,보스 처치하기,보스 처치,1,300,Complete Quest 97,None,0,FALSE
+99,체력을 3000레벨 이상으로 올리기,체력 강화,3000,300,Complete Quest 98,None,0,FALSE

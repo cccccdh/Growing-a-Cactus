@@ -660,12 +660,12 @@ public class PlayerStatus : MonoBehaviour
 
         if (DoubleAttack_Level >= 1000)
             return;
-
+        double cost = 0;
         GameManager.instance.DecreaseGold(DoubleAttack_Cost);
         DoubleAttackChance += 0.1f;
         DoubleAttack_Level++;
-        DoubleAttack_Cost += 10; 
-
+        cost = (double)DoubleAttack_Cost * 1.012f;
+        DoubleAttack_Cost = (int)Math.Ceiling(cost);
         if (DoubleAttack_Level == 1000)
             uiManager.UnLock("TripleAttack");
 
@@ -683,11 +683,13 @@ public class PlayerStatus : MonoBehaviour
         if (TripleAttack_Level >= 1000)
             return;
 
+        double cost = 0;
         GameManager.instance.DecreaseGold(TripleAttack_Cost);
         TripleAttackChance += 0.1f;
         TripleAttack_Level++;
-        TripleAttack_Cost += 20;
-        
+        cost = (double)TripleAttack_Cost * 1.03f;
+        TripleAttack_Cost = (int)Math.Ceiling(cost);
+
         // UI 갱신
         uiManager.Update_Text("TripleAttack", TripleAttackChance, TripleAttack_Level, TripleAttack_Cost);
         statusUIManager.UpdateStatText("TripleAttack");

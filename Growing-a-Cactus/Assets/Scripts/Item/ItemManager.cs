@@ -578,7 +578,7 @@ public class ItemManager : MonoBehaviour
 
                     if (item.Type == "무기")
                     {
-                        item.RetentionEffect += 0.0598f; // 보유 효과 증가
+                        item.RetentionEffect += item.RetentionEffect / 6.3f; // 보유 효과 증가
                         item.EquipEffect += item.EquipEffect / 5; // 장착 효과 증가
                         item.RequiredCount += 2; // 강화에 필요한 개수 증가
 
@@ -595,8 +595,8 @@ public class ItemManager : MonoBehaviour
                     }
                     else if(item.Type == "방어구")
                     {
-                        item.RetentionEffect += 0.0355f; // 보유 효과 증가
-                        item.EquipEffect += item.EquipEffect / 10; // 장착 효과 증가
+                        item.RetentionEffect += item.RetentionEffect / 19; // 보유 효과 증가
+                        item.EquipEffect += item.EquipEffect / 8; // 장착 효과 증가
                         item.RequiredCount += 2; // 강화에 필요한 개수 증가
 
                         // 방어구 보유 효과 업데이트

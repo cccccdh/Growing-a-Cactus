@@ -266,7 +266,7 @@ public class ClothesManager : MonoBehaviour
                 {
                     cloth.Count -= cloth.RequiredCount;
                     cloth.Level++;
-                    cloth.RetentionEffect += 0.071f;
+                    cloth.RetentionEffect += cloth.RetentionEffect / 19;
                     cloth.RequiredCount += 2;
 
                     // 보유효과 업데이트
