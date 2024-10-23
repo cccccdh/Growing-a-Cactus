@@ -55,9 +55,8 @@ public class EnemyManager : MonoBehaviour
         befHP = 30;
         befAtt = 0;
         befGold = 10;
-        HpMax = SetEnemyHP(befHP);
-        AttackDamage = setEnemyAtt(befAtt);
-        DropGold = setGoldDrop(befGold);                
+        AttackDamage = 10;
+        DropGold = 10;                
         bossAttackPower = 0;
         bossGoldDropAmount = 0;
         bossMaxHP = 0;
