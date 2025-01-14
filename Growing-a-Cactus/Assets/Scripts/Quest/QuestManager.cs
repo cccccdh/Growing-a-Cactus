@@ -83,9 +83,10 @@ public class QuestManager : MonoBehaviour
         {
             Debug.Log($"퀘스트 완료 : {completedQuest.Title}");
 
+            // 기존 퀘스트 비활성화
             completedQuest.IsActive = false;
 
-            // 보상 증정
+            // 보상 지급
             GameManager.instance.IncreaseGem(completedQuest.Reward);
 
             foreach (var quest in quests)
@@ -268,6 +269,7 @@ public class QuestManager : MonoBehaviour
         }
     }
 
+    // 보상 함수
     public void Reward()
     {
         foreach(var quest in quests)
@@ -281,6 +283,7 @@ public class QuestManager : MonoBehaviour
         }
     }
 
+    // (디버깅용) 퀘스트 스킵
     public void SkipQuest()
     {
         foreach (var quest in quests)

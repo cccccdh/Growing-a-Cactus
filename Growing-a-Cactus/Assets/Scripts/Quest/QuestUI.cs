@@ -5,17 +5,6 @@ using UnityEngine.UI;
 public class QuestUI : MonoBehaviour
 {
     public static QuestUI instance;
-
-    public Image questImage;
-    public TextMeshProUGUI questNameText;
-    public TextMeshProUGUI questDescriptionText;
-    public TextMeshProUGUI questProgressText;
-    public TextMeshProUGUI questRewardText;
-
-    Color alpha;
-    Color highlight;
-    Color defalut;
-
     void Awake()
     {
         if (instance == null)
@@ -26,6 +15,16 @@ public class QuestUI : MonoBehaviour
         InitializeColor();
     }
 
+    public Image questImage;
+    public TextMeshProUGUI questNameText;
+    public TextMeshProUGUI questDescriptionText;
+    public TextMeshProUGUI questProgressText;
+    public TextMeshProUGUI questRewardText;
+
+    Color alpha;
+    Color highlight;
+    Color defalut;
+       
     private void InitializeColor()
     {
         // 색상 초기화
@@ -38,9 +37,9 @@ public class QuestUI : MonoBehaviour
     {
         questImage.color = quest.GoalCount >= quest.Goal ? highlight : defalut;
 
-        questNameText.text = $"[ 튜토리얼 {quest.Id} ]";
+        questNameText.text = $"[ 퀘스트 {quest.Id} ]";
 
-        questDescriptionText.text = $"{quest.Description}";
+        questDescriptionText.text = $"{quest.Title}";
 
         questProgressText.text = $"( {quest.GoalCount} / {quest.Goal} )";
 
