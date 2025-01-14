@@ -168,6 +168,10 @@ public class QuestManager : MonoBehaviour
                         quest.GoalCount = playerStatus.Critical_Damage_Level;
                         break;
 
+                    case "더블가시 강화":
+                        quest.GoalCount = playerStatus.DoubleAttack_Level;
+                        break;
+
                     case "적 처치":
                         quest.GoalCount += increment;
                         break;

@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using UnityEngine;
 
 public class PlayerStatus : MonoBehaviour
@@ -108,11 +107,11 @@ public class PlayerStatus : MonoBehaviour
         Critical_Damage_Level = 1;
         Critical_Damage_Cost = 6;
 
-        DoubleAttackChance = 0f;
+        DoubleAttackChance = 0.1f;
         DoubleAttack_Level = 1;
         DoubleAttack_Cost = 50;
 
-        TripleAttackChance = 0f;
+        TripleAttackChance = 0.1f;
         TripleAttack_Level = 1;
         TripleAttack_Cost = 100;
 

@@ -65,6 +65,7 @@ public class GameManager : MonoBehaviour
     public Coroutine decreaseWaveCoroutine;
     public GameObject skullObject;
     public GameObject TimeObject;
+
     void Start()
     {
         Initialize();
@@ -199,14 +200,16 @@ public class GameManager : MonoBehaviour
         UpdateGemText();
     }
 
-    public void DecreaseGem(int amount)
+    public bool DecreaseGem(int amount)
     {
         if(gem >= amount)
         {
             gem -= amount;
             OpenRandomPick();
             UpdateGemText();
+            return true;
         }
+        return false;
     }
 
     public void IncreaseStage()
@@ -314,15 +317,12 @@ public class GameManager : MonoBehaviour
             decreaseWaveCoroutine = null;
         }
 
-
         // wave 값을 0으로 설정하고 UI 업데이트
         wave = 0;
         UpdateWaveBar();
         skullObject.SetActive(true);
         TimeObject.SetActive(false);
         waveBar.color = Color.yellow;
-
-
     }
 
     public void ResetWave()

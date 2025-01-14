@@ -106,11 +106,11 @@ public class EnemyManager : MonoBehaviour
 
             if (enemiesKilled % 12 == 0)
             {
-                StartCoroutine(SpawnBossWithDelay(1f));
+                StartCoroutine(SpawnBossWithDelay(1.2f));
             }
             else
             {
-                StartCoroutine(SpawnEnemiesWithDelay(1f));
+                StartCoroutine(SpawnEnemiesWithDelay(1.2f));
             }
         }
     }

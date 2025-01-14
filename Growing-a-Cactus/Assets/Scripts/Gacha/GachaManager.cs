@@ -20,19 +20,19 @@ public class GachaManager : MonoBehaviour
     public List<Pet> petList;
     public List<Clothes> clothesList;
 
-    // 장비 퀘스트 초기화
+    // 장비 리스트 초기화
     public void InitializeItems(List<Item> items)
     {
         itemList = items;
     }
 
-    // 펫 퀘스트 초기화
+    // 펫 리스트 초기화
     public void InitializePets(List<Pet> pets)
     {
         petList = pets;
     }
 
-    // 의상 퀘스트 초기화
+    // 의상 리스트 초기화
     public void InitializeClothes(List<Clothes> clothes)
     {
         clothesList = clothes;
@@ -67,6 +67,7 @@ public class GachaManager : MonoBehaviour
         }
     }
 
+    // 뽑기 잠금
     public void Relock(string Name)
     {
         if (Name == "장비")
@@ -95,13 +96,13 @@ public class GachaManager : MonoBehaviour
         }
     }
 
-    // 장비 뽑기
-    public void PerformGachaWithEquip(int times)
+    // 젬 사용해서 장비 뽑기
+    public void PerformGachaWithEquip(int gemCost)
     {
-        if (UnLockEquipment)
+        if (UnLockEquipment && GameManager.instance.DecreaseGem(gemCost))
         {
             var resultItemList = new List<Item>();
-            for (int i = 0; i < times; i++)
+            for (int i = 0; i < (gemCost == 500 ? 5 : 20); i++)
             {
                 float rand = Random.Range(0, 100f);
                 float cumulative = 0f;
@@ -121,12 +122,119 @@ public class GachaManager : MonoBehaviour
             gachaUIManager.UpdateGachaUI(resultItemList); 
 
             // 퀘스트 진행상황 업데이트
-            QuestManager.instance.DrawEquipment(times);
-        }        
+            QuestManager.instance.DrawEquipment(gemCost == 500 ? 5 : 20);
+        }
+        else
+        {
+            Debug.Log("장비 뽑기가 잠금 상태입니다.");
+        }     
     }
 
-    // 펫 뽑기
-    public void PerformGachaWithPet(int times)
+    // 젬 사용해서 펫 뽑기
+    public void PerformGachaWithPet(int gemCost)
+    {
+        if (UnLockPet && GameManager.instance.DecreaseGem(gemCost))
+        {
+            var resultPetList = new List<Pet>();
+            for (int i = 0; i < (gemCost == 500 ? 5 : 20); i++)
+            {
+                float rand = Random.Range(0, 100f);
+                float cumulative = 0f;
+                foreach (var pet in petList)
+                {
+                    cumulative += pet.Probability;
+                    if (rand < cumulative)
+                    {
+                        resultPetList.Add(pet);
+                        petManager.UpdatePetCount(pet.Name);
+                        break;
+                    }
+                }
+            }
+
+            petManager.UpdatePetImages(resultPetList); 
+            gachaUIManager.UpdateGachaUI(resultPetList); 
+
+            // 퀘스트 진행상황 업데이트
+            QuestManager.instance.DrawPet(gemCost == 500 ? 5 : 20);
+        }
+        else
+        {
+            Debug.Log("펫 뽑기가 잠금 상태입니다.");
+        }
+    }
+
+    // 젬 사용해서 의상 뽑기
+    public void PerformGachaWithClothes(int gemCost)
+    {
+        if (UnLockClothes && GameManager.instance.DecreaseGem(gemCost))
+        {
+            var resultClothesList = new List<Clothes>();
+            for (int i = 0; i < (gemCost == 500 ? 5 : 20); i++)
+            {
+                float rand = Random.Range(0, 100f);
+                float cumulative = 0f;
+                foreach (var cloth in clothesList)
+                {
+                    cumulative += cloth.Probability;
+                    if (rand < cumulative)
+                    {
+                        resultClothesList.Add(cloth);
+                        clothesManager.UpdateClothesCount(cloth.Name);
+                        break;
+                    }
+                }
+            }
+
+            clothesManager.UpdateClothesImages(resultClothesList); 
+            gachaUIManager.UpdateGachaUI(resultClothesList); 
+
+            // 퀘스트 진행상황 업데이트
+            QuestManager.instance.DrawClothes(gemCost == 500 ? 5 : 20);
+        }
+        else
+        {
+            Debug.Log("의상 뽑기가 잠금 상태입니다.");
+        }
+    }
+
+    // 나중에 광고 넣으면 수정
+    // 광고용(테스트) 장비 뽑기  
+    public void AdsPerformGachaWithEquip(int times)
+    {
+        if (UnLockEquipment)
+        {
+            var resultItemList = new List<Item>();
+            for (int i = 0; i < times; i++)
+            {
+                float rand = Random.Range(0, 100f);
+                float cumulative = 0f;
+                foreach (var item in itemList)
+                {
+                    cumulative += item.Probability;
+                    if (rand < cumulative)
+                    {
+                        resultItemList.Add(item);
+                        itemManager.UpdateItemCount(item.Name);
+                        break;
+                    }
+                }
+            }
+
+            itemManager.UpdateItemImages(resultItemList);
+            gachaUIManager.UpdateGachaUI(resultItemList);
+
+            // 퀘스트 진행상황 업데이트
+            QuestManager.instance.DrawEquipment(times);
+        }
+        else
+        {
+            Debug.Log("장비 뽑기가 잠금 상태입니다.");
+        }
+    }
+
+    // 광고용(테스트) 펫 뽑기  
+    public void AdsPerformGachaWithPet(int times)
     {
         if (UnLockPet)
         {
@@ -147,16 +255,20 @@ public class GachaManager : MonoBehaviour
                 }
             }
 
-            petManager.UpdatePetImages(resultPetList); 
-            gachaUIManager.UpdateGachaUI(resultPetList); 
+            petManager.UpdatePetImages(resultPetList);
+            gachaUIManager.UpdateGachaUI(resultPetList);
 
             // 퀘스트 진행상황 업데이트
             QuestManager.instance.DrawPet(times);
-        }        
+        }
+        else
+        {
+            Debug.Log("펫 뽑기가 잠금 상태입니다.");
+        }
     }
 
-    // 의상 뽑기
-    public void PerformGachaWithClothes(int times)
+    // 광고용(테스트) 의상 뽑기  
+    public void AdsPerformGachaWithClothes(int times)
     {
         if (UnLockClothes)
         {
@@ -177,11 +289,15 @@ public class GachaManager : MonoBehaviour
                 }
             }
 
-            clothesManager.UpdateClothesImages(resultClothesList); 
-            gachaUIManager.UpdateGachaUI(resultClothesList); 
+            clothesManager.UpdateClothesImages(resultClothesList);
+            gachaUIManager.UpdateGachaUI(resultClothesList);
 
             // 퀘스트 진행상황 업데이트
             QuestManager.instance.DrawClothes(times);
+        }
+        else
+        {
+            Debug.Log("의상 뽑기가 잠금 상태입니다.");
         }
     }
 }
